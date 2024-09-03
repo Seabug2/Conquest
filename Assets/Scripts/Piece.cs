@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 using UnityEngine;
 
 
-public class Token : MonoBehaviour
+public class Piece : MonoBehaviour
 {
     [SerializeField] int id;
     public int ID => id;

@@ -5,7 +5,7 @@ public class Tile : MonoBehaviour
     /// <summary>
     /// 자신의 위치에 놓여진 토큰을 저장
     /// </summary>
-    public Token PlacedToken = null;
+    public Piece PlacedToken = null;
     [SerializeField] int tileIndex;
     public int TileIndex => tileIndex;
 

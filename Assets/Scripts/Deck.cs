@@ -5,11 +5,11 @@ using UnityEngine;
 
 public class Deck : MonoBehaviour
 {
-    public List<Token> tokens;
+    public List<Piece> tokens;
 
     private void Start()
     {
-        Token[] chipArray = FindObjectsOfType<Token>();
+        Piece[] chipArray = FindObjectsOfType<Piece>();
         System.Array.Sort(chipArray, (chip1, chip2) => chip1.ID.CompareTo(chip2.ID));
         tokens = chipArray.ToList();
     }

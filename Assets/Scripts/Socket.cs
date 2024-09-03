@@ -15,5 +15,5 @@ public class Socket : MonoBehaviour
 {
     public Socket type;
     public bool isFilled;
-    public Token lickedCard = null;
+    public Piece lickedCard = null;
 }

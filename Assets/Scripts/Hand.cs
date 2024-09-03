@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class Hand : MonoBehaviour
 {
-    List<Token> list = new List<Token>();
+    List<Piece> list = new List<Piece>();
 
     const int handsLimit = 6;
     public int LimitStack { get; private set; }
