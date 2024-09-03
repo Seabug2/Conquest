@@ -14,5 +14,5 @@ public class PieceData : ScriptableObject
     // 0   1
     //
     // 3   2
-    public Type[] sockets;
+    public Attribute[] sockets;
 }

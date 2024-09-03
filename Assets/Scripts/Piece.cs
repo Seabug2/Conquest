@@ -2,24 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.EventSystems;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 public class Piece : MonoBehaviour
 {
     [SerializeField] int id;
     public int ID => id;
-
-    //카드의 이름
-    [SerializeField] string villainName;
-    public string VillainName => villainName;
-
-    //카드 설명
-    [SerializeField] string flavorText;
-    public string FlavorText => flavorText;
-
-    //카드 효과
-    [SerializeField] string abilityText;
-    public string AbilityText => abilityText;
 
     /// <summary>
     /// 카드를 전개 했을 때, 혹은 효과를 발동할 때 나올 컷씬
@@ -29,20 +18,29 @@ public class Piece : MonoBehaviour
     public bool IsOpened { get; private set; }
 
     //소켓에 대한 정보
-    public Socket[] Sockets { get; private set; }
+    // 0   1
+    //
+    // 3   2
+    [SerializeField]Socket[] sockets;
+    public Socket[] Sockets => sockets;
 
     private void Start()
     {
-        Sockets = GetComponentsInChildren<Socket>();
+        //Sockets = GetComponentsInChildren<Socket>();
         IsOpened = false;
     }
 
     /// <summary>
     /// 카드가 전개 되었을 때 호출
     /// </summary>
-    public virtual void OnLinked()
+    public virtual void OnDeployed()
     {
         //eventScene?.SetActive(true);
+    }
+
+    public virtual void OnLinked()
+    {
+
     }
 
     /// <summary>
@@ -71,9 +69,9 @@ public class Piece : MonoBehaviour
     {
         bool isCompleted = true;
 
-        foreach(Socket s in Sockets)
+        foreach(Socket s in sockets)
         {
-            if (!s.isFilled)
+            if (!s.IsFilled)
             {
                 isCompleted = false;
                 break;

@@ -2,13 +2,36 @@ using UnityEngine;
 
 public class Tile : MonoBehaviour
 {
-    /// <summary>
-    /// 자신의 위치에 놓여진 토큰을 저장
-    /// </summary>
-    public Piece PlacedToken = null;
     [SerializeField] int tileIndex;
     public int TileIndex => tileIndex;
 
+    //현재 타일에 전개한 
+    public Piece placedPiece = null;
+
+    public Attribute[] ConnectableSocket { get; private set; }
+
+    private void Start()
+    {
+        TileClear();
+    }
+
+    public void TileClear()
+    {
+        ConnectableSocket = new Attribute[]{ Attribute.isNull,Attribute.isNull, Attribute.isNull, Attribute.isNull };
+        placedPiece = null;
+    }
+
+    public void DeployVillainPiece(Piece villain)
+    {
+        villain.transform.position = transform.position;
+
+        for(int i = 0; i < 4; i ++)
+        {
+            ConnectableSocket[i] = villain.Sockets[i].type;
+        }
+
+        placedPiece = villain;
+    }
 
     private void OnDrawGizmos()
     {
@@ -16,7 +39,7 @@ public class Tile : MonoBehaviour
 
         // Gizmo가 나타날 위치를 계산합니다.
         Vector3 position = transform.position;
-
+        Gizmos.DrawWireCube(transform.position, new Vector3(1, .1f, 1));
         // 씬 뷰에 텍스트를 표시합니다.
         UnityEditor.Handles.Label(position, tileIndex.ToString());
     }
