@@ -39,7 +39,7 @@ public class Tile : MonoBehaviour
 
         // Gizmo가 나타날 위치를 계산합니다.
         Vector3 position = transform.position;
-        Gizmos.DrawWireCube(transform.position, new Vector3(1, .1f, 1));
+        Gizmos.DrawWireCube(transform.position, new Vector3(.6f, .1f, .8f));
         // 씬 뷰에 텍스트를 표시합니다.
         UnityEditor.Handles.Label(position, tileIndex.ToString());
     }

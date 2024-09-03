@@ -7,6 +7,8 @@ public class Hand : MonoBehaviour
 {
     List<Piece> list = new List<Piece>();
 
+    public int seatNum;
+
     const int handsLimit = 6;
     public int LimitStack { get; private set; }
     public void SetLimitStack(int i)

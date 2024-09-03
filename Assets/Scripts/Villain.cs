@@ -4,7 +4,7 @@ using UnityEngine;
 using Mirror;
 
 //플레이어 객체
-public class Player : NetworkBehaviour
+public class Villain : NetworkBehaviour
 {
     [SyncVar] //Hook?
     public int myOrder = 0;
@@ -34,9 +34,26 @@ public class Player : NetworkBehaviour
         Camera.main.GetComponent<CameraController>().Init(i);
 
         //자신의 필드 찾기
+        Field[] fields = FindObjectsOfType<Field>();
+        foreach (Field f in fields)
+        {
+            if(f.seatNum == myOrder)
+            {
+                field = f;
+                break;
+            }
+        }
 
         //자신의 핸드 찾기
-
+        Hand[] hands = FindObjectsOfType<Hand>();
+        foreach (Hand h in hands)
+        {
+            if (h.seatNum == myOrder)
+            {
+                hand = h;
+                break;
+            }
+        }
     }
 
     [ClientRpc]

@@ -6,6 +6,7 @@ using UnityEngine;
 public class Field : MonoBehaviour
 {
     public Tile[] tiles = new Tile[12];
+    public int seatNum;
 
     private void OnDrawGizmos()
     {

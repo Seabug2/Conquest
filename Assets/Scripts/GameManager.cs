@@ -6,6 +6,7 @@ using Mirror;
 
 public class GameManager : NetworkBehaviour
 {
+    //싱글톤
     public static GameManager instance;
 
     private void Awake()
@@ -20,19 +21,20 @@ public class GameManager : NetworkBehaviour
         }
     }
 
-    readonly Dictionary<int, Player> player_D = new Dictionary<int, Player>();
+    Dictionary<int, Villain> player_D = new Dictionary<int, Villain>();
 
     /// <summary>
     /// 현재 생존한 플레이어의 수
     /// </summary>
-    public int playerCount { get{return player_D.Count; } }
+    public int PlayerCount { get { return player_D.Count; } }
 
-    public void AddPlayer(Player player)
+    public void AddPlayer(Villain player)
     {
-        player_D.Add(playerCount, player);
-
+        print(PlayerCount);
+        player_D.Add(PlayerCount, player);
+        print(PlayerCount);
         //players.Add(player);
-        if (playerCount == NetworkManager.singleton.maxConnections)
+        if (PlayerCount == NetworkManager.singleton.maxConnections)
         {
             CmdTurnSetup();
         }
@@ -59,7 +61,7 @@ public class GameManager : NetworkBehaviour
 
         for (int i = 0; i < 4; i++)
         {
-            player_D[i].SetUp(i);
+            player_D[i].SetUp(order[i]);
         }
     }
 
@@ -70,7 +72,19 @@ public class GameManager : NetworkBehaviour
     [Command]
     public void NextTurn(int i)
     {
-        //player_D[i + 1]
+        Villain nextPlayer = player_D[NextOrder(i)];
+        print($"현재 차례를 마친 플레이어 : {player_D[i]} / 다음 차례의 플레이어 : {nextPlayer}");
+    }
+
+    int NextOrder(int i)
+    {
+        int nextOrder = i;
+        do
+        {
+            nextOrder = (nextOrder + 1) % PlayerCount;
+        } while (!player_D.ContainsKey(nextOrder));
+
+        return nextOrder;
     }
 
     /// <summary>
