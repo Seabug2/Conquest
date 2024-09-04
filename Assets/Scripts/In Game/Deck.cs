@@ -9,7 +9,7 @@ public class Deck : NetworkBehaviour
     Villain[] villains = new Villain[54];
     public Villain[] Villains => villains;
 
-    public SyncList<int> deckRemaining = new SyncList<int>();
+    public readonly SyncList<int> deckRemaining = new SyncList<int>();
     public int Count { get { return deckRemaining.Count; } }
 
     private void Start()

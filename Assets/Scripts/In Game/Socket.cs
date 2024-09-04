@@ -3,10 +3,10 @@ using UnityEngine;
 public enum Attribute
 {
     isNull = 0,
-    power,
-    tech,
-    wealth,
-    charisma
+    power = 1,
+    tech = 2,
+    wealth = 3,
+    charisma = 4
 }
 
 public class Socket : MonoBehaviour

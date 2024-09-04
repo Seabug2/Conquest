@@ -7,7 +7,7 @@ using Mirror;
 //플레이어 객체
 public class NetworkPlayer : NetworkBehaviour
 {
-    [SyncVar(hook = nameof(SetUp))] //Hook?
+    [SyncVar(hook = nameof(SetUp))] //새로 할당하려는 값이 기존의 값과 같으면 호출이 안됨
     public int myOrder = -1;
 
     [SerializeField] Hand hand;
@@ -19,6 +19,8 @@ public class NetworkPlayer : NetworkBehaviour
     [SerializeField] Deck deck;
     public Deck Deck => deck;
 
+    CameraController camCtrl;
+
     private void Start()
     {
         //Host의 씬에 플레이어 오브젝트가 추가될 때마다 GameManager의 Player Dictionary에 오브젝트를 추가한다.
@@ -28,8 +30,6 @@ public class NetworkPlayer : NetworkBehaviour
 
     public void SetUp(int _, int value)
     {
-        //????????????????????????????????????????????????????????????????????????화면에서 Waiting UI 비활성화 / 삭제
-
         myOrder = value;
 
         //자신의 필드 찾기
@@ -56,9 +56,11 @@ public class NetworkPlayer : NetworkBehaviour
 
         deck = FindObjectOfType<Deck>();
 
+        camCtrl = Camera.main.GetComponent<CameraController>();
+
         if (isLocalPlayer)
             //자신의 카메라 찾기
-            Camera.main.GetComponent<CameraController>().Init(value);
+            camCtrl.Init(value);
 
         //자신이 첫 번째 플레이어라면 먼저 차례를 시작한다.
         if (myOrder == 0 && isLocalPlayer)
@@ -76,6 +78,7 @@ public class NetworkPlayer : NetworkBehaviour
             return;
         }
 
+        //서버 역할을 하고 있는 클라이언트의 리모트 객체에서 호출
         int drawnID = Random.Range(0, deck.Count);
         deck.CmdDraw(drawnID); //덱에서 무작위로 빌런이 뽑혔고 List에서 제거됨
 
@@ -85,7 +88,8 @@ public class NetworkPlayer : NetworkBehaviour
     [ClientRpc]
     void RpcStartTurn(int drawnID)
     {
-        Hand.AddHand(Deck.Villains[drawnID]);
+        Hand.AddHand(Deck.Villains[drawnID]); //모든 클라이언트의 리모트 객체의 Hand에 해당 ID를 가진 Villain이 추가
+        camCtrl.SetVCam(myOrder); //지금 차례의 필드로 이동
 
         Debug.Log($"{myOrder + 1}번째 플레이어의 차례");
 
