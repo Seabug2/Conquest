@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class Hand : MonoBehaviour
 {
-    List<Piece> list = new List<Piece>();
+    List<Villain> list = new List<Villain>();
 
     public int seatNum;
 
@@ -17,27 +17,18 @@ public class Hand : MonoBehaviour
     }
     public int HandsLimit { get { return handsLimit + LimitStack; } }
 
-    public UnityEvent GameOverEvent;
-
     private void Start()
     {
         LimitStack = 0;
     }
 
-    public void CloseTurn()
-    {
-        if (IsGameOver)
-        {
-            GameOverEvent.Invoke();
-        }
-    }
-
+    //NetworkPlayer.EndTurn에서 호출되어 패 제한을 초과했는지 확인합니다.
     public bool IsGameOver
     {
         get
         {
             //자신의 차례를 마칠때 플레이어의 패가 제한 수 보다 많다면 패배
-            if (list.Count > (HandsLimit))
+            if (list.Count > HandsLimit)
             {
                 return true;
             }

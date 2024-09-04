@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,19 +22,17 @@ public class GameManager : NetworkBehaviour
         }
     }
 
-    Dictionary<int, Villain> player_D = new Dictionary<int, Villain>();
+    Dictionary<int, NetworkPlayer> player_D = new Dictionary<int, NetworkPlayer>();
 
     /// <summary>
     /// 현재 생존한 플레이어의 수
     /// </summary>
     public int PlayerCount { get { return player_D.Count; } }
 
-    public void AddPlayer(Villain player)
+    public void AddPlayer(NetworkPlayer player)
     {
-        print(PlayerCount);
         player_D.Add(PlayerCount, player);
-        print(PlayerCount);
-        //players.Add(player);
+
         if (PlayerCount == NetworkManager.singleton.maxConnections)
         {
             CmdTurnSetup();
@@ -61,7 +60,7 @@ public class GameManager : NetworkBehaviour
 
         for (int i = 0; i < 4; i++)
         {
-            player_D[i].SetUp(order[i]);
+            player_D[i].myOrder = order[i];
         }
     }
 
@@ -72,19 +71,37 @@ public class GameManager : NetworkBehaviour
     [Command]
     public void NextTurn(int i)
     {
-        Villain nextPlayer = player_D[NextOrder(i)];
+        NetworkPlayer nextPlayer = NextOrderPlayer(i);
         print($"현재 차례를 마친 플레이어 : {player_D[i]} / 다음 차례의 플레이어 : {nextPlayer}");
+        // ClientRpc 속성의 자신의 차례를 실행하는 메서드 실행
+
+        nextPlayer.StartTurn();
     }
 
-    int NextOrder(int i)
+    /// <summary>
+    /// 다음 차례의 플레이어번호
+    /// </summary>
+    /// <param name="currentOrder"></param>
+    public NetworkPlayer NextOrderPlayer(int currentOrder)
     {
-        int nextOrder = i;
+        int nextOrder = currentOrder;
         do
         {
-            nextOrder = (nextOrder + 1) % PlayerCount;
+            nextOrder = (nextOrder + 1) % 4;
         } while (!player_D.ContainsKey(nextOrder));
 
-        return nextOrder;
+        return player_D[nextOrder];
+    }
+
+    public int GetAdjacentPlayer(int currentOrder, int dir)
+    {
+        int adjacentPlayerNumber = currentOrder;
+        do
+        {
+            adjacentPlayerNumber = Mathf.Abs(adjacentPlayerNumber + dir) % 4;
+        } while (!player_D.ContainsKey(adjacentPlayerNumber));
+
+        return adjacentPlayerNumber;
     }
 
     /// <summary>
@@ -96,7 +113,21 @@ public class GameManager : NetworkBehaviour
     {
         //Dictionary에서 제거
         player_D.Remove(i);
-
+        if (PlayerCount == 1)
+        {
+            NetworkPlayer p = player_D.Values.First();
+            int winner = p.myOrder;
+            print($"승리 : {p} / {winner}");
+            //모든 플레이어의 카메라가 승리한 플레이어의 필드로 이동
+            FocusToWinner(winner);
+            return;
+        }
         NextTurn(i);
+    }
+
+    [ClientRpc]
+    void FocusToWinner(int i)
+    {
+        //CameraController.instance.
     }
 }

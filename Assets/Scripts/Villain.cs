@@ -1,72 +1,99 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
 using UnityEngine;
-using Mirror;
+using UnityEngine.UI;
 
-//플레이어 객체
-public class Villain : NetworkBehaviour
+public class Villain : MonoBehaviour
 {
-    [SyncVar] //Hook?
-    public int myOrder = 0;
+    [SerializeField] int id;
+    public int ID => id;
 
-    Hand hand;
-    Field field;
+    /// <summary>
+    /// 카드를 전개 했을 때, 혹은 효과를 발동할 때 나올 컷씬
+    /// </summary>
+    [SerializeField] GameObject eventScene;
 
-    private void Awake()
-    {
-        hand = GetComponent<Hand>();
-    }
+    public bool IsOpened { get; private set; }
+
+    //소켓에 대한 정보
+    // 0   1
+    //
+    // 3   2
+    [SerializeField]Socket[] sockets;
+    public Socket[] Sockets => sockets;
 
     private void Start()
     {
-        if (isServer)
-            //게임매니저를 찾아서
-            FindObjectOfType<GameManager>().AddPlayer(this);
+        //Sockets = GetComponentsInChildren<Socket>();
+        IsOpened = false;
     }
 
-    [ClientRpc]
-    public void SetUp(int i)
+    /// <summary>
+    /// 카드가 전개 되었을 때 호출
+    /// </summary>
+    public virtual void OnDeployed()
     {
-        myOrder = i;
-        if (!isLocalPlayer) return;
+        //eventScene?.SetActive(true);
+    }
 
-        //자신의 카메라 찾기
-        Camera.main.GetComponent<CameraController>().Init(i);
 
-        //자신의 필드 찾기
-        Field[] fields = FindObjectsOfType<Field>();
-        foreach (Field f in fields)
+    /// <summary>
+    /// 다른 빌런 유닛이 새로 링크되었을 때
+    /// </summary>
+    public virtual void OnLinked()
+    {
+
+    }
+
+    /// <summary>
+    /// 덱으로 되돌아 갈 때 호출
+    /// </summary>
+    public virtual void OnReturnToDeck()
+    {
+        
+    }
+
+    /// <summary>
+    /// 필드에서 제거될 때
+    /// 더 이상 효과를 발동하지 않을 때
+    /// </summary>
+    public virtual void OnFieldOut()
+    {
+        
+    }
+    
+    /// <summary>
+    /// 모든 소켓이 링크 되었는지 확인하는 메서드
+    /// </summary>
+    public void ConnectionCheck()
+    {
+        bool isCompleted = true;
+
+        foreach(Socket s in sockets)
         {
-            if(f.seatNum == myOrder)
+            if (!s.IsFilled)
             {
-                field = f;
+                isCompleted = false;
                 break;
             }
         }
 
-        //자신의 핸드 찾기
-        Hand[] hands = FindObjectsOfType<Hand>();
-        foreach (Hand h in hands)
+        if (isCompleted)
         {
-            if (h.seatNum == myOrder)
-            {
-                hand = h;
-                break;
-            }
+            OnComplete();
+        }
+        else
+        {
+            return;
         }
     }
 
-    [ClientRpc]
-    public void StartTurn()
+    /// <summary>
+    /// 카드를 전개했을 때
+    /// </summary>
+    protected virtual void OnComplete()
     {
-        //자신의 차례를 시작
-        //모든 클라이언트에서 플레이어 객체에서 실행되어야 할 것들...
-        // 1) 차례를 알리는 UI Pop Up
-
-        // 2) UI가 사라진 후 로컬 플레이어에서만 드로우 UI가 팝업
-        if (!isLocalPlayer) return;
-
-        //로컬 플레이어는 덱에서 카드를 드로우할 수 있도록
-        //드로우 UI가 나타난다.
-    }
+        
+    } 
 }

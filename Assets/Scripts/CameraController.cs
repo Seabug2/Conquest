@@ -5,12 +5,27 @@ using Cinemachine;
 
 public class CameraController : MonoBehaviour
 {
+    public static CameraController instance;
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
     //화면을 바꾸는 조작은 Local 플레이어에서만 가능
     CinemachineBrain brainCam;
 
     void Start()
     {
         brainCam = GetComponent<CinemachineBrain>();
+        currentVcam = (CinemachineVirtualCamera)brainCam.ActiveVirtualCamera;
     }
 
     // 0 : 첫 번째 플레이어
@@ -25,11 +40,31 @@ public class CameraController : MonoBehaviour
     //자신의 필드 번호
     int homeViewIndex = -1;
     int currentCamIndex = -1;
+    public int CurrentCamIndex
+    {
+        get { return currentCamIndex; }
+        set
+        {
+            currentCamIndex = value;
+            //현재 활성화 중인 카메라 우선도를 0으로
+            brainCam.ActiveVirtualCamera.Priority = 0;
+
+            if (value < 0)
+            {
+                decksVcams.Priority = 1;
+                currentVcam = decksVcams;
+            }
+            else
+            {
+                playersVcams[value].Priority = 1;
+                currentVcam = playersVcams[value];
+            }
+        }
+    }
 
     public void Init(int i)
     {
         homeViewIndex = i;
-        currentCamIndex = homeViewIndex;
         FocusOnDeck();
     }
 
@@ -39,47 +74,34 @@ public class CameraController : MonoBehaviour
     public void HomeView()
     {
         currentCamIndex = homeViewIndex;
-        SetVCam(homeViewIndex);
     }
+
     /// <summary>
     /// 모두 공통 덱을 주목합니다.
     /// </summary>
     public void FocusOnDeck()
     {
-        brainCam.ActiveVirtualCamera.Priority = 0;
-        decksVcams.Priority = 1;
         currentCamIndex = -1;
     }
 
     /// <summary>
-    /// 특정 번호의 플레이어 화면으로 이동
+    /// 지정하는 플레이어의 필드로 카메라를 이동
     /// </summary>
-    /// <param name="i">이동하려는 화면의 플레이어 번호</param>
+    /// <param name="i">이동하려는 플레이어의 번호</param>
     public void SetVCam(int i)
     {
-        //현재 활성화 중인 화면의 우선도를 0으로 만든다.
-        brainCam.ActiveVirtualCamera.Priority = 0;
-        //화면을 바꾼다.
         currentCamIndex = i;
-        //playersVcams[currentCamIndex].Priority = 1;
     }
 
     /// <summary>
-    /// 원하는 진행 방향의 플레이어 화면으로 이동
+    /// 로컬 플레이어가 카메라를 앞, 또는 다음 플레이어의 필드로 이동합니다.
     /// </summary>
     /// <param name="i">-1 or +1</param>
-    public void ShiftVCam(int i)
+    public void ShiftVCam(int dir)
     {
-        if (currentCamIndex == -1)
-        {
-            currentCamIndex = homeViewIndex;
-        }
-        else
-        {
-            currentCamIndex = (currentCamIndex + 4 + i) % 4;
-        }
-
-        brainCam.ActiveVirtualCamera.Priority = 0;
-        playersVcams[currentCamIndex].Priority = 1;
+        currentCamIndex = GameManager.instance.GetAdjacentPlayer(currentCamIndex, dir);
     }
+
+    [SerializeField]
+    CinemachineVirtualCamera currentVcam;
 }

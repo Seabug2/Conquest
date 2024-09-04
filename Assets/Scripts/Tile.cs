@@ -6,7 +6,7 @@ public class Tile : MonoBehaviour
     public int TileIndex => tileIndex;
 
     //현재 타일에 전개한 
-    public Piece placedPiece = null;
+    public Villain placedPiece = null;
 
     public Attribute[] ConnectableSocket { get; private set; }
 
@@ -21,7 +21,7 @@ public class Tile : MonoBehaviour
         placedPiece = null;
     }
 
-    public void DeployVillainPiece(Piece villain)
+    public void DeployVillainPiece(Villain villain)
     {
         villain.transform.position = transform.position;
 
