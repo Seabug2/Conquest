@@ -37,6 +37,7 @@ public class CameraController : MonoBehaviour
     // 공통 덱 카메라
     [SerializeField] CinemachineVirtualCamera decksVcams;
 
+
     //자신의 필드 번호
     int homeViewIndex = -1;
     int currentCamIndex = -1;
@@ -73,7 +74,7 @@ public class CameraController : MonoBehaviour
     /// </summary>
     public void HomeView()
     {
-        currentCamIndex = homeViewIndex;
+        CurrentCamIndex = homeViewIndex;
     }
 
     /// <summary>
@@ -81,7 +82,7 @@ public class CameraController : MonoBehaviour
     /// </summary>
     public void FocusOnDeck()
     {
-        currentCamIndex = -1;
+        CurrentCamIndex = -1;
     }
 
     /// <summary>
@@ -90,7 +91,7 @@ public class CameraController : MonoBehaviour
     /// <param name="i">이동하려는 플레이어의 번호</param>
     public void SetVCam(int i)
     {
-        currentCamIndex = i;
+        CurrentCamIndex = i;
     }
 
     /// <summary>
@@ -99,7 +100,7 @@ public class CameraController : MonoBehaviour
     /// <param name="i">-1 or +1</param>
     public void ShiftVCam(int dir)
     {
-        currentCamIndex = GameManager.instance.GetAdjacentPlayer(currentCamIndex, dir);
+        CurrentCamIndex = GameManager.instance.GetAdjacentPlayer(currentCamIndex, dir);
     }
 
     [SerializeField]

@@ -18,9 +18,12 @@ public class LineMessage : MonoBehaviour
     {
         text.text = message;
         line.sizeDelta = new Vector2(1, 0);
-
-        sequence = DOTween.Sequence().SetAutoKill(true).Pause()
-            .Prepend(line.DOScaleY(0,0))
-            .Append(line.DOScaleY(1, duration * 0.1f).SetEase(Ease.OutQuint));
+        sequence = DOTween.Sequence()
+            .SetAutoKill(true).Pause()
+            .Prepend(line.DOScaleY(0, 0))
+            .Append(line.DOScaleY(1, duration * 0.1f).SetEase(Ease.OutQuint))
+            .AppendInterval(duration * 0.8f)
+            .Append(line.DOScaleY(0, duration * 0.1f).SetEase(Ease.InQuint));
+        sequence.Play();
     }
 }

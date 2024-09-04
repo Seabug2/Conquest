@@ -36,6 +36,12 @@ public class Hand : MonoBehaviour
         }
     }
 
+    public void AddHand(Villain drawnVillain)
+    {
+        list.Add(drawnVillain);
+        //ī�带...
+    }
+
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireCube(transform.position, new Vector3(5, .1f, 1));

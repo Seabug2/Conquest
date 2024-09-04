@@ -33,6 +33,7 @@ public class Tile : MonoBehaviour
         placedPiece = villain;
     }
 
+#if UNITY_EDITOR
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.white;
@@ -43,4 +44,5 @@ public class Tile : MonoBehaviour
         // 씬 뷰에 텍스트를 표시합니다.
         UnityEditor.Handles.Label(position, tileIndex.ToString());
     }
+#endif
 }

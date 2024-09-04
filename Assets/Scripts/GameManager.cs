@@ -44,7 +44,8 @@ public class GameManager : NetworkBehaviour
         }
     }
 
-    [Command]
+    //GameManager의 Authority가 없음
+    [Command(requiresAuthority = false)]
     void CmdTurnSetup()
     {
         int[] order = { 0, 1, 2, 3 };
@@ -75,7 +76,7 @@ public class GameManager : NetworkBehaviour
         print($"현재 차례를 마친 플레이어 : {player_D[i]} / 다음 차례의 플레이어 : {nextPlayer}");
         // ClientRpc 속성의 자신의 차례를 실행하는 메서드 실행
 
-        nextPlayer.StartTurn();
+        nextPlayer.CmdStartTurn();
     }
 
     /// <summary>

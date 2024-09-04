@@ -1,15 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using Mirror;
 
 //플레이어 객체
 public class NetworkPlayer : NetworkBehaviour
 {
     [SyncVar(hook = nameof(SetUp))] //Hook?
-    public int myOrder;
-    public Hand hand { get; private set; }
-    public Field field { get; private set; }
+    public int myOrder = -1;
+
+    [SerializeField] Hand hand;
+    public Hand Hand => hand;
+
+    [SerializeField] Field field;
+    public Field Field => field;
+
+    [SerializeField] Deck deck;
+    public Deck Deck => deck;
 
     private void Start()
     {
@@ -46,18 +54,43 @@ public class NetworkPlayer : NetworkBehaviour
             }
         }
 
+        deck = FindObjectOfType<Deck>();
+
         if (isLocalPlayer)
             //자신의 카메라 찾기
             Camera.main.GetComponent<CameraController>().Init(value);
 
+        //자신이 첫 번째 플레이어라면 먼저 차례를 시작한다.
+        if (myOrder == 0 && isLocalPlayer)
+        {
+            CmdStartTurn();
+        }
+    }
+
+    [Command]
+    public void CmdStartTurn()
+    {
+        if (deck.Count == 0)
+        {
+            Debug.Log("덱이 한 장도 없습니다!");
+            return;
+        }
+
+        int drawnID = Random.Range(0, deck.Count);
+        deck.CmdDraw(drawnID); //덱에서 무작위로 빌런이 뽑혔고 List에서 제거됨
+
+        RpcStartTurn(drawnID);
     }
 
     [ClientRpc]
-    public void StartTurn()
+    void RpcStartTurn(int drawnID)
     {
-        print($"{myOrder + 1}번째 플레이어의 차례");
-        //자신의 차례를 시작
-        //모든 클라이언트에서 플레이어 객체에서 실행되어야 할 것들...
+        Hand.AddHand(Deck.Villains[drawnID]);
+
+        Debug.Log($"{myOrder + 1}번째 플레이어의 차례");
+
+        // 자신의 차례를 시작
+        // 모든 클라이언트에서 플레이어 객체에서 실행되어야 할 것들...
         // 1) 차례를 알리는 UI Pop Up
         // 카메라가 자신의 화면을 주목하도록 바꿈
 
@@ -66,9 +99,11 @@ public class NetworkPlayer : NetworkBehaviour
 
         //로컬 플레이어는 덱에서 카드를 드로우할 수 있도록
         //드로우 UI가 나타난다.
+
+        //차례를 넘길 수 있는 버튼이 활성화 됨
     }
 
-    [ClientRpc]
+    [Command]
     public void EndTurn()
     {
         if (hand.IsGameOver)
