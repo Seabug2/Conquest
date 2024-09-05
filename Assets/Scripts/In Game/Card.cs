@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Villain : MonoBehaviour
+public class Card : MonoBehaviour
 {
     [SerializeField] int id;
     public int ID => id;
@@ -90,7 +90,7 @@ public class Villain : MonoBehaviour
     }
 
     /// <summary>
-    /// 카드를 전개했을 때
+    /// 링크를 완성했을 때
     /// </summary>
     protected virtual void OnComplete()
     {

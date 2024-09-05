@@ -2,12 +2,13 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using DG.Tweening;
 using Mirror;
 
 public class GameManager : NetworkBehaviour
 {
-    //싱글톤
+    //전역 클래스 설정
     public static GameManager instance;
 
     private void Awake()
@@ -22,47 +23,56 @@ public class GameManager : NetworkBehaviour
         }
     }
 
-    Dictionary<int, NetworkPlayer> player_D = new Dictionary<int, NetworkPlayer>();
+    [SerializeField]
+    List<NetworkPlayer> players = new List<NetworkPlayer>();
 
-    /// <summary>
-    /// 현재 생존한 플레이어의 수
-    /// </summary>
-    public int PlayerCount { get { return player_D.Count; } }
-
-    public void AddPlayer(NetworkPlayer player)
+    public NetworkPlayer GetPlayer(int i)
     {
-        player_D.Add(PlayerCount, player);
-
-        if (PlayerCount == NetworkManager.singleton.maxConnections)
-        {
-            CmdTurnSetup();
-        }
-        else
-        {
-            //대기 중...
-            return;
-        }
+        return players[i];
     }
 
-    //GameManager의 Authority가 없음
-    [Command(requiresAuthority = false)]
-    void CmdTurnSetup()
+    //각 클라이언트에 존재하는 GameManager의 List에 Player 객체를 추가
+    public void AddPlayer(NetworkPlayer player)
     {
-        int[] order = { 0, 1, 2, 3 };
+        players.Add(player);
 
+        if (isServer)
+            if (players.Count == NetworkManager.singleton.maxConnections)
+            {
+                AssignRandomOrder();
+            }
+    }
+
+    //권한 없이 
+    [Command(requiresAuthority = false)]
+    void AssignRandomOrder()
+    {
         //셔플
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < players.Count; i++)
         {
             int rand = Random.Range(0, 4);
-            int tmp = order[i];
-            order[i] = order[rand];
-            order[rand] = tmp;
+            NetworkPlayer tmp = players[i];
+            players[i] = players[rand];
+            players[rand] = tmp;
         }
-
+        //플레이어 객체에 순번을 할당
         for (int i = 0; i < 4; i++)
         {
-            player_D[i].myOrder = order[i];
+            players[i].myOrder = i;
         }
+
+        PlayerListSetUp();
+    }
+
+    [Header("게임 시작 이벤트"), Space(10), Tooltip("게임이 시작할 때 실행될 이벤트를 등록합니다.")]
+    public UnityEvent OnGameStartEvent;
+
+    [ClientRpc]
+    void PlayerListSetUp()
+    {
+        //각 Game Manager에서 List의 순서를 정리함
+        players.Sort((a, b) => a.myOrder.CompareTo(b.myOrder));
+        OnGameStartEvent?.Invoke();
     }
 
     /// <summary>
@@ -73,7 +83,7 @@ public class GameManager : NetworkBehaviour
     public void NextTurn(int i)
     {
         NetworkPlayer nextPlayer = NextOrderPlayer(i);
-        print($"현재 차례를 마친 플레이어 : {player_D[i]} / 다음 차례의 플레이어 : {nextPlayer}");
+        print($"현재 차례를 마친 플레이어 : {players[i]} / 다음 차례의 플레이어 : {nextPlayer}");
         // ClientRpc 속성의 자신의 차례를 실행하는 메서드 실행
 
         nextPlayer.CmdStartTurn();
@@ -89,9 +99,9 @@ public class GameManager : NetworkBehaviour
         do
         {
             nextOrder = (nextOrder + 1) % 4;
-        } while (!player_D.ContainsKey(nextOrder));
+        } while (!players[nextOrder].IsGameOver);
 
-        return player_D[nextOrder];
+        return players[nextOrder];
     }
 
     public int GetAdjacentPlayer(int currentOrder, int dir)
@@ -100,35 +110,50 @@ public class GameManager : NetworkBehaviour
         do
         {
             adjacentPlayerNumber = Mathf.Abs(adjacentPlayerNumber + dir) % 4;
-        } while (!player_D.ContainsKey(adjacentPlayerNumber));
+        } while (!players[adjacentPlayerNumber].IsGameOver);
 
         return adjacentPlayerNumber;
     }
 
     /// <summary>
+    /// 현재 생존한 플레이어의 수
+    /// </summary>
+    public int AliveCount
+    {
+        get
+        {
+            int aliveCount = 0;
+            foreach (NetworkPlayer np in players)
+            {
+                if (!np.IsGameOver)
+                    aliveCount++;
+            }
+            return aliveCount;
+        }
+    }
+
+    /// <summary>
     /// i번째 플레이어가 패 제한 수를 초과할 때 호출
     /// </summary>
-    /// <param name="i"></param>
-    [Command]
+    /// <param name="i">탈락한 플레이어의 번호</param>
+    [Server]
     public void GameOver(int i)
     {
-        //Dictionary에서 제거
-        player_D.Remove(i);
-        if (PlayerCount == 1)
+        if (AliveCount == 1)
         {
-            NetworkPlayer p = player_D.Values.First();
-            int winner = p.myOrder;
-            print($"승리 : {p} / {winner}");
-            //모든 플레이어의 카메라가 승리한 플레이어의 필드로 이동
-            FocusToWinner(winner);
+            NetworkPlayer winner = players.SingleOrDefault(p => p.IsGameOver == false);
+            Debug.Log($"승리 : {winner.connectionToServer}");
+            ////모든 플레이어의 카메라가 승리한 플레이어의 필드로 이동
+            FocusToWinner(winner.myOrder);
             return;
         }
+
         NextTurn(i);
     }
 
     [ClientRpc]
-    void FocusToWinner(int i)
+    void FocusToWinner(int winnerNumber)
     {
-        //CameraController.instance.
+        CameraController.instance.SetVCam(winnerNumber);
     }
 }

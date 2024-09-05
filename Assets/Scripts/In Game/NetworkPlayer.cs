@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,10 @@ using Mirror;
 //플레이어 객체
 public class NetworkPlayer : NetworkBehaviour
 {
+    [SyncVar, SerializeField, Header("게임 오버 상태")]
+    bool isGameOver = false;
+    public bool IsGameOver => isGameOver;
+
     [SyncVar(hook = nameof(SetUp))] //새로 할당하려는 값이 기존의 값과 같으면 호출이 안됨
     public int myOrder = -1;
 
@@ -23,14 +28,14 @@ public class NetworkPlayer : NetworkBehaviour
 
     private void Start()
     {
-        //Host의 씬에 플레이어 오브젝트가 추가될 때마다 GameManager의 Player Dictionary에 오브젝트를 추가한다.
-        if (isServer)
-            GameManager.instance.AddPlayer(this);
+        //모든 클라이언트에서 생성된 플레이어 객체는 스스로 GameManage의 Player List에 추가됨
+        GameManager.instance.AddPlayer(this);
     }
 
     public void SetUp(int _, int value)
     {
         myOrder = value;
+        isGameOver = false;
 
         //자신의 필드 찾기
         Field[] fields = FindObjectsOfType<Field>();
@@ -57,21 +62,14 @@ public class NetworkPlayer : NetworkBehaviour
         deck = FindObjectOfType<Deck>();
 
         camCtrl = Camera.main.GetComponent<CameraController>();
-
-        if (isLocalPlayer)
-            //자신의 카메라 찾기
-            camCtrl.Init(value);
-
-        //자신이 첫 번째 플레이어라면 먼저 차례를 시작한다.
-        if (myOrder == 0 && isLocalPlayer)
-        {
-            CmdStartTurn();
-        }
+        camCtrl.Init(value);
     }
 
     [Command]
     public void CmdStartTurn()
     {
+        //차례를 시작하면 가장 먼저 덱에서 카드를 드로우 합니다.
+
         if (deck.Count == 0)
         {
             Debug.Log("덱이 한 장도 없습니다!");
@@ -79,16 +77,18 @@ public class NetworkPlayer : NetworkBehaviour
         }
 
         //서버 역할을 하고 있는 클라이언트의 리모트 객체에서 호출
-        int drawnID = Random.Range(0, deck.Count);
+        int drawnID = UnityEngine.Random.Range(0, deck.Count);
         deck.CmdDraw(drawnID); //덱에서 무작위로 빌런이 뽑혔고 List에서 제거됨
 
         RpcStartTurn(drawnID);
     }
 
+    public event Action OnDrawAction;
+
     [ClientRpc]
     void RpcStartTurn(int drawnID)
     {
-        Hand.AddHand(Deck.Villains[drawnID]); //모든 클라이언트의 리모트 객체의 Hand에 해당 ID를 가진 Villain이 추가
+        Hand.AddHand(Deck.Cards[drawnID]); //모든 클라이언트의 리모트 객체의 Hand에 해당 ID를 가진 Villain이 추가
         camCtrl.SetVCam(myOrder); //지금 차례의 필드로 이동
 
         Debug.Log($"{myOrder + 1}번째 플레이어의 차례");
@@ -112,6 +112,7 @@ public class NetworkPlayer : NetworkBehaviour
     {
         if (hand.IsGameOver)
         {
+            isGameOver = false;
             GameManager.instance.GameOver(myOrder);
             return;
         }

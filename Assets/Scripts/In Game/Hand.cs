@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class Hand : MonoBehaviour
 {
-    [SerializeField] List<Villain> list = new List<Villain>();
+    [SerializeField] List<Card> list = new List<Card>();
 
     public int seatNum;
 
@@ -36,7 +36,7 @@ public class Hand : MonoBehaviour
         }
     }
 
-    public void AddHand(Villain drawnVillain)
+    public void AddHand(Card drawnVillain)
     {
         list.Add(drawnVillain);
         //ī�带...
