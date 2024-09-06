@@ -43,8 +43,7 @@ public class GameManager : NetworkBehaviour
             }
     }
 
-    //권한 없이 
-    [Command(requiresAuthority = false)]
+    [Server]
     void AssignRandomOrder()
     {
         //셔플
@@ -64,6 +63,9 @@ public class GameManager : NetworkBehaviour
         PlayerListSetUp();
     }
 
+    [Header("클라이언트 연결 완료 이벤트"), Space(10), Tooltip("모든 플레이어가 연결이 되면 실행되는 이벤트")]
+    public UnityEvent OnConnectionEvent;
+
     [Header("게임 시작 이벤트"), Space(10), Tooltip("게임이 시작할 때 실행될 이벤트를 등록합니다.")]
     public UnityEvent OnGameStartEvent;
 
@@ -72,7 +74,11 @@ public class GameManager : NetworkBehaviour
     {
         //각 Game Manager에서 List의 순서를 정리함
         players.Sort((a, b) => a.myOrder.CompareTo(b.myOrder));
-        OnGameStartEvent?.Invoke();
+        OnConnectionEvent?.Invoke();
+        /*
+        if (isServer)
+            OnGameStartEvent?.Invoke();
+        */
     }
 
     /// <summary>

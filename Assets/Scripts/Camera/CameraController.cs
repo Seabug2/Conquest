@@ -103,6 +103,6 @@ public class CameraController : MonoBehaviour
         CurrentCamIndex = GameManager.instance.GetAdjacentPlayer(currentCamIndex, dir);
     }
 
-    [SerializeField]
+    [SerializeField, Header("È®ÀÎ¿ë"),Space(10)]
     CinemachineVirtualCamera currentVcam;
 }

@@ -36,7 +36,4 @@ public class Socket : MonoBehaviour
             }
         }
     }
-
-    //전개된 빌런피스의 특정 소켓에 연결된 피스는
-    //피스가 놓여진 타일을 기준으로 찾도록 한다.
 }

@@ -11,21 +11,17 @@ public class Deck : NetworkBehaviour
 
     public readonly SyncList<int> deckRemaining = new SyncList<int>();
     public int Count { get { return deckRemaining.Count; } }
-
     [SerializeField]
     Transform[] draftZone;
 
     private void Start()
     {
         if (isServer)
-            for (int i = 0; i < 54; i++)
+            for (int i = 0; i < cards.Length; i++)
             {
-                deckRemaining.Add(i);
+                deckRemaining.Add(cards[i].ID);
             }
     }
-
-    //인재영입 시간 : 드래프트 턴
-
 
     /// <summary>
     /// SyncList를 동기화화기 위해서 서버에서만 실행되어야 함
@@ -42,9 +38,10 @@ public class Deck : NetworkBehaviour
     [ClientRpc]
     void RpcDraw()
     {
-
+        //덱에서 애니메이션 재생
     }
 
+    //인스펙터를 통해 게임매니저의 이벤트에 연결하여 사용
     [Server]
     public void DraftTurn()
     {
@@ -59,12 +56,15 @@ public class Deck : NetworkBehaviour
         RpcOpenDraftCard(numbers);
     }
 
+    public float range = 1f;
+
     [ClientRpc]
     void RpcOpenDraftCard(int[] numbers)
     {
-        for(int i = 0; i < numbers.Length; i++)
+        for (int i = 0; i < numbers.Length; i++)
         {
-            cards[numbers[i]].transform.position = draftZone[i].position;
+            cards[numbers[i]].positionKeeper.targetPosition = draftZone[i].position;
+            cards[numbers[i]].positionKeeper.enabled = true;
         }
     }
 }

@@ -14,19 +14,21 @@ public class Card : MonoBehaviour
     /// </summary>
     [SerializeField] GameObject eventScene;
 
-    public bool IsOpened { get; private set; }
-
     //소켓에 대한 정보
     // 0   1
     //
     // 3   2
-    [SerializeField]Socket[] sockets;
+    [SerializeField] Socket[] sockets;
     public Socket[] Sockets => sockets;
+
+    public CardHandler handler;
 
     private void Start()
     {
-        //Sockets = GetComponentsInChildren<Socket>();
-        IsOpened = false;
+        if (!TryGetComponent(out handler))
+        {
+            handler = gameObject.AddComponent<CardHandler>();
+        }
     }
 
     /// <summary>
@@ -51,7 +53,7 @@ public class Card : MonoBehaviour
     /// </summary>
     public virtual void OnReturnToDeck()
     {
-        
+
     }
 
     /// <summary>
@@ -60,9 +62,9 @@ public class Card : MonoBehaviour
     /// </summary>
     public virtual void OnFieldOut()
     {
-        
+
     }
-    
+
     /// <summary>
     /// 모든 소켓이 링크 되었는지 확인하는 메서드
     /// </summary>
@@ -70,7 +72,7 @@ public class Card : MonoBehaviour
     {
         bool isCompleted = true;
 
-        foreach(Socket s in sockets)
+        foreach (Socket s in sockets)
         {
             if (!s.IsFilled)
             {
@@ -94,6 +96,8 @@ public class Card : MonoBehaviour
     /// </summary>
     protected virtual void OnComplete()
     {
-        
-    } 
+
+    }
+
+    public PositionKeeper positionKeeper { get; private set; }
 }
