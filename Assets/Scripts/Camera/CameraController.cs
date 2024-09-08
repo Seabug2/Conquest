@@ -18,6 +18,13 @@ public class CameraController : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    private void OnDestroy()
+    {
+        if (instance == this)
+        {
+            instance = null;
+        }
+    }
 
     //화면을 바꾸는 조작은 Local 플레이어에서만 가능
     CinemachineBrain brainCam;

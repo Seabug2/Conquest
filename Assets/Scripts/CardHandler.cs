@@ -10,51 +10,41 @@ public class CardHandler : NetworkBehaviour, IPointerEnterHandler, IPointerExitH
     /// <summary>
     /// 카드가 앞면이라면 마우스를 위에 올렸을 때 카드 정보 UI를 활성화한다.
     /// </summary>
-    [SyncVar, SerializeField]
-    bool isOpened;
+    bool isOpened = false;
+    public bool IsOpened => isOpened;
+
+    public void SetFace(bool isOpened)
+    {
+        this.isOpened = isOpened;
+        if (isOpened)
+            sprite.sprite = front;
+        else
+            sprite.sprite = GameManager.instance.cardBackFace;
+    }
 
     SpriteRenderer sprite;
+    Sprite front;
 
     [HideInInspector]
-    public bool isMine;
+    public bool isMine = false;
     [Header("카드의 상세정보 UI"), Tooltip("앞 면으로 공개된 카드는 마우스를 올려두면 카드 정보 UI가 나타납니다.")]
     public GameObject ui;
 
     /// <summary>
     /// (나의 패에서)조작 가능한 상태인지를 나타내는 bool 값
     /// </summary>
-    public bool isSelectable;
-    readonly Vector3 onPointerScale = new Vector3(1.2f, 1.2f, 1.2f);
+    public bool isSelectable = false;
 
-    public Vector3 targetPosition;
-    public Vector3 targetRotation;
-
-    [Command]
-    void CmdSetTargetPosition(float x, float y, float z)
-    {
-        RpcSetTargetPosition(x, y, z);
-    }
-    [ClientRpc]
-    void RpcSetTargetPosition(float x, float y, float z)
-    {
-        targetPosition.Set(x, y, z);
-        RpcDoMove();
-    }
-
-    //PositionKeeper positionkeeper;
     Camera cam;
     Tween tween;
 
-    void Start()
+    private void Awake()
     {
+        sprite = GetComponent<SpriteRenderer>();
+        front = sprite.sprite;
         cam = Camera.main;
-        isSelectable = false;
-        isOpened = false;
     }
 
-    /*
-     * 
-     */
     #region Drag Event
     public void OnBeginDrag(PointerEventData eventData)
     {
@@ -80,13 +70,52 @@ public class CardHandler : NetworkBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void OnEndDrag(PointerEventData eventData)
     {
-
-        if (isSelectable)
-        {
-            DoMove();
-        }
+        DoMove();
     }
     #endregion
+
+
+
+    Vector3 position;
+    public Vector3 targetRotation;
+
+    [Command]
+    void CmdSetTargetPosition(float x, float y, float z)
+    {
+        RpcSetTargetPosition(x, y, z);
+    }
+
+    [ClientRpc]
+    void RpcSetTargetPosition(float x, float y, float z)
+    {
+        SetPosition(x, y, z);
+    }
+
+    public void SetPosition(float x, float y, float z, float delay = 0)
+    {
+        position.Set(x, y, z);
+        RpcDoMove(delay);
+    }
+    public void SetPosition(Vector3 targetPosition, float delay = 0)
+    {
+        position = targetPosition;
+        RpcDoMove(delay);
+    }
+
+
+
+    [Command]
+    public void CmdDoMove(float delay)
+    {
+        RpcDoMove(delay);
+    }
+
+    [ClientRpc]
+    void RpcDoMove(float delay)
+    {
+        DoMove(delay);
+    }
+
 
     [Command]
     public void CmdDoMove()
@@ -100,13 +129,13 @@ public class CardHandler : NetworkBehaviour, IPointerEnterHandler, IPointerExitH
         DoMove();
     }
 
-    void DoMove()
+    public void DoMove(float delay = 0)
     {
-        if (tween.IsPlaying())
+        if (tween != null && tween.IsPlaying())
         {
             tween.Kill();
         }
-        tween = transform.DOMove(targetPosition, 1f).SetEase(Ease.InOutQuint);
+        tween = transform.DOMove(position, 1f).SetEase(Ease.InOutQuint).SetDelay(delay);
     }
 
     #region OnPointerEnter
@@ -114,25 +143,25 @@ public class CardHandler : NetworkBehaviour, IPointerEnterHandler, IPointerExitH
     {
         if (isSelectable)
         {
-            CmdScaleUp();
+            CmdOnPointerEnter();
         }
 
-        if (isOpened || isMine)
+        if (isOpened)
         {
             ui.SetActive(true);
         }
     }
 
-    [Command]
-    void CmdScaleUp()
+    [Command(requiresAuthority = false)]
+    void CmdOnPointerEnter()
     {
-        RpcScaleUp();
+        RpcOnPointerEnter();
     }
 
     [ClientRpc]
-    void RpcScaleUp()
+    void RpcOnPointerEnter()
     {
-        transform.localScale = onPointerScale;
+
     }
     #endregion
 
@@ -141,25 +170,25 @@ public class CardHandler : NetworkBehaviour, IPointerEnterHandler, IPointerExitH
     {
         if (isSelectable)
         {
-            CmdResetScale();
+            CmdOnPointerExit();
         }
 
-        if (isOpened || isMine)
+        if (ui.activeSelf)
         {
             ui.SetActive(false);
         }
     }
 
-    [Command]
-    void CmdResetScale()
+    [Command(requiresAuthority = false)]
+    void CmdOnPointerExit()
     {
-        RpcResetScale();
+        RpcOnPointerExit();
     }
 
     [ClientRpc]
-    void RpcResetScale()
+    void RpcOnPointerExit()
     {
-        transform.localScale = Vector3.one;
+
     }
     #endregion
 }

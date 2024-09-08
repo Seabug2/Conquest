@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.EventSystems;
 using UnityEngine;
-using UnityEngine.UI;
 
+[RequireComponent(typeof(CardHandler))]
 public class Card : MonoBehaviour
 {
     [SerializeField] int id;
@@ -23,12 +23,9 @@ public class Card : MonoBehaviour
 
     public CardHandler handler;
 
-    private void Start()
+    private void Awake()
     {
-        if (!TryGetComponent(out handler))
-        {
-            handler = gameObject.AddComponent<CardHandler>();
-        }
+        handler = GetComponent<CardHandler>();
     }
 
     /// <summary>
@@ -36,9 +33,8 @@ public class Card : MonoBehaviour
     /// </summary>
     public virtual void OnDeployed()
     {
-        //eventScene?.SetActive(true);
-    }
 
+    }
 
     /// <summary>
     /// 다른 빌런 유닛이 새로 링크되었을 때
@@ -98,6 +94,4 @@ public class Card : MonoBehaviour
     {
 
     }
-
-    public PositionKeeper positionKeeper { get; private set; }
 }

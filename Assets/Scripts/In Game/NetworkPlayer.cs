@@ -12,8 +12,8 @@ public class NetworkPlayer : NetworkBehaviour
 
     public bool IsGameOver => isGameOver;
 
-    [SyncVar(hook = nameof(SetUp))] //새로 할당하려는 값이 기존의 값과 같으면 호출이 안됨
-    public int myOrder = -1;
+    [SyncVar]
+    public int myOrder;
 
     #region 패, 덱, 필드, 카메라 컨트롤러
     [SerializeField] Hand hand;
@@ -22,65 +22,37 @@ public class NetworkPlayer : NetworkBehaviour
     [SerializeField] Field field;
     public Field Field => field;
 
-    [SerializeField] Deck deck;
-    public Deck Deck => deck;
+    [SerializeField] CardManager cardManager;
+    public CardManager CardManager => cardManager;
 
     CameraController camCtrl;
     #endregion
 
-    private void Start()
+    public override void OnStartClient()
     {
-        //모든 클라이언트에서 생성된 플레이어 객체는 스스로 GameManage의 Player List에 추가됨
         GameManager.instance.AddPlayer(this);
     }
 
-    public void SetUp(int _, int value)
+    /*
+    public override void OnStartLocalPlayer()
     {
-        myOrder = value;
-        isGameOver = false;
-
-        //자신의 필드 찾기
-        Field[] fields = FindObjectsOfType<Field>();
-        foreach (Field f in fields)
-        {
-            if (f.seatNum == myOrder)
-            {
-                field = f;
-                break;
-            }
-        }
-
-        //자신의 핸드 찾기
-        Hand[] hands = FindObjectsOfType<Hand>();
-        foreach (Hand h in hands)
-        {
-            if (h.seatNum == myOrder)
-            {
-                hand = h;
-                break;
-            }
-        }
-
-        deck = FindObjectOfType<Deck>();
-
+        base.OnStartLocalPlayer();
+    }
+    */
+    public void SetUp(int order)
+    {
+        myOrder = order;
+        field = GameManager.instance.fields[myOrder];
+        hand = GameManager.instance.hands[myOrder];
+        cardManager = GameManager.instance.cardManager;
         camCtrl = Camera.main.GetComponent<CameraController>();
-        camCtrl.Init(value);
+        camCtrl.Init(myOrder);
     }
 
     [Command]
     public void CmdStartTurn()
     {
-        //차례를 시작하면 가장 먼저 덱에서 카드를 드로우 합니다.
-
-        if (deck.Count == 0)
-        {
-            Debug.Log("덱이 한 장도 없습니다!");
-            return;
-        }
-
-        //서버 역할을 하고 있는 클라이언트의 리모트 객체에서 호출
-        int drawnID = UnityEngine.Random.Range(0, deck.Count);
-        deck.CmdDraw(drawnID); //덱에서 무작위로 빌런이 뽑혔고 List에서 제거됨
+        int drawnID = cardManager.DrawCardID();
 
         RpcStartTurn(drawnID);
     }
@@ -90,7 +62,7 @@ public class NetworkPlayer : NetworkBehaviour
     [ClientRpc]
     void RpcStartTurn(int drawnID)
     {
-        Hand.AddHand(Deck.Cards[drawnID]); //모든 클라이언트의 리모트 객체의 Hand에 해당 ID를 가진 Villain이 추가
+        Hand.AddHand(CardManager.GetCard(drawnID)); //모든 클라이언트의 리모트 객체의 Hand에 해당 ID를 가진 Villain이 추가
         OnDrawAction?.Invoke();
 
         camCtrl.SetVCam(myOrder); //지금 차례의 필드로 이동
@@ -149,8 +121,6 @@ public class NetworkPlayer : NetworkBehaviour
 
         camCtrl.SetVCam(myOrder);
         //화면을 옮길 수 없음
-
-
     }
 
     [Command]
@@ -168,7 +138,7 @@ public class NetworkPlayer : NetworkBehaviour
     [Command]
     public void CmdNextTurn()
     {
-        
+
         print($"{myOrder + 1}번째 플레이어가 차례를 마침");
 
         // 턴 종료 UI효과
@@ -193,3 +163,4 @@ public class NetworkPlayer : NetworkBehaviour
         }
     }
 }
+ 

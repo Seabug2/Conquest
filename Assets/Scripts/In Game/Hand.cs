@@ -27,12 +27,9 @@ public class Hand : MonoBehaviour
     //NetworkPlayer.EndTurn에서 호출되어 패 제한을 초과했는지 확인합니다.
     public bool IsGameOver() => list.Count > HandsLimit();
 
-    public void AddHand(Card drawnVillain)
+    public void AddHand(Card drawnCard)
     {
-        //자신을 상위 객체로 지정
-        drawnVillain.transform.SetParent(transform);
-
-        list.Add(drawnVillain);
+        list.Add(drawnCard);
 
         UpdateHand();
         //카드를...
@@ -49,7 +46,6 @@ public class Hand : MonoBehaviour
         if (handCount > 3)
         {
             //카드 수가 4장 이상일 경우 패가 호를 그리며 배치됨
-
         }
         else
         {
@@ -58,9 +54,9 @@ public class Hand : MonoBehaviour
 
             for (int i = 0; i < handCount; i++)
             {
-                list[i].handler.targetPosition = Vector3.Lerp(transform.position - Vector3.right * handWidthHalf
-                    ,transform.position + Vector3.right * handWidthHalf
-                    , offset + (i+1));
+                list[i].handler.SetPosition(Vector3.Lerp(transform.position - Vector3.right * handWidthHalf
+                    , transform.position + Vector3.right * handWidthHalf
+                    , offset + (i + 1)));
 
                 //list[i].transform.rotation = Quaternion.identity;
             }

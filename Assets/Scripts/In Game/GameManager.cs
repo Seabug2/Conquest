@@ -22,15 +22,31 @@ public class GameManager : NetworkBehaviour
             Destroy(gameObject);
         }
     }
+    private void OnDestroy()
+    {
+        if (instance == this)
+        {
+            instance = null;
+        }
+    }
+
+    [Header("카드 뒷면 이미지"), Space(10)]
+    public Sprite cardBackFace;
 
     [SerializeField]
+    [Header("플레이어 오브젝트"), Space(10)]
     List<NetworkPlayer> players = new List<NetworkPlayer>();
-
     public NetworkPlayer GetPlayer(int i)
     {
         return players[i];
     }
 
+    [Header("플레이어 오브젝트의 참조 목록"), Space(10)]
+    public CardManager cardManager;
+    public Field[] fields;
+    public Hand[] hands;
+
+    #region #1 플레이어의 연결과 게임 시작
     //각 클라이언트에 존재하는 GameManager의 List에 Player 객체를 추가
     public void AddPlayer(NetworkPlayer player)
     {
@@ -47,17 +63,18 @@ public class GameManager : NetworkBehaviour
     void AssignRandomOrder()
     {
         //셔플
-        for (int i = 0; i < players.Count; i++)
+        for (int i = 0; i < 4; i++)
         {
             int rand = Random.Range(0, 4);
             NetworkPlayer tmp = players[i];
             players[i] = players[rand];
             players[rand] = tmp;
         }
+
         //플레이어 객체에 순번을 할당
         for (int i = 0; i < 4; i++)
         {
-            players[i].myOrder = i;
+            players[i].SetUp(i);
         }
 
         PlayerListSetUp();
@@ -74,12 +91,17 @@ public class GameManager : NetworkBehaviour
     {
         //각 Game Manager에서 List의 순서를 정리함
         players.Sort((a, b) => a.myOrder.CompareTo(b.myOrder));
-        OnConnectionEvent?.Invoke();
-        /*
-        if (isServer)
-            OnGameStartEvent?.Invoke();
-        */
+
+        //화면 페이드 인 후에, 메시지 출력후에, 게임 시작
+        UIController.instance.Fade.In(1.5f, () =>
+        {
+            UIController.instance.LineMessage.PopUp("게임 시작", 3f, () =>
+            {
+                OnGameStartEvent?.Invoke();
+            });
+        });
     }
+    #endregion
 
     /// <summary>
     /// i번째 플레이어의 차례를 마치고 i + 1번째 플레이어의 차례를 시작한다.
@@ -131,8 +153,9 @@ public class GameManager : NetworkBehaviour
             int aliveCount = 0;
             foreach (NetworkPlayer np in players)
             {
-                if (!np.IsGameOver)
-                    aliveCount++;
+                if (np != null)
+                    if (!np.IsGameOver)
+                        aliveCount++;
             }
             return aliveCount;
         }
