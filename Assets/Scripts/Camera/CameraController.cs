@@ -46,8 +46,8 @@ public class CameraController : MonoBehaviour
 
 
     //자신의 필드 번호
-    int homeViewIndex = -1;
-    int currentCamIndex = -1;
+    int homeViewIndex;
+    int currentCamIndex;
     public int CurrentCamIndex
     {
         get { return currentCamIndex; }
@@ -59,6 +59,7 @@ public class CameraController : MonoBehaviour
 
             if (value < 0)
             {
+                //덱으로 카메라를 이동한다.
                 decksVcams.Priority = 1;
                 currentVcam = decksVcams;
             }

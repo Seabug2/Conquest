@@ -6,9 +6,11 @@ public class Tile : MonoBehaviour
     public int TileIndex => tileIndex;
 
     //현재 타일에 전개한 
-    public Card placedPiece = null;
+    public Card placedCard = null;
 
-    public Attribute[] ConnectableSocket { get; private set; }
+    [SerializeField, Header("타일에 연결된 소켓")]
+    Socket[] socket = new Socket[4];
+    public Socket[] Socket => socket;
 
     private void Start()
     {
@@ -17,20 +19,8 @@ public class Tile : MonoBehaviour
 
     public void TileClear()
     {
-        ConnectableSocket = new Attribute[]{ Attribute.isNull,Attribute.isNull, Attribute.isNull, Attribute.isNull };
-        placedPiece = null;
-    }
-
-    public void DeployVillainPiece(Card villain)
-    {
-        villain.transform.position = transform.position;
-
-        for(int i = 0; i < 4; i ++)
-        {
-            ConnectableSocket[i] = villain.Sockets[i].type;
-        }
-
-        placedPiece = villain;
+        socket = new Socket[4];
+        placedCard = null;
     }
 
 #if UNITY_EDITOR

@@ -4,16 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
-public class CardManager : NetworkBehaviour
+public class Deck : NetworkBehaviour
 {
-    [SerializeField] Card[] cards;
-    public Card GetCard(int ID) => cards[ID];
-
-    public readonly SyncList<int> deck = new SyncList<int>();
+    public readonly SyncList<int> list = new SyncList<int>();
     /// <summary>
     /// 덱에 남은 카드의 수
     /// </summary>
-    public int Count => deck.Count;
+    public int Count => list.Count;
 
     [ServerCallback]
     void Shuffle()
@@ -21,9 +18,9 @@ public class CardManager : NetworkBehaviour
         for (int i = 0; i < Count - 1; i++)
         {
             int rand = Random.Range(i, Count); // i부터 Count-1까지의 인덱스를 랜덤으로 선택
-            int tmp = deck[i];
-            deck[i] = deck[rand];
-            deck[rand] = tmp;
+            int tmp = list[i];
+            list[i] = list[rand];
+            list[rand] = tmp;
         }
     }
 
@@ -33,8 +30,8 @@ public class CardManager : NetworkBehaviour
     [Server]
     public int RandomPickUpID()
     {
-        int drawNumber = deck[Random.Range(0, Count)];
-        deck.Remove(drawNumber);
+        int drawNumber = list[Random.Range(0, Count)];
+        list.Remove(drawNumber);
         return drawNumber;
     }
 
@@ -42,8 +39,8 @@ public class CardManager : NetworkBehaviour
     [Server]
     public int DrawCardID()
     {
-        int drawNumber = deck[0];
-        deck.Remove(drawNumber);
+        int drawNumber = list[0];
+        list.Remove(drawNumber);
         return drawNumber;
     }
 
@@ -51,16 +48,16 @@ public class CardManager : NetworkBehaviour
     void ReturnID(int id, bool placeOnTop = false)
     {
         //이미 덱 안에 있는 카드라면 다시 덱에 넣을 수 없다.
-        if (deck.Contains(id)) return;
+        if (list.Contains(id)) return;
         
         // placeOnTop이 true면 덱의 맨 위에, false면 랜덤 위치에 삽입
         if (Count == 0)
         {
-            deck.Add(id); // 덱이 비어있다면 그냥 추가
+            list.Add(id); // 덱이 비어있다면 그냥 추가
         }
         else
         {
-            deck.Insert(placeOnTop ? 0 : Random.Range(0, Count), id);
+            list.Insert(placeOnTop ? 0 : Random.Range(0, Count), id);
         }
     }
 
@@ -68,16 +65,16 @@ public class CardManager : NetworkBehaviour
     void ReturnID(Card card, bool placeOnTop = false)
     {
         //이미 덱 안에 있는 카드라면 다시 덱에 넣을 수 없다.
-        if (deck.Contains(card.ID)) return;
+        if (list.Contains(card.ID)) return;
         
         // placeOnTop이 true면 덱의 맨 위에, false면 랜덤 위치에 삽입
         if (Count == 0)
         {
-            deck.Add(card.ID); // 덱이 비어있다면 그냥 추가
+            list.Add(card.ID); // 덱이 비어있다면 그냥 추가
         }
         else
         {
-            deck.Insert(placeOnTop ? 0 : Random.Range(0, Count), card.ID);
+            list.Insert(placeOnTop ? 0 : Random.Range(0, Count), card.ID);
         }
     }
 
@@ -89,10 +86,10 @@ public class CardManager : NetworkBehaviour
     {
         if (isServer)
         {
-            int length = cards.Length;
+            int length = GameManager.instance.cards.Length;
             for (int i = 0; i < length; i++)
             {
-                deck.Add(i);
+                list.Add(i);
             }
             Shuffle();
         }
@@ -102,14 +99,14 @@ public class CardManager : NetworkBehaviour
     [Server]
     public void CmdRemove(int drawnId)
     {
-        deck.Remove(drawnId);
+        list.Remove(drawnId);
     }
 
     /// <param name="drawnId">덱에 추가할 카드의 ID</param>
     [Server]
     public void CmdAdd(int drawnId)
     {
-        deck.Add(drawnId);
+        list.Add(drawnId);
     }
 
     //인스펙터를 통해 게임매니저의 이벤트에 연결하여 사용
@@ -137,8 +134,8 @@ public class CardManager : NetworkBehaviour
         for (int i = 0; i < opened.Length; i++)
         {
 
-            Card c = GetCard(opened[i]);
-            c.handler.SetFace(true);
+            Card c = GameManager.Card(opened[i]);
+            c.handler.IsOpened = true;
 
             float x = draftZone[i].position.x;
             float y = draftZone[i].position.y;

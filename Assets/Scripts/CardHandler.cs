@@ -5,45 +5,59 @@ using UnityEngine.EventSystems;
 using Mirror;
 using DG.Tweening;
 
+[RequireComponent(typeof(NetworkIdentity))]
 public class CardHandler : NetworkBehaviour, IPointerEnterHandler, IPointerExitHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     /// <summary>
     /// 카드가 앞면이라면 마우스를 위에 올렸을 때 카드 정보 UI를 활성화한다.
     /// </summary>
     bool isOpened = false;
-    public bool IsOpened => isOpened;
-
-    public void SetFace(bool isOpened)
+    public bool IsOpened
     {
-        this.isOpened = isOpened;
-        if (isOpened)
-            sprite.sprite = front;
-        else
-            sprite.sprite = GameManager.instance.cardBackFace;
-    }
+        get
+        {
+            return isOpened;
+        }
+        set
+        {
+            isOpened = value;
+            if (isOpened)
+                GetComponent<SpriteRenderer>().sprite = front;
+            else
+                GetComponent<SpriteRenderer>().sprite = GameManager.instance.cardBackFace;
+        }
 
-    SpriteRenderer sprite;
+    }
     Sprite front;
 
-    [HideInInspector]
-    public bool isMine = false;
-    [Header("카드의 상세정보 UI"), Tooltip("앞 면으로 공개된 카드는 마우스를 올려두면 카드 정보 UI가 나타납니다.")]
-    public GameObject ui;
+    NetworkPlayer owner;
+    public void SetOwner(NetworkPlayer owner)
+    {
+        this.owner = owner;
+    }
+    public NetworkPlayer Owner => owner;
 
-    /// <summary>
-    /// (나의 패에서)조작 가능한 상태인지를 나타내는 bool 값
-    /// </summary>
-    public bool isSelectable = false;
+    [Header("카드의 상세정보 UI"), Tooltip("앞 면으로 공개된 카드는 마우스를 올려두면 카드 정보 UI가 나타납니다.")]
+    public GameObject info;
+
+    bool isSelectable = false;
+
+    public void SerSelectable()
+    {
+        isSelectable = true;
+    }
+
 
     Camera cam;
     Tween tween;
 
     private void Awake()
     {
-        sprite = GetComponent<SpriteRenderer>();
-        front = sprite.sprite;
+        front = GetComponent<SpriteRenderer>().sprite;
         cam = Camera.main;
     }
+
+    bool isMine;
 
     #region Drag Event
     public void OnBeginDrag(PointerEventData eventData)
@@ -51,9 +65,18 @@ public class CardHandler : NetworkBehaviour, IPointerEnterHandler, IPointerExitH
         //만약 tween이 실행 중이라면...
         if (isSelectable)
         {
+            //드래그를 종료할 때 마우스의 위치에 타일이 있다면
+            //그 타일을 검사한다.
+            
+
             if (tween.IsPlaying())
             {
                 tween.Kill();
+            }
+
+            if (info.activeSelf)
+            {
+                info.SetActive(false);
             }
         }
     }
@@ -94,13 +117,16 @@ public class CardHandler : NetworkBehaviour, IPointerEnterHandler, IPointerExitH
     public void SetPosition(float x, float y, float z, float delay = 0)
     {
         position.Set(x, y, z);
-        RpcDoMove(delay);
+        DoMove(delay);
     }
+
     public void SetPosition(Vector3 targetPosition, float delay = 0)
     {
         position = targetPosition;
-        RpcDoMove(delay);
+        DoMove(delay);
     }
+
+
 
 
 
@@ -148,7 +174,7 @@ public class CardHandler : NetworkBehaviour, IPointerEnterHandler, IPointerExitH
 
         if (isOpened)
         {
-            ui.SetActive(true);
+            info.SetActive(true);
         }
     }
 
@@ -173,9 +199,9 @@ public class CardHandler : NetworkBehaviour, IPointerEnterHandler, IPointerExitH
             CmdOnPointerExit();
         }
 
-        if (ui.activeSelf)
+        if (info.activeSelf)
         {
-            ui.SetActive(false);
+            info.SetActive(false);
         }
     }
 

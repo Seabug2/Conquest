@@ -9,25 +9,61 @@ public class Hand : MonoBehaviour
 
     [SerializeField] List<Card> list = new List<Card>();
 
-    const int handsLimit = 6;
-    public int LimitStack { get; private set; }
-
-    public void SetLimitStack(int i)
+    /// <summary>
+    /// 손에 있는 모든 카드의 ID를 반환합니다.
+    /// </summary>
+    public int[] AllIDs
     {
-        LimitStack += i;
+        get
+        {
+            int[] ids = new int[list.Count];
+
+            for (int i = 0; i < ids.Length; i++)
+            {
+                ids[i] = list[i].ID;
+            }
+
+            return ids;
+        }
     }
 
+    //기본 손 패 제한
+    const int handsLimit = 6;
+
+    public int LimitStack { get; private set; }
+
+    public void SetLimitStack(int i) => LimitStack += i;
+
     public int HandsLimit() => handsLimit + LimitStack;
+
+    public bool IsLimitOver() => list.Count > HandsLimit();
+
+    public Card this[int index]
+    {
+        get
+        {
+            if (index < 0 || index >= list.Count)
+            {
+                Debug.Log($"Index 범위 오류");
+                return null;
+            }
+
+            return list[index];
+        }
+    }
 
     private void Start()
     {
         LimitStack = 0;
     }
 
-    //NetworkPlayer.EndTurn에서 호출되어 패 제한을 초과했는지 확인합니다.
-    public bool IsGameOver() => list.Count > HandsLimit();
+    #region 추가, 제거
+    public void Add(int id)
+    {
+        Add(GameManager.Card(id));
+    }
 
-    public void AddHand(Card drawnCard)
+    public void Add(Card drawnCard)
     {
         list.Add(drawnCard);
 
@@ -35,30 +71,51 @@ public class Hand : MonoBehaviour
         //카드를...
     }
 
-    readonly float handWidthHalf = 2f;
+
+    public void Remove(int id)
+    {
+        Remove(GameManager.Card(id));
+    }
+
+    public void Remove(Card drawnCard)
+    {
+        list.Remove(drawnCard);
+
+        if (list.Count > 0)
+            UpdateHand();
+    }
+    #endregion
+
+    public void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            UpdateHand();
+        }
+    }
 
     public void UpdateHand()
     {
-        //카드가 패에 추가 되었을 때,
-        //카드가 패를 벗어났을 때 (덱으로, 필드로, 다른 사람의 패로 이동)
         int handCount = list.Count;
 
-        if (handCount > 3)
+        if (handCount > 6)
         {
-            //카드 수가 4장 이상일 경우 패가 호를 그리며 배치됨
-        }
-        else
-        {
-            //카드 수가 3장 이하라면 반듯하게 배치됨
-            float offset = 1 / (handCount + 1);
+            float t = 1 / handCount;
 
             for (int i = 0; i < handCount; i++)
             {
-                list[i].handler.SetPosition(Vector3.Lerp(transform.position - Vector3.right * handWidthHalf
-                    , transform.position + Vector3.right * handWidthHalf
-                    , offset + (i + 1)));
+                float normalizedValue = Mathf.InverseLerp(0, handCount - 1, i);
+                float x = Mathf.Lerp(-3f, 3f, normalizedValue);
+                list[i].handler.SetPosition(transform.position.x + x, transform.position.y, transform.position.z);
+            }
+        }
+        else
+        {
+            for (int i = 0; i < handCount; i++)
+            {
+                float x = -0.5f * (list.Count - 1 - i) + 0.5f * i;
 
-                //list[i].transform.rotation = Quaternion.identity;
+                list[i].handler.SetPosition(transform.position.x + x, transform.position.y, transform.position.z);
             }
         }
     }

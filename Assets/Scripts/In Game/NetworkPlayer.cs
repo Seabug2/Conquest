@@ -22,8 +22,10 @@ public class NetworkPlayer : NetworkBehaviour
     [SerializeField] Field field;
     public Field Field => field;
 
-    [SerializeField] CardManager cardManager;
-    public CardManager CardManager => cardManager;
+    [SerializeField] Deck cardManager;
+    public Deck CardManager => cardManager;
+
+    public bool IsTurnSkipped { get; internal set; }
 
     CameraController camCtrl;
     #endregion
@@ -42,9 +44,8 @@ public class NetworkPlayer : NetworkBehaviour
     public void SetUp(int order)
     {
         myOrder = order;
-        field = GameManager.instance.fields[myOrder];
-        hand = GameManager.instance.hands[myOrder];
-        cardManager = GameManager.instance.cardManager;
+        field = GameManager.instance.Fields[myOrder];
+        hand = GameManager.instance.Hands[myOrder];
         camCtrl = Camera.main.GetComponent<CameraController>();
         camCtrl.Init(myOrder);
     }
@@ -62,7 +63,7 @@ public class NetworkPlayer : NetworkBehaviour
     [ClientRpc]
     void RpcStartTurn(int drawnID)
     {
-        Hand.AddHand(CardManager.GetCard(drawnID)); //모든 클라이언트의 리모트 객체의 Hand에 해당 ID를 가진 Villain이 추가
+        Hand.Add(GameManager.Card(drawnID)); //모든 클라이언트의 리모트 객체의 Hand에 해당 ID를 가진 Villain이 추가
         OnDrawAction?.Invoke();
 
         camCtrl.SetVCam(myOrder); //지금 차례의 필드로 이동
@@ -126,7 +127,7 @@ public class NetworkPlayer : NetworkBehaviour
     [Command]
     void CmdEndTurn()
     {
-        if (hand.IsGameOver())
+        if (hand.IsLimitOver())
         {
             isGameOver = true;
             GameManager.instance.GameOver(myOrder);
@@ -144,8 +145,8 @@ public class NetworkPlayer : NetworkBehaviour
         // 턴 종료 UI효과
         // 모든 플레이어 화면이동...
 
-        if (isLocalPlayer)
-            GameManager.instance.NextTurn(myOrder);
+        //if (isLocalPlayer)
+        //    GameManager.instance.NextTurn(myOrder);
     }
 
 

@@ -1,18 +1,33 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
 
 public class Field : MonoBehaviour
 {
-    public Tile[] tiles = new Tile[12];
-    public int seatNum;
-#if UNITY_EDITOR
-    [SerializeField] float offset = 0f;
-    private void OnDrawGizmos()
+    [SerializeField]
+    Tile[] tiles;
+
+    private void Start()
     {
-        UnityEditor.Handles.Label(transform.position + Vector3.forward * offset, $"{seatNum}");
-        Gizmos.DrawWireCube(transform.position, new Vector3(5, .1f, 5));
+        if (tiles == null)
+        {
+            tiles = GetComponentsInChildren<Tile>();
+            System.Array.Sort(tiles, (tile1, tile2) => tile1.TileIndex.CompareTo(tile2.TileIndex));
+        }
     }
-#endif
+
+    [SerializeField]
+    int seatNum;
+    public int SeatNum => seatNum;
+
+    public Tile this[int index]
+    {
+        get
+        {
+            if (index < 0 || index >= tiles.Length)
+            {
+                Debug.LogWarning($"Invalid index {index}. Returning null.");
+                return null;
+            }
+            return tiles[index];
+        }
+    }
 }
