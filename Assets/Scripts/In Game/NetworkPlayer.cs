@@ -44,8 +44,8 @@ public class NetworkPlayer : NetworkBehaviour
     public void SetUp(int order)
     {
         myOrder = order;
-        field = GameManager.instance.Fields[myOrder];
-        hand = GameManager.instance.Hands[myOrder];
+        field = GameManager.Field(myOrder);
+        hand = GameManager.Hand(myOrder);
         camCtrl = Camera.main.GetComponent<CameraController>();
         camCtrl.Init(myOrder);
     }
@@ -130,7 +130,7 @@ public class NetworkPlayer : NetworkBehaviour
         if (hand.IsLimitOver)
         {
             isGameOver = true;
-            GameManager.instance.GameOver(myOrder);
+            //GameManager.instance.GameOver(myOrder);
             return;
         }
         CmdNextTurn();

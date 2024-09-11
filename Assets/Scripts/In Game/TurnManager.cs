@@ -1,48 +1,61 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public  enum Phase
-{
-    myTurn,
-    otherTurn,
-    draftPhase
-}
+using UnityEngine.Events;
+using Mirror;
 
-public class TurnManager : MonoBehaviour
+public class TurnManager : NetworkBehaviour
 {
-    /* 
-     * GamaManager에서 TurnManager에게 
-     * n번째 플레이어의 차례를 실행하라고 명령을 내리면
-     * TurnManager가 플레이어의 차례동안 작업을 한다...
-     * 
-     * 자신의 차례에만 실행?
-     */
+    public UnityEvent @event;
 
-    public void StartSelectPhase()
+    public void StartTurn()
     {
-        if (SelectPhase != null)
+        //메시지 출력 "~의 턴" 종료 후 Draw() 실행
+        if (isLocalPlayer)
         {
-            StopCoroutine(SelectPhase);
+
         }
-        SelectPhase = StartCoroutine(SelectPhase_co());
+        else
+        {
+
+        }
     }
 
-    Coroutine SelectPhase;
-
-    IEnumerator SelectPhase_co()
+    void Draw()
     {
-        /*
-         //만약 플레이어의 패가 없거나 패에 낼 수 있는 카드가 없으면 차례를 마친다.
-         */
+        //메시지 출력 "~의 드로우" 종료 후에 StartHandlingPhase() 실행
+        if (isLocalPlayer)
+        {
+
+        }
+        else
+        {
+
+        }
+    }
+
+    void StartHandlingPhase()
+    {
+
+        if (isLocalPlayer)
+        {
+
+        }
+        else
+        {
+
+        }
+    }
+
+    Coroutine HandlingPhase;
+
+    IEnumerator HandlingPhase_co()
+    {
+        //
 
         while (true)
         {
             yield return null;
         }
-    }
-
-    IEnumerator EndTurn()
-    {
-        yield break;
     }
 }

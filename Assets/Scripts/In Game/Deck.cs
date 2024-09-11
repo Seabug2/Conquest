@@ -86,7 +86,7 @@ public class Deck : NetworkBehaviour
     {
         if (isServer)
         {
-            int length = GameManager.instance.cards.Length;
+            int length = GameManager.TotalCard;
             for (int i = 0; i < length; i++)
             {
                 list.Add(i);

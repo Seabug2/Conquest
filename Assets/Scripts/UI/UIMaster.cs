@@ -1,9 +1,10 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UIController : MonoBehaviour
+public class UIMaster : MonoBehaviour
 {
-    public static UIController instance;
+    public static UIMaster instance;
 
     private void Awake()
     {

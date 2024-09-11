@@ -1,9 +1,6 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Events;
 using DG.Tweening;
 
 public class Fade : MonoBehaviour
@@ -12,63 +9,56 @@ public class Fade : MonoBehaviour
     bool startWithBlack;
 
     Image img;
+    Tween tween;
 
     private void Start()
     {
         img = GetComponent<Image>();
         img.enabled = startWithBlack;
-    }
 
-    Tween tween;
+        if (startWithBlack)
+        {
+            img.color = Color.black;
+        }
+        else
+        {
+            img.color = new Color(1, 1, 1, 0);
+        }
+    }
 
     #region 페이드 인
-    public void In(float duration = 1)
-    {
-        img.color = Color.black;
-        img.enabled = true;
-        tween = img.DOFade(0, duration)
-            .SetEase(Ease.InQuint)
-            .OnComplete(() =>
-            {
-                img.enabled = false;
-            });
-    }
-
     public void In(float duration = 1, Action onFadeIn = null)
     {
-        img.color = Color.black;
-        img.enabled = true;
-        tween = img.DOFade(0, duration)
-            .SetEase(Ease.InQuint)
-            .OnComplete(() =>
-            {
-                img.enabled = false;
-                onFadeIn?.Invoke();
-            });
+        StartFade(Color.black, 0, duration, onFadeIn);
     }
     #endregion
 
     #region 페이드 아웃
-    public void Out(float duration = 1)
-    {
-        img.color = new Color(1, 1, 1, 0);  // 이미지의 초기 상태 설정
-        img.enabled = true;
-
-        tween = img.DOFade(1, duration)
-            .SetEase(Ease.InQuint);
-    }
-
     public void Out(float duration = 1, Action onFadeOut = null)
     {
-        img.color = new Color(1, 1, 1, 0);  // 이미지의 초기 상태 설정
+        StartFade(new Color(1, 1, 1, 0), 1, duration, onFadeOut);
+    }
+    #endregion
+
+    private void StartFade(Color startColor, float targetAlpha, float duration, Action onComplete)
+    {
+        if (tween != null)
+        {
+            tween.Kill(); // 기존 트윈을 중지하여 충돌 방지
+        }
+
+        img.color = startColor;
         img.enabled = true;
 
-        tween = img.DOFade(1, duration)
+        tween = img.DOFade(targetAlpha, duration)
             .SetEase(Ease.InQuint)
             .OnComplete(() =>
             {
-                onFadeOut?.Invoke();
+                if (targetAlpha == 0)
+                {
+                    img.enabled = false; // 페이드 인이 끝났을 때 비활성화
+                }
+                onComplete?.Invoke();
             });
     }
-    #endregion
 }

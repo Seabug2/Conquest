@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using DG.Tweening;
 using Mirror;
 
 public class GameManager : NetworkBehaviour
@@ -49,20 +48,25 @@ public class GameManager : NetworkBehaviour
     public static NetworkPlayer Player(int i) => instance.players[i];
 
     [Header("참조"), Space(10)]
-    public Card[] cards;
+    [SerializeField] Card[] cards;
     public static Card Card(int id) => instance.cards[id];
+    /// <summary>
+    /// 게임의 모든 카드 장수 (종류 수)
+    /// </summary>
+    public static int TotalCard => instance.cards.Length;
 
     [Header("덱")]
-    [SerializeField] Deck deck; 
-    public Deck Deck => deck; 
+    [SerializeField] Deck deck;
+    public Deck Deck => deck;
 
     [Header("필드")]
     [SerializeField] Field[] fields;
-    public Field[] Fields => fields;
+    public static Field Field(int i) =>
+        GameManager.instance.fields[i];
 
     [Header("패")]
     [SerializeField] Hand[] hands;
-    public Hand[] Hands => hands;
+    public static Hand Hand(int i) => instance.hands[i];
 
     #region #1 플레이어의 연결과 게임 시작
     //각 클라이언트에 존재하는 GameManager의 List에 Player 객체를 추가
@@ -112,9 +116,9 @@ public class GameManager : NetworkBehaviour
         //각 Game Manager에서 List의 순서를 정리함
         CurrentOrder = 0;
         //화면 페이드 인 후에, 메시지 출력후에, 게임 시작
-        UIController.Fade.In(1.5f, () =>
+        UIMaster.Fade.In(1.5f, () =>
         {
-            UIController.LineMessage.PopUp("게임 시작", 3f, () =>
+            UIMaster.LineMessage.PopUp("게임 시작", 3f, () =>
             {
                 OnGameStartEvent?.Invoke();
             });
@@ -198,30 +202,5 @@ public class GameManager : NetworkBehaviour
             }
             return aliveCount;
         }
-    }
-
-    /// <summary>
-    /// i번째 플레이어가 패 제한 수를 초과할 때 호출
-    /// </summary>
-    /// <param name="i">탈락한 플레이어의 번호</param>
-    [Server]
-    public void GameOver(int i)
-    {
-        if (AliveCount == 1)
-        {
-            NetworkPlayer winner = players.SingleOrDefault(p => p.IsGameOver == false);
-            Debug.Log($"승리 : {winner.connectionToServer}");
-            ////모든 플레이어의 카메라가 승리한 플레이어의 필드로 이동
-            FocusToWinner(winner.myOrder);
-            return;
-        }
-
-        //NextTurn(i);
-    }
-
-    [ClientRpc]
-    void FocusToWinner(int winnerNumber)
-    {
-        CameraController.instance.SetVCam(winnerNumber);
     }
 }

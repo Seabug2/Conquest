@@ -9,17 +9,6 @@ public class Card : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     [SerializeField] int id;
     public int ID => id;
 
-    #region
-    [SerializeField] string cardName;
-    public string CardName => cardName;
-
-    [SerializeField] string favorText;
-    public string FavorText => favorText;
-
-    [SerializeField] string description;
-    public string Description => description;
-    #endregion
-
     [SerializeField]
     NetworkPlayer owner = null;
     public NetworkPlayer Owner => owner;
@@ -75,12 +64,12 @@ public class Card : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         if (isOpened)
         {
-            UIController.InfoUI.ShowCardInfo(id);
+            UIMaster.InfoUI.ShowCardInfo(id);
         }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        UIController.InfoUI.gameObject.SetActive(false);
+        UIMaster.InfoUI.gameObject.SetActive(false);
     }
 }
