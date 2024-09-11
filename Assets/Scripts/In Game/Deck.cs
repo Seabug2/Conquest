@@ -49,7 +49,7 @@ public class Deck : NetworkBehaviour
     {
         //이미 덱 안에 있는 카드라면 다시 덱에 넣을 수 없다.
         if (list.Contains(id)) return;
-        
+
         // placeOnTop이 true면 덱의 맨 위에, false면 랜덤 위치에 삽입
         if (Count == 0)
         {
@@ -66,7 +66,7 @@ public class Deck : NetworkBehaviour
     {
         //이미 덱 안에 있는 카드라면 다시 덱에 넣을 수 없다.
         if (list.Contains(card.ID)) return;
-        
+
         // placeOnTop이 true면 덱의 맨 위에, false면 랜덤 위치에 삽입
         if (Count == 0)
         {
@@ -135,13 +135,15 @@ public class Deck : NetworkBehaviour
         {
 
             Card c = GameManager.Card(opened[i]);
-            c.handler.IsOpened = true;
+            c.IsOpened = true;
 
             float x = draftZone[i].position.x;
             float y = draftZone[i].position.y;
             float z = draftZone[i].position.z;
 
-            c.handler.SetPosition(x, y, z, (i + 1) * .18f);
+            c.handler.isSelectable = false;
+            c.handler.SetPosition(x, y, z);
+            c.handler.DoMove(i * .18f);
         }
     }
 }

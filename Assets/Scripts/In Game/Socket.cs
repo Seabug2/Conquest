@@ -2,15 +2,36 @@ using UnityEngine;
 
 public enum Attribute
 {
-    isNull = 0,
+    isEmpty = 0,
     power = 1,
     tech = 2,
     wealth = 3,
-    charisma = 4
+    charisma = 4,
+    isLocked = 5 //연결할 수 없음
 }
 
-public class Socket : MonoBehaviour
+[System.Serializable]
+public class Socket
 {
-    public Attribute attribute = Attribute.isNull;
-    public bool isFilled = false;
+    /// <summary>
+    /// 소켓의 속성
+    /// </summary>
+    public Attribute attribute = Attribute.isEmpty;
+
+    /// <summary>
+    /// 현재 소켓이 연결되었는지 
+    /// </summary>
+    public bool isLinked = false;
+
+    public Socket()
+    {
+        attribute = Attribute.isEmpty;
+        isLinked = false;
+    }
+
+    public Socket(Attribute attribute = Attribute.isEmpty, bool isFilled = false)
+    {
+        this.attribute = Attribute.isEmpty;
+        this.isLinked = false;
+    }
 }

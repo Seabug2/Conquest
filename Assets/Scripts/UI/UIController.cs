@@ -26,9 +26,13 @@ public class UIController : MonoBehaviour
 
     [SerializeField]
     Fade fade;
-    public Fade Fade => fade;
+    public static Fade Fade => instance.fade;
 
     [SerializeField]
     LineMessage lineMessage;
-    public LineMessage LineMessage => lineMessage;
+    public  static LineMessage LineMessage => instance.lineMessage;
+
+    [SerializeField]
+    InfoUI infoUI;
+    public static InfoUI InfoUI => instance.infoUI;
 }

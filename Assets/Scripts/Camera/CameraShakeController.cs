@@ -1,15 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using DG.Tweening;
 
 public class CameraShakeController : MonoBehaviour
 {
-    public float shakeTime = 0;
-
-    public float amplitude = 0;
-    public float frequancy = 100;
-
     private CinemachineBasicMultiChannelPerlin perlinNoise;
 
     private void Awake()
@@ -18,29 +12,13 @@ public class CameraShakeController : MonoBehaviour
             perlinNoise = vCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
     }
 
-    float initialTime;
-    float size;
-    
-    private void OnEnable()
-    {
-        if (shakeTime < 0) shakeTime = 1;
-        initialTime = shakeTime;
-        perlinNoise.m_AmplitudeGain = amplitude;
-        perlinNoise.m_FrequencyGain = frequancy;
-    }
+    Tween tween;
 
-    private void Update()
+    public void DoShake(float duration, float power)
     {
-        if (shakeTime > 0)
-        {
-            shakeTime -= Time.deltaTime;
-            size = Mathf.InverseLerp(0, initialTime, shakeTime);
-            perlinNoise.m_AmplitudeGain = amplitude * size;
-        }
-        else
-        {
-            perlinNoise.m_AmplitudeGain = 0;
-            enabled = false;
-        }
+        if (tween != null && tween.IsActive()) tween.Kill();
+        perlinNoise.m_AmplitudeGain = power;
+
+        tween = DOTween.To(() => perlinNoise.m_AmplitudeGain, x => perlinNoise.m_AmplitudeGain = x, 0f, duration);
     }
 }

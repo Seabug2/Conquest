@@ -112,9 +112,9 @@ public class GameManager : NetworkBehaviour
         //각 Game Manager에서 List의 순서를 정리함
         CurrentOrder = 0;
         //화면 페이드 인 후에, 메시지 출력후에, 게임 시작
-        UIController.instance.Fade.In(1.5f, () =>
+        UIController.Fade.In(1.5f, () =>
         {
-            UIController.instance.LineMessage.PopUp("게임 시작", 3f, () =>
+            UIController.LineMessage.PopUp("게임 시작", 3f, () =>
             {
                 OnGameStartEvent?.Invoke();
             });

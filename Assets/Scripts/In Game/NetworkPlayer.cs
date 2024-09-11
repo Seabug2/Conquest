@@ -127,7 +127,7 @@ public class NetworkPlayer : NetworkBehaviour
     [Command]
     void CmdEndTurn()
     {
-        if (hand.IsLimitOver())
+        if (hand.IsLimitOver)
         {
             isGameOver = true;
             GameManager.instance.GameOver(myOrder);

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,102 +6,57 @@ using UnityEngine.EventSystems;
 using Mirror;
 using DG.Tweening;
 
-[RequireComponent(typeof(NetworkIdentity))]
-public class CardHandler : NetworkBehaviour, IPointerEnterHandler, IPointerExitHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
+[RequireComponent(typeof(Card))]
+public class CardHandler : NetworkBehaviour,
+    IPointerEnterHandler, IPointerExitHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     /// <summary>
-    /// 카드가 앞면이라면 마우스를 위에 올렸을 때 카드 정보 UI를 활성화한다.
+    ///나의 차례가 되었을 때 덱에서 카드를 드로우 하고 난 후, true가 된다.
     /// </summary>
-    bool isOpened = false;
-    public bool IsOpened
-    {
-        get
-        {
-            return isOpened;
-        }
-        set
-        {
-            isOpened = value;
-            if (isOpened)
-                GetComponent<SpriteRenderer>().sprite = front;
-            else
-                GetComponent<SpriteRenderer>().sprite = GameManager.instance.cardBackFace;
-        }
-
-    }
-    Sprite front;
-
-    NetworkPlayer owner;
-    public void SetOwner(NetworkPlayer owner)
-    {
-        this.owner = owner;
-    }
-    public NetworkPlayer Owner => owner;
-
-    [Header("카드의 상세정보 UI"), Tooltip("앞 면으로 공개된 카드는 마우스를 올려두면 카드 정보 UI가 나타납니다.")]
-    public GameObject info;
-
-    bool isSelectable = false;
-
-    public void SerSelectable()
-    {
-        isSelectable = true;
-    }
-
+    public bool isSelectable = false;
+    public bool IsOnMouse { get; private set; }
 
     Camera cam;
-    Tween tween;
 
-    private void Awake()
+    //private void Awake()
+    //{
+    //    IsOnMouse = false;
+    //    cam = Camera.main;
+    //}
+
+    private void Start()
     {
-        front = GetComponent<SpriteRenderer>().sprite;
+        IsOnMouse = false;
         cam = Camera.main;
     }
-
-    bool isMine;
 
     #region Drag Event
     public void OnBeginDrag(PointerEventData eventData)
     {
-        //만약 tween이 실행 중이라면...
-        if (isSelectable)
-        {
-            //드래그를 종료할 때 마우스의 위치에 타일이 있다면
-            //그 타일을 검사한다.
-            
+        if (!isSelectable) return;
 
-            if (tween.IsPlaying())
-            {
-                tween.Kill();
-            }
-
-            if (info.activeSelf)
-            {
-                info.SetActive(false);
-            }
-        }
+        //현재 트윈이 실행 중이라면 일단 중단
+        transform.DOKill();
+        //mousePositionOffset = 
     }
+
+    Vector3 mousePositionOffset;
 
     public void OnDrag(PointerEventData eventData)
     {
-        //tween을 중지하고 마우스를 따라다니도록 한다.
-        if (isSelectable)
-        {
-            Vector3 screenPosition = new Vector3(eventData.position.x, eventData.position.y, cam.WorldToScreenPoint(transform.position).z);
-            transform.position = cam.ScreenToWorldPoint(screenPosition);
-        }
+        if (!isSelectable) return;
+        //나의 화면에서만 마우스를 따라 이동할 예정
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        DoMove();
+        if (!isSelectable) return;
+        //드래그를 마쳤을 때 마우스 위치에서 Raycast를 하여
+        //검출된 타일이 있는 경우 그 타일 위치로 이동...
     }
     #endregion
 
 
-
-    Vector3 position;
-    public Vector3 targetRotation;
 
     [Command]
     void CmdSetTargetPosition(float x, float y, float z)
@@ -113,20 +69,6 @@ public class CardHandler : NetworkBehaviour, IPointerEnterHandler, IPointerExitH
     {
         SetPosition(x, y, z);
     }
-
-    public void SetPosition(float x, float y, float z, float delay = 0)
-    {
-        position.Set(x, y, z);
-        DoMove(delay);
-    }
-
-    public void SetPosition(Vector3 targetPosition, float delay = 0)
-    {
-        position = targetPosition;
-        DoMove(delay);
-    }
-
-
 
 
 
@@ -141,8 +83,6 @@ public class CardHandler : NetworkBehaviour, IPointerEnterHandler, IPointerExitH
     {
         DoMove(delay);
     }
-
-
     [Command]
     public void CmdDoMove()
     {
@@ -155,54 +95,84 @@ public class CardHandler : NetworkBehaviour, IPointerEnterHandler, IPointerExitH
         DoMove();
     }
 
-    public void DoMove(float delay = 0)
+
+
+
+    [HideInInspector]
+    public Vector3 targetPosition { get; private set; }
+
+    public void SetPosition(float x, float y, float z)
+        => targetPosition.Set(x, y, z);
+
+    public void SetPosition(Vector3 targetPosition)
+        => this.targetPosition = targetPosition;
+
+
+
+    [HideInInspector]
+    public Quaternion targetRotation { get; private set; }
+    public void SetQuaternion(float x, float y, float z, float w)
+        => targetRotation.Set(x, y, z, w);
+
+    public void SetQuaternion(Quaternion targetRotation)
+        => this.targetRotation = targetRotation;
+
+
+
+    const float duration = 0.5f;
+
+    public void DoMove(float delay = 0, Ease setEase = Ease.InOutQuint)
     {
-        if (tween != null && tween.IsPlaying())
-        {
-            tween.Kill();
-        }
-        tween = transform.DOMove(position, 1f).SetEase(Ease.InOutQuint).SetDelay(delay);
+        transform.DOKill();
+        transform.DOMove(targetPosition, duration).SetEase(setEase).SetDelay(delay);
+        transform.DORotateQuaternion(targetRotation, duration).SetEase(setEase).SetDelay(delay);
     }
 
+
+
+
+
+
+    public Action OnMouseAction;
+
+    //모든 플레이어의 화면에서 위치 이동
     #region OnPointerEnter
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (isSelectable)
-        {
-            CmdOnPointerEnter();
-        }
-
-        if (isOpened)
-        {
-            info.SetActive(true);
-        }
+        CmdOnPointerEnter();
     }
+
+    public float upPositionOffest = 0;
 
     [Command(requiresAuthority = false)]
     void CmdOnPointerEnter()
     {
+
         RpcOnPointerEnter();
     }
 
     [ClientRpc]
     void RpcOnPointerEnter()
     {
+        IsOnMouse = true;
+        Vector3 OnMousePosition = targetPosition + Vector3.up * upPositionOffest;
+        Debug.Log($"RpcOnPointerEnter : {OnMousePosition }");
 
+        SetPosition(OnMousePosition);
+        targetRotation = Quaternion.identity;
+        DoMove();
+
+        OnMouseAction?.Invoke();
     }
     #endregion
 
     #region OnPointerExit
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (isSelectable)
-        {
-            CmdOnPointerExit();
-        }
-
-        if (info.activeSelf)
-        {
-            info.SetActive(false);
-        }
+        //카드를 필드에 낼 수 있는 경우,
+        //EndDrag 이벤트로만 원위치로 이동할 수 있다.
+        if (isSelectable) return;
+        CmdOnPointerExit();
     }
 
     [Command(requiresAuthority = false)]
@@ -214,7 +184,8 @@ public class CardHandler : NetworkBehaviour, IPointerEnterHandler, IPointerExitH
     [ClientRpc]
     void RpcOnPointerExit()
     {
-
+        IsOnMouse = false;
+        OnMouseAction?.Invoke();
     }
     #endregion
 }
