@@ -64,12 +64,12 @@ public class Card : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         if (isOpened)
         {
-            UIMaster.InfoUI.ShowCardInfo(front);
+            //UIMaster.InfoUI.ShowCardInfo(front);
         }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        UIMaster.InfoUI.gameObject.SetActive(false);
+        //UIMaster.InfoUI.gameObject.SetActive(false);
     }
 }

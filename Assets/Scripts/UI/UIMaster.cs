@@ -34,6 +34,6 @@ public class UIMaster : MonoBehaviour
     public  static LineMessage LineMessage => instance.lineMessage;
 
     [SerializeField]
-    InfoUI infoUI;
-    public static InfoUI InfoUI => instance.infoUI;
+    InfoUIController infoUI;
+    public static InfoUIController InfoUI => instance.infoUI;
 }
