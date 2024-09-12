@@ -7,6 +7,19 @@ using Mirror;
 
 public class GameManager : NetworkBehaviour
 {
+    Commander commander;
+    public static Commander Commander
+    {
+        get
+        {
+            if (instance.commander == null)
+            {
+                instance.commander = instance.gameObject.AddComponent<Commander>();
+            }
+            return instance.commander;
+        }
+    }
+
     //전역 클래스 설정
     public static GameManager instance = null;
     private void Awake()
@@ -32,24 +45,27 @@ public class GameManager : NetworkBehaviour
     public Sprite cardBackFace;
 
     [SerializeField]
-    [Header("플레이어 오브젝트"), Space(10)]
-    List<NetworkPlayer> players = new List<NetworkPlayer>();
+    [Header("플레이어 리스트"), Space(10)]
+    List<Player> players = new List<Player>();
 
-    NetworkPlayer localPlayer = null;
-    public static NetworkPlayer LocalPlayer
+    Player localPlayer = null;
+    public Player LocalPlayer
     {
         get
         {
             if (instance.localPlayer == null)
-                instance.localPlayer = NetworkClient.localPlayer.GetComponent<NetworkPlayer>();
+                instance.localPlayer = NetworkClient.localPlayer.GetComponent<Player>();
             return instance.localPlayer;
         }
     }
-    public static NetworkPlayer Player(int i) => instance.players[i];
+
+    /// <returns>i번째 순서의 플레이어</returns>
+    public static Player Player(int i) => instance.players[i];
 
     [Header("참조"), Space(10)]
     [SerializeField] Card[] cards;
     public static Card Card(int id) => instance.cards[id];
+
     /// <summary>
     /// 게임의 모든 카드 장수 (종류 수)
     /// </summary>
@@ -57,7 +73,7 @@ public class GameManager : NetworkBehaviour
 
     [Header("덱")]
     [SerializeField] Deck deck;
-    public Deck Deck => deck;
+    public static Deck Deck => instance.deck;
 
     [Header("필드")]
     [SerializeField] Field[] fields;
@@ -70,38 +86,14 @@ public class GameManager : NetworkBehaviour
 
     #region #1 플레이어의 연결과 게임 시작
     //각 클라이언트에 존재하는 GameManager의 List에 Player 객체를 추가
-    public void AddPlayer(NetworkPlayer player)
+    public void AddPlayer(Player player)
     {
         players.Add(player);
 
-        if (isServer)
-            if (players.Count == NetworkManager.singleton.maxConnections)
-            {
-                AssignRandomOrder();
-            }
-    }
-
-    [Server]
-    void AssignRandomOrder()
-    {
-        //셔플
-        for (int i = 0; i < 4; i++)
+        if (players.Count == 4)
         {
-            int rand = Random.Range(i, 4);
-            NetworkPlayer tmp = players[i];
-            players[i] = players[rand];
-            players[rand] = tmp;
+            ServerGameStart();
         }
-
-        //플레이어 객체에 순번을 할당
-        for (int i = 0; i < 4; i++)
-        {
-            players[i].SetUp(i);
-        }
-
-        players.Sort((a, b) => a.myOrder.CompareTo(b.myOrder));
-
-        GameStart();
     }
 
     [Header("클라이언트 연결 완료 이벤트"), Space(10), Tooltip("모든 플레이어가 연결이 되면 실행되는 이벤트")]
@@ -110,12 +102,46 @@ public class GameManager : NetworkBehaviour
     [Header("게임 시작 이벤트"), Space(10), Tooltip("게임이 시작할 때 실행될 이벤트를 등록합니다.")]
     public UnityEvent OnGameStartEvent;
 
+    [ServerCallback]
+    void ServerGameStart()
+    {
+        ShufflePlayers();
+        RpcGameStart();
+    }
+
+    [Server]
+    void ShufflePlayers()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            int rand = Random.Range(i, 4);
+            Player tmp = players[i];
+            players[i] = players[rand];
+            players[rand] = tmp;
+        }
+
+        // 플레이어 객체에 순번을 할당
+        for (int i = 0; i < 4; i++)
+        {
+            players[i].order = i;
+        }
+    }
+
     [ClientRpc]
-    void GameStart()
+    void RpcGameStart()
     {
         //각 Game Manager에서 List의 순서를 정리함
+        players.Sort((a, b) => a.order.CompareTo(b.order));
+
         CurrentOrder = 0;
-        //화면 페이드 인 후에, 메시지 출력후에, 게임 시작
+
+        Commander
+            .Add(() => UIMaster.Fade.In(1.5f), 1.5f)
+            .Add(1f, () => UIMaster.LineMessage.PopUp("게임 시작", 3f), 3f)
+            .Add(() => OnGameStartEvent?.Invoke(), 3f)
+            .Play(false);
+
+        ////화면 페이드 인 후에, 메시지 출력후에, 게임 시작
         UIMaster.Fade.In(1.5f, () =>
         {
             UIMaster.LineMessage.PopUp("게임 시작", 3f, () =>
@@ -128,9 +154,6 @@ public class GameManager : NetworkBehaviour
 
     public int CurrentOrder { get; private set; }
 
-    /// <summary>
-    /// 순서를 넘길 방향 (true : 오름차순 / false : 내림차순)
-    /// </summary>
     public bool isClockwise = true;
 
     /// <param name="step">현재 진행 방향으로 차례를 넘깁니다.</param>
@@ -145,32 +168,37 @@ public class GameManager : NetworkBehaviour
         {
             CurrentOrder = (CurrentOrder + (isClockwise ? step : -step) + 4) % 4;
         }
-        while (players[CurrentOrder].IsGameOver || players[CurrentOrder].IsTurnSkipped);
+        while (players[CurrentOrder].isGameOver || players[CurrentOrder].isTurnSkipped);
 
         return CurrentOrder;
     }
 
-    [Command]
-    public void NextTurn()
-    {
-        NetworkPlayer nextPlayer = NextOrderPlayer(CurrentOrder);
-        print($"현재 차례를 마친 플레이어 : {players[CurrentOrder]} / 다음 차례의 플레이어 : {nextPlayer}");
-        // ClientRpc 속성의 자신의 차례를 실행하는 메서드 실행
-
-        nextPlayer.CmdStartTurn();
-    }
-
     /// <summary>
-    /// 다음 차례의 플레이어번호
+    /// i번째 플레이어의 다음 차례의 플레이어번호
     /// </summary>
     /// <param name="currentOrder"></param>
-    public NetworkPlayer NextOrderPlayer(int currentOrder)
+    public Player NextPlayer(int currentOrder)
     {
         int nextOrder = currentOrder;
         do
         {
             nextOrder = (nextOrder + 1) % 4;
-        } while (!players[nextOrder].IsGameOver);
+        } while (!players[nextOrder].isGameOver);
+
+        return players[nextOrder];
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    public Player NextPlayer()
+    {
+        int nextOrder = CurrentOrder;
+        do
+        {
+            nextOrder = (nextOrder + 1) % 4;
+        } while (!players[nextOrder].isGameOver);
 
         return players[nextOrder];
     }
@@ -181,7 +209,7 @@ public class GameManager : NetworkBehaviour
         do
         {
             adjacentPlayerNumber = Mathf.Abs(adjacentPlayerNumber + dir) % 4;
-        } while (!players[adjacentPlayerNumber].IsGameOver);
+        } while (!players[adjacentPlayerNumber].isGameOver);
 
         return adjacentPlayerNumber;
     }
@@ -189,18 +217,39 @@ public class GameManager : NetworkBehaviour
     /// <summary>
     /// 현재 생존한 플레이어의 수
     /// </summary>
-    public int AliveCount
+    public static int AliveCount
     {
         get
         {
             int aliveCount = 0;
-            foreach (NetworkPlayer np in players)
+            foreach (Player np in instance.players)
             {
                 if (np != null)
-                    if (!np.IsGameOver)
+                    if (!np.isGameOver)
                         aliveCount++;
             }
             return aliveCount;
+        }
+    }
+
+    /// <summary>
+    /// 모든 플레이어가 자신의 차례를 가졌으면 한 라운드가 끝이 난다.
+    /// </summary>
+    public static bool RoundFinished
+    {
+        get
+        {
+            bool isFinished = true;
+            foreach (Player np in instance.players)
+            {
+                if (np != null)
+                    if (!np.hasTurn)
+                    {
+                        isFinished = false;
+                        break;
+                    }
+            }
+            return isFinished;
         }
     }
 }

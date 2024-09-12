@@ -309,9 +309,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: {fileID: 0}
   id: 29
-  cardName: 
-  favorText: 
-  description: 
   owner: {fileID: 0}
   sockets:
   - attribute: 0
@@ -487,9 +484,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: {fileID: 0}
   id: 35
-  cardName: 
-  favorText: 
-  description: 
   owner: {fileID: 0}
   sockets:
   - attribute: 0
@@ -665,9 +659,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: {fileID: 0}
   id: 22
-  cardName: 
-  favorText: 
-  description: 
   owner: {fileID: 0}
   sockets:
   - attribute: 0
@@ -1046,9 +1037,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: {fileID: 0}
   id: 24
-  cardName: 
-  favorText: 
-  description: 
   owner: {fileID: 0}
   sockets:
   - attribute: 0
@@ -1358,9 +1346,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: {fileID: 0}
   id: 15
-  cardName: 
-  favorText: 
-  description: 
   owner: {fileID: 0}
   sockets:
   - attribute: 0
@@ -1620,9 +1605,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: {fileID: 0}
   id: 26
-  cardName: 
-  favorText: 
-  description: 
   owner: {fileID: 0}
   sockets:
   - attribute: 0
@@ -1882,9 +1864,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: {fileID: 0}
   id: 5
-  cardName: 
-  favorText: 
-  description: 
   owner: {fileID: 0}
   sockets:
   - attribute: 0
@@ -2060,9 +2039,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: {fileID: 0}
   id: 42
-  cardName: 
-  favorText: 
-  description: 
   owner: {fileID: 0}
   sockets:
   - attribute: 0
@@ -2238,9 +2214,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: {fileID: 0}
   id: 4
-  cardName: 
-  favorText: 
-  description: 
   owner: {fileID: 0}
   sockets:
   - attribute: 0
@@ -3044,9 +3017,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: {fileID: 0}
   id: 40
-  cardName: 
-  favorText: 
-  description: 
   owner: {fileID: 0}
   sockets:
   - attribute: 0
@@ -3733,9 +3703,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: {fileID: 0}
   id: 33
-  cardName: 
-  favorText: 
-  description: 
   owner: {fileID: 0}
   sockets:
   - attribute: 0
@@ -4178,9 +4145,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: {fileID: 0}
   id: 17
-  cardName: 
-  favorText: 
-  description: 
   owner: {fileID: 0}
   sockets:
   - attribute: 0
@@ -4385,7 +4349,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 336101903}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.06, z: -8.26}
+  m_LocalPosition: {x: 0, y: 54.010002, z: -3.3333333}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -4545,9 +4509,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: {fileID: 0}
   id: 7
-  cardName: 
-  favorText: 
-  description: 
   owner: {fileID: 0}
   sockets:
   - attribute: 0
@@ -5199,9 +5160,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: {fileID: 0}
   id: 46
-  cardName: 
-  favorText: 
-  description: 
   owner: {fileID: 0}
   sockets:
   - attribute: 0
@@ -5645,9 +5603,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: {fileID: 0}
   id: 13
-  cardName: 
-  favorText: 
-  description: 
   owner: {fileID: 0}
   sockets:
   - attribute: 0
@@ -6333,9 +6288,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: {fileID: 0}
   id: 37
-  cardName: 
-  favorText: 
-  description: 
   owner: {fileID: 0}
   sockets:
   - attribute: 0
@@ -6645,9 +6597,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: {fileID: 0}
   id: 38
-  cardName: 
-  favorText: 
-  description: 
   owner: {fileID: 0}
   sockets:
   - attribute: 0
@@ -6823,9 +6772,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: {fileID: 0}
   id: 21
-  cardName: 
-  favorText: 
-  description: 
   owner: {fileID: 0}
   sockets:
   - attribute: 0
@@ -7001,9 +6947,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: {fileID: 0}
   id: 3
-  cardName: 
-  favorText: 
-  description: 
   owner: {fileID: 0}
   sockets:
   - attribute: 0
@@ -7250,9 +7193,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: {fileID: 0}
   id: 49
-  cardName: 
-  favorText: 
-  description: 
   owner: {fileID: 0}
   sockets:
   - attribute: 0
@@ -8353,9 +8293,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: {fileID: 0}
   id: 48
-  cardName: 
-  favorText: 
-  description: 
   owner: {fileID: 0}
   sockets:
   - attribute: 0
@@ -8784,9 +8721,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: {fileID: 0}
   id: 20
-  cardName: 
-  favorText: 
-  description: 
   owner: {fileID: 0}
   sockets:
   - attribute: 0
@@ -8962,9 +8896,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: {fileID: 0}
   id: 12
-  cardName: 
-  favorText: 
-  description: 
   owner: {fileID: 0}
   sockets:
   - attribute: 0
@@ -9303,9 +9234,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: {fileID: 0}
   id: 6
-  cardName: 
-  favorText: 
-  description: 
   owner: {fileID: 0}
   sockets:
   - attribute: 0
@@ -9828,9 +9756,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: {fileID: 0}
   id: 47
-  cardName: 
-  favorText: 
-  description: 
   owner: {fileID: 0}
   sockets:
   - attribute: 0
@@ -10140,9 +10065,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: {fileID: 0}
   id: 43
-  cardName: 
-  favorText: 
-  description: 
   owner: {fileID: 0}
   sockets:
   - attribute: 0
@@ -10836,9 +10758,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: {fileID: 0}
   id: 44
-  cardName: 
-  favorText: 
-  description: 
   owner: {fileID: 0}
   sockets:
   - attribute: 0
@@ -11457,9 +11376,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: {fileID: 0}
   id: 52
-  cardName: 
-  favorText: 
-  description: 
   owner: {fileID: 0}
   sockets:
   - attribute: 0
@@ -11828,9 +11744,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: {fileID: 0}
   id: 0
-  cardName: 
-  favorText: 
-  description: 
   owner: {fileID: 0}
   sockets:
   - attribute: 0
@@ -12117,9 +12030,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: {fileID: 0}
   id: 1
-  cardName: 
-  favorText: 
-  description: 
   owner: {fileID: 0}
   sockets:
   - attribute: 0
@@ -12412,9 +12322,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: {fileID: 0}
   id: 32
-  cardName: 
-  favorText: 
-  description: 
   owner: {fileID: 0}
   sockets:
   - attribute: 0
@@ -14329,9 +14236,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: {fileID: 0}
   id: 14
-  cardName: 
-  favorText: 
-  description: 
   owner: {fileID: 0}
   sockets:
   - attribute: 0
@@ -14641,9 +14545,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: {fileID: 0}
   id: 2
-  cardName: 
-  favorText: 
-  description: 
   owner: {fileID: 0}
   sockets:
   - attribute: 0
@@ -14819,9 +14720,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: {fileID: 0}
   id: 34
-  cardName: 
-  favorText: 
-  description: 
   owner: {fileID: 0}
   sockets:
   - attribute: 0
@@ -15274,9 +15172,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: {fileID: 0}
   id: 30
-  cardName: 
-  favorText: 
-  description: 
   owner: {fileID: 0}
   sockets:
   - attribute: 0
@@ -15452,9 +15347,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: {fileID: 0}
   id: 8
-  cardName: 
-  favorText: 
-  description: 
   owner: {fileID: 0}
   sockets:
   - attribute: 0
@@ -16227,9 +16119,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: {fileID: 0}
   id: 28
-  cardName: 
-  favorText: 
-  description: 
   owner: {fileID: 0}
   sockets:
   - attribute: 0
@@ -16405,9 +16294,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: {fileID: 0}
   id: 18
-  cardName: 
-  favorText: 
-  description: 
   owner: {fileID: 0}
   sockets:
   - attribute: 0
@@ -16851,9 +16737,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: {fileID: 0}
   id: 16
-  cardName: 
-  favorText: 
-  description: 
   owner: {fileID: 0}
   sockets:
   - attribute: 0
@@ -17163,9 +17046,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: {fileID: 0}
   id: 19
-  cardName: 
-  favorText: 
-  description: 
   owner: {fileID: 0}
   sockets:
   - attribute: 0
@@ -17341,9 +17221,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: {fileID: 0}
   id: 36
-  cardName: 
-  favorText: 
-  description: 
   owner: {fileID: 0}
   sockets:
   - attribute: 0
@@ -17732,9 +17609,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: {fileID: 0}
   id: 27
-  cardName: 
-  favorText: 
-  description: 
   owner: {fileID: 0}
   sockets:
   - attribute: 0
@@ -18460,9 +18334,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: {fileID: 0}
   id: 23
-  cardName: 
-  favorText: 
-  description: 
   owner: {fileID: 0}
   sockets:
   - attribute: 0
@@ -18638,9 +18509,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: {fileID: 0}
   id: 9
-  cardName: 
-  favorText: 
-  description: 
   owner: {fileID: 0}
   sockets:
   - attribute: 0
@@ -18950,9 +18818,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: {fileID: 0}
   id: 51
-  cardName: 
-  favorText: 
-  description: 
   owner: {fileID: 0}
   sockets:
   - attribute: 0
@@ -19128,9 +18993,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: {fileID: 0}
   id: 41
-  cardName: 
-  favorText: 
-  description: 
   owner: {fileID: 0}
   sockets:
   - attribute: 0
@@ -19306,9 +19168,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: {fileID: 0}
   id: 39
-  cardName: 
-  favorText: 
-  description: 
   owner: {fileID: 0}
   sockets:
   - attribute: 0
@@ -19484,9 +19343,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: {fileID: 0}
   id: 25
-  cardName: 
-  favorText: 
-  description: 
   owner: {fileID: 0}
   sockets:
   - attribute: 0
@@ -20008,9 +19864,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: {fileID: 0}
   id: 50
-  cardName: 
-  favorText: 
-  description: 
   owner: {fileID: 0}
   sockets:
   - attribute: 0
@@ -20336,9 +20189,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: {fileID: 0}
   id: 10
-  cardName: 
-  favorText: 
-  description: 
   owner: {fileID: 0}
   sockets:
   - attribute: 0
@@ -20894,9 +20744,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: {fileID: 0}
   id: 45
-  cardName: 
-  favorText: 
-  description: 
   owner: {fileID: 0}
   sockets:
   - attribute: 0
@@ -21988,9 +21835,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: {fileID: 0}
   id: 31
-  cardName: 
-  favorText: 
-  description: 
   owner: {fileID: 0}
   sockets:
   - attribute: 0
@@ -22300,9 +22144,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: {fileID: 0}
   id: 53
-  cardName: 
-  favorText: 
-  description: 
   owner: {fileID: 0}
   sockets:
   - attribute: 0
@@ -22612,9 +22453,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: {fileID: 0}
   id: 11
-  cardName: 
-  favorText: 
-  description: 
   owner: {fileID: 0}
   sockets:
   - attribute: 0

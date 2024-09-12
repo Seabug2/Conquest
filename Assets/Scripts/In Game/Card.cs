@@ -10,8 +10,8 @@ public class Card : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public int ID => id;
 
     [SerializeField]
-    NetworkPlayer owner = null;
-    public NetworkPlayer Owner => owner;
+    Player owner = null;
+    public Player Owner => owner;
 
     //소켓에 대한 정보
     // 0   1
@@ -64,7 +64,7 @@ public class Card : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         if (isOpened)
         {
-            UIMaster.InfoUI.ShowCardInfo(id);
+            UIMaster.InfoUI.ShowCardInfo(front);
         }
     }
 
