@@ -1,4 +1,4 @@
-using System.Linq;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -49,7 +49,7 @@ public class GameManager : NetworkBehaviour
     List<Player> players = new List<Player>();
 
     Player localPlayer = null;
-    public Player LocalPlayer
+    public static Player LocalPlayer
     {
         get
         {
@@ -114,7 +114,7 @@ public class GameManager : NetworkBehaviour
     {
         for (int i = 0; i < 4; i++)
         {
-            int rand = Random.Range(i, 4);
+            int rand = UnityEngine.Random.Range(i, 4);
             Player tmp = players[i];
             players[i] = players[rand];
             players[rand] = tmp;
@@ -137,18 +137,9 @@ public class GameManager : NetworkBehaviour
 
         Commander
             .Add(() => UIMaster.Fade.In(1.5f), 1.5f)
-            .Add(1f, () => UIMaster.LineMessage.PopUp("게임 시작", 3f), 3f)
+            .Add(1f, () => UIMaster.Message.PopUp("게임 시작", 3f), 3f)
             .Add(() => OnGameStartEvent?.Invoke(), 3f)
-            .Play(false);
-
-        ////화면 페이드 인 후에, 메시지 출력후에, 게임 시작
-        UIMaster.Fade.In(1.5f, () =>
-        {
-            UIMaster.LineMessage.PopUp("게임 시작", 3f, () =>
-            {
-                OnGameStartEvent?.Invoke();
-            });
-        });
+            .Play();
     }
     #endregion
 
@@ -156,62 +147,31 @@ public class GameManager : NetworkBehaviour
 
     public bool isClockwise = true;
 
-    /// <param name="step">현재 진행 방향으로 차례를 넘깁니다.</param>
-    /// <returns>임의의 차례 만큼 순서를 넘길 수 있습니다.</returns>
-    int NextOrder(int step = 1)
-    {
-        if (step < 1)
-        {
-            step = 1;
-        }
-        do
-        {
-            CurrentOrder = (CurrentOrder + (isClockwise ? step : -step) + 4) % 4;
-        }
-        while (players[CurrentOrder].isGameOver || players[CurrentOrder].isTurnSkipped);
-
-        return CurrentOrder;
-    }
-
     /// <summary>
-    /// i번째 플레이어의 다음 차례의 플레이어번호
+    /// 자신의 다음 차례 플레이어의 번호를 반환합니다.
     /// </summary>
-    /// <param name="currentOrder"></param>
-    public Player NextPlayer(int currentOrder)
+    public static int NextOrder(int myOrder)
     {
-        int nextOrder = currentOrder;
+        int nextOrder = myOrder;
+
         do
         {
-            nextOrder = (nextOrder + 1) % 4;
-        } while (!players[nextOrder].isGameOver);
+            nextOrder = (nextOrder + (instance.isClockwise ? 1 : 3)) % 4;
+        }
+        while (Player(nextOrder).isGameOver);
 
-        return players[nextOrder];
+        return nextOrder;
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <returns></returns>
-    public Player NextPlayer()
+    public static int GetSidePlayer(int myOrder, int dir)
     {
-        int nextOrder = CurrentOrder;
+        int sidePlayerNumber = myOrder;
         do
         {
-            nextOrder = (nextOrder + 1) % 4;
-        } while (!players[nextOrder].isGameOver);
+            sidePlayerNumber = (sidePlayerNumber + dir + 4) % 4;
+        } while (!Player(sidePlayerNumber).isGameOver);
 
-        return players[nextOrder];
-    }
-
-    public int GetAdjacentPlayer(int currentOrder, int dir)
-    {
-        int adjacentPlayerNumber = currentOrder;
-        do
-        {
-            adjacentPlayerNumber = Mathf.Abs(adjacentPlayerNumber + dir) % 4;
-        } while (!players[adjacentPlayerNumber].isGameOver);
-
-        return adjacentPlayerNumber;
+        return sidePlayerNumber;
     }
 
     /// <summary>
@@ -249,6 +209,16 @@ public class GameManager : NetworkBehaviour
                         break;
                     }
             }
+
+            if (isFinished)
+            {
+                foreach (Player np in instance.players)
+                {
+                    if (np != null)
+                        np.hasTurn = false;
+                }
+            }
+
             return isFinished;
         }
     }

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cysharp.Threading.Tasks;
 
 public class Command
 {
@@ -175,8 +176,8 @@ public class Commander : MonoBehaviour
             {
                 yield return new WaitForSeconds(commands[i].delay);
                 commands[i].command?.Invoke();
-                OnComplete?.Invoke();
                 yield return new WaitForSeconds(commands[i].interval);
+                OnComplete?.Invoke();
             }
 
             OnCompleteAll?.Invoke();

@@ -13,7 +13,7 @@ TagManager:
   - UI
   - Card
   - Tile
-  - 
+  - Interection
   - 
   - 
   - 
@@ -38,8 +38,14 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: BackGround
+  - name: BackGound
+    uniqueID: 1319986957
+    locked: 0
+  - name: BackGround UI
     uniqueID: 2113484411
+    locked: 0
+  - name: Under UI
+    uniqueID: 2022920467
     locked: 0
   - name: Default
     uniqueID: 0
@@ -52,4 +58,7 @@ TagManager:
     locked: 0
   - name: Particles
     uniqueID: 111896907
+    locked: 0
+  - name: Top Layer
+    uniqueID: 2682593553
     locked: 0

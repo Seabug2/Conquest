@@ -59,18 +59,6 @@ public class Hand : MonoBehaviour
     {
         LimitStack = 0;
     }
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            foreach(Card c in list)
-            {
-                c.handler.OnMouseAction = HandAlignment;
-            }
-
-            HandAlignment();
-        }
-    }
 
     /// <summary>
     /// ClientRpc로 호출 될 때
@@ -86,7 +74,7 @@ public class Hand : MonoBehaviour
     public void Add(Card drawnCard)
     {
         list.Add(drawnCard);
-        drawnCard.handler.OnMouseAction = HandAlignment;
+        //drawnCard.OnMouseAction = HandAlignment;
         HandAlignment();
         //카드를...
     }
@@ -109,14 +97,17 @@ public class Hand : MonoBehaviour
     }
     #endregion
 
-    public float radius = 1;
-    public float height = 1;
+    [Range(1f, 10f)]
+    public float radius;
+    [Range(0f, 1f)]
+    public float height;
+    [Range(0f, 90)]
     //카드 간격
-    public float intervalAngle = 18f;
+    public float intervalAngle;
     //최대 카드 각
-    public float maxAngle = 54;
+    public float maxAngle;
 
-    void HandAlignment()
+    public void HandAlignment()
     {
         float count = list.Count;
         bool isOver = false; //최대 각도로 카드를 벌렸는지 확인하는 bool 값
@@ -134,7 +125,7 @@ public class Hand : MonoBehaviour
         int selectedNum = -1;
         for (int i = 0; i < count; i++)
         {
-            if (list[i].handler.IsOnMouse)
+            if (list[i].IsOnMouse)
             {
                 selectedNum = i;
                 break;
@@ -173,12 +164,12 @@ public class Hand : MonoBehaviour
             Vector3 position = new Vector3(Mathf.Sin(radians), Mathf.Cos(radians)) * radius;
             Debug.Log(position);
             position = transform.position + new Vector3(position.x, position.y * height, position.z);
-            list[i].handler.SetPosition(position);
+            list[i].SetPosition(position);
 
             Quaternion targetRotation = Quaternion.Euler(0, 0, -angle * height);
-            list[i].handler.SetQuaternion(targetRotation);
+            list[i].SetQuaternion(targetRotation);
 
-            list[i].handler.DoMove();
+            list[i].DoMove();
         }
     }
 }

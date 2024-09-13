@@ -82,7 +82,7 @@ public class Deck : NetworkBehaviour
         }
 
         //현재 플레이어 수만큼의 Int 배열을 만들고
-        int playerCount =  GameManager.AliveCount;
+        int playerCount = GameManager.AliveCount;
         int[] opened = new int[playerCount];
 
         //덱에서 카드를 4장 뽑아 모두 같이 확인한다.
@@ -101,11 +101,18 @@ public class Deck : NetworkBehaviour
         for (int i = 0; i < opened.Length; i++)
         {
             Card c = GameManager.Card(opened[i]);
+            c.SetState(new OnDraftZone(c));
+
             c.IsOpened = true;
-            c.handler.SetPosition(draftZone[i].position);
-            c.handler.DoMove(i * .18f);
+            c.SetPosition(draftZone[i].position);
+            c.DoMove(i * .18f);
         }
 
+        Commander commander = gameObject.AddComponent<Commander>();
+
+        commander
+            .Add(1, () => { UIMaster.Message.PopUp("인재 영입 시간!", 3f); })
+            .Play();
         //"인재 영입 시간" 메시지 출력
         //딜레이 시간 필요
         //지속 시간 필요

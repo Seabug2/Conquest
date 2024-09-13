@@ -7,15 +7,12 @@ using Mirror;
 using DG.Tweening;
 
 [RequireComponent(typeof(Card))]
-public class CardHandler : NetworkBehaviour,
-    IPointerEnterHandler, IPointerExitHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
-{
+public class CardHandler : NetworkBehaviour{
+
     /// <summary>
     ///나의 차례가 되었을 때 덱에서 카드를 드로우 하고 난 후, true가 된다.
     /// </summary>
     public bool isSelectable = false;
-    public bool IsOnMouse { get; private set; }
-
     Camera cam;
 
     //private void Awake()
@@ -26,7 +23,6 @@ public class CardHandler : NetworkBehaviour,
 
     private void Start()
     {
-        IsOnMouse = false;
         cam = Camera.main;
     }
 
@@ -147,16 +143,13 @@ public class CardHandler : NetworkBehaviour,
     [Command(requiresAuthority = false)]
     void CmdOnPointerEnter()
     {
-
         RpcOnPointerEnter();
     }
 
     [ClientRpc]
     void RpcOnPointerEnter()
     {
-        IsOnMouse = true;
         Vector3 OnMousePosition = targetPosition + Vector3.up * upPositionOffest;
-        Debug.Log($"RpcOnPointerEnter : {OnMousePosition }");
 
         SetPosition(OnMousePosition);
         targetRotation = Quaternion.identity;
@@ -184,7 +177,6 @@ public class CardHandler : NetworkBehaviour,
     [ClientRpc]
     void RpcOnPointerExit()
     {
-        IsOnMouse = false;
         OnMouseAction?.Invoke();
     }
     #endregion

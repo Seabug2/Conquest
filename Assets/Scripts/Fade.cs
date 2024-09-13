@@ -1,64 +1,45 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
+[RequireComponent(typeof(Image))]
 public class Fade : MonoBehaviour
 {
-    [SerializeField, Header("이미지를 활성화한 상태로 시작합니다.")]
-    bool startWithBlack;
+    [SerializeField, Header("기본 색상")]
+    Color defualtColor = Color.black;
 
-    Image img;
-    Tween tween;
+    [SerializeField, Header("이미지를 활성화한 상태로 시작합니다.")]
+    bool isActiveOnStart = true;
+
+    Image image;
 
     private void Start()
     {
-        img = GetComponent<Image>();
-        img.enabled = startWithBlack;
+        image = GetComponent<Image>();
+        image.color = defualtColor;
+        image.enabled = true;
 
-        if (startWithBlack)
-        {
-            img.color = Color.black;
-        }
-        else
-        {
-            img.color = new Color(1, 1, 1, 0);
-        }
+        gameObject.SetActive(isActiveOnStart);
     }
 
-    #region 페이드 인
-    public void In(float duration = 1, Action onFadeIn = null)
+    public void In(float duration = 1)
     {
-        StartFade(Color.black, 0, duration, onFadeIn);
+        if (!gameObject.activeSelf) return;
+
+        image.DOKill();
+
+        // 1 => 0
+        image.DOFade(0, duration)
+            .OnComplete(() => gameObject.SetActive(false));
     }
-    #endregion
 
-    #region 페이드 아웃
-    public void Out(float duration = 1, Action onFadeOut = null)
+    public void Out(float duration = 1, float r = 0, float g = 0, float b = 0)
     {
-        StartFade(new Color(1, 1, 1, 0), 1, duration, onFadeOut);
-    }
-    #endregion
+        image.DOKill();
+        image.color = new Color(r, g, b, 0);
+        if (!gameObject.activeSelf) gameObject.SetActive(true);
 
-    private void StartFade(Color startColor, float targetAlpha, float duration, Action onComplete)
-    {
-        if (tween != null)
-        {
-            tween.Kill(); // 기존 트윈을 중지하여 충돌 방지
-        }
-
-        img.color = startColor;
-        img.enabled = true;
-
-        tween = img.DOFade(targetAlpha, duration)
-            .SetEase(Ease.InQuint)
-            .OnComplete(() =>
-            {
-                if (targetAlpha == 0)
-                {
-                    img.enabled = false; // 페이드 인이 끝났을 때 비활성화
-                }
-                onComplete?.Invoke();
-            });
+        // 0 => 1
+        image.DOFade(1, duration);
     }
 }

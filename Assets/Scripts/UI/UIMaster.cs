@@ -30,8 +30,8 @@ public class UIMaster : MonoBehaviour
     public static Fade Fade => instance.fade;
 
     [SerializeField]
-    LineMessage lineMessage;
-    public  static LineMessage LineMessage => instance.lineMessage;
+    LineMessage message;
+    public  static LineMessage Message => instance.message;
 
     [SerializeField]
     InfoUIController infoUI;

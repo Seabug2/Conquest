@@ -1,7 +1,7 @@
-using UnityEngine.EventSystems;
 using UnityEngine;
+using Mirror;
 
-public class Card : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public partial class Card : NetworkBehaviour
 {
     [SerializeField]
     CardInfo info;
@@ -13,6 +13,12 @@ public class Card : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     Player owner = null;
     public Player Owner => owner;
 
+    public Card SetOwner(Player owner)
+    {
+        this.owner = owner;
+        return this;
+    }
+
     //소켓에 대한 정보
     // 0   1
     //
@@ -22,13 +28,23 @@ public class Card : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public Socket[] Sockets => sockets;
 
     [Header("현재 카드가 놓여진 타일"), Space(10)]
-    public Tile currentTile = null;
+    Tile currentTile = null;
+    public Tile CurrentTile => currentTile;
+
+    public Card SetTile(Tile currentTile)
+    {
+        this.currentTile = currentTile;
+        return this;
+    }
+
     public bool IsOnField
     {
         get { return currentTile != null; }
     }
 
-    public bool isOpened = false;
+    [SerializeField]
+    bool isOpened = false;
+    
     public bool IsOpened
     {
         get
@@ -42,34 +58,16 @@ public class Card : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         }
     }
 
-    public CardHandler handler;
-    public SpriteRenderer sprtRend;
-    public Sprite front;
-
+    public SpriteRenderer sprtRend { get; private set; }
+    public Sprite front { get; private set; }
     private void Awake()
     {
-        handler = GetComponent<CardHandler>();
-        handler.enabled = false;
-
         sprtRend = GetComponent<SpriteRenderer>();
         front = sprtRend.sprite;
     }
 
     private void Start()
     {
-        isOpened = false;
-    }
-
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        if (isOpened)
-        {
-            //UIMaster.InfoUI.ShowCardInfo(front);
-        }
-    }
-
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        //UIMaster.InfoUI.gameObject.SetActive(false);
+        IsOpened = false;
     }
 }

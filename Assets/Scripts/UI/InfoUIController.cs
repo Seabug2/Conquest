@@ -30,6 +30,7 @@ public class InfoUIController : MonoBehaviour
     {
         if (currentInfo != null)
         {
+            if (currentInfo.sprite.Equals(sprt)) return;
             Enqueue(currentInfo);
         }
 

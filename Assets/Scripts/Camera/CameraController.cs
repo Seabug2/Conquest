@@ -1,7 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using DG.Tweening;
 
 public class CameraController : MonoBehaviour
 {
@@ -32,7 +31,11 @@ public class CameraController : MonoBehaviour
     void Start()
     {
         brainCam = GetComponent<CinemachineBrain>();
-        currentVcam = (CinemachineVirtualCamera)brainCam.ActiveVirtualCamera;
+
+        for (int i = 0; i < playersVcams.Length; i++)
+        {
+            perlinNoise[i] = playersVcams[i].GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+        }
     }
 
     // 0 : 첫 번째 플레이어
@@ -40,6 +43,7 @@ public class CameraController : MonoBehaviour
     // 2 : 세 번째 플레이어
     // 3 : 네 번째 플레이어
     [SerializeField] CinemachineVirtualCamera[] playersVcams;
+    readonly CinemachineBasicMultiChannelPerlin[] perlinNoise = new CinemachineBasicMultiChannelPerlin[4];
 
     // 공통 덱 카메라
     [SerializeField] CinemachineVirtualCamera decksVcams;
@@ -48,25 +52,25 @@ public class CameraController : MonoBehaviour
     //자신의 필드 번호
     int homeViewIndex;
     int currentCamIndex;
+
     public int CurrentCamIndex
     {
         get { return currentCamIndex; }
         set
         {
             currentCamIndex = value;
+
             //현재 활성화 중인 카메라 우선도를 0으로
             brainCam.ActiveVirtualCamera.Priority = 0;
 
-            if (value < 0)
+            if (value < 0 || value >= playersVcams.Length)
             {
                 //덱으로 카메라를 이동한다.
                 decksVcams.Priority = 1;
-                currentVcam = decksVcams;
             }
             else
             {
                 playersVcams[value].Priority = 1;
-                currentVcam = playersVcams[value];
             }
         }
     }
@@ -82,6 +86,7 @@ public class CameraController : MonoBehaviour
     /// </summary>
     public void HomeView()
     {
+        moveLock = false;
         CurrentCamIndex = homeViewIndex;
     }
 
@@ -90,6 +95,7 @@ public class CameraController : MonoBehaviour
     /// </summary>
     public void FocusOnDeck()
     {
+        moveLock = true;
         CurrentCamIndex = -1;
     }
 
@@ -108,9 +114,40 @@ public class CameraController : MonoBehaviour
     /// <param name="i">-1 or +1</param>
     public void ShiftVCam(int dir)
     {
-        CurrentCamIndex = GameManager.instance.GetAdjacentPlayer(currentCamIndex, dir);
+        SetVCam(GameManager.GetSidePlayer(currentCamIndex, dir));
     }
 
-    [SerializeField, Header("확인용"),Space(10)]
-    CinemachineVirtualCamera currentVcam;
+    public void DoShake(int i, float duration, float power)
+    {
+        //if (i != CurrentCamIndex) return;
+
+        CinemachineBasicMultiChannelPerlin p = perlinNoise[i];
+
+        if (DOTween.IsTweening(p))
+            p.DOKill();
+
+        p.DOKill();
+        p.m_AmplitudeGain = power;
+
+        DOTween.To(() => p.m_AmplitudeGain, x => p.m_AmplitudeGain = x, 0f, duration);
+    }
+
+    public bool moveLock = false;
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            DoShake(currentCamIndex, 0.5f, 10);
+        }
+
+        if (moveLock) return;
+
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
+            ShiftVCam(-1);
+        else if (Input.GetKeyDown(KeyCode.RightArrow))
+            ShiftVCam(1);
+        else if (Input.GetKeyDown(KeyCode.C))
+            HomeView();
+    }
 }
