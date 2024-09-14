@@ -18,19 +18,22 @@ public class Fade : MonoBehaviour
         image = GetComponent<Image>();
         image.color = defualtColor;
         image.enabled = true;
-
         gameObject.SetActive(isActiveOnStart);
     }
 
     public void In(float duration = 1)
     {
         if (!gameObject.activeSelf) return;
-
+        isPlaying = true;
         image.DOKill();
 
         // 1 => 0
         image.DOFade(0, duration)
-            .OnComplete(() => gameObject.SetActive(false));
+            .OnComplete(() =>
+            {
+                isPlaying = false;
+                gameObject.SetActive(false);
+            });
     }
 
     public void Out(float duration = 1, float r = 0, float g = 0, float b = 0)
@@ -38,8 +41,17 @@ public class Fade : MonoBehaviour
         image.DOKill();
         image.color = new Color(r, g, b, 0);
         if (!gameObject.activeSelf) gameObject.SetActive(true);
-
+        isPlaying = true;
         // 0 => 1
-        image.DOFade(1, duration);
+        image.DOFade(1, duration)
+            .OnComplete(() =>
+            {
+                isPlaying = false;
+                gameObject.SetActive(false);
+            });
     }
+
+    bool isPlaying = false;
+
+    public bool IsPlaying() => isPlaying;
 }

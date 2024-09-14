@@ -14,7 +14,7 @@ public class GameManager : NetworkBehaviour
         {
             if (instance.commander == null)
             {
-                instance.commander = instance.gameObject.AddComponent<Commander>();
+                instance.commander = new Commander();
             }
             return instance.commander;
         }
@@ -136,9 +136,11 @@ public class GameManager : NetworkBehaviour
         CurrentOrder = 0;
 
         Commander
-            .Add(() => UIMaster.Fade.In(1.5f), 1.5f)
-            .Add(1f, () => UIMaster.Message.PopUp("게임 시작", 3f), 3f)
-            .Add(() => OnGameStartEvent?.Invoke(), 3f)
+            .Clear()
+            .Add_While(() => UIMaster.Fade.In(1.5f), UIMaster.Fade.IsPlaying)
+            .WaitSeconds(1f)
+            .Add_While(() => UIMaster.Message.PopUp("게임 시작", 3f), UIMaster.Message.IsPlaying)
+            .Add(() => OnGameStartEvent?.Invoke())
             .Play();
     }
     #endregion

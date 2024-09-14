@@ -95,6 +95,8 @@ public class Deck : NetworkBehaviour
         RpcDraftPhase(opened);
     }
 
+    Commander commander = new Commander();
+
     [ClientRpc]
     void RpcDraftPhase(int[] opened)
     {
@@ -108,11 +110,8 @@ public class Deck : NetworkBehaviour
             c.DoMove(i * .18f);
         }
 
-        Commander commander = gameObject.AddComponent<Commander>();
+        UIMaster.Message.PopUp("인재 영입 시간!", 3f);
 
-        commander
-            .Add(1, () => { UIMaster.Message.PopUp("인재 영입 시간!", 3f); })
-            .Play();
         //"인재 영입 시간" 메시지 출력
         //딜레이 시간 필요
         //지속 시간 필요
