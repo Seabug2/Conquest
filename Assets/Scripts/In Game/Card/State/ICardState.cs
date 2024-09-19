@@ -8,9 +8,9 @@ public interface ICardState
     public void OnPointerClick(PointerEventData eventData);
     public void OnPointerEnter(PointerEventData eventData);
     public void OnPointerEixt(PointerEventData eventData);
-    public void OnBeginDrag(PointerEventData eventData);
+    public void OnPointerDown(PointerEventData eventData);
     public void OnDrag(PointerEventData eventData);
-    public void OnEndDrag(PointerEventData eventData);
+    public void OnPointerUp(PointerEventData eventData);
 }
 
 /// <summary>
@@ -18,9 +18,9 @@ public interface ICardState
 /// </summary>
 public class None : ICardState
 {
-    public void OnBeginDrag(PointerEventData eventData) { }
+    public void OnPointerDown(PointerEventData eventData) { }
     public void OnDrag(PointerEventData eventData) { }
-    public void OnEndDrag(PointerEventData eventData) { }
+    public void OnPointerUp(PointerEventData eventData) { }
     public void OnPointerClick(PointerEventData eventData) { }
     public void OnPointerEnter(PointerEventData eventData) { }
     public void OnPointerEixt(PointerEventData eventData) { }
@@ -28,9 +28,9 @@ public class None : ICardState
 
 public class InDeck : ICardState
 {
-    public void OnBeginDrag(PointerEventData eventData) { }
+    public void OnPointerDown(PointerEventData eventData) { }
     public void OnDrag(PointerEventData eventData) { }
-    public void OnEndDrag(PointerEventData eventData) { }
+    public void OnPointerUp(PointerEventData eventData) { }
     public void OnPointerClick(PointerEventData eventData) { }
     public void OnPointerEnter(PointerEventData eventData) { }
     public void OnPointerEixt(PointerEventData eventData) { }
@@ -42,9 +42,9 @@ public class InDeck : ICardState
 /// </summary>
 public class OnField : ICardState
 {
-    public void OnBeginDrag(PointerEventData eventData) { }
+    public void OnPointerDown(PointerEventData eventData) { }
     public void OnDrag(PointerEventData eventData) { }
-    public void OnEndDrag(PointerEventData eventData) { }
+    public void OnPointerUp(PointerEventData eventData) { }
     public void OnPointerClick(PointerEventData eventData) { }
     public void OnPointerEnter(PointerEventData eventData) { }
     public void OnPointerEixt(PointerEventData eventData) { }
@@ -53,9 +53,9 @@ public class OnField : ICardState
 //µ¦¿¡¼­ Ä«µå¸¦ ²¨³¾ ¶§...
 public class OnDraftZone : ICardState
 {
-    public void OnBeginDrag(PointerEventData eventData) { }
+    public void OnPointerDown(PointerEventData eventData) { }
     public void OnDrag(PointerEventData eventData) { }
-    public void OnEndDrag(PointerEventData eventData) { }
+    public void OnPointerUp(PointerEventData eventData) { }
     public void OnPointerClick(PointerEventData eventData) { }
     public void OnPointerEnter(PointerEventData eventData) { }
     public void OnPointerEixt(PointerEventData eventData) { }
@@ -76,9 +76,9 @@ public class OnSelect : ICardState
 
     public Action ClickEvent;
 
-    public void OnBeginDrag(PointerEventData eventData) { }
+    public void OnPointerDown(PointerEventData eventData) { }
     public void OnDrag(PointerEventData eventData) { }
-    public void OnEndDrag(PointerEventData eventData) { }
+    public void OnPointerUp(PointerEventData eventData) { }
     
     public void OnPointerClick(PointerEventData eventData) 
     {

@@ -4,14 +4,14 @@ using Mirror;
 using DG.Tweening;
 
 public partial class Card : NetworkBehaviour,
-    IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
+    IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IDragHandler, IPointerUpHandler
 {
     public ICardState iCardState;
 
     //카드 드래그를 시작했을 때 호출됩니다.
     public void OnBeginDrag(PointerEventData eventData)
     {
-        iCardState.OnBeginDrag(eventData);
+        iCardState.OnPointerDown(eventData);
     }
 
     //카드를 드래그하는 중에 지속적으로 호출됩니다.
@@ -23,7 +23,7 @@ public partial class Card : NetworkBehaviour,
     //카드 드래그를 마쳤을 때 호출됩니다.
     public void OnEndDrag(PointerEventData eventData)
     {
-        iCardState.OnEndDrag(eventData);
+        iCardState.OnPointerUp(eventData);
     }
 
 
@@ -60,5 +60,18 @@ public partial class Card : NetworkBehaviour,
     public void OnPointerClick(PointerEventData eventData)
     {
         iCardState.OnPointerClick(eventData);
+    }
+
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        iCardState.OnPointerDown(eventData);
+
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        iCardState.OnPointerUp(eventData);
+
     }
 }

@@ -71,6 +71,23 @@ public class Hand : MonoBehaviour
         HandAlignment();
     }
 
+
+    public void TestAdd(Card newCard)
+    {
+        newCard.IsOpened = true;
+        newCard.iCardState = new InHand(newCard, this);
+        list.Add(newCard);
+        HandAlignment();
+    }
+    public void TestChangeState()
+    {
+        foreach(Card c in list)
+        {
+            c.iCardState = new InHandOnTurn(c, this, null);
+        }
+    }
+
+
     /// <summary>
     /// ClientRpc로 호출 될 때
     /// 반드시 해당 id의 카드는 handler를 비활성화 시켜줘야 한다.

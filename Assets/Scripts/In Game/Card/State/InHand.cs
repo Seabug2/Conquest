@@ -26,9 +26,9 @@ public class InHand : ICardState
     }
 
     #region 기본 상태에서는 드래그 이벤트가 없다.
-    public void OnBeginDrag(PointerEventData eventData) { }
+    public void OnPointerDown(PointerEventData eventData) { }
     public void OnDrag(PointerEventData eventData) { }
-    public void OnEndDrag(PointerEventData eventData) { }
+    public void OnPointerUp(PointerEventData eventData) { }
     public void OnPointerClick(PointerEventData eventData) { }
     #endregion
 
@@ -69,7 +69,7 @@ public class InHandOnTurn : ICardState
     private Vector3 offset;
     float z;
 
-    public void OnBeginDrag(PointerEventData eventData)
+    public void OnPointerDown(PointerEventData eventData)
     {
         card.transform.DOKill();
         z = Camera.main.WorldToScreenPoint(card.transform.position).z;
@@ -79,7 +79,7 @@ public class InHandOnTurn : ICardState
     {
         card.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(eventData.position.x, eventData.position.y, z)) - offset;
     }
-    public void OnEndDrag(PointerEventData eventData)
+    public void OnPointerUp(PointerEventData eventData)
     {
         //손을 떼었을 때 마우스가 타일 위에 있을 때
 
@@ -93,7 +93,7 @@ public class InHandOnTurn : ICardState
         card.SprtRend.sortingLayerName = "OnMouseLayer";
 
         card.CmdPick();
-        field.ActiveTile(card, true);
+        field?.ActiveTile(card, true);
         hand.HandAlignment();
     }
     public void OnPointerEixt(PointerEventData eventData)
@@ -101,7 +101,7 @@ public class InHandOnTurn : ICardState
         card.SprtRend.sortingLayerName = "Default";
         card.transform.localScale = Vector3.one;
         card.CmdDoMove();
-        field.ActiveTile(card, false);
+        field?.ActiveTile(card, false);
         hand.HandAlignment();
     }
 }
