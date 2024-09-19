@@ -2,12 +2,26 @@ using UnityEngine;
 
 public class Field : MonoBehaviour
 {
-    [SerializeField]
-    int seatNum;
+    [SerializeField] int seatNum;
     public int SeatNum => seatNum;
 
     [SerializeField]
     Tile[] tiles;
+
+    public Tile[] Tiles => tiles;
+
+    public Tile this[int index]
+    {
+        get
+        {
+            if (index < 0 || index >= tiles.Length)
+            {
+                Debug.LogWarning($"Invalid index {index}. Returning null.");
+                return null;
+            }
+            return tiles[index];
+        }
+    }
 
     public Card GetCard(int index)
     {
@@ -25,7 +39,6 @@ public class Field : MonoBehaviour
 
         return tiles[index].placedCard;
     }
-
     public bool IsEmpty(int index)
     {
         if (index < 0 || index >= tiles.Length)
@@ -46,19 +59,6 @@ public class Field : MonoBehaviour
         //    tiles = GetComponentsInChildren<Tile>();
         //    System.Array.Sort(tiles, (tile1, tile2) => tile1.TileIndex.CompareTo(tile2.TileIndex));
         //}
-    }
-
-    public Tile this[int index]
-    {
-        get
-        {
-            if (index < 0 || index >= tiles.Length)
-            {
-                Debug.LogWarning($"Invalid index {index}. Returning null.");
-                return null;
-            }
-            return tiles[index];
-        }
     }
 
     void SocketSetting()
@@ -137,6 +137,15 @@ public class Field : MonoBehaviour
                     }
                 }
             }
+        }
+    }
+
+
+    public void ActiveTile(Card _card, bool _isActive)
+    {
+        foreach (Tile t in tiles)
+        {
+            t.ActiveTile(_card, _isActive);
         }
     }
 }

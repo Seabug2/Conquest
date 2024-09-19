@@ -10,6 +10,8 @@ public class LineMessage : MonoBehaviour
 
     Sequence sequence;                            // DOTween 시퀀스
 
+    [SerializeField] Ease ease = Ease.InQuart;                   // 메시지를 출력할 Text UI
+    [SerializeField, Range(0f, 0.5f)] float inOutTime = 0.1f;                   // 메시지를 출력할 Text UI
     const float height = 200f;                    // 라인의 목표 높이
     const int fontSize = 120;                     // 텍스트 폰트 크기
     string message = string.Empty;                // 출력할 메시지
@@ -75,9 +77,9 @@ public class LineMessage : MonoBehaviour
             {
                 Initialize();
             })
-            .Append(line.DOSizeDelta(new Vector2(line.sizeDelta.x, height), duration * 0.1f).SetEase(Ease.OutCirc)) // 라인 확장
+            .Append(line.DOSizeDelta(new Vector2(line.sizeDelta.x, height), duration * inOutTime).SetEase(ease)) // 라인 확장
             .AppendInterval(duration * 0.8f) // 잠시 대기
-            .Append(line.DOSizeDelta(new Vector2(line.sizeDelta.x, 0), duration * 0.1f).SetEase(Ease.OutCirc)) // 라인 축소
+            .Append(line.DOSizeDelta(new Vector2(line.sizeDelta.x, 0), duration * inOutTime).SetEase(ease)) // 라인 축소
             .OnComplete(() =>
             {
                 root.SetActive(false);

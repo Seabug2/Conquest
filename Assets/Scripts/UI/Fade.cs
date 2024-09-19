@@ -8,9 +8,6 @@ public class Fade : MonoBehaviour
     [SerializeField, Header("기본 색상")]
     Color defualtColor = Color.black;
 
-    [SerializeField, Header("이미지를 활성화한 상태로 시작합니다.")]
-    bool isActiveOnStart = true;
-
     Image image;
 
     private void Start()
@@ -18,7 +15,6 @@ public class Fade : MonoBehaviour
         image = GetComponent<Image>();
         image.color = defualtColor;
         image.enabled = true;
-        gameObject.SetActive(isActiveOnStart);
     }
 
     public void In(float duration = 1)

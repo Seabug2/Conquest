@@ -157,6 +157,11 @@ MonoBehaviour:
   tileIndex: 2
   placedCard: {fileID: 0}
   linkableSocket: 00000001
+  linkedTile:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   sockets:
   - attribute: 0
     isLinked: 0
@@ -269,7 +274,6 @@ GameObject:
   - component: {fileID: 3175972}
   - component: {fileID: 3175974}
   - component: {fileID: 3175971}
-  - component: {fileID: 3175970}
   - component: {fileID: 3175975}
   m_Layer: 6
   m_Name: "\uC610\uB85C\uC6B0 \uB808\uC778\uC800"
@@ -278,23 +282,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &3175970
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3175969}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e060c84edf749d4383e8b7a9a235a4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  isSelectable: 0
-  upPositionOffest: 0.5
 --- !u!114 &3175971
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -310,11 +297,21 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  info: {fileID: 0}
   id: 0
-  owner: {fileID: 0}
-  sockets: []
+  cardName: 
+  ownerOrder: -1
+  sockets:
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
   isOpened: 0
+  IsOnMouse: 0
+  front: {fileID: 0}
 --- !u!212 &3175972
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -435,7 +432,6 @@ GameObject:
   - component: {fileID: 22850077}
   - component: {fileID: 22850079}
   - component: {fileID: 22850076}
-  - component: {fileID: 22850075}
   - component: {fileID: 22850080}
   m_Layer: 6
   m_Name: "\uC870\uCEE4"
@@ -444,23 +440,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &22850075
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 22850074}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e060c84edf749d4383e8b7a9a235a4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  isSelectable: 0
-  upPositionOffest: 0.5
 --- !u!114 &22850076
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -476,11 +455,21 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  info: {fileID: 0}
   id: 0
-  owner: {fileID: 0}
-  sockets: []
+  cardName: 
+  ownerOrder: -1
+  sockets:
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
   isOpened: 0
+  IsOnMouse: 0
+  front: {fileID: 0}
 --- !u!212 &22850077
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -601,7 +590,6 @@ GameObject:
   - component: {fileID: 47271417}
   - component: {fileID: 47271419}
   - component: {fileID: 47271416}
-  - component: {fileID: 47271415}
   - component: {fileID: 47271420}
   m_Layer: 6
   m_Name: "\uBD88\uD55C\uB2F9 \uADF8\uB808\uC774\uBE0C\uC988"
@@ -610,23 +598,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &47271415
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 47271414}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e060c84edf749d4383e8b7a9a235a4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  isSelectable: 0
-  upPositionOffest: 0.5
 --- !u!114 &47271416
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -642,11 +613,21 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  info: {fileID: 0}
   id: 0
-  owner: {fileID: 0}
-  sockets: []
+  cardName: 
+  ownerOrder: -1
+  sockets:
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
   isOpened: 0
+  IsOnMouse: 0
+  front: {fileID: 0}
 --- !u!212 &47271417
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -970,7 +951,6 @@ GameObject:
   - component: {fileID: 63639918}
   - component: {fileID: 63639920}
   - component: {fileID: 63639917}
-  - component: {fileID: 63639916}
   - component: {fileID: 63639921}
   m_Layer: 6
   m_Name: "\uBE14\uB8E8 \uB808\uC778\uC800"
@@ -979,23 +959,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &63639916
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 63639915}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e060c84edf749d4383e8b7a9a235a4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  isSelectable: 0
-  upPositionOffest: 0.5
 --- !u!114 &63639917
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1011,11 +974,21 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  info: {fileID: 0}
   id: 0
-  owner: {fileID: 0}
-  sockets: []
+  cardName: 
+  ownerOrder: -1
+  sockets:
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
   isOpened: 0
+  IsOnMouse: 0
+  front: {fileID: 0}
 --- !u!212 &63639918
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1158,6 +1131,11 @@ MonoBehaviour:
   tileIndex: 6
   placedCard: {fileID: 0}
   linkableSocket: 01010101
+  linkedTile:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   sockets:
   - attribute: 0
     isLinked: 0
@@ -1270,7 +1248,6 @@ GameObject:
   - component: {fileID: 77536543}
   - component: {fileID: 77536545}
   - component: {fileID: 77536542}
-  - component: {fileID: 77536541}
   - component: {fileID: 77536546}
   m_Layer: 6
   m_Name: "\uBABD\uACE0\uBA54\uB9AC \uBC88\uC988"
@@ -1279,23 +1256,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &77536541
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 77536540}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e060c84edf749d4383e8b7a9a235a4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  isSelectable: 0
-  upPositionOffest: 0.5
 --- !u!114 &77536542
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1311,11 +1271,21 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  info: {fileID: 0}
   id: 0
-  owner: {fileID: 0}
-  sockets: []
+  cardName: 
+  ownerOrder: -1
+  sockets:
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
   isOpened: 0
+  IsOnMouse: 0
+  front: {fileID: 0}
 --- !u!212 &77536543
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1520,7 +1490,6 @@ GameObject:
   - component: {fileID: 107812026}
   - component: {fileID: 107812028}
   - component: {fileID: 107812025}
-  - component: {fileID: 107812024}
   - component: {fileID: 107812029}
   m_Layer: 6
   m_Name: "\uC2A4\uC988\uB780 \uACE0\uB4F1\uD559\uAD50"
@@ -1529,23 +1498,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &107812024
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 107812023}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e060c84edf749d4383e8b7a9a235a4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  isSelectable: 0
-  upPositionOffest: 0.5
 --- !u!114 &107812025
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1561,11 +1513,21 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  info: {fileID: 0}
   id: 0
-  owner: {fileID: 0}
-  sockets: []
+  cardName: 
+  ownerOrder: -1
+  sockets:
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
   isOpened: 0
+  IsOnMouse: 0
+  front: {fileID: 0}
 --- !u!212 &107812026
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1770,7 +1732,6 @@ GameObject:
   - component: {fileID: 117269224}
   - component: {fileID: 117269226}
   - component: {fileID: 117269223}
-  - component: {fileID: 117269222}
   - component: {fileID: 117269227}
   m_Layer: 6
   m_Name: "\uADF8\uB9B0 \uB808\uC778\uC800"
@@ -1779,23 +1740,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &117269222
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 117269221}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e060c84edf749d4383e8b7a9a235a4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  isSelectable: 0
-  upPositionOffest: 0.5
 --- !u!114 &117269223
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1811,11 +1755,21 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  info: {fileID: 0}
   id: 0
-  owner: {fileID: 0}
-  sockets: []
+  cardName: 
+  ownerOrder: -1
+  sockets:
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
   isOpened: 0
+  IsOnMouse: 0
+  front: {fileID: 0}
 --- !u!212 &117269224
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1936,7 +1890,6 @@ GameObject:
   - component: {fileID: 126739525}
   - component: {fileID: 126739527}
   - component: {fileID: 126739524}
-  - component: {fileID: 126739523}
   - component: {fileID: 126739528}
   m_Layer: 6
   m_Name: "\uD2B8\uB808\uBC84 \uD544\uB9BD\uC2A4"
@@ -1945,23 +1898,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &126739523
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 126739522}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e060c84edf749d4383e8b7a9a235a4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  isSelectable: 0
-  upPositionOffest: 0.5
 --- !u!114 &126739524
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1977,11 +1913,21 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  info: {fileID: 0}
   id: 0
-  owner: {fileID: 0}
-  sockets: []
+  cardName: 
+  ownerOrder: -1
+  sockets:
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
   isOpened: 0
+  IsOnMouse: 0
+  front: {fileID: 0}
 --- !u!212 &126739525
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2102,7 +2048,6 @@ GameObject:
   - component: {fileID: 127504262}
   - component: {fileID: 127504264}
   - component: {fileID: 127504261}
-  - component: {fileID: 127504260}
   - component: {fileID: 127504265}
   m_Layer: 6
   m_Name: "\uAD34\uB3C4 \uD0A4\uB4DC"
@@ -2111,23 +2056,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &127504260
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 127504259}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e060c84edf749d4383e8b7a9a235a4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  isSelectable: 0
-  upPositionOffest: 0.5
 --- !u!114 &127504261
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2143,11 +2071,21 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  info: {fileID: 0}
   id: 0
-  owner: {fileID: 0}
-  sockets: []
+  cardName: 
+  ownerOrder: -1
+  sockets:
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
   isOpened: 0
+  IsOnMouse: 0
+  front: {fileID: 0}
 --- !u!212 &127504262
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2341,6 +2279,11 @@ MonoBehaviour:
   tileIndex: 9
   placedCard: {fileID: 0}
   linkableSocket: 01010101
+  linkedTile:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   sockets:
   - attribute: 0
     isLinked: 0
@@ -2475,6 +2418,11 @@ MonoBehaviour:
   tileIndex: 7
   placedCard: {fileID: 0}
   linkableSocket: 01000001
+  linkedTile:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   sockets:
   - attribute: 0
     isLinked: 0
@@ -2658,6 +2606,11 @@ MonoBehaviour:
   tileIndex: 3
   placedCard: {fileID: 0}
   linkableSocket: 01010101
+  linkedTile:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   sockets:
   - attribute: 0
     isLinked: 0
@@ -2867,7 +2820,6 @@ GameObject:
   - component: {fileID: 207710472}
   - component: {fileID: 207710474}
   - component: {fileID: 207710471}
-  - component: {fileID: 207710470}
   - component: {fileID: 207710475}
   m_Layer: 6
   m_Name: "\uD074\uB85C\uB85C \uB8E8\uC2E4\uD6C4\uB974"
@@ -2876,23 +2828,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &207710470
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 207710469}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e060c84edf749d4383e8b7a9a235a4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  isSelectable: 0
-  upPositionOffest: 0.5
 --- !u!114 &207710471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2908,11 +2843,21 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  info: {fileID: 0}
   id: 0
-  owner: {fileID: 0}
-  sockets: []
+  cardName: 
+  ownerOrder: -1
+  sockets:
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
   isOpened: 0
+  IsOnMouse: 0
+  front: {fileID: 0}
 --- !u!212 &207710472
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3055,6 +3000,11 @@ MonoBehaviour:
   tileIndex: 10
   placedCard: {fileID: 0}
   linkableSocket: 00010000
+  linkedTile:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   sockets:
   - attribute: 0
     isLinked: 0
@@ -3329,6 +3279,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 1122667114}
+  - {fileID: 510587264}
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3371,6 +3322,11 @@ MonoBehaviour:
   tileIndex: 11
   placedCard: {fileID: 0}
   linkableSocket: 01010000
+  linkedTile:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   sockets:
   - attribute: 0
     isLinked: 0
@@ -3483,7 +3439,6 @@ GameObject:
   - component: {fileID: 312241212}
   - component: {fileID: 312241214}
   - component: {fileID: 312241211}
-  - component: {fileID: 312241210}
   - component: {fileID: 312241215}
   m_Layer: 6
   m_Name: "\uC789\uD074\uB9C1 \uBCF4\uC774"
@@ -3492,23 +3447,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &312241210
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 312241209}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e060c84edf749d4383e8b7a9a235a4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  isSelectable: 0
-  upPositionOffest: 0.5
 --- !u!114 &312241211
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3524,11 +3462,21 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  info: {fileID: 0}
   id: 0
-  owner: {fileID: 0}
-  sockets: []
+  cardName: 
+  ownerOrder: -1
+  sockets:
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
   isOpened: 0
+  IsOnMouse: 0
+  front: {fileID: 0}
 --- !u!212 &312241212
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3671,6 +3619,11 @@ MonoBehaviour:
   tileIndex: 3
   placedCard: {fileID: 0}
   linkableSocket: 01010101
+  linkedTile:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   sockets:
   - attribute: 0
     isLinked: 0
@@ -3916,7 +3869,6 @@ GameObject:
   - component: {fileID: 330567210}
   - component: {fileID: 330567212}
   - component: {fileID: 330567209}
-  - component: {fileID: 330567208}
   - component: {fileID: 330567213}
   m_Layer: 6
   m_Name: "\uBBF8\uB2C8\uC5B8\uC988"
@@ -3925,23 +3877,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &330567208
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 330567207}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e060c84edf749d4383e8b7a9a235a4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  isSelectable: 0
-  upPositionOffest: 0.5
 --- !u!114 &330567209
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3957,11 +3892,21 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  info: {fileID: 0}
   id: 0
-  owner: {fileID: 0}
-  sockets: []
+  cardName: 
+  ownerOrder: -1
+  sockets:
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
   isOpened: 0
+  IsOnMouse: 0
+  front: {fileID: 0}
 --- !u!212 &330567210
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4271,7 +4216,6 @@ GameObject:
   - component: {fileID: 338364300}
   - component: {fileID: 338364302}
   - component: {fileID: 338364299}
-  - component: {fileID: 338364298}
   - component: {fileID: 338364303}
   m_Layer: 6
   m_Name: "\uB108\uAD74"
@@ -4280,23 +4224,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &338364298
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 338364297}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e060c84edf749d4383e8b7a9a235a4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  isSelectable: 0
-  upPositionOffest: 0.5
 --- !u!114 &338364299
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4312,11 +4239,21 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  info: {fileID: 0}
   id: 0
-  owner: {fileID: 0}
-  sockets: []
+  cardName: 
+  ownerOrder: -1
+  sockets:
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
   isOpened: 0
+  IsOnMouse: 0
+  front: {fileID: 0}
 --- !u!212 &338364300
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4473,6 +4410,11 @@ MonoBehaviour:
   tileIndex: 12
   placedCard: {fileID: 0}
   linkableSocket: 01000000
+  linkedTile:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   sockets:
   - attribute: 0
     isLinked: 0
@@ -4886,7 +4828,6 @@ GameObject:
   - component: {fileID: 381685197}
   - component: {fileID: 381685199}
   - component: {fileID: 381685196}
-  - component: {fileID: 381685195}
   - component: {fileID: 381685200}
   m_Layer: 6
   m_Name: "\uD39C\uD0C0\uD0AC \uC694\uB9AD"
@@ -4895,23 +4836,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &381685195
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 381685194}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e060c84edf749d4383e8b7a9a235a4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  isSelectable: 0
-  upPositionOffest: 0.5
 --- !u!114 &381685196
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4927,11 +4851,21 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  info: {fileID: 0}
   id: 0
-  owner: {fileID: 0}
-  sockets: []
+  cardName: 
+  ownerOrder: -1
+  sockets:
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
   isOpened: 0
+  IsOnMouse: 0
+  front: {fileID: 0}
 --- !u!212 &381685197
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -5088,6 +5022,11 @@ MonoBehaviour:
   tileIndex: 2
   placedCard: {fileID: 0}
   linkableSocket: 00000001
+  linkedTile:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   sockets:
   - attribute: 0
     isLinked: 0
@@ -5208,6 +5147,11 @@ MonoBehaviour:
   tileIndex: 1
   placedCard: {fileID: 0}
   linkableSocket: 00000101
+  linkedTile:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   sockets:
   - attribute: 0
     isLinked: 0
@@ -5320,7 +5264,6 @@ GameObject:
   - component: {fileID: 413056732}
   - component: {fileID: 413056734}
   - component: {fileID: 413056731}
-  - component: {fileID: 413056730}
   - component: {fileID: 413056735}
   m_Layer: 6
   m_Name: "\uBA54\uB974\uC5E0"
@@ -5329,23 +5272,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &413056730
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 413056729}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e060c84edf749d4383e8b7a9a235a4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  isSelectable: 0
-  upPositionOffest: 0.5
 --- !u!114 &413056731
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5361,11 +5287,21 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  info: {fileID: 0}
   id: 0
-  owner: {fileID: 0}
-  sockets: []
+  cardName: 
+  ownerOrder: -1
+  sockets:
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
   isOpened: 0
+  IsOnMouse: 0
+  front: {fileID: 0}
 --- !u!212 &413056732
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -5960,7 +5896,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1949775213}
         m_TargetAssemblyTypeName: Deck, Assembly-CSharp
-        m_MethodName: DraftPhase
+        m_MethodName: ServerDraftPhase
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6000,6 +5936,7 @@ MonoBehaviour:
   fade: {fileID: 707730628}
   message: {fileID: 0}
   infoUI: {fileID: 1692955883}
+  confirm: {fileID: 0}
 --- !u!1 &499335632
 GameObject:
   m_ObjectHideFlags: 0
@@ -6012,7 +5949,6 @@ GameObject:
   - component: {fileID: 499335635}
   - component: {fileID: 499335637}
   - component: {fileID: 499335634}
-  - component: {fileID: 499335633}
   - component: {fileID: 499335638}
   m_Layer: 6
   m_Name: "\uC9C0\uB784\uACAC"
@@ -6021,23 +5957,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &499335633
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 499335632}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e060c84edf749d4383e8b7a9a235a4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  isSelectable: 0
-  upPositionOffest: 0.5
 --- !u!114 &499335634
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6053,11 +5972,21 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  info: {fileID: 0}
   id: 0
-  owner: {fileID: 0}
-  sockets: []
+  cardName: 
+  ownerOrder: -1
+  sockets:
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
   isOpened: 0
+  IsOnMouse: 0
+  front: {fileID: 0}
 --- !u!212 &499335635
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6200,6 +6129,11 @@ MonoBehaviour:
   tileIndex: 6
   placedCard: {fileID: 0}
   linkableSocket: 01010101
+  linkedTile:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   sockets:
   - attribute: 0
     isLinked: 0
@@ -6317,7 +6251,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &503806615
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6344,7 +6278,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 503806614}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -6375,6 +6309,120 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 503806614}
   m_CullTransparentMesh: 0
+--- !u!1001 &510587263
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 291566214}
+    m_Modifications:
+    - target: {fileID: 8592949808813267608, guid: 2d2b49636c2a4af4c81c1e00d1161a2d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8592949808813267610, guid: 2d2b49636c2a4af4c81c1e00d1161a2d, type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8592949808953881880, guid: 2d2b49636c2a4af4c81c1e00d1161a2d, type: 3}
+      propertyPath: m_Name
+      value: Confirm UI
+      objectReference: {fileID: 0}
+    - target: {fileID: 8592949808953881881, guid: 2d2b49636c2a4af4c81c1e00d1161a2d, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8592949808953881881, guid: 2d2b49636c2a4af4c81c1e00d1161a2d, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8592949808953881881, guid: 2d2b49636c2a4af4c81c1e00d1161a2d, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8592949808953881881, guid: 2d2b49636c2a4af4c81c1e00d1161a2d, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8592949808953881881, guid: 2d2b49636c2a4af4c81c1e00d1161a2d, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8592949808953881881, guid: 2d2b49636c2a4af4c81c1e00d1161a2d, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8592949808953881881, guid: 2d2b49636c2a4af4c81c1e00d1161a2d, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8592949808953881881, guid: 2d2b49636c2a4af4c81c1e00d1161a2d, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8592949808953881881, guid: 2d2b49636c2a4af4c81c1e00d1161a2d, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8592949808953881881, guid: 2d2b49636c2a4af4c81c1e00d1161a2d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8592949808953881881, guid: 2d2b49636c2a4af4c81c1e00d1161a2d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8592949808953881881, guid: 2d2b49636c2a4af4c81c1e00d1161a2d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8592949808953881881, guid: 2d2b49636c2a4af4c81c1e00d1161a2d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8592949808953881881, guid: 2d2b49636c2a4af4c81c1e00d1161a2d, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8592949808953881881, guid: 2d2b49636c2a4af4c81c1e00d1161a2d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8592949808953881881, guid: 2d2b49636c2a4af4c81c1e00d1161a2d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8592949808953881881, guid: 2d2b49636c2a4af4c81c1e00d1161a2d, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8592949808953881881, guid: 2d2b49636c2a4af4c81c1e00d1161a2d, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8592949808953881881, guid: 2d2b49636c2a4af4c81c1e00d1161a2d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8592949808953881881, guid: 2d2b49636c2a4af4c81c1e00d1161a2d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8592949808953881881, guid: 2d2b49636c2a4af4c81c1e00d1161a2d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8592949808953881882, guid: 2d2b49636c2a4af4c81c1e00d1161a2d, type: 3}
+      propertyPath: m_Alpha
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2d2b49636c2a4af4c81c1e00d1161a2d, type: 3}
+--- !u!224 &510587264 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 8592949808953881881, guid: 2d2b49636c2a4af4c81c1e00d1161a2d, type: 3}
+  m_PrefabInstance: {fileID: 510587263}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &523916928
 GameObject:
   m_ObjectHideFlags: 0
@@ -6387,7 +6435,6 @@ GameObject:
   - component: {fileID: 523916931}
   - component: {fileID: 523916933}
   - component: {fileID: 523916930}
-  - component: {fileID: 523916929}
   - component: {fileID: 523916934}
   m_Layer: 6
   m_Name: "\uC9D5\uD06C\uC2A4"
@@ -6396,23 +6443,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &523916929
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 523916928}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e060c84edf749d4383e8b7a9a235a4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  isSelectable: 0
-  upPositionOffest: 0.5
 --- !u!114 &523916930
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6428,11 +6458,21 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  info: {fileID: 0}
   id: 0
-  owner: {fileID: 0}
-  sockets: []
+  cardName: 
+  ownerOrder: -1
+  sockets:
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
   isOpened: 0
+  IsOnMouse: 0
+  front: {fileID: 0}
 --- !u!212 &523916931
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6553,7 +6593,6 @@ GameObject:
   - component: {fileID: 531052193}
   - component: {fileID: 531052195}
   - component: {fileID: 531052192}
-  - component: {fileID: 531052191}
   - component: {fileID: 531052196}
   m_Layer: 6
   m_Name: "\uC804\uD22C \uAE30\uACC4 \uBCA8\uCF54\uC988"
@@ -6562,23 +6601,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &531052191
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 531052190}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e060c84edf749d4383e8b7a9a235a4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  isSelectable: 0
-  upPositionOffest: 0.5
 --- !u!114 &531052192
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6594,11 +6616,21 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  info: {fileID: 0}
   id: 0
-  owner: {fileID: 0}
-  sockets: []
+  cardName: 
+  ownerOrder: -1
+  sockets:
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
   isOpened: 0
+  IsOnMouse: 0
+  front: {fileID: 0}
 --- !u!212 &531052193
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6719,7 +6751,6 @@ GameObject:
   - component: {fileID: 544365741}
   - component: {fileID: 544365743}
   - component: {fileID: 544365740}
-  - component: {fileID: 544365739}
   - component: {fileID: 544365744}
   m_Layer: 6
   m_Name: "\uACE8 D. \uB85C\uC800"
@@ -6728,23 +6759,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &544365739
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 544365738}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e060c84edf749d4383e8b7a9a235a4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  isSelectable: 0
-  upPositionOffest: 0.5
 --- !u!114 &544365740
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6760,11 +6774,21 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  info: {fileID: 0}
   id: 0
-  owner: {fileID: 0}
-  sockets: []
+  cardName: 
+  ownerOrder: -1
+  sockets:
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
   isOpened: 0
+  IsOnMouse: 0
+  front: {fileID: 0}
 --- !u!212 &544365741
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6956,7 +6980,6 @@ GameObject:
   - component: {fileID: 588438210}
   - component: {fileID: 588438212}
   - component: {fileID: 588438209}
-  - component: {fileID: 588438208}
   - component: {fileID: 588438213}
   m_Layer: 6
   m_Name: "\uD551\uD06C \uB808\uC778\uC800"
@@ -6965,23 +6988,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &588438208
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 588438207}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e060c84edf749d4383e8b7a9a235a4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  isSelectable: 0
-  upPositionOffest: 0.5
 --- !u!114 &588438209
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6997,11 +7003,21 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  info: {fileID: 0}
   id: 0
-  owner: {fileID: 0}
-  sockets: []
+  cardName: 
+  ownerOrder: -1
+  sockets:
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
   isOpened: 0
+  IsOnMouse: 0
+  front: {fileID: 0}
 --- !u!212 &588438210
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -7144,6 +7160,11 @@ MonoBehaviour:
   tileIndex: 9
   placedCard: {fileID: 0}
   linkableSocket: 01010101
+  linkedTile:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   sockets:
   - attribute: 0
     isLinked: 0
@@ -7308,6 +7329,11 @@ MonoBehaviour:
   tileIndex: 0
   placedCard: {fileID: 0}
   linkableSocket: 00000100
+  linkedTile:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   sockets:
   - attribute: 0
     isLinked: 0
@@ -7505,6 +7531,11 @@ MonoBehaviour:
   tileIndex: 9
   placedCard: {fileID: 0}
   linkableSocket: 01010101
+  linkedTile:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   sockets:
   - attribute: 0
     isLinked: 0
@@ -7696,6 +7727,11 @@ MonoBehaviour:
   tileIndex: 1
   placedCard: {fileID: 0}
   linkableSocket: 00000101
+  linkedTile:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   sockets:
   - attribute: 0
     isLinked: 0
@@ -7844,6 +7880,11 @@ MonoBehaviour:
   tileIndex: 6
   placedCard: {fileID: 0}
   linkableSocket: 01010101
+  linkedTile:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   sockets:
   - attribute: 0
     isLinked: 0
@@ -7942,7 +7983,6 @@ GameObject:
   - component: {fileID: 698315968}
   - component: {fileID: 698315970}
   - component: {fileID: 698315967}
-  - component: {fileID: 698315966}
   - component: {fileID: 698315971}
   m_Layer: 6
   m_Name: "\uD3A0\uB85C\uB2C8\uC6B0\uC2A4 \uADF8\uB8E8"
@@ -7951,23 +7991,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &698315966
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 698315965}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e060c84edf749d4383e8b7a9a235a4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  isSelectable: 0
-  upPositionOffest: 0.5
 --- !u!114 &698315967
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7983,11 +8006,21 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  info: {fileID: 0}
   id: 0
-  owner: {fileID: 0}
-  sockets: []
+  cardName: 
+  ownerOrder: -1
+  sockets:
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
   isOpened: 0
+  IsOnMouse: 0
+  front: {fileID: 0}
 --- !u!212 &698315968
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -8177,7 +8210,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -8215,7 +8248,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defualtColor: {r: 0, g: 0, b: 0, a: 1}
-  isActiveOnStart: 1
 --- !u!1 &709147209
 GameObject:
   m_ObjectHideFlags: 0
@@ -8264,6 +8296,11 @@ MonoBehaviour:
   tileIndex: 10
   placedCard: {fileID: 0}
   linkableSocket: 00010000
+  linkedTile:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   sockets:
   - attribute: 0
     isLinked: 0
@@ -8362,7 +8399,6 @@ GameObject:
   - component: {fileID: 730728448}
   - component: {fileID: 730728450}
   - component: {fileID: 730728447}
-  - component: {fileID: 730728446}
   - component: {fileID: 730728451}
   m_Layer: 6
   m_Name: "\uBC30\uD2B8\uB9E8"
@@ -8371,23 +8407,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &730728446
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 730728445}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e060c84edf749d4383e8b7a9a235a4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  isSelectable: 0
-  upPositionOffest: 0.5
 --- !u!114 &730728447
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8403,11 +8422,21 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  info: {fileID: 0}
   id: 0
-  owner: {fileID: 0}
-  sockets: []
+  cardName: 
+  ownerOrder: -1
+  sockets:
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
   isOpened: 0
+  IsOnMouse: 0
+  front: {fileID: 0}
 --- !u!212 &730728448
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -8528,7 +8557,6 @@ GameObject:
   - component: {fileID: 740837086}
   - component: {fileID: 740837088}
   - component: {fileID: 740837085}
-  - component: {fileID: 740837084}
   - component: {fileID: 740837089}
   m_Layer: 6
   m_Name: "\uB9C8\uC774\uD074 & \uD504\uB7AD\uD074\uB9B0"
@@ -8537,23 +8565,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &740837084
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 740837083}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e060c84edf749d4383e8b7a9a235a4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  isSelectable: 0
-  upPositionOffest: 0.5
 --- !u!114 &740837085
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8569,11 +8580,21 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  info: {fileID: 0}
   id: 0
-  owner: {fileID: 0}
-  sockets: []
+  cardName: 
+  ownerOrder: -1
+  sockets:
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
   isOpened: 0
+  IsOnMouse: 0
+  front: {fileID: 0}
 --- !u!212 &740837086
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -8761,81 +8782,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 743715246}
   m_CullTransparentMesh: 1
---- !u!1 &793617412
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 793617413}
-  - component: {fileID: 793617415}
-  - component: {fileID: 793617414}
-  m_Layer: 5
-  m_Name: Fill
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &793617413
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 793617412}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1885737979}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 10, y: 10}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &793617414
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 793617412}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 0.09228456, g: 1, b: 0, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &793617415
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 793617412}
-  m_CullTransparentMesh: 1
 --- !u!1 &814651011
 GameObject:
   m_ObjectHideFlags: 3
@@ -8932,7 +8878,6 @@ GameObject:
   - component: {fileID: 830128385}
   - component: {fileID: 830128387}
   - component: {fileID: 830128384}
-  - component: {fileID: 830128383}
   - component: {fileID: 830128388}
   m_Layer: 6
   m_Name: GlaDos
@@ -8941,23 +8886,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &830128383
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 830128382}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e060c84edf749d4383e8b7a9a235a4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  isSelectable: 0
-  upPositionOffest: 0.5
 --- !u!114 &830128384
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8973,11 +8901,21 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  info: {fileID: 0}
   id: 0
-  owner: {fileID: 0}
-  sockets: []
+  cardName: 
+  ownerOrder: -1
+  sockets:
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
   isOpened: 0
+  IsOnMouse: 0
+  front: {fileID: 0}
 --- !u!212 &830128385
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -9134,6 +9072,11 @@ MonoBehaviour:
   tileIndex: 3
   placedCard: {fileID: 0}
   linkableSocket: 01010101
+  linkedTile:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   sockets:
   - attribute: 0
     isLinked: 0
@@ -9268,6 +9211,11 @@ MonoBehaviour:
   tileIndex: 11
   placedCard: {fileID: 0}
   linkableSocket: 01010000
+  linkedTile:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   sockets:
   - attribute: 0
     isLinked: 0
@@ -9445,7 +9393,6 @@ GameObject:
   - component: {fileID: 877112159}
   - component: {fileID: 877112161}
   - component: {fileID: 877112158}
-  - component: {fileID: 877112157}
   - component: {fileID: 877112162}
   m_Layer: 6
   m_Name: "\uD39C\uD0C0\uD0AC \uCE74\uC11C\uC2A4"
@@ -9454,23 +9401,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &877112157
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 877112156}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e060c84edf749d4383e8b7a9a235a4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  isSelectable: 0
-  upPositionOffest: 0.5
 --- !u!114 &877112158
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9486,11 +9416,21 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  info: {fileID: 0}
   id: 0
-  owner: {fileID: 0}
-  sockets: []
+  cardName: 
+  ownerOrder: -1
+  sockets:
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
   isOpened: 0
+  IsOnMouse: 0
+  front: {fileID: 0}
 --- !u!212 &877112159
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -9633,6 +9573,11 @@ MonoBehaviour:
   tileIndex: 4
   placedCard: {fileID: 0}
   linkableSocket: 01010101
+  linkedTile:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   sockets:
   - attribute: 0
     isLinked: 0
@@ -9745,7 +9690,6 @@ GameObject:
   - component: {fileID: 902949242}
   - component: {fileID: 902949244}
   - component: {fileID: 902949241}
-  - component: {fileID: 902949240}
   - component: {fileID: 902949245}
   m_Layer: 6
   m_Name: "\uD2B8\uC704\uC2A4\uD2F0\uB4DC \uD398\uC774\uD2B8"
@@ -9754,23 +9698,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &902949240
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 902949239}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e060c84edf749d4383e8b7a9a235a4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  isSelectable: 0
-  upPositionOffest: 0.5
 --- !u!114 &902949241
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9786,11 +9713,21 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  info: {fileID: 0}
   id: 0
-  owner: {fileID: 0}
-  sockets: []
+  cardName: 
+  ownerOrder: -1
+  sockets:
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
   isOpened: 0
+  IsOnMouse: 0
+  front: {fileID: 0}
 --- !u!212 &902949242
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -10040,6 +9977,11 @@ MonoBehaviour:
   tileIndex: 7
   placedCard: {fileID: 0}
   linkableSocket: 01000001
+  linkedTile:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   sockets:
   - attribute: 0
     isLinked: 0
@@ -10157,7 +10099,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &972366909
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10184,7 +10126,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 972366908}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -10315,7 +10257,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &997590327
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10342,7 +10284,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 997590326}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -10591,7 +10533,6 @@ GameObject:
   - component: {fileID: 1012414663}
   - component: {fileID: 1012414665}
   - component: {fileID: 1012414662}
-  - component: {fileID: 1012414661}
   - component: {fileID: 1012414666}
   m_Layer: 6
   m_Name: "\uD30C\uC774\uD06C"
@@ -10600,23 +10541,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1012414661
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1012414660}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e060c84edf749d4383e8b7a9a235a4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  isSelectable: 0
-  upPositionOffest: 0.5
 --- !u!114 &1012414662
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10632,11 +10556,21 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  info: {fileID: 0}
   id: 0
-  owner: {fileID: 0}
-  sockets: []
+  cardName: 
+  ownerOrder: -1
+  sockets:
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
   isOpened: 0
+  IsOnMouse: 0
+  front: {fileID: 0}
 --- !u!212 &1012414663
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -10943,6 +10877,11 @@ MonoBehaviour:
   tileIndex: 3
   placedCard: {fileID: 0}
   linkableSocket: 01010101
+  linkedTile:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   sockets:
   - attribute: 0
     isLinked: 0
@@ -11182,7 +11121,6 @@ GameObject:
   - component: {fileID: 1071224084}
   - component: {fileID: 1071224086}
   - component: {fileID: 1071224083}
-  - component: {fileID: 1071224082}
   - component: {fileID: 1071224087}
   m_Layer: 6
   m_Name: "\uD560\uB9AC \uD038"
@@ -11191,23 +11129,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1071224082
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1071224081}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e060c84edf749d4383e8b7a9a235a4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  isSelectable: 0
-  upPositionOffest: 0.5
 --- !u!114 &1071224083
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11223,11 +11144,21 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  info: {fileID: 0}
   id: 0
-  owner: {fileID: 0}
-  sockets: []
+  cardName: 
+  ownerOrder: -1
+  sockets:
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
   isOpened: 0
+  IsOnMouse: 0
+  front: {fileID: 0}
 --- !u!212 &1071224084
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -11370,6 +11301,11 @@ MonoBehaviour:
   tileIndex: 7
   placedCard: {fileID: 0}
   linkableSocket: 01000001
+  linkedTile:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   sockets:
   - attribute: 0
     isLinked: 0
@@ -11481,9 +11417,8 @@ GameObject:
   - component: {fileID: 1082575769}
   - component: {fileID: 1082575771}
   - component: {fileID: 1082575770}
-  - component: {fileID: 1082575772}
   m_Layer: 5
-  m_Name: Message
+  m_Name: Root_Blcok
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11501,7 +11436,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 357022935}
-  m_Father: {fileID: 2001457291}
+  m_Father: {fileID: 2032749810}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -11547,20 +11482,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1082575768}
   m_CullTransparentMesh: 1
---- !u!114 &1082575772
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1082575768}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c0602e2b624a9f499cc6186d95de9c9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  line: {fileID: 357022935}
-  text: {fileID: 1832025553}
 --- !u!1 &1088959664
 GameObject:
   m_ObjectHideFlags: 0
@@ -11573,7 +11494,6 @@ GameObject:
   - component: {fileID: 1088959666}
   - component: {fileID: 1088959669}
   - component: {fileID: 1088959665}
-  - component: {fileID: 1088959668}
   - component: {fileID: 1088959670}
   m_Layer: 6
   m_Name: "\uAC31\uD50C\uB7AD\uD06C"
@@ -11597,11 +11517,21 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  info: {fileID: 0}
   id: 0
-  owner: {fileID: 0}
-  sockets: []
+  cardName: 
+  ownerOrder: -1
+  sockets:
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
   isOpened: 0
+  IsOnMouse: 0
+  front: {fileID: 0}
 --- !u!212 &1088959666
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -11667,23 +11597,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 35
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1088959668
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1088959664}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e060c84edf749d4383e8b7a9a235a4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  isSelectable: 0
-  upPositionOffest: 0.5
 --- !u!114 &1088959669
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11806,7 +11719,6 @@ GameObject:
   - component: {fileID: 1107274128}
   - component: {fileID: 1107274130}
   - component: {fileID: 1107274127}
-  - component: {fileID: 1107274126}
   - component: {fileID: 1107274131}
   m_Layer: 6
   m_Name: "\uD39C\uD0C0\uD0AC \uBC34\uB4DC"
@@ -11815,23 +11727,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1107274126
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1107274125}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e060c84edf749d4383e8b7a9a235a4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  isSelectable: 0
-  upPositionOffest: 0.5
 --- !u!114 &1107274127
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11847,11 +11742,21 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  info: {fileID: 0}
   id: 0
-  owner: {fileID: 0}
-  sockets: []
+  cardName: 
+  ownerOrder: -1
+  sockets:
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
   isOpened: 0
+  IsOnMouse: 0
+  front: {fileID: 0}
 --- !u!212 &1107274128
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -11990,7 +11895,6 @@ RectTransform:
   m_Children:
   - {fileID: 47761028}
   - {fileID: 1266226959}
-  - {fileID: 1885737979}
   m_Father: {fileID: 291566214}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -12090,7 +11994,6 @@ GameObject:
   - component: {fileID: 1140821071}
   - component: {fileID: 1140821073}
   - component: {fileID: 1140821070}
-  - component: {fileID: 1140821069}
   - component: {fileID: 1140821074}
   m_Layer: 6
   m_Name: "\uC789\uD074\uB9C1 \uAC78"
@@ -12099,23 +12002,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1140821069
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1140821068}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e060c84edf749d4383e8b7a9a235a4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  isSelectable: 0
-  upPositionOffest: 0.5
 --- !u!114 &1140821070
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12131,11 +12017,21 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  info: {fileID: 0}
   id: 0
-  owner: {fileID: 0}
-  sockets: []
+  cardName: 
+  ownerOrder: -1
+  sockets:
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
   isOpened: 0
+  IsOnMouse: 0
+  front: {fileID: 0}
 --- !u!212 &1140821071
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -12368,6 +12264,11 @@ MonoBehaviour:
   tileIndex: 5
   placedCard: {fileID: 0}
   linkableSocket: 00010100
+  linkedTile:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   sockets:
   - attribute: 0
     isLinked: 0
@@ -12763,7 +12664,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1266226959
 RectTransform:
   m_ObjectHideFlags: 0
@@ -12912,6 +12813,11 @@ MonoBehaviour:
   tileIndex: 12
   placedCard: {fileID: 0}
   linkableSocket: 01000000
+  linkedTile:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   sockets:
   - attribute: 0
     isLinked: 0
@@ -13142,6 +13048,11 @@ MonoBehaviour:
   tileIndex: 8
   placedCard: {fileID: 0}
   linkableSocket: 01010101
+  linkedTile:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   sockets:
   - attribute: 0
     isLinked: 0
@@ -13262,6 +13173,11 @@ MonoBehaviour:
   tileIndex: 2
   placedCard: {fileID: 0}
   linkableSocket: 00000001
+  linkedTile:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   sockets:
   - attribute: 0
     isLinked: 0
@@ -13396,6 +13312,11 @@ MonoBehaviour:
   tileIndex: 8
   placedCard: {fileID: 0}
   linkableSocket: 01010101
+  linkedTile:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   sockets:
   - attribute: 0
     isLinked: 0
@@ -13530,6 +13451,11 @@ MonoBehaviour:
   tileIndex: 5
   placedCard: {fileID: 0}
   linkableSocket: 00010100
+  linkedTile:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   sockets:
   - attribute: 0
     isLinked: 0
@@ -13678,6 +13604,11 @@ MonoBehaviour:
   tileIndex: 1
   placedCard: {fileID: 0}
   linkableSocket: 00000101
+  linkedTile:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   sockets:
   - attribute: 0
     isLinked: 0
@@ -13941,7 +13872,6 @@ GameObject:
   - component: {fileID: 1386266057}
   - component: {fileID: 1386266059}
   - component: {fileID: 1386266056}
-  - component: {fileID: 1386266055}
   - component: {fileID: 1386266060}
   m_Layer: 6
   m_Name: "\uBA85\uC655"
@@ -13950,23 +13880,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1386266055
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1386266054}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e060c84edf749d4383e8b7a9a235a4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  isSelectable: 0
-  upPositionOffest: 0.5
 --- !u!114 &1386266056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13982,11 +13895,21 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  info: {fileID: 0}
   id: 0
-  owner: {fileID: 0}
-  sockets: []
+  cardName: 
+  ownerOrder: -1
+  sockets:
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
   isOpened: 0
+  IsOnMouse: 0
+  front: {fileID: 0}
 --- !u!212 &1386266057
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -14129,6 +14052,11 @@ MonoBehaviour:
   tileIndex: 5
   placedCard: {fileID: 0}
   linkableSocket: 00010100
+  linkedTile:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   sockets:
   - attribute: 0
     isLinked: 0
@@ -14241,7 +14169,6 @@ GameObject:
   - component: {fileID: 1425948968}
   - component: {fileID: 1425948970}
   - component: {fileID: 1425948967}
-  - component: {fileID: 1425948966}
   - component: {fileID: 1425948971}
   m_Layer: 6
   m_Name: "\uACE0\uB4E0 \uD504\uB9AC\uB9E8"
@@ -14250,23 +14177,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1425948966
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1425948965}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e060c84edf749d4383e8b7a9a235a4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  isSelectable: 0
-  upPositionOffest: 0.5
 --- !u!114 &1425948967
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14282,11 +14192,21 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  info: {fileID: 0}
   id: 0
-  owner: {fileID: 0}
-  sockets: []
+  cardName: 
+  ownerOrder: -1
+  sockets:
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
   isOpened: 0
+  IsOnMouse: 0
+  front: {fileID: 0}
 --- !u!212 &1425948968
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -14407,7 +14327,6 @@ GameObject:
   - component: {fileID: 1434672949}
   - component: {fileID: 1434672951}
   - component: {fileID: 1434672948}
-  - component: {fileID: 1434672947}
   - component: {fileID: 1434672952}
   m_Layer: 6
   m_Name: "\uC870\uC149 \uC2DC\uB4DC"
@@ -14416,23 +14335,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1434672947
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1434672946}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e060c84edf749d4383e8b7a9a235a4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  isSelectable: 0
-  upPositionOffest: 0.5
 --- !u!114 &1434672948
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14448,11 +14350,21 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  info: {fileID: 0}
   id: 0
-  owner: {fileID: 0}
-  sockets: []
+  cardName: 
+  ownerOrder: -1
+  sockets:
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
   isOpened: 0
+  IsOnMouse: 0
+  front: {fileID: 0}
 --- !u!212 &1434672949
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -14708,6 +14620,11 @@ MonoBehaviour:
   tileIndex: 12
   placedCard: {fileID: 0}
   linkableSocket: 01000000
+  linkedTile:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   sockets:
   - attribute: 0
     isLinked: 0
@@ -14902,7 +14819,6 @@ GameObject:
   - component: {fileID: 1452971086}
   - component: {fileID: 1452971088}
   - component: {fileID: 1452971085}
-  - component: {fileID: 1452971084}
   - component: {fileID: 1452971089}
   m_Layer: 6
   m_Name: "\uC6B8\uD2B8\uB860"
@@ -14911,23 +14827,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1452971084
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1452971083}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e060c84edf749d4383e8b7a9a235a4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  isSelectable: 0
-  upPositionOffest: 0.5
 --- !u!114 &1452971085
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14943,11 +14842,21 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  info: {fileID: 0}
   id: 0
-  owner: {fileID: 0}
-  sockets: []
+  cardName: 
+  ownerOrder: -1
+  sockets:
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
   isOpened: 0
+  IsOnMouse: 0
+  front: {fileID: 0}
 --- !u!212 &1452971086
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -15068,7 +14977,6 @@ GameObject:
   - component: {fileID: 1468760431}
   - component: {fileID: 1468760433}
   - component: {fileID: 1468760430}
-  - component: {fileID: 1468760429}
   - component: {fileID: 1468760434}
   m_Layer: 6
   m_Name: "\uB2C8\uC54C\uB77C\uD1A0\uD15D"
@@ -15077,23 +14985,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1468760429
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1468760428}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e060c84edf749d4383e8b7a9a235a4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  isSelectable: 0
-  upPositionOffest: 0.5
 --- !u!114 &1468760430
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15109,11 +15000,21 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  info: {fileID: 0}
   id: 0
-  owner: {fileID: 0}
-  sockets: []
+  cardName: 
+  ownerOrder: -1
+  sockets:
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
   isOpened: 0
+  IsOnMouse: 0
+  front: {fileID: 0}
 --- !u!212 &1468760431
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -15421,6 +15322,11 @@ MonoBehaviour:
   tileIndex: 12
   placedCard: {fileID: 0}
   linkableSocket: 01000000
+  linkedTile:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   sockets:
   - attribute: 0
     isLinked: 0
@@ -15637,6 +15543,11 @@ MonoBehaviour:
   tileIndex: 2
   placedCard: {fileID: 0}
   linkableSocket: 00000001
+  linkedTile:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   sockets:
   - attribute: 0
     isLinked: 0
@@ -15771,6 +15682,11 @@ MonoBehaviour:
   tileIndex: 1
   placedCard: {fileID: 0}
   linkableSocket: 00000101
+  linkedTile:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   sockets:
   - attribute: 0
     isLinked: 0
@@ -15883,7 +15799,6 @@ GameObject:
   - component: {fileID: 1546174889}
   - component: {fileID: 1546174891}
   - component: {fileID: 1546174888}
-  - component: {fileID: 1546174887}
   - component: {fileID: 1546174892}
   m_Layer: 6
   m_Name: "\uC5D0\uC774\uB4E0 \uD53C\uC5B4\uC2A4"
@@ -15892,23 +15807,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1546174887
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1546174886}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e060c84edf749d4383e8b7a9a235a4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  isSelectable: 0
-  upPositionOffest: 0.5
 --- !u!114 &1546174888
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15924,11 +15822,21 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  info: {fileID: 0}
   id: 0
-  owner: {fileID: 0}
-  sockets: []
+  cardName: 
+  ownerOrder: -1
+  sockets:
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
   isOpened: 0
+  IsOnMouse: 0
+  front: {fileID: 0}
 --- !u!212 &1546174889
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -16049,7 +15957,6 @@ GameObject:
   - component: {fileID: 1554215988}
   - component: {fileID: 1554215990}
   - component: {fileID: 1554215987}
-  - component: {fileID: 1554215986}
   - component: {fileID: 1554215991}
   m_Layer: 6
   m_Name: "\uCEA1\uD2F4 \uBBF8\uC2A4 \uD3EC\uCE08"
@@ -16058,23 +15965,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1554215986
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1554215985}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e060c84edf749d4383e8b7a9a235a4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  isSelectable: 0
-  upPositionOffest: 0.5
 --- !u!114 &1554215987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16090,11 +15980,21 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  info: {fileID: 0}
   id: 0
-  owner: {fileID: 0}
-  sockets: []
+  cardName: 
+  ownerOrder: -1
+  sockets:
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
   isOpened: 0
+  IsOnMouse: 0
+  front: {fileID: 0}
 --- !u!212 &1554215988
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -16237,6 +16137,11 @@ MonoBehaviour:
   tileIndex: 5
   placedCard: {fileID: 0}
   linkableSocket: 00010100
+  linkedTile:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   sockets:
   - attribute: 0
     isLinked: 0
@@ -16371,6 +16276,11 @@ MonoBehaviour:
   tileIndex: 8
   placedCard: {fileID: 0}
   linkableSocket: 01010101
+  linkedTile:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   sockets:
   - attribute: 0
     isLinked: 0
@@ -16483,7 +16393,6 @@ GameObject:
   - component: {fileID: 1569938083}
   - component: {fileID: 1569938085}
   - component: {fileID: 1569938082}
-  - component: {fileID: 1569938081}
   - component: {fileID: 1569938086}
   m_Layer: 6
   m_Name: "\uBB38\uB3C4 \uBC15\uC0AC"
@@ -16492,23 +16401,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1569938081
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1569938080}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e060c84edf749d4383e8b7a9a235a4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  isSelectable: 0
-  upPositionOffest: 0.5
 --- !u!114 &1569938082
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16524,11 +16416,21 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  info: {fileID: 0}
   id: 0
-  owner: {fileID: 0}
-  sockets: []
+  cardName: 
+  ownerOrder: -1
+  sockets:
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
   isOpened: 0
+  IsOnMouse: 0
+  front: {fileID: 0}
 --- !u!212 &1569938083
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -16671,6 +16573,11 @@ MonoBehaviour:
   tileIndex: 0
   placedCard: {fileID: 0}
   linkableSocket: 00000100
+  linkedTile:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   sockets:
   - attribute: 0
     isLinked: 0
@@ -16783,7 +16690,6 @@ GameObject:
   - component: {fileID: 1605852363}
   - component: {fileID: 1605852365}
   - component: {fileID: 1605852362}
-  - component: {fileID: 1605852361}
   - component: {fileID: 1605852366}
   m_Layer: 6
   m_Name: "\uBC14\uC774"
@@ -16792,23 +16698,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1605852361
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1605852360}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e060c84edf749d4383e8b7a9a235a4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  isSelectable: 0
-  upPositionOffest: 0.5
 --- !u!114 &1605852362
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16824,11 +16713,21 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  info: {fileID: 0}
   id: 0
-  owner: {fileID: 0}
-  sockets: []
+  cardName: 
+  ownerOrder: -1
+  sockets:
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
   isOpened: 0
+  IsOnMouse: 0
+  front: {fileID: 0}
 --- !u!212 &1605852363
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -16949,7 +16848,6 @@ GameObject:
   - component: {fileID: 1607161481}
   - component: {fileID: 1607161483}
   - component: {fileID: 1607161480}
-  - component: {fileID: 1607161479}
   - component: {fileID: 1607161484}
   m_Layer: 6
   m_Name: "\uC880\uBE44"
@@ -16958,23 +16856,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1607161479
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1607161478}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e060c84edf749d4383e8b7a9a235a4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  isSelectable: 0
-  upPositionOffest: 0.5
 --- !u!114 &1607161480
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16990,11 +16871,21 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  info: {fileID: 0}
   id: 0
-  owner: {fileID: 0}
-  sockets: []
+  cardName: 
+  ownerOrder: -1
+  sockets:
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
   isOpened: 0
+  IsOnMouse: 0
+  front: {fileID: 0}
 --- !u!212 &1607161481
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -17216,6 +17107,11 @@ MonoBehaviour:
   tileIndex: 10
   placedCard: {fileID: 0}
   linkableSocket: 00010000
+  linkedTile:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   sockets:
   - attribute: 0
     isLinked: 0
@@ -17328,7 +17224,6 @@ GameObject:
   - component: {fileID: 1640386829}
   - component: {fileID: 1640386831}
   - component: {fileID: 1640386828}
-  - component: {fileID: 1640386827}
   - component: {fileID: 1640386832}
   m_Layer: 6
   m_Name: "\uC544\uC774\uC5B8\uB9E8"
@@ -17337,23 +17232,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1640386827
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1640386826}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e060c84edf749d4383e8b7a9a235a4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  isSelectable: 0
-  upPositionOffest: 0.5
 --- !u!114 &1640386828
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17369,11 +17247,21 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  info: {fileID: 0}
   id: 0
-  owner: {fileID: 0}
-  sockets: []
+  cardName: 
+  ownerOrder: -1
+  sockets:
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
   isOpened: 0
+  IsOnMouse: 0
+  front: {fileID: 0}
 --- !u!212 &1640386829
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -17516,6 +17404,11 @@ MonoBehaviour:
   tileIndex: 11
   placedCard: {fileID: 0}
   linkableSocket: 01010000
+  linkedTile:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   sockets:
   - attribute: 0
     isLinked: 0
@@ -17650,6 +17543,11 @@ MonoBehaviour:
   tileIndex: 4
   placedCard: {fileID: 0}
   linkableSocket: 01010101
+  linkedTile:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   sockets:
   - attribute: 0
     isLinked: 0
@@ -17784,6 +17682,11 @@ MonoBehaviour:
   tileIndex: 0
   placedCard: {fileID: 0}
   linkableSocket: 00000100
+  linkedTile:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   sockets:
   - attribute: 0
     isLinked: 0
@@ -18078,7 +17981,6 @@ GameObject:
   - component: {fileID: 1741587678}
   - component: {fileID: 1741587680}
   - component: {fileID: 1741587677}
-  - component: {fileID: 1741587676}
   - component: {fileID: 1741587681}
   m_Layer: 6
   m_Name: "\uBE14\uB799 \uB808\uC778\uC800"
@@ -18087,23 +17989,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1741587676
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1741587675}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e060c84edf749d4383e8b7a9a235a4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  isSelectable: 0
-  upPositionOffest: 0.5
 --- !u!114 &1741587677
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18119,11 +18004,21 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  info: {fileID: 0}
   id: 0
-  owner: {fileID: 0}
-  sockets: []
+  cardName: 
+  ownerOrder: -1
+  sockets:
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
   isOpened: 0
+  IsOnMouse: 0
+  front: {fileID: 0}
 --- !u!212 &1741587678
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -18244,7 +18139,6 @@ GameObject:
   - component: {fileID: 1763488976}
   - component: {fileID: 1763488978}
   - component: {fileID: 1763488975}
-  - component: {fileID: 1763488974}
   - component: {fileID: 1763488979}
   m_Layer: 6
   m_Name: "\uB354\uBE14"
@@ -18253,23 +18147,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1763488974
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1763488973}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e060c84edf749d4383e8b7a9a235a4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  isSelectable: 0
-  upPositionOffest: 0.5
 --- !u!114 &1763488975
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18285,11 +18162,21 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  info: {fileID: 0}
   id: 0
-  owner: {fileID: 0}
-  sockets: []
+  cardName: 
+  ownerOrder: -1
+  sockets:
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
   isOpened: 0
+  IsOnMouse: 0
+  front: {fileID: 0}
 --- !u!212 &1763488976
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -18432,6 +18319,11 @@ MonoBehaviour:
   tileIndex: 8
   placedCard: {fileID: 0}
   linkableSocket: 01010101
+  linkedTile:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   sockets:
   - attribute: 0
     isLinked: 0
@@ -18544,7 +18436,6 @@ GameObject:
   - component: {fileID: 1769380013}
   - component: {fileID: 1769380015}
   - component: {fileID: 1769380012}
-  - component: {fileID: 1769380011}
   - component: {fileID: 1769380016}
   m_Layer: 6
   m_Name: "\uD55C\uB9C8 \uC720\uC9C0\uB85C"
@@ -18553,23 +18444,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1769380011
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1769380010}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e060c84edf749d4383e8b7a9a235a4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  isSelectable: 0
-  upPositionOffest: 0.5
 --- !u!114 &1769380012
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18585,11 +18459,21 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  info: {fileID: 0}
   id: 0
-  owner: {fileID: 0}
-  sockets: []
+  cardName: 
+  ownerOrder: -1
+  sockets:
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
   isOpened: 0
+  IsOnMouse: 0
+  front: {fileID: 0}
 --- !u!212 &1769380013
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -18710,7 +18594,6 @@ GameObject:
   - component: {fileID: 1772123371}
   - component: {fileID: 1772123373}
   - component: {fileID: 1772123370}
-  - component: {fileID: 1772123369}
   - component: {fileID: 1772123374}
   m_Layer: 6
   m_Name: "\uD0C0\uB178\uC2A4"
@@ -18719,23 +18602,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1772123369
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1772123368}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e060c84edf749d4383e8b7a9a235a4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  isSelectable: 0
-  upPositionOffest: 0.5
 --- !u!114 &1772123370
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18751,11 +18617,21 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  info: {fileID: 0}
   id: 0
-  owner: {fileID: 0}
-  sockets: []
+  cardName: 
+  ownerOrder: -1
+  sockets:
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
   isOpened: 0
+  IsOnMouse: 0
+  front: {fileID: 0}
 --- !u!212 &1772123371
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -18876,7 +18752,6 @@ GameObject:
   - component: {fileID: 1783724021}
   - component: {fileID: 1783724023}
   - component: {fileID: 1783724020}
-  - component: {fileID: 1783724019}
   - component: {fileID: 1783724024}
   m_Layer: 6
   m_Name: "\uD06C\uB85C\uCEE4\uB2E4\uC77C"
@@ -18885,23 +18760,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1783724019
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1783724018}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e060c84edf749d4383e8b7a9a235a4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  isSelectable: 0
-  upPositionOffest: 0.5
 --- !u!114 &1783724020
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18917,11 +18775,21 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  info: {fileID: 0}
   id: 0
-  owner: {fileID: 0}
-  sockets: []
+  cardName: 
+  ownerOrder: -1
+  sockets:
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
   isOpened: 0
+  IsOnMouse: 0
+  front: {fileID: 0}
 --- !u!212 &1783724021
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -19042,7 +18910,6 @@ GameObject:
   - component: {fileID: 1809463173}
   - component: {fileID: 1809463175}
   - component: {fileID: 1809463172}
-  - component: {fileID: 1809463171}
   - component: {fileID: 1809463176}
   m_Layer: 6
   m_Name: "\uC11C\uD050\uBC84\uC2A4"
@@ -19051,23 +18918,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1809463171
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1809463170}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e060c84edf749d4383e8b7a9a235a4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  isSelectable: 0
-  upPositionOffest: 0.5
 --- !u!114 &1809463172
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19083,11 +18933,21 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  info: {fileID: 0}
   id: 0
-  owner: {fileID: 0}
-  sockets: []
+  cardName: 
+  ownerOrder: -1
+  sockets:
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
   isOpened: 0
+  IsOnMouse: 0
+  front: {fileID: 0}
 --- !u!212 &1809463173
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -19456,6 +19316,11 @@ MonoBehaviour:
   tileIndex: 7
   placedCard: {fileID: 0}
   linkableSocket: 01000001
+  linkedTile:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   sockets:
   - attribute: 0
     isLinked: 0
@@ -19554,7 +19419,6 @@ GameObject:
   - component: {fileID: 1863716928}
   - component: {fileID: 1863716930}
   - component: {fileID: 1863716927}
-  - component: {fileID: 1863716926}
   - component: {fileID: 1863716931}
   m_Layer: 6
   m_Name: "\uD558\uC774\uBA38\uB529\uAC70"
@@ -19563,23 +19427,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1863716926
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1863716925}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e060c84edf749d4383e8b7a9a235a4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  isSelectable: 0
-  upPositionOffest: 0.5
 --- !u!114 &1863716927
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19595,11 +19442,21 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  info: {fileID: 0}
   id: 0
-  owner: {fileID: 0}
-  sockets: []
+  cardName: 
+  ownerOrder: -1
+  sockets:
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
   isOpened: 0
+  IsOnMouse: 0
+  front: {fileID: 0}
 --- !u!212 &1863716928
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -19779,82 +19636,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 24
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1885737978
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1885737979}
-  - component: {fileID: 1885737981}
-  - component: {fileID: 1885737980}
-  m_Layer: 5
-  m_Name: Time Slider
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1885737979
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1885737978}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 793617413}
-  m_Father: {fileID: 1122667114}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1885737980
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1885737978}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &1885737981
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1885737978}
-  m_CullTransparentMesh: 1
 --- !u!1 &1888164052
 GameObject:
   m_ObjectHideFlags: 0
@@ -19946,7 +19727,6 @@ GameObject:
   - component: {fileID: 1891683737}
   - component: {fileID: 1891683739}
   - component: {fileID: 1891683736}
-  - component: {fileID: 1891683735}
   - component: {fileID: 1891683740}
   m_Layer: 6
   m_Name: "\uB808\uB4DC \uB808\uC778\uC800"
@@ -19955,23 +19735,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1891683735
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1891683734}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e060c84edf749d4383e8b7a9a235a4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  isSelectable: 0
-  upPositionOffest: 0.5
 --- !u!114 &1891683736
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19987,11 +19750,21 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  info: {fileID: 0}
   id: 0
-  owner: {fileID: 0}
-  sockets: []
+  cardName: 
+  ownerOrder: -1
+  sockets:
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
   isOpened: 0
+  IsOnMouse: 0
+  front: {fileID: 0}
 --- !u!212 &1891683737
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -20298,6 +20071,11 @@ MonoBehaviour:
   tileIndex: 11
   placedCard: {fileID: 0}
   linkableSocket: 01010000
+  linkedTile:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   sockets:
   - attribute: 0
     isLinked: 0
@@ -20446,6 +20224,11 @@ MonoBehaviour:
   tileIndex: 4
   placedCard: {fileID: 0}
   linkableSocket: 01010101
+  linkedTile:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   sockets:
   - attribute: 0
     isLinked: 0
@@ -20544,7 +20327,6 @@ GameObject:
   - component: {fileID: 1938614330}
   - component: {fileID: 1938614332}
   - component: {fileID: 1938614329}
-  - component: {fileID: 1938614328}
   - component: {fileID: 1938614333}
   m_Layer: 6
   m_Name: "\uD39C\uD0C0\uD0AC \uC18C\uB098"
@@ -20553,23 +20335,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1938614328
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1938614327}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e060c84edf749d4383e8b7a9a235a4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  isSelectable: 0
-  upPositionOffest: 0.5
 --- !u!114 &1938614329
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20585,11 +20350,21 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  info: {fileID: 0}
   id: 0
-  owner: {fileID: 0}
-  sockets: []
+  cardName: 
+  ownerOrder: -1
+  sockets:
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
   isOpened: 0
+  IsOnMouse: 0
+  front: {fileID: 0}
 --- !u!212 &1938614330
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -20819,6 +20594,11 @@ MonoBehaviour:
   tileIndex: 0
   placedCard: {fileID: 0}
   linkableSocket: 00000100
+  linkedTile:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   sockets:
   - attribute: 0
     isLinked: 0
@@ -21062,7 +20842,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
-  - {fileID: 1082575769}
+  - {fileID: 2032749810}
   - {fileID: 707730625}
   - {fileID: 1149732124}
   m_Father: {fileID: 0}
@@ -21217,6 +20997,11 @@ MonoBehaviour:
   tileIndex: 4
   placedCard: {fileID: 0}
   linkableSocket: 01010101
+  linkedTile:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   sockets:
   - attribute: 0
     isLinked: 0
@@ -21351,6 +21136,11 @@ MonoBehaviour:
   tileIndex: 10
   placedCard: {fileID: 0}
   linkableSocket: 00010000
+  linkedTile:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   sockets:
   - attribute: 0
     isLinked: 0
@@ -21608,6 +21398,60 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2022148963}
   m_CullTransparentMesh: 1
+--- !u!1 &2032749809
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2032749810}
+  - component: {fileID: 2032749811}
+  m_Layer: 0
+  m_Name: Line Message
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &2032749810
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2032749809}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1082575769}
+  m_Father: {fileID: 2001457291}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2032749811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2032749809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c0602e2b624a9f499cc6186d95de9c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  root: {fileID: 1082575768}
+  line: {fileID: 357022935}
+  text: {fileID: 1832025553}
+  ease: 11
+  inOutTime: 0.1
 --- !u!1 &2046824508
 GameObject:
   m_ObjectHideFlags: 0
@@ -21702,7 +21546,6 @@ GameObject:
   - component: {fileID: 2057055787}
   - component: {fileID: 2057055789}
   - component: {fileID: 2057055786}
-  - component: {fileID: 2057055785}
   - component: {fileID: 2057055790}
   m_Layer: 6
   m_Name: "\uC774\uBE14\uB9B0"
@@ -21711,23 +21554,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2057055785
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2057055784}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e060c84edf749d4383e8b7a9a235a4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  isSelectable: 0
-  upPositionOffest: 0.5
 --- !u!114 &2057055786
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21743,11 +21569,21 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  info: {fileID: 0}
   id: 0
-  owner: {fileID: 0}
-  sockets: []
+  cardName: 
+  ownerOrder: -1
+  sockets:
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
   isOpened: 0
+  IsOnMouse: 0
+  front: {fileID: 0}
 --- !u!212 &2057055787
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -21890,6 +21726,11 @@ MonoBehaviour:
   tileIndex: 6
   placedCard: {fileID: 0}
   linkableSocket: 01010101
+  linkedTile:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   sockets:
   - attribute: 0
     isLinked: 0
@@ -22002,7 +21843,6 @@ GameObject:
   - component: {fileID: 2057596944}
   - component: {fileID: 2057596946}
   - component: {fileID: 2057596943}
-  - component: {fileID: 2057596942}
   - component: {fileID: 2057596947}
   m_Layer: 6
   m_Name: "\uD5D0\uD06C \uBC84\uC2A4\uD130"
@@ -22011,23 +21851,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2057596942
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2057596941}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e060c84edf749d4383e8b7a9a235a4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  isSelectable: 0
-  upPositionOffest: 0.5
 --- !u!114 &2057596943
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22043,11 +21866,21 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  info: {fileID: 0}
   id: 0
-  owner: {fileID: 0}
-  sockets: []
+  cardName: 
+  ownerOrder: -1
+  sockets:
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
   isOpened: 0
+  IsOnMouse: 0
+  front: {fileID: 0}
 --- !u!212 &2057596944
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -22190,6 +22023,11 @@ MonoBehaviour:
   tileIndex: 9
   placedCard: {fileID: 0}
   linkableSocket: 01010101
+  linkedTile:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   sockets:
   - attribute: 0
     isLinked: 0
@@ -22302,7 +22140,6 @@ GameObject:
   - component: {fileID: 2103684614}
   - component: {fileID: 2103684616}
   - component: {fileID: 2103684613}
-  - component: {fileID: 2103684612}
   - component: {fileID: 2103684617}
   m_Layer: 6
   m_Name: "\uB9C8\uB9AC\uC624"
@@ -22311,23 +22148,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2103684612
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2103684611}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e060c84edf749d4383e8b7a9a235a4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  isSelectable: 0
-  upPositionOffest: 0.5
 --- !u!114 &2103684613
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22343,11 +22163,21 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  info: {fileID: 0}
   id: 0
-  owner: {fileID: 0}
-  sockets: []
+  cardName: 
+  ownerOrder: -1
+  sockets:
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
+  - attribute: 0
+    isLinked: 0
   isOpened: 0
+  IsOnMouse: 0
+  front: {fileID: 0}
 --- !u!212 &2103684614
 SpriteRenderer:
   m_ObjectHideFlags: 0

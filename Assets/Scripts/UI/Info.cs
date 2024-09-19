@@ -4,12 +4,11 @@ using UnityEngine.UI;
 using DG.Tweening;
 
 [RequireComponent(typeof(Canvas))]
-public class InfoUIController : MonoBehaviour
+public class Info : MonoBehaviour
 {
-    readonly Queue<Image> infoUIs = new Queue<Image>();
+    readonly Queue<Image> infos = new Queue<Image>();
 
     public Image prefab;
-
 
     [SerializeField, Header("시작 위치")]
     RectTransform startPosition;
@@ -35,13 +34,13 @@ public class InfoUIController : MonoBehaviour
         }
 
 
-        if (infoUIs.Count.Equals(0))
+        if (infos.Count.Equals(0))
         {
             currentInfo = Instantiate(prefab, this.transform);
         }
         else
         {
-            currentInfo = infoUIs.Dequeue();
+            currentInfo = infos.Dequeue();
         }
 
         currentInfo.sprite = sprt;
@@ -61,13 +60,13 @@ public class InfoUIController : MonoBehaviour
         }
 
 
-        if (infoUIs.Count.Equals(0))
+        if (infos.Count.Equals(0))
         {
             currentInfo = Instantiate(prefab, this.transform);
         }
         else
         {
-            currentInfo = infoUIs.Dequeue();
+            currentInfo = infos.Dequeue();
         }
 
         currentInfo.color = startColor;
@@ -86,7 +85,7 @@ public class InfoUIController : MonoBehaviour
         currentInfo.DOFade(0, exitDuration).SetEase(ease).
             OnComplete(() =>
             {
-                infoUIs.Enqueue(currentInfo);
+                infos.Enqueue(currentInfo);
                 currentInfo.gameObject.SetActive(false);
             });
     }

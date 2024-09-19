@@ -11,9 +11,8 @@ GameObject:
   - component: {fileID: 4133336804403664188}
   - component: {fileID: 4133336804403664179}
   - component: {fileID: 4133336804403664178}
-  - component: {fileID: 4133336804403664177}
-  - component: {fileID: 4133336804403664176}
-  - component: {fileID: 4133336804403664183}
+  - component: {fileID: 8352800595457155905}
+  - component: {fileID: -5619602114629637753}
   m_Layer: 0
   m_Name: Test Card
   m_TagString: Untagged
@@ -99,11 +98,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneId: 0
-  _assetId: 0
+  _assetId: 3433976470
   serverOnly: 0
   visibility: 0
   hasSpawned: 0
---- !u!114 &4133336804403664177
+--- !u!114 &8352800595457155905
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -112,49 +111,41 @@ MonoBehaviour:
   m_GameObject: {fileID: 4133336804403664182}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e390aab31cec94e469cbfdd3dd3a9b92, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  info: {fileID: 0}
-  id: 0
-  owner: {fileID: 0}
-  sockets: []
-  handler: {fileID: 0}
-  sprtRend: {fileID: 0}
-  front: {fileID: 0}
---- !u!114 &4133336804403664176
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4133336804403664182}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e390aab31cec94e469cbfdd3dd3a9b92, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  info: {fileID: 0}
-  id: 0
-  owner: {fileID: 0}
-  sockets: []
-  handler: {fileID: 0}
-  sprtRend: {fileID: 0}
-  front: {fileID: 0}
---- !u!114 &4133336804403664183
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4133336804403664182}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e060c84edf749d4383e8b7a9a235a4d, type: 3}
+  m_Script: {fileID: 11500000, guid: 2222404421c3e3248973b4239706b6cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  isSelectable: 0
-  upPositionOffest: 0
+  info: {fileID: 0}
+  id: 0
+  ownerOrder: -1
+  sockets: []
+  isOpened: 0
+  IsOnMouse: 0
+--- !u!61 &-5619602114629637753
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4133336804403664182}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1.5705521}
+    newSize: {x: 1, y: 1.5705521}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1.5705521}
+  m_EdgeRadius: 0

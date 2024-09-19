@@ -31,7 +31,7 @@ public class Socket
 
     public Socket(Attribute attribute = Attribute.isEmpty, bool isFilled = false)
     {
-        this.attribute = Attribute.isEmpty;
-        this.isLinked = false;
+        this.attribute = attribute;
+        this.isLinked = isFilled;
     }
 }

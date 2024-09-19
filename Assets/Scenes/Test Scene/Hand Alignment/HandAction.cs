@@ -1,13 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Hand))]
 public class HandAction : MonoBehaviour
 {
-    Hand hand;
-    
     public Card prefab;
+    Hand hand;
 
     private void Start()
     {
@@ -19,12 +16,10 @@ public class HandAction : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             hand.Add(Instantiate(prefab));
-            hand.HandAlignment();
         }
-
-        if (Input.GetKeyDown(KeyCode.Backspace))
+        else if (Input.GetKeyDown(KeyCode.Return))
         {
-
+            hand.HandOpen();
         }
     }
 }

@@ -1,22 +1,20 @@
 using UnityEngine;
 using Mirror;
 
+[RequireComponent(typeof(NetworkIdentity))]
 public partial class Card : NetworkBehaviour
 {
-    [SerializeField]
-    CardInfo info;
+    public int id;
+    public string cardName;
 
-    [SerializeField] int id;
-    public int ID => id;
-
-    [SerializeField]
-    Player owner = null;
-    public Player Owner => owner;
-
-    public Card SetOwner(Player owner)
+    [SyncVar]
+    public int ownerOrder = -1;
+    public Player Owner
     {
-        this.owner = owner;
-        return this;
+        get
+        {
+            return GameManager.Player(ownerOrder);
+        }
     }
 
     //소켓에 대한 정보
@@ -24,7 +22,7 @@ public partial class Card : NetworkBehaviour
     //
     // 3   2
     [Header("카드의 소켓"), Space(10)]
-    [SerializeField] Socket[] sockets;
+    [SerializeField] Socket[] sockets = new Socket[4];
     public Socket[] Sockets => sockets;
 
     [Header("현재 카드가 놓여진 타일"), Space(10)]
@@ -44,7 +42,6 @@ public partial class Card : NetworkBehaviour
 
     [SerializeField]
     bool isOpened = false;
-    
     public bool IsOpened
     {
         get
@@ -54,16 +51,19 @@ public partial class Card : NetworkBehaviour
         set
         {
             isOpened = value;
-            sprtRend.sprite = isOpened ? front : GameManager.instance.cardBackFace;
+            SprtRend.sprite = isOpened ? front : GameManager.instance.cardBackFace;
         }
     }
 
-    public SpriteRenderer sprtRend { get; private set; }
-    public Sprite front { get; private set; }
+    public bool IsOnMouse = false;
+
+    public SpriteRenderer SprtRend { get; private set; }
+    public Sprite front;
+
     private void Awake()
     {
-        sprtRend = GetComponent<SpriteRenderer>();
-        front = sprtRend.sprite;
+        SprtRend = GetComponent<SpriteRenderer>();
+        //Front = SprtRend.sprite;
     }
 
     private void Start()

@@ -1,24 +1,12 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using Mirror;
+using System.IO;
 
 public class GameManager : NetworkBehaviour
 {
-    Commander commander;
-    public static Commander Commander
-    {
-        get
-        {
-            if (instance.commander == null)
-            {
-                instance.commander = new Commander();
-            }
-            return instance.commander;
-        }
-    }
 
     //전역 클래스 설정
     public static GameManager instance = null;
@@ -27,6 +15,7 @@ public class GameManager : NetworkBehaviour
         if (instance == null)
         {
             instance = this;
+            CardSetting();
         }
         else
         {
@@ -41,13 +30,27 @@ public class GameManager : NetworkBehaviour
         }
     }
 
+    Commander commander;
+    public static Commander Commander
+    {
+        get
+        {
+            if (instance.commander == null)
+            {
+                instance.commander = new Commander();
+            }
+            return instance.commander;
+        }
+    }
+
+
     [Header("카드 뒷면 이미지"), Space(10)]
     public Sprite cardBackFace;
 
-    [SerializeField]
-    [Header("플레이어 리스트"), Space(10)]
-    List<Player> players = new List<Player>();
 
+    [Header("플레이어")]
+    [SerializeField]
+    List<Player> players = new List<Player>();
     Player localPlayer = null;
     public static Player LocalPlayer
     {
@@ -58,18 +61,87 @@ public class GameManager : NetworkBehaviour
             return instance.localPlayer;
         }
     }
+    public static Player Player(int i)
+    {
+        if (i < 0 || i >= 4)
+        {
+            Debug.Log("범위가 잘못됐습니다.");
+            return null;
+        }
 
-    /// <returns>i번째 순서의 플레이어</returns>
-    public static Player Player(int i) => instance.players[i];
+        return instance.players[i];
+    }
 
-    [Header("참조"), Space(10)]
+    [Header("카드"), Space(10)]
     [SerializeField] Card[] cards;
     public static Card Card(int id) => instance.cards[id];
-
-    /// <summary>
-    /// 게임의 모든 카드 장수 (종류 수)
-    /// </summary>
     public static int TotalCard => instance.cards.Length;
+
+    string filePath = "Conquest_Info";
+
+    void CardSetting()
+    {
+        TextAsset csvFile = Resources.Load<TextAsset>(filePath);
+        string[] dataLines;
+
+        if (csvFile == null)
+        {
+            Debug.LogError("CSV 파일을 찾을 수 없습니다.");
+            return;
+        }
+
+        dataLines = csvFile.text.Split(new char[] { '\n' });
+        if (dataLines.Length <= 1)
+        {
+            Debug.LogError("CSV 파일에 데이터가 부족합니다.");
+            return;
+        }
+
+        int size = TotalCard;
+        string line;
+        string[] data;
+        for (int i = 0; i < size; i++)
+        {
+            line = dataLines[i + 1].Trim();
+            if (string.IsNullOrWhiteSpace(line)) continue;
+
+            data = line.Split(',');
+
+            //카드 ID 부여
+            cards[i].id = int.Parse(data[0]);
+
+            // 이미지를 로드하여 카드의 front에 할당
+            string imageName = data[1];  // 파일명 생성
+            Sprite cardFront = Resources.Load<Sprite>("Card/" + imageName);  // Resources/Card 폴더에서 이미지 로드
+
+            if (cardFront == null)
+            {
+                cards[i].front = null;
+                Debug.LogError($"이미지를 찾을 수 없습니다: {imageName}");
+            }
+            else
+            {
+                cards[i].front = cardFront;  // 카드의 front 스프라이트 할당
+            }
+
+            cards[i].cardName = data[2];
+            
+            cards[i].Sockets[0] = new Socket(ParseAttribute(data[3]), data[4].Equals("1"));
+            cards[i].Sockets[1] = new Socket(ParseAttribute(data[5]), data[6].Equals("1"));
+            cards[i].Sockets[2] = new Socket(ParseAttribute(data[7]), data[8].Equals("1"));
+            cards[i].Sockets[3] = new Socket(ParseAttribute(data[9]), data[10].Equals("1"));
+        }
+    }
+
+    // string 값을 int로 변환한 후 enum으로 변환하는 함수
+    Attribute ParseAttribute(string value)
+    {
+        if (int.TryParse(value, out int result) && System.Enum.IsDefined(typeof(Attribute), result))
+        {
+            return (Attribute)result;
+        }
+        return Attribute.isEmpty;  // 변환 실패 시 기본값 반환
+    }
 
     [Header("덱")]
     [SerializeField] Deck deck;
@@ -83,6 +155,9 @@ public class GameManager : NetworkBehaviour
     [Header("패")]
     [SerializeField] Hand[] hands;
     public static Hand Hand(int i) => instance.hands[i];
+
+
+
 
     #region #1 플레이어의 연결과 게임 시작
     //각 클라이언트에 존재하는 GameManager의 List에 Player 객체를 추가
@@ -145,12 +220,20 @@ public class GameManager : NetworkBehaviour
     }
     #endregion
 
+
+
     public int CurrentOrder { get; private set; }
 
+
+
+    /// <summary>
+    /// true : 오름차순으로 게임이 진행됩니다.
+    /// false : 내림차순으로 게임이 진행됩니다.
+    /// </summary>
     public bool isClockwise = true;
 
     /// <summary>
-    /// 자신의 다음 차례 플레이어의 번호를 반환합니다.
+    /// 다음 차례 순서를 반환
     /// </summary>
     public static int NextOrder(int myOrder)
     {
@@ -165,15 +248,20 @@ public class GameManager : NetworkBehaviour
         return nextOrder;
     }
 
-    public static int GetSidePlayer(int myOrder, int dir)
+    /// <summary>
+    /// 이전 차례 순서를 반환
+    /// </summary>
+    public static int PreviousOrder(int myOrder)
     {
-        int sidePlayerNumber = myOrder;
+        int nextOrder = myOrder;
+
         do
         {
-            sidePlayerNumber = (sidePlayerNumber + dir + 4) % 4;
-        } while (!Player(sidePlayerNumber).isGameOver);
+            nextOrder = (nextOrder + (instance.isClockwise ? 3 : 5)) % 4;
+        }
+        while (Player(nextOrder).isGameOver);
 
-        return sidePlayerNumber;
+        return nextOrder;
     }
 
     /// <summary>
@@ -224,4 +312,41 @@ public class GameManager : NetworkBehaviour
             return isFinished;
         }
     }
+
+
+    public static Dictionary<int, List<Card>> dict_HandLimitStack = new Dictionary<int, List<Card>> {
+    { 0, new List<Card>() },
+    { 1, new List<Card>() },
+    { 2, new List<Card>() },
+    { 3, new List<Card>() }
+    };
+
+    /// <summary>
+    /// 자신의 앞 차례 플레이어가 발동한 카드의 패 제한 효과를 전부 계산하여 자신의 패 제한 값을 가져옵니다.
+    /// </summary>
+    public static int GetPlayerHandLimit(int i)
+    {
+        int @default = 6;
+        int previousOrder = PreviousOrder(i);
+        foreach (Card c in dict_HandLimitStack[previousOrder])
+        {
+            @default -= 1;
+            //@default += c.Limit...;
+        }
+        return @default;
+    }
+
+    public static Dictionary<int, List<Card>> dict_OnDrawEvent = new Dictionary<int, List<Card>> {
+    { 0, new List<Card>() },
+    { 1, new List<Card>() },
+    { 2, new List<Card>() },
+    { 3, new List<Card>() }
+    };
+
+    public static Dictionary<int, List<Card>> dict_OnDeployedEvent = new Dictionary<int, List<Card>> {
+    { 0, new List<Card>() },
+    { 1, new List<Card>() },
+    { 2, new List<Card>() },
+    { 3, new List<Card>() }
+    };
 }

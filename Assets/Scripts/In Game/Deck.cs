@@ -1,5 +1,3 @@
-using System.Linq;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
@@ -16,6 +14,15 @@ public class Deck : NetworkBehaviour
     /// </summary>
     public int Count => list.Count;
 
+    public override void OnStartServer()
+    {
+        int length = GameManager.TotalCard;
+        for (int i = 0; i < length; i++)
+        {
+            list.Add(i);
+        }
+        Shuffle();
+    }
 
     [Server]
     void Shuffle()
@@ -30,8 +37,7 @@ public class Deck : NetworkBehaviour
     }
 
     /// <returns>덱 맨 위의 카드 ID를 반환합니다. 덱 맨 위의 카드란, 리스트의 마지막 요소입니다.</returns>
-    [Server]
-    public int DrawCardID(bool isTopCard = true)
+    int DrawCardID(bool isTopCard = true)
     {
         int drawNumber = isTopCard ? list[Count - 1] : Random.Range(0, Count);
         list.Remove(drawNumber);
@@ -39,11 +45,32 @@ public class Deck : NetworkBehaviour
     }
 
     [Server]
+    public void ServerDrawCard(int _playerNumber, bool _isTopCard = true)
+    {
+        int cardID = DrawCardID(_isTopCard);
+        RpcDrawCard(_playerNumber, cardID);
+    }
+
+    [ClientRpc]
+    void RpcDrawCard(int _playerNumber, int _drawCardID)
+    {
+        GameManager.Player(_playerNumber).hand.Add(_drawCardID);
+    }
+
+    [Server]
     Deck ReturnCard(int id, bool placeOnTop = false)
     {
         //이미 덱 안에 있는 카드라면 다시 덱에 넣을 수 없다.
-        if (list.Contains(id)) return this;
-        if (id < 0 || id >= GameManager.TotalCard) return this;
+        if (list.Contains(id))
+        {
+            Debug.Log("이미 덱에 있는 카드를 추가하려고 했습니다. 잘못된 상황입니다.");
+            return this;
+        }
+        if (id < 0 || id >= GameManager.TotalCard)
+        {
+            Debug.Log("잘못된 카드 ID입니다. 잘못된 상황입니다.");
+            return this;
+        }
 
         //placeOnTop이 true면 덱의 맨 위에, false면 랜덤 위치에 삽입
         list.Add(id);
@@ -54,21 +81,7 @@ public class Deck : NetworkBehaviour
         return this;
     }
 
-    private void Start()
-    {
-        if (isServer)
-        {
-            int length = GameManager.TotalCard;
-            for (int i = 0; i < length; i++)
-            {
-                list.Add(i);
-            }
-            Shuffle();
-        }
-    }
 
-    [SerializeField, Header("인재 영입 시간에 카드를 내는 위치")]
-    Transform[] draftZone;
 
     //서버에서만 실행
     [ServerCallback]
@@ -95,22 +108,39 @@ public class Deck : NetworkBehaviour
         RpcDraftPhase(opened);
     }
 
-    Commander commander = new Commander();
+    [SerializeField, Header("인재 영입 시간에 카드를 내는 위치"), Space(10)]
+    Transform[] draftZone;
+
+    List<Card> draftCard = new List<Card>();
 
     [ClientRpc]
     void RpcDraftPhase(int[] opened)
     {
+        //리스트를 재사용 할 땐, 재할당이 아니라 Clear()
+        draftCard.Clear();
+
         for (int i = 0; i < opened.Length; i++)
         {
             Card c = GameManager.Card(opened[i]);
-            c.SetState(new OnDraftZone(c));
-
+            draftCard.Add(c);
+            c.iCardState = new None();
             c.IsOpened = true;
-            c.SetPosition(draftZone[i].position);
+            c.SetTargetPosition(draftZone[i].position);
+            c.SetTargetQuaternion(Quaternion.identity);
+
             c.DoMove(i * .18f);
         }
 
-        UIMaster.Message.PopUp("인재 영입 시간!", 3f);
+        Commander commander = new Commander();
+        commander
+            .Add_While(() => UIMaster.Message.PopUp("인재 영입 시간!", 3f), UIMaster.Message.IsPlaying)
+            .WaitSeconds(0.3f)
+            .Add(() =>
+            {
+                //GameManager.Player(0).
+                //첫 번째 플레이어 먼저 카드 선택의 기회가 주어진다.
+            })
+            .Play();
 
         //"인재 영입 시간" 메시지 출력
         //딜레이 시간 필요

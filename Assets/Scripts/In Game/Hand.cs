@@ -5,8 +5,12 @@ using UnityEngine.Events;
 
 public class Hand : MonoBehaviour
 {
-    public int seatNum;
+    [SerializeField] int seatNum;
+    public int SeatNum => seatNum;
 
+    /// <summary>
+    /// 패에 있는 카드들
+    /// </summary>
     [SerializeField] List<Card> list = new List<Card>();
 
     /// <summary>
@@ -16,16 +20,18 @@ public class Hand : MonoBehaviour
     {
         get
         {
-            int[] ids = new int[list.Count];
+            int[] ids = new int[Count];
 
             for (int i = 0; i < ids.Length; i++)
             {
-                ids[i] = list[i].ID;
+                ids[i] = list[i].id;
             }
 
             return ids;
         }
     }
+
+    public int Count => list.Count;
 
     //기본 손 패 제한
     const int handsLimit = 6;
@@ -42,41 +48,27 @@ public class Hand : MonoBehaviour
 
     public bool IsLimitOver => list.Count > HandsLimit;
 
-    public Card this[int index]
-    {
-        get
-        {
-            if (index < 0 || index >= list.Count)
-            {
-                Debug.Log($"Index 범위 오류");
-                return null;
-            }
-            return list[index];
-        }
-    }
-
-    private void Start()
-    {
-        LimitStack = 0;
-    }
-
-    /// <summary>
-    /// ClientRpc로 호출 될 때
-    /// isLoclaPlayer == true 일 경우,
-    /// 반드시 해당 id의 카드는 handler를 활성화 시켜줘야 한다.
-    /// </summary>
     #region 추가, 제거
     public void Add(int id)
     {
         Add(GameManager.Card(id));
     }
 
-    public void Add(Card drawnCard)
+    public void Add(Card newCard)
     {
-        list.Add(drawnCard);
-        //drawnCard.OnMouseAction = HandAlignment;
+        if (SeatNum.Equals(GameManager.LocalPlayer.order))
+        {
+            newCard.iCardState = new InHand(newCard, this);
+            newCard.IsOpened = true;
+        }
+        else
+        {
+            newCard.iCardState = new None();
+            newCard.IsOpened = false;
+        }
+        newCard.ownerOrder = seatNum;
+        list.Add(newCard);
         HandAlignment();
-        //카드를...
     }
 
     /// <summary>
@@ -90,12 +82,29 @@ public class Hand : MonoBehaviour
 
     public void Remove(Card drawnCard)
     {
+        drawnCard.iCardState = new None();
         list.Remove(drawnCard);
 
         if (list.Count > 0)
             HandAlignment();
     }
     #endregion
+
+    public void HandOpen()
+    {
+        foreach (Card c in list)
+        {
+            c.IsOpened = !c.IsOpened;
+            if (c.iCardState.GetType().Equals(typeof(InHandOnTurn)))
+            {
+                c.iCardState = new InHandOnTurn(c, this, null);
+            }
+            else if (c.iCardState.GetType().Equals(typeof(InHand)))
+            {
+                c.iCardState = new InHand(c, this);
+            }
+        }
+    }
 
     [Range(1f, 10f)]
     public float radius;
@@ -134,7 +143,7 @@ public class Hand : MonoBehaviour
 
         for (int i = 0; i < count; i++)
         {
-            list[i].sprtRend.sortingOrder = 1 + i; //카드의 Sorting Order를 i순으로 할당
+            list[i].SprtRend.sortingOrder = 1 + i; //카드의 Sorting Order를 i순으로 할당
             float angle;
 
             if (selectedNum < 0 || selectedNum >= count) //마우스를 올려둔 카드가 없을 때
@@ -164,12 +173,13 @@ public class Hand : MonoBehaviour
             Vector3 position = new Vector3(Mathf.Sin(radians), Mathf.Cos(radians)) * radius;
             Debug.Log(position);
             position = transform.position + new Vector3(position.x, position.y * height, position.z);
-            list[i].SetPosition(position);
+            list[i].SetTargetPosition(position);
 
             Quaternion targetRotation = Quaternion.Euler(0, 0, -angle * height);
-            list[i].SetQuaternion(targetRotation);
+            list[i].SetTargetQuaternion(targetRotation);
 
-            list[i].DoMove();
+            list[i].DoMove(0, DG.Tweening.Ease.Unset);
+            //list[i].StartTween();
         }
     }
 }

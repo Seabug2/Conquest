@@ -114,7 +114,13 @@ public class CameraController : MonoBehaviour
     /// <param name="i">-1 or +1</param>
     public void ShiftVCam(int dir)
     {
-        SetVCam(GameManager.GetSidePlayer(currentCamIndex, dir));
+        int sidePlayerNumber = currentCamIndex;
+        do
+        {
+            sidePlayerNumber = (sidePlayerNumber + dir + 4) % 4;
+        } while (GameManager.Player(sidePlayerNumber).isGameOver);
+
+        CurrentCamIndex = sidePlayerNumber;
     }
 
     public void DoShake(int i, float duration, float power)

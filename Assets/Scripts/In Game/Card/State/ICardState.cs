@@ -1,15 +1,10 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using Mirror;
 using DG.Tweening;
 
 public interface ICardState
 {
-    public void Enter();
-    public void Exit();
     public void OnPointerClick(PointerEventData eventData);
     public void OnPointerEnter(PointerEventData eventData);
     public void OnPointerEixt(PointerEventData eventData);
@@ -23,65 +18,23 @@ public interface ICardState
 /// </summary>
 public class None : ICardState
 {
-    Card card;
-    
-    public None(Card card)
-    {
-        this.card = card;
-    }
-
-    public void Enter() { }
-    public void Exit() { }
-    public void OnBeginDrag(PointerEventData eventData) { }
-    public void OnDrag(PointerEventData eventData) { }
-    public void OnEndDrag(PointerEventData eventData) { }
-
-    public void OnPointerClick(PointerEventData eventData) { }
-    public void OnPointerEixt(PointerEventData eventData) { }
-    public void OnPointerEnter(PointerEventData eventData) { }
-}
-
-public class InMyHand : ICardState
-{
-    public Card card;
-    public Field field;
-
-    public InMyHand(Card card, Field field)
-    {
-        this.field = field;
-        this.card = card;
-    }
-    public void Enter() { }
-    public void Exit() { }
     public void OnBeginDrag(PointerEventData eventData) { }
     public void OnDrag(PointerEventData eventData) { }
     public void OnEndDrag(PointerEventData eventData) { }
     public void OnPointerClick(PointerEventData eventData) { }
-    public void OnPointerEixt(PointerEventData eventData) { }
     public void OnPointerEnter(PointerEventData eventData) { }
+    public void OnPointerEixt(PointerEventData eventData) { }
 }
 
 public class InDeck : ICardState
 {
-    Card card;
-
-    public InDeck(Card card)
-    {
-        this.card = card;
-        Enter();
-    }
-
-    public void Enter()
-    {
-        card.IsOpened = false;
-    }
-    public void Exit() { }
     public void OnBeginDrag(PointerEventData eventData) { }
     public void OnDrag(PointerEventData eventData) { }
     public void OnEndDrag(PointerEventData eventData) { }
     public void OnPointerClick(PointerEventData eventData) { }
-    public void OnPointerEixt(PointerEventData eventData) { }
     public void OnPointerEnter(PointerEventData eventData) { }
+    public void OnPointerEixt(PointerEventData eventData) { }
+
 }
 
 /// <summary>
@@ -89,40 +42,51 @@ public class InDeck : ICardState
 /// </summary>
 public class OnField : ICardState
 {
-    Card card;
-
-    public OnField(Card card)
-    {
-        this.card = card;
-    }
-    public void Enter() { }
-    public void Exit() { }
     public void OnBeginDrag(PointerEventData eventData) { }
     public void OnDrag(PointerEventData eventData) { }
     public void OnEndDrag(PointerEventData eventData) { }
     public void OnPointerClick(PointerEventData eventData) { }
-    public void OnPointerEixt(PointerEventData eventData) { }
     public void OnPointerEnter(PointerEventData eventData) { }
+    public void OnPointerEixt(PointerEventData eventData) { }
 }
 
 //덱에서 카드를 꺼낼 때...
 public class OnDraftZone : ICardState
 {
-    Card card;
-
-    public event Action OnClickEvent;
-
-    public OnDraftZone(Card card)
-    {
-        this.card = card;
-    }
-
-    public void Enter() { }
-    public void Exit() { }
     public void OnBeginDrag(PointerEventData eventData) { }
     public void OnDrag(PointerEventData eventData) { }
     public void OnEndDrag(PointerEventData eventData) { }
     public void OnPointerClick(PointerEventData eventData) { }
-    public void OnPointerEixt(PointerEventData eventData) { }
     public void OnPointerEnter(PointerEventData eventData) { }
+    public void OnPointerEixt(PointerEventData eventData) { }
+}
+
+//덱에서 카드를 꺼낼 때...
+public class OnSelect : ICardState
+{
+    Card card;
+
+    public OnSelect(Action _OnClieckEvent)
+    {
+        ClickEvent = _OnClieckEvent;
+        // 카드를 클릭했을 때,
+        // 1. UICanvas를 활성화시켜 다른 카드를 선택할 수 없게 막는다.
+        // 2. 대화창 UI의 Yse 버튼에
+    }
+
+    public Action ClickEvent;
+
+    public void OnBeginDrag(PointerEventData eventData) { }
+    public void OnDrag(PointerEventData eventData) { }
+    public void OnEndDrag(PointerEventData eventData) { }
+    
+    public void OnPointerClick(PointerEventData eventData) 
+    {
+        //대화창 UI를 활성화 시킨다.
+        //대화창 UI의 Yse 버튼에 ClickEvent를 등록...
+        //ClickEvent?.Invoke();
+    }
+
+    public void OnPointerEnter(PointerEventData eventData) { }
+    public void OnPointerEixt(PointerEventData eventData) { }
 }
