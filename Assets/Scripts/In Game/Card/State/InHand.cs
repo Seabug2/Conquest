@@ -81,10 +81,22 @@ public class InHandOnTurn : ICardState
     }
     public void OnPointerUp(PointerEventData eventData)
     {
-        //손을 떼었을 때 마우스가 타일 위에 있을 때
+        Vector2 screenPosition = eventData.position;
+        Vector2 worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
+        RaycastHit2D hit = Physics2D.Raycast(worldPosition, Vector2.zero, Mathf.Infinity, 1 << LayerMask.NameToLayer("Tile"));
+        if (hit.collider != null)
+        {
+            Tile tile = hit.collider.GetComponent<Tile>();
+            tile.CmdSetCard(card.id);
 
-        //손을 떼었을 때 마우스가 타일 위에 없을 때
-        card.DoMove();
+            //Tile의 CMD 메서드를 실행, 매개변수로 자신의 ID를...
+            Debug.Log("Hit 2D object: " + hit.collider.gameObject.name);
+        }
+        else
+        {
+            card.DoMove();
+            Debug.Log("No object hit in 2D.");
+        }
     }
     public void OnPointerClick(PointerEventData eventData) { }
     public void OnPointerEnter(PointerEventData eventData)
@@ -93,7 +105,7 @@ public class InHandOnTurn : ICardState
         card.SprtRend.sortingLayerName = "OnMouseLayer";
 
         card.CmdPick();
-        field?.ActiveTile(card, true);
+        field.ActiveTile(card, true);
         hand.HandAlignment();
     }
     public void OnPointerEixt(PointerEventData eventData)
@@ -101,7 +113,7 @@ public class InHandOnTurn : ICardState
         card.SprtRend.sortingLayerName = "Default";
         card.transform.localScale = Vector3.one;
         card.CmdDoMove();
-        field?.ActiveTile(card, false);
+        field.ActiveTile(card, false);
         hand.HandAlignment();
     }
 }

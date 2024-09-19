@@ -77,7 +77,7 @@ public class GameManager : NetworkBehaviour
     public static Card Card(int id) => instance.cards[id];
     public static int TotalCard => instance.cards.Length;
 
-    string filePath = "Conquest_Info";
+    readonly string filePath = "Conquest_Info";
 
     void CardSetting()
     {

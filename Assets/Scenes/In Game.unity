@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 1014653}
   - component: {fileID: 1014655}
   - component: {fileID: 1014654}
+  - component: {fileID: 1014657}
   m_Layer: 7
   m_Name: Tile_2
   m_TagString: Untagged
@@ -154,6 +155,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ac5b6d6dcc3b94cb8b96d0b0bcd465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   tileIndex: 2
   placedCard: {fileID: 0}
   linkableSocket: 00000001
@@ -262,6 +266,23 @@ Transform:
   m_Father: {fileID: 1870935517}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1014657
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1014652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 3945646424
+  _assetId: 0
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &3175969
 GameObject:
   m_ObjectHideFlags: 0
@@ -300,16 +321,6 @@ MonoBehaviour:
   id: 0
   cardName: 
   ownerOrder: -1
-  sockets:
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  isOpened: 0
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &3175972
@@ -458,16 +469,6 @@ MonoBehaviour:
   id: 0
   cardName: 
   ownerOrder: -1
-  sockets:
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  isOpened: 0
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &22850077
@@ -616,16 +617,6 @@ MonoBehaviour:
   id: 0
   cardName: 
   ownerOrder: -1
-  sockets:
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  isOpened: 0
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &47271417
@@ -977,16 +968,6 @@ MonoBehaviour:
   id: 0
   cardName: 
   ownerOrder: -1
-  sockets:
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  isOpened: 0
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &63639918
@@ -1109,6 +1090,7 @@ GameObject:
   - component: {fileID: 68479107}
   - component: {fileID: 68479109}
   - component: {fileID: 68479108}
+  - component: {fileID: 68479111}
   m_Layer: 7
   m_Name: Tile_6
   m_TagString: Untagged
@@ -1128,6 +1110,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ac5b6d6dcc3b94cb8b96d0b0bcd465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   tileIndex: 6
   placedCard: {fileID: 0}
   linkableSocket: 01010101
@@ -1236,6 +1221,23 @@ Transform:
   m_Father: {fileID: 1870935517}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &68479111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 68479106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 271685113
+  _assetId: 0
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &77536540
 GameObject:
   m_ObjectHideFlags: 0
@@ -1274,16 +1276,6 @@ MonoBehaviour:
   id: 0
   cardName: 
   ownerOrder: -1
-  sockets:
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  isOpened: 0
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &77536543
@@ -1516,16 +1508,6 @@ MonoBehaviour:
   id: 0
   cardName: 
   ownerOrder: -1
-  sockets:
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  isOpened: 0
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &107812026
@@ -1758,16 +1740,6 @@ MonoBehaviour:
   id: 0
   cardName: 
   ownerOrder: -1
-  sockets:
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  isOpened: 0
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &117269224
@@ -1916,16 +1888,6 @@ MonoBehaviour:
   id: 0
   cardName: 
   ownerOrder: -1
-  sockets:
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  isOpened: 0
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &126739525
@@ -2074,16 +2036,6 @@ MonoBehaviour:
   id: 0
   cardName: 
   ownerOrder: -1
-  sockets:
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  isOpened: 0
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &127504262
@@ -2204,6 +2156,7 @@ GameObject:
   m_Component:
   - component: {fileID: 134630151}
   - component: {fileID: 134630150}
+  - component: {fileID: 134630152}
   m_Layer: 0
   m_Name: 1st Hand
   m_TagString: Untagged
@@ -2223,6 +2176,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a382237eb5c96240b4ae1710c8be5a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   seatNum: 0
   list: []
   radius: 4
@@ -2239,12 +2195,27 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -4, z: -1.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 1312032632}
-  - {fileID: 1210061634}
+  m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &134630152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 134630149}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 2465754906
+  _assetId: 0
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &151627768
 GameObject:
   m_ObjectHideFlags: 0
@@ -2257,6 +2228,7 @@ GameObject:
   - component: {fileID: 151627769}
   - component: {fileID: 151627771}
   - component: {fileID: 151627770}
+  - component: {fileID: 151627773}
   m_Layer: 7
   m_Name: Tile_9
   m_TagString: Untagged
@@ -2276,6 +2248,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ac5b6d6dcc3b94cb8b96d0b0bcd465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   tileIndex: 9
   placedCard: {fileID: 0}
   linkableSocket: 01010101
@@ -2384,6 +2359,23 @@ Transform:
   m_Father: {fileID: 1870935517}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &151627773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 151627768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 2226662956
+  _assetId: 0
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &163523485
 GameObject:
   m_ObjectHideFlags: 0
@@ -2396,6 +2388,7 @@ GameObject:
   - component: {fileID: 163523486}
   - component: {fileID: 163523488}
   - component: {fileID: 163523487}
+  - component: {fileID: 163523490}
   m_Layer: 7
   m_Name: Tile_7
   m_TagString: Untagged
@@ -2415,6 +2408,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ac5b6d6dcc3b94cb8b96d0b0bcd465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   tileIndex: 7
   placedCard: {fileID: 0}
   linkableSocket: 01000001
@@ -2523,6 +2519,23 @@ Transform:
   m_Father: {fileID: 657299804}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &163523490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 163523485}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 2479702154
+  _assetId: 0
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &175150307
 GameObject:
   m_ObjectHideFlags: 0
@@ -2533,6 +2546,7 @@ GameObject:
   m_Component:
   - component: {fileID: 175150309}
   - component: {fileID: 175150308}
+  - component: {fileID: 175150310}
   m_Layer: 0
   m_Name: 4th Hand
   m_TagString: Untagged
@@ -2552,6 +2566,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a382237eb5c96240b4ae1710c8be5a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   seatNum: 3
   list: []
   radius: 4
@@ -2572,6 +2589,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 31
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &175150310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 175150307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 2907191172
+  _assetId: 0
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &179047968
 GameObject:
   m_ObjectHideFlags: 0
@@ -2584,6 +2618,7 @@ GameObject:
   - component: {fileID: 179047969}
   - component: {fileID: 179047971}
   - component: {fileID: 179047970}
+  - component: {fileID: 179047973}
   m_Layer: 7
   m_Name: Tile_3
   m_TagString: Untagged
@@ -2603,6 +2638,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ac5b6d6dcc3b94cb8b96d0b0bcd465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   tileIndex: 3
   placedCard: {fileID: 0}
   linkableSocket: 01010101
@@ -2711,6 +2749,23 @@ Transform:
   m_Father: {fileID: 657299804}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &179047973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 179047968}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 4205876051
+  _assetId: 0
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &189674179
 GameObject:
   m_ObjectHideFlags: 0
@@ -2846,16 +2901,6 @@ MonoBehaviour:
   id: 0
   cardName: 
   ownerOrder: -1
-  sockets:
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  isOpened: 0
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &207710472
@@ -2978,6 +3023,7 @@ GameObject:
   - component: {fileID: 223802175}
   - component: {fileID: 223802177}
   - component: {fileID: 223802176}
+  - component: {fileID: 223802179}
   m_Layer: 7
   m_Name: Tile_10
   m_TagString: Untagged
@@ -2997,6 +3043,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ac5b6d6dcc3b94cb8b96d0b0bcd465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   tileIndex: 10
   placedCard: {fileID: 0}
   linkableSocket: 00010000
@@ -3105,6 +3154,23 @@ Transform:
   m_Father: {fileID: 657299804}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &223802179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 223802174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 3264011382
+  _assetId: 0
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &227847261
 GameObject:
   m_ObjectHideFlags: 0
@@ -3300,6 +3366,7 @@ GameObject:
   - component: {fileID: 307429286}
   - component: {fileID: 307429288}
   - component: {fileID: 307429287}
+  - component: {fileID: 307429290}
   m_Layer: 7
   m_Name: Tile_11
   m_TagString: Untagged
@@ -3319,6 +3386,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ac5b6d6dcc3b94cb8b96d0b0bcd465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   tileIndex: 11
   placedCard: {fileID: 0}
   linkableSocket: 01010000
@@ -3427,6 +3497,23 @@ Transform:
   m_Father: {fileID: 559062564}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &307429290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 307429285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 497388611
+  _assetId: 0
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &312241209
 GameObject:
   m_ObjectHideFlags: 0
@@ -3465,16 +3552,6 @@ MonoBehaviour:
   id: 0
   cardName: 
   ownerOrder: -1
-  sockets:
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  isOpened: 0
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &312241212
@@ -3597,6 +3674,7 @@ GameObject:
   - component: {fileID: 327404026}
   - component: {fileID: 327404028}
   - component: {fileID: 327404027}
+  - component: {fileID: 327404030}
   m_Layer: 7
   m_Name: Tile_3
   m_TagString: Untagged
@@ -3616,6 +3694,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ac5b6d6dcc3b94cb8b96d0b0bcd465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   tileIndex: 3
   placedCard: {fileID: 0}
   linkableSocket: 01010101
@@ -3724,6 +3805,23 @@ Transform:
   m_Father: {fileID: 559062564}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &327404030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 327404025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 1301817387
+  _assetId: 0
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &329726912
 GameObject:
   m_ObjectHideFlags: 0
@@ -3895,16 +3993,6 @@ MonoBehaviour:
   id: 0
   cardName: 
   ownerOrder: -1
-  sockets:
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  isOpened: 0
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &330567210
@@ -4242,16 +4330,6 @@ MonoBehaviour:
   id: 0
   cardName: 
   ownerOrder: -1
-  sockets:
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  isOpened: 0
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &338364300
@@ -4374,6 +4452,7 @@ GameObject:
   - component: {fileID: 348191641}
   - component: {fileID: 348191643}
   - component: {fileID: 348191642}
+  - component: {fileID: 348191644}
   m_Layer: 7
   m_Name: Tile_12
   m_TagString: Untagged
@@ -4407,6 +4486,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ac5b6d6dcc3b94cb8b96d0b0bcd465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   tileIndex: 12
   placedCard: {fileID: 0}
   linkableSocket: 01000000
@@ -4501,6 +4583,23 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &348191644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 348191639}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 580446648
+  _assetId: 0
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &349232237
 GameObject:
   m_ObjectHideFlags: 0
@@ -4854,16 +4953,6 @@ MonoBehaviour:
   id: 0
   cardName: 
   ownerOrder: -1
-  sockets:
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  isOpened: 0
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &381685197
@@ -4986,6 +5075,7 @@ GameObject:
   - component: {fileID: 386982564}
   - component: {fileID: 386982566}
   - component: {fileID: 386982565}
+  - component: {fileID: 386982567}
   m_Layer: 7
   m_Name: Tile_2
   m_TagString: Untagged
@@ -5019,6 +5109,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ac5b6d6dcc3b94cb8b96d0b0bcd465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   tileIndex: 2
   placedCard: {fileID: 0}
   linkableSocket: 00000001
@@ -5113,6 +5206,23 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &386982567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 386982562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 1075897359
+  _assetId: 0
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &397389524
 GameObject:
   m_ObjectHideFlags: 0
@@ -5125,6 +5235,7 @@ GameObject:
   - component: {fileID: 397389525}
   - component: {fileID: 397389527}
   - component: {fileID: 397389526}
+  - component: {fileID: 397389529}
   m_Layer: 7
   m_Name: Tile_1
   m_TagString: Untagged
@@ -5144,6 +5255,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ac5b6d6dcc3b94cb8b96d0b0bcd465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   tileIndex: 1
   placedCard: {fileID: 0}
   linkableSocket: 00000101
@@ -5252,6 +5366,23 @@ Transform:
   m_Father: {fileID: 657299804}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &397389529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 397389524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 1077330331
+  _assetId: 0
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &413056729
 GameObject:
   m_ObjectHideFlags: 0
@@ -5290,16 +5421,6 @@ MonoBehaviour:
   id: 0
   cardName: 
   ownerOrder: -1
-  sockets:
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  isOpened: 0
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &413056732
@@ -5975,16 +6096,6 @@ MonoBehaviour:
   id: 0
   cardName: 
   ownerOrder: -1
-  sockets:
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  isOpened: 0
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &499335635
@@ -6107,6 +6218,7 @@ GameObject:
   - component: {fileID: 500520846}
   - component: {fileID: 500520848}
   - component: {fileID: 500520847}
+  - component: {fileID: 500520850}
   m_Layer: 7
   m_Name: Tile_6
   m_TagString: Untagged
@@ -6126,6 +6238,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ac5b6d6dcc3b94cb8b96d0b0bcd465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   tileIndex: 6
   placedCard: {fileID: 0}
   linkableSocket: 01010101
@@ -6234,6 +6349,23 @@ Transform:
   m_Father: {fileID: 657299804}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &500520850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 500520845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 2472630326
+  _assetId: 0
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &503806614
 GameObject:
   m_ObjectHideFlags: 0
@@ -6461,16 +6593,6 @@ MonoBehaviour:
   id: 0
   cardName: 
   ownerOrder: -1
-  sockets:
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  isOpened: 0
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &523916931
@@ -6619,16 +6741,6 @@ MonoBehaviour:
   id: 0
   cardName: 
   ownerOrder: -1
-  sockets:
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  isOpened: 0
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &531052193
@@ -6777,16 +6889,6 @@ MonoBehaviour:
   id: 0
   cardName: 
   ownerOrder: -1
-  sockets:
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  isOpened: 0
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &544365741
@@ -7006,16 +7108,6 @@ MonoBehaviour:
   id: 0
   cardName: 
   ownerOrder: -1
-  sockets:
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  isOpened: 0
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &588438210
@@ -7138,6 +7230,7 @@ GameObject:
   - component: {fileID: 589209929}
   - component: {fileID: 589209931}
   - component: {fileID: 589209930}
+  - component: {fileID: 589209933}
   m_Layer: 7
   m_Name: Tile_9
   m_TagString: Untagged
@@ -7157,6 +7250,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ac5b6d6dcc3b94cb8b96d0b0bcd465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   tileIndex: 9
   placedCard: {fileID: 0}
   linkableSocket: 01010101
@@ -7265,6 +7361,23 @@ Transform:
   m_Father: {fileID: 657299804}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &589209933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 589209928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 1632244750
+  _assetId: 0
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &610166663
 GameObject:
   m_ObjectHideFlags: 0
@@ -7307,6 +7420,7 @@ GameObject:
   - component: {fileID: 626558055}
   - component: {fileID: 626558057}
   - component: {fileID: 626558056}
+  - component: {fileID: 626558059}
   m_Layer: 7
   m_Name: Tile_0
   m_TagString: Untagged
@@ -7326,6 +7440,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ac5b6d6dcc3b94cb8b96d0b0bcd465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   tileIndex: 0
   placedCard: {fileID: 0}
   linkableSocket: 00000100
@@ -7434,6 +7551,23 @@ Transform:
   m_Father: {fileID: 559062564}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &626558059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 626558054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 2878161636
+  _assetId: 0
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &643811696
 GameObject:
   m_ObjectHideFlags: 0
@@ -7444,6 +7578,7 @@ GameObject:
   m_Component:
   - component: {fileID: 643811698}
   - component: {fileID: 643811697}
+  - component: {fileID: 643811699}
   m_Layer: 0
   m_Name: 3rd Hand
   m_TagString: Untagged
@@ -7463,6 +7598,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a382237eb5c96240b4ae1710c8be5a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   seatNum: 2
   list: []
   radius: 4
@@ -7483,6 +7621,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 27
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &643811699
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 643811696}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 18515148
+  _assetId: 0
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &656203027
 GameObject:
   m_ObjectHideFlags: 0
@@ -7495,6 +7650,7 @@ GameObject:
   - component: {fileID: 656203029}
   - component: {fileID: 656203031}
   - component: {fileID: 656203030}
+  - component: {fileID: 656203032}
   m_Layer: 7
   m_Name: Tile_9
   m_TagString: Untagged
@@ -7528,6 +7684,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ac5b6d6dcc3b94cb8b96d0b0bcd465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   tileIndex: 9
   placedCard: {fileID: 0}
   linkableSocket: 01010101
@@ -7622,6 +7781,23 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &656203032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 656203027}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 2399150210
+  _assetId: 0
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &657299802
 GameObject:
   m_ObjectHideFlags: 0
@@ -7705,6 +7881,7 @@ GameObject:
   - component: {fileID: 664633294}
   - component: {fileID: 664633296}
   - component: {fileID: 664633295}
+  - component: {fileID: 664633298}
   m_Layer: 7
   m_Name: Tile_1
   m_TagString: Untagged
@@ -7724,6 +7901,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ac5b6d6dcc3b94cb8b96d0b0bcd465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   tileIndex: 1
   placedCard: {fileID: 0}
   linkableSocket: 00000101
@@ -7832,6 +8012,23 @@ Transform:
   m_Father: {fileID: 559062564}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &664633298
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 664633293}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 416172827
+  _assetId: 0
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &695909289
 GameObject:
   m_ObjectHideFlags: 0
@@ -7844,6 +8041,7 @@ GameObject:
   - component: {fileID: 695909291}
   - component: {fileID: 695909293}
   - component: {fileID: 695909292}
+  - component: {fileID: 695909294}
   m_Layer: 7
   m_Name: Tile_6
   m_TagString: Untagged
@@ -7877,6 +8075,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ac5b6d6dcc3b94cb8b96d0b0bcd465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   tileIndex: 6
   placedCard: {fileID: 0}
   linkableSocket: 01010101
@@ -7971,6 +8172,23 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &695909294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 695909289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 4012316052
+  _assetId: 0
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &698315965
 GameObject:
   m_ObjectHideFlags: 0
@@ -8009,16 +8227,6 @@ MonoBehaviour:
   id: 0
   cardName: 
   ownerOrder: -1
-  sockets:
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  isOpened: 0
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &698315968
@@ -8260,6 +8468,7 @@ GameObject:
   - component: {fileID: 709147211}
   - component: {fileID: 709147213}
   - component: {fileID: 709147212}
+  - component: {fileID: 709147214}
   m_Layer: 7
   m_Name: Tile_10
   m_TagString: Untagged
@@ -8293,6 +8502,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ac5b6d6dcc3b94cb8b96d0b0bcd465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   tileIndex: 10
   placedCard: {fileID: 0}
   linkableSocket: 00010000
@@ -8387,6 +8599,23 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &709147214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 709147209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 384803781
+  _assetId: 0
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &730728445
 GameObject:
   m_ObjectHideFlags: 0
@@ -8425,16 +8654,6 @@ MonoBehaviour:
   id: 0
   cardName: 
   ownerOrder: -1
-  sockets:
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  isOpened: 0
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &730728448
@@ -8583,16 +8802,6 @@ MonoBehaviour:
   id: 0
   cardName: 
   ownerOrder: -1
-  sockets:
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  isOpened: 0
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &740837086
@@ -8904,16 +9113,6 @@ MonoBehaviour:
   id: 0
   cardName: 
   ownerOrder: -1
-  sockets:
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  isOpened: 0
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &830128385
@@ -9036,6 +9235,7 @@ GameObject:
   - component: {fileID: 834738157}
   - component: {fileID: 834738159}
   - component: {fileID: 834738158}
+  - component: {fileID: 834738160}
   m_Layer: 7
   m_Name: Tile_3
   m_TagString: Untagged
@@ -9069,6 +9269,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ac5b6d6dcc3b94cb8b96d0b0bcd465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   tileIndex: 3
   placedCard: {fileID: 0}
   linkableSocket: 01010101
@@ -9163,6 +9366,23 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &834738160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 834738155}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 3662820965
+  _assetId: 0
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &838775493
 GameObject:
   m_ObjectHideFlags: 0
@@ -9175,6 +9395,7 @@ GameObject:
   - component: {fileID: 838775495}
   - component: {fileID: 838775497}
   - component: {fileID: 838775496}
+  - component: {fileID: 838775498}
   m_Layer: 7
   m_Name: Tile_11
   m_TagString: Untagged
@@ -9208,6 +9429,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ac5b6d6dcc3b94cb8b96d0b0bcd465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   tileIndex: 11
   placedCard: {fileID: 0}
   linkableSocket: 01010000
@@ -9302,6 +9526,23 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &838775498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 838775493}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 782879013
+  _assetId: 0
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &862659886
 GameObject:
   m_ObjectHideFlags: 0
@@ -9419,16 +9660,6 @@ MonoBehaviour:
   id: 0
   cardName: 
   ownerOrder: -1
-  sockets:
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  isOpened: 0
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &877112159
@@ -9551,6 +9782,7 @@ GameObject:
   - component: {fileID: 895592228}
   - component: {fileID: 895592230}
   - component: {fileID: 895592229}
+  - component: {fileID: 895592232}
   m_Layer: 7
   m_Name: Tile_4
   m_TagString: Untagged
@@ -9570,6 +9802,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ac5b6d6dcc3b94cb8b96d0b0bcd465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   tileIndex: 4
   placedCard: {fileID: 0}
   linkableSocket: 01010101
@@ -9678,6 +9913,23 @@ Transform:
   m_Father: {fileID: 1870935517}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &895592232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 895592227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 14148969
+  _assetId: 0
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &902949239
 GameObject:
   m_ObjectHideFlags: 0
@@ -9716,16 +9968,6 @@ MonoBehaviour:
   id: 0
   cardName: 
   ownerOrder: -1
-  sockets:
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  isOpened: 0
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &902949242
@@ -9955,6 +10197,7 @@ GameObject:
   - component: {fileID: 936496067}
   - component: {fileID: 936496069}
   - component: {fileID: 936496068}
+  - component: {fileID: 936496071}
   m_Layer: 7
   m_Name: Tile_7
   m_TagString: Untagged
@@ -9974,6 +10217,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ac5b6d6dcc3b94cb8b96d0b0bcd465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   tileIndex: 7
   placedCard: {fileID: 0}
   linkableSocket: 01000001
@@ -10082,6 +10328,23 @@ Transform:
   m_Father: {fileID: 1870935517}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &936496071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 936496066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 587020824
+  _assetId: 0
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &972366908
 GameObject:
   m_ObjectHideFlags: 0
@@ -10325,6 +10588,7 @@ GameObject:
   m_Component:
   - component: {fileID: 999518001}
   - component: {fileID: 999518000}
+  - component: {fileID: 999518002}
   m_Layer: 0
   m_Name: 2nd Hand
   m_TagString: Untagged
@@ -10344,6 +10608,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a382237eb5c96240b4ae1710c8be5a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   seatNum: 1
   list: []
   radius: 4
@@ -10364,6 +10631,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 23
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &999518002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 999517999}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 288029499
+  _assetId: 0
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &999764579
 GameObject:
   m_ObjectHideFlags: 0
@@ -10559,16 +10843,6 @@ MonoBehaviour:
   id: 0
   cardName: 
   ownerOrder: -1
-  sockets:
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  isOpened: 0
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &1012414663
@@ -10855,6 +11129,7 @@ GameObject:
   - component: {fileID: 1050093426}
   - component: {fileID: 1050093428}
   - component: {fileID: 1050093427}
+  - component: {fileID: 1050093430}
   m_Layer: 7
   m_Name: Tile_3
   m_TagString: Untagged
@@ -10874,6 +11149,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ac5b6d6dcc3b94cb8b96d0b0bcd465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   tileIndex: 3
   placedCard: {fileID: 0}
   linkableSocket: 01010101
@@ -10982,6 +11260,23 @@ Transform:
   m_Father: {fileID: 1870935517}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1050093430
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1050093425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 3095555355
+  _assetId: 0
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &1052940752
 GameObject:
   m_ObjectHideFlags: 3
@@ -11147,16 +11442,6 @@ MonoBehaviour:
   id: 0
   cardName: 
   ownerOrder: -1
-  sockets:
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  isOpened: 0
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &1071224084
@@ -11279,6 +11564,7 @@ GameObject:
   - component: {fileID: 1073310204}
   - component: {fileID: 1073310206}
   - component: {fileID: 1073310205}
+  - component: {fileID: 1073310208}
   m_Layer: 7
   m_Name: Tile_7
   m_TagString: Untagged
@@ -11298,6 +11584,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ac5b6d6dcc3b94cb8b96d0b0bcd465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   tileIndex: 7
   placedCard: {fileID: 0}
   linkableSocket: 01000001
@@ -11406,6 +11695,23 @@ Transform:
   m_Father: {fileID: 559062564}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1073310208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1073310203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 1886195869
+  _assetId: 0
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &1082575768
 GameObject:
   m_ObjectHideFlags: 0
@@ -11520,16 +11826,6 @@ MonoBehaviour:
   id: 0
   cardName: 
   ownerOrder: -1
-  sockets:
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  isOpened: 0
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &1088959666
@@ -11745,16 +12041,6 @@ MonoBehaviour:
   id: 0
   cardName: 
   ownerOrder: -1
-  sockets:
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  isOpened: 0
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &1107274128
@@ -12020,16 +12306,6 @@ MonoBehaviour:
   id: 0
   cardName: 
   ownerOrder: -1
-  sockets:
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  isOpened: 0
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &1140821071
@@ -12228,6 +12504,7 @@ GameObject:
   - component: {fileID: 1166364660}
   - component: {fileID: 1166364662}
   - component: {fileID: 1166364661}
+  - component: {fileID: 1166364663}
   m_Layer: 7
   m_Name: Tile_5
   m_TagString: Untagged
@@ -12261,6 +12538,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ac5b6d6dcc3b94cb8b96d0b0bcd465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   tileIndex: 5
   placedCard: {fileID: 0}
   linkableSocket: 00010100
@@ -12355,6 +12635,23 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1166364663
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1166364658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 3838748867
+  _assetId: 0
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &1181134122
 GameObject:
   m_ObjectHideFlags: 0
@@ -12430,88 +12727,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1181134122}
   m_CullTransparentMesh: 0
---- !u!1 &1210061633
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1210061634}
-  - component: {fileID: 1210061635}
-  m_Layer: 0
-  m_Name: Backface (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1210061634
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1210061633}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 134630151}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &1210061635
-SpriteRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1210061633}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: e6aab85e5d24cdc4a9b179f0bb336349, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 1, y: 1.5705521}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
 --- !u!1 &1234814805
 GameObject:
   m_ObjectHideFlags: 0
@@ -12791,6 +13006,7 @@ GameObject:
   - component: {fileID: 1282407565}
   - component: {fileID: 1282407567}
   - component: {fileID: 1282407566}
+  - component: {fileID: 1282407569}
   m_Layer: 7
   m_Name: Tile_12
   m_TagString: Untagged
@@ -12810,6 +13026,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ac5b6d6dcc3b94cb8b96d0b0bcd465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   tileIndex: 12
   placedCard: {fileID: 0}
   linkableSocket: 01000000
@@ -12918,88 +13137,23 @@ Transform:
   m_Father: {fileID: 657299804}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1312032631
-GameObject:
+--- !u!114 &1282407569
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1312032632}
-  - component: {fileID: 1312032633}
-  m_Layer: 0
-  m_Name: Backface
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1312032632
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1312032631}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 134630151}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &1312032633
-SpriteRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1312032631}
+  m_GameObject: {fileID: 1282407564}
   m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: e6aab85e5d24cdc4a9b179f0bb336349, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 1, y: 1.5705521}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 3674563729
+  _assetId: 0
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &1312631049
 GameObject:
   m_ObjectHideFlags: 0
@@ -13012,6 +13166,7 @@ GameObject:
   - component: {fileID: 1312631051}
   - component: {fileID: 1312631053}
   - component: {fileID: 1312631052}
+  - component: {fileID: 1312631054}
   m_Layer: 7
   m_Name: Tile_8
   m_TagString: Untagged
@@ -13045,6 +13200,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ac5b6d6dcc3b94cb8b96d0b0bcd465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   tileIndex: 8
   placedCard: {fileID: 0}
   linkableSocket: 01010101
@@ -13139,6 +13297,23 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1312631054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1312631049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 1620323222
+  _assetId: 0
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &1339478378
 GameObject:
   m_ObjectHideFlags: 0
@@ -13151,6 +13326,7 @@ GameObject:
   - component: {fileID: 1339478379}
   - component: {fileID: 1339478381}
   - component: {fileID: 1339478380}
+  - component: {fileID: 1339478383}
   m_Layer: 7
   m_Name: Tile_2
   m_TagString: Untagged
@@ -13170,6 +13346,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ac5b6d6dcc3b94cb8b96d0b0bcd465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   tileIndex: 2
   placedCard: {fileID: 0}
   linkableSocket: 00000001
@@ -13278,6 +13457,23 @@ Transform:
   m_Father: {fileID: 657299804}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1339478383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1339478378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 867588444
+  _assetId: 0
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &1347645146
 GameObject:
   m_ObjectHideFlags: 0
@@ -13290,6 +13486,7 @@ GameObject:
   - component: {fileID: 1347645147}
   - component: {fileID: 1347645149}
   - component: {fileID: 1347645148}
+  - component: {fileID: 1347645151}
   m_Layer: 7
   m_Name: Tile_8
   m_TagString: Untagged
@@ -13309,6 +13506,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ac5b6d6dcc3b94cb8b96d0b0bcd465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   tileIndex: 8
   placedCard: {fileID: 0}
   linkableSocket: 01010101
@@ -13417,6 +13617,23 @@ Transform:
   m_Father: {fileID: 657299804}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1347645151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1347645146}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 3971770364
+  _assetId: 0
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &1355158718
 GameObject:
   m_ObjectHideFlags: 0
@@ -13429,6 +13646,7 @@ GameObject:
   - component: {fileID: 1355158719}
   - component: {fileID: 1355158721}
   - component: {fileID: 1355158720}
+  - component: {fileID: 1355158723}
   m_Layer: 7
   m_Name: Tile_5
   m_TagString: Untagged
@@ -13448,6 +13666,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ac5b6d6dcc3b94cb8b96d0b0bcd465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   tileIndex: 5
   placedCard: {fileID: 0}
   linkableSocket: 00010100
@@ -13556,6 +13777,23 @@ Transform:
   m_Father: {fileID: 559062564}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1355158723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1355158718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 3550122407
+  _assetId: 0
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &1362364863
 GameObject:
   m_ObjectHideFlags: 0
@@ -13568,6 +13806,7 @@ GameObject:
   - component: {fileID: 1362364865}
   - component: {fileID: 1362364867}
   - component: {fileID: 1362364866}
+  - component: {fileID: 1362364868}
   m_Layer: 7
   m_Name: Tile_1
   m_TagString: Untagged
@@ -13601,6 +13840,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ac5b6d6dcc3b94cb8b96d0b0bcd465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   tileIndex: 1
   placedCard: {fileID: 0}
   linkableSocket: 00000101
@@ -13695,6 +13937,23 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1362364868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1362364863}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 2259614597
+  _assetId: 0
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &1374228992
 GameObject:
   m_ObjectHideFlags: 0
@@ -13898,16 +14157,6 @@ MonoBehaviour:
   id: 0
   cardName: 
   ownerOrder: -1
-  sockets:
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  isOpened: 0
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &1386266057
@@ -14030,6 +14279,7 @@ GameObject:
   - component: {fileID: 1389358996}
   - component: {fileID: 1389358998}
   - component: {fileID: 1389358997}
+  - component: {fileID: 1389359000}
   m_Layer: 7
   m_Name: Tile_5
   m_TagString: Untagged
@@ -14049,6 +14299,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ac5b6d6dcc3b94cb8b96d0b0bcd465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   tileIndex: 5
   placedCard: {fileID: 0}
   linkableSocket: 00010100
@@ -14157,6 +14410,23 @@ Transform:
   m_Father: {fileID: 1870935517}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1389359000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1389358995}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 3596284724
+  _assetId: 0
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &1425948965
 GameObject:
   m_ObjectHideFlags: 0
@@ -14195,16 +14465,6 @@ MonoBehaviour:
   id: 0
   cardName: 
   ownerOrder: -1
-  sockets:
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  isOpened: 0
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &1425948968
@@ -14353,16 +14613,6 @@ MonoBehaviour:
   id: 0
   cardName: 
   ownerOrder: -1
-  sockets:
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  isOpened: 0
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &1434672949
@@ -14598,6 +14848,7 @@ GameObject:
   - component: {fileID: 1446769211}
   - component: {fileID: 1446769213}
   - component: {fileID: 1446769212}
+  - component: {fileID: 1446769215}
   m_Layer: 7
   m_Name: Tile_12
   m_TagString: Untagged
@@ -14617,6 +14868,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ac5b6d6dcc3b94cb8b96d0b0bcd465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   tileIndex: 12
   placedCard: {fileID: 0}
   linkableSocket: 01000000
@@ -14725,6 +14979,23 @@ Transform:
   m_Father: {fileID: 559062564}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1446769215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1446769210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 3185239766
+  _assetId: 0
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &1450400272
 GameObject:
   m_ObjectHideFlags: 0
@@ -14750,8 +15021,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1450400272}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.78, y: -4.25, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
+  m_LocalPosition: {x: 2, y: -4, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1949775217}
   m_RootOrder: 3
@@ -14845,16 +15116,6 @@ MonoBehaviour:
   id: 0
   cardName: 
   ownerOrder: -1
-  sockets:
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  isOpened: 0
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &1452971086
@@ -15003,16 +15264,6 @@ MonoBehaviour:
   id: 0
   cardName: 
   ownerOrder: -1
-  sockets:
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  isOpened: 0
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &1468760431
@@ -15148,8 +15399,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1470809840}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.09, y: -6.15, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
+  m_LocalPosition: {x: -1.25, y: -6, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1949775217}
   m_RootOrder: 1
@@ -15300,6 +15551,7 @@ GameObject:
   - component: {fileID: 1483633999}
   - component: {fileID: 1483634001}
   - component: {fileID: 1483634000}
+  - component: {fileID: 1483634003}
   m_Layer: 7
   m_Name: Tile_12
   m_TagString: Untagged
@@ -15319,6 +15571,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ac5b6d6dcc3b94cb8b96d0b0bcd465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   tileIndex: 12
   placedCard: {fileID: 0}
   linkableSocket: 01000000
@@ -15427,6 +15682,23 @@ Transform:
   m_Father: {fileID: 1870935517}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1483634003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1483633998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 1215422879
+  _assetId: 0
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &1513478955
 GameObject:
   m_ObjectHideFlags: 0
@@ -15521,6 +15793,7 @@ GameObject:
   - component: {fileID: 1529569937}
   - component: {fileID: 1529569939}
   - component: {fileID: 1529569938}
+  - component: {fileID: 1529569941}
   m_Layer: 7
   m_Name: Tile_2
   m_TagString: Untagged
@@ -15540,6 +15813,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ac5b6d6dcc3b94cb8b96d0b0bcd465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   tileIndex: 2
   placedCard: {fileID: 0}
   linkableSocket: 00000001
@@ -15648,6 +15924,23 @@ Transform:
   m_Father: {fileID: 559062564}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1529569941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1529569936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 4225446769
+  _assetId: 0
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &1543419020
 GameObject:
   m_ObjectHideFlags: 0
@@ -15660,6 +15953,7 @@ GameObject:
   - component: {fileID: 1543419021}
   - component: {fileID: 1543419023}
   - component: {fileID: 1543419022}
+  - component: {fileID: 1543419025}
   m_Layer: 7
   m_Name: Tile_1
   m_TagString: Untagged
@@ -15679,6 +15973,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ac5b6d6dcc3b94cb8b96d0b0bcd465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   tileIndex: 1
   placedCard: {fileID: 0}
   linkableSocket: 00000101
@@ -15787,6 +16084,23 @@ Transform:
   m_Father: {fileID: 1870935517}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1543419025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1543419020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 4173299959
+  _assetId: 0
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &1546174886
 GameObject:
   m_ObjectHideFlags: 0
@@ -15825,16 +16139,6 @@ MonoBehaviour:
   id: 0
   cardName: 
   ownerOrder: -1
-  sockets:
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  isOpened: 0
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &1546174889
@@ -15983,16 +16287,6 @@ MonoBehaviour:
   id: 0
   cardName: 
   ownerOrder: -1
-  sockets:
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  isOpened: 0
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &1554215988
@@ -16115,6 +16409,7 @@ GameObject:
   - component: {fileID: 1554268090}
   - component: {fileID: 1554268092}
   - component: {fileID: 1554268091}
+  - component: {fileID: 1554268094}
   m_Layer: 7
   m_Name: Tile_5
   m_TagString: Untagged
@@ -16134,6 +16429,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ac5b6d6dcc3b94cb8b96d0b0bcd465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   tileIndex: 5
   placedCard: {fileID: 0}
   linkableSocket: 00010100
@@ -16242,6 +16540,23 @@ Transform:
   m_Father: {fileID: 657299804}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1554268094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1554268089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 1050490027
+  _assetId: 0
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &1559492230
 GameObject:
   m_ObjectHideFlags: 0
@@ -16254,6 +16569,7 @@ GameObject:
   - component: {fileID: 1559492231}
   - component: {fileID: 1559492233}
   - component: {fileID: 1559492232}
+  - component: {fileID: 1559492235}
   m_Layer: 7
   m_Name: Tile_8
   m_TagString: Untagged
@@ -16273,6 +16589,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ac5b6d6dcc3b94cb8b96d0b0bcd465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   tileIndex: 8
   placedCard: {fileID: 0}
   linkableSocket: 01010101
@@ -16381,6 +16700,23 @@ Transform:
   m_Father: {fileID: 1870935517}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1559492235
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1559492230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 208347897
+  _assetId: 0
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &1569938080
 GameObject:
   m_ObjectHideFlags: 0
@@ -16419,16 +16755,6 @@ MonoBehaviour:
   id: 0
   cardName: 
   ownerOrder: -1
-  sockets:
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  isOpened: 0
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &1569938083
@@ -16551,6 +16877,7 @@ GameObject:
   - component: {fileID: 1593271325}
   - component: {fileID: 1593271327}
   - component: {fileID: 1593271326}
+  - component: {fileID: 1593271329}
   m_Layer: 7
   m_Name: Tile_0
   m_TagString: Untagged
@@ -16570,6 +16897,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ac5b6d6dcc3b94cb8b96d0b0bcd465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   tileIndex: 0
   placedCard: {fileID: 0}
   linkableSocket: 00000100
@@ -16678,6 +17008,23 @@ Transform:
   m_Father: {fileID: 657299804}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1593271329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1593271324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 1966946232
+  _assetId: 0
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &1605852360
 GameObject:
   m_ObjectHideFlags: 0
@@ -16716,16 +17063,6 @@ MonoBehaviour:
   id: 0
   cardName: 
   ownerOrder: -1
-  sockets:
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  isOpened: 0
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &1605852363
@@ -16874,16 +17211,6 @@ MonoBehaviour:
   id: 0
   cardName: 
   ownerOrder: -1
-  sockets:
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  isOpened: 0
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &1607161481
@@ -17085,6 +17412,7 @@ GameObject:
   - component: {fileID: 1636860924}
   - component: {fileID: 1636860926}
   - component: {fileID: 1636860925}
+  - component: {fileID: 1636860928}
   m_Layer: 7
   m_Name: Tile_10
   m_TagString: Untagged
@@ -17104,6 +17432,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ac5b6d6dcc3b94cb8b96d0b0bcd465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   tileIndex: 10
   placedCard: {fileID: 0}
   linkableSocket: 00010000
@@ -17212,6 +17543,23 @@ Transform:
   m_Father: {fileID: 1870935517}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1636860928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1636860923}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 3078687534
+  _assetId: 0
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &1640386826
 GameObject:
   m_ObjectHideFlags: 0
@@ -17250,16 +17598,6 @@ MonoBehaviour:
   id: 0
   cardName: 
   ownerOrder: -1
-  sockets:
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  isOpened: 0
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &1640386829
@@ -17382,6 +17720,7 @@ GameObject:
   - component: {fileID: 1657189069}
   - component: {fileID: 1657189071}
   - component: {fileID: 1657189070}
+  - component: {fileID: 1657189073}
   m_Layer: 7
   m_Name: Tile_11
   m_TagString: Untagged
@@ -17401,6 +17740,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ac5b6d6dcc3b94cb8b96d0b0bcd465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   tileIndex: 11
   placedCard: {fileID: 0}
   linkableSocket: 01010000
@@ -17509,6 +17851,23 @@ Transform:
   m_Father: {fileID: 1870935517}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1657189073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1657189068}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 2879590130
+  _assetId: 0
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &1677214867
 GameObject:
   m_ObjectHideFlags: 0
@@ -17521,6 +17880,7 @@ GameObject:
   - component: {fileID: 1677214868}
   - component: {fileID: 1677214870}
   - component: {fileID: 1677214869}
+  - component: {fileID: 1677214872}
   m_Layer: 7
   m_Name: Tile_4
   m_TagString: Untagged
@@ -17540,6 +17900,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ac5b6d6dcc3b94cb8b96d0b0bcd465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   tileIndex: 4
   placedCard: {fileID: 0}
   linkableSocket: 01010101
@@ -17648,6 +18011,23 @@ Transform:
   m_Father: {fileID: 657299804}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1677214872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1677214867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 3615418853
+  _assetId: 0
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &1688580331
 GameObject:
   m_ObjectHideFlags: 0
@@ -17660,6 +18040,7 @@ GameObject:
   - component: {fileID: 1688580332}
   - component: {fileID: 1688580334}
   - component: {fileID: 1688580333}
+  - component: {fileID: 1688580336}
   m_Layer: 7
   m_Name: Tile_0
   m_TagString: Untagged
@@ -17679,6 +18060,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ac5b6d6dcc3b94cb8b96d0b0bcd465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   tileIndex: 0
   placedCard: {fileID: 0}
   linkableSocket: 00000100
@@ -17787,6 +18171,23 @@ Transform:
   m_Father: {fileID: 1870935517}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1688580336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1688580331}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 4252292685
+  _assetId: 0
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &1692955878
 GameObject:
   m_ObjectHideFlags: 0
@@ -18007,16 +18408,6 @@ MonoBehaviour:
   id: 0
   cardName: 
   ownerOrder: -1
-  sockets:
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  isOpened: 0
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &1741587678
@@ -18165,16 +18556,6 @@ MonoBehaviour:
   id: 0
   cardName: 
   ownerOrder: -1
-  sockets:
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  isOpened: 0
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &1763488976
@@ -18297,6 +18678,7 @@ GameObject:
   - component: {fileID: 1765774223}
   - component: {fileID: 1765774225}
   - component: {fileID: 1765774224}
+  - component: {fileID: 1765774227}
   m_Layer: 7
   m_Name: Tile_8
   m_TagString: Untagged
@@ -18316,6 +18698,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ac5b6d6dcc3b94cb8b96d0b0bcd465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   tileIndex: 8
   placedCard: {fileID: 0}
   linkableSocket: 01010101
@@ -18424,6 +18809,23 @@ Transform:
   m_Father: {fileID: 559062564}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1765774227
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1765774222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 2207859522
+  _assetId: 0
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &1769380010
 GameObject:
   m_ObjectHideFlags: 0
@@ -18462,16 +18864,6 @@ MonoBehaviour:
   id: 0
   cardName: 
   ownerOrder: -1
-  sockets:
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  isOpened: 0
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &1769380013
@@ -18620,16 +19012,6 @@ MonoBehaviour:
   id: 0
   cardName: 
   ownerOrder: -1
-  sockets:
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  isOpened: 0
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &1772123371
@@ -18778,16 +19160,6 @@ MonoBehaviour:
   id: 0
   cardName: 
   ownerOrder: -1
-  sockets:
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  isOpened: 0
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &1783724021
@@ -18936,16 +19308,6 @@ MonoBehaviour:
   id: 0
   cardName: 
   ownerOrder: -1
-  sockets:
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  isOpened: 0
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &1809463173
@@ -19280,6 +19642,7 @@ GameObject:
   - component: {fileID: 1833131601}
   - component: {fileID: 1833131603}
   - component: {fileID: 1833131602}
+  - component: {fileID: 1833131604}
   m_Layer: 7
   m_Name: Tile_7
   m_TagString: Untagged
@@ -19313,6 +19676,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ac5b6d6dcc3b94cb8b96d0b0bcd465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   tileIndex: 7
   placedCard: {fileID: 0}
   linkableSocket: 01000001
@@ -19407,6 +19773,23 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1833131604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1833131599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 700684385
+  _assetId: 0
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &1863716925
 GameObject:
   m_ObjectHideFlags: 0
@@ -19445,16 +19828,6 @@ MonoBehaviour:
   id: 0
   cardName: 
   ownerOrder: -1
-  sockets:
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  isOpened: 0
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &1863716928
@@ -19753,16 +20126,6 @@ MonoBehaviour:
   id: 0
   cardName: 
   ownerOrder: -1
-  sockets:
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  isOpened: 0
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &1891683737
@@ -19980,8 +20343,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1897902658}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.97, y: -3.99, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
+  m_LocalPosition: {x: -0.5, y: -3.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1949775217}
   m_RootOrder: 0
@@ -20049,6 +20412,7 @@ GameObject:
   - component: {fileID: 1908336768}
   - component: {fileID: 1908336770}
   - component: {fileID: 1908336769}
+  - component: {fileID: 1908336772}
   m_Layer: 7
   m_Name: Tile_11
   m_TagString: Untagged
@@ -20068,6 +20432,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ac5b6d6dcc3b94cb8b96d0b0bcd465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   tileIndex: 11
   placedCard: {fileID: 0}
   linkableSocket: 01010000
@@ -20176,6 +20543,23 @@ Transform:
   m_Father: {fileID: 657299804}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1908336772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1908336767}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 2504401764
+  _assetId: 0
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &1926087872
 GameObject:
   m_ObjectHideFlags: 0
@@ -20188,6 +20572,7 @@ GameObject:
   - component: {fileID: 1926087874}
   - component: {fileID: 1926087876}
   - component: {fileID: 1926087875}
+  - component: {fileID: 1926087877}
   m_Layer: 7
   m_Name: Tile_4
   m_TagString: Untagged
@@ -20221,6 +20606,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ac5b6d6dcc3b94cb8b96d0b0bcd465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   tileIndex: 4
   placedCard: {fileID: 0}
   linkableSocket: 01010101
@@ -20315,6 +20703,23 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1926087877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1926087872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 2115951780
+  _assetId: 0
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &1938614327
 GameObject:
   m_ObjectHideFlags: 0
@@ -20353,16 +20758,6 @@ MonoBehaviour:
   id: 0
   cardName: 
   ownerOrder: -1
-  sockets:
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  isOpened: 0
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &1938614330
@@ -20558,6 +20953,7 @@ GameObject:
   - component: {fileID: 1955980689}
   - component: {fileID: 1955980691}
   - component: {fileID: 1955980690}
+  - component: {fileID: 1955980692}
   m_Layer: 7
   m_Name: Tile_0
   m_TagString: Untagged
@@ -20591,6 +20987,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ac5b6d6dcc3b94cb8b96d0b0bcd465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   tileIndex: 0
   placedCard: {fileID: 0}
   linkableSocket: 00000100
@@ -20685,6 +21084,23 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1955980692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1955980687}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 2673172782
+  _assetId: 0
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &1979045333
 GameObject:
   m_ObjectHideFlags: 0
@@ -20906,8 +21322,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2006478165}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.24, y: -6.26, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
+  m_LocalPosition: {x: 1.25, y: -6.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1949775217}
   m_RootOrder: 2
@@ -20975,6 +21391,7 @@ GameObject:
   - component: {fileID: 2008794856}
   - component: {fileID: 2008794858}
   - component: {fileID: 2008794857}
+  - component: {fileID: 2008794860}
   m_Layer: 7
   m_Name: Tile_4
   m_TagString: Untagged
@@ -20994,6 +21411,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ac5b6d6dcc3b94cb8b96d0b0bcd465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   tileIndex: 4
   placedCard: {fileID: 0}
   linkableSocket: 01010101
@@ -21102,6 +21522,23 @@ Transform:
   m_Father: {fileID: 559062564}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2008794860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2008794855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 2531290954
+  _assetId: 0
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &2019581863
 GameObject:
   m_ObjectHideFlags: 0
@@ -21114,6 +21551,7 @@ GameObject:
   - component: {fileID: 2019581864}
   - component: {fileID: 2019581866}
   - component: {fileID: 2019581865}
+  - component: {fileID: 2019581868}
   m_Layer: 7
   m_Name: Tile_10
   m_TagString: Untagged
@@ -21133,6 +21571,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ac5b6d6dcc3b94cb8b96d0b0bcd465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   tileIndex: 10
   placedCard: {fileID: 0}
   linkableSocket: 00010000
@@ -21241,6 +21682,23 @@ Transform:
   m_Father: {fileID: 559062564}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2019581868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2019581863}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 2664005656
+  _assetId: 0
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &2022148963
 GameObject:
   m_ObjectHideFlags: 0
@@ -21572,16 +22030,6 @@ MonoBehaviour:
   id: 0
   cardName: 
   ownerOrder: -1
-  sockets:
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  isOpened: 0
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &2057055787
@@ -21704,6 +22152,7 @@ GameObject:
   - component: {fileID: 2057204203}
   - component: {fileID: 2057204205}
   - component: {fileID: 2057204204}
+  - component: {fileID: 2057204207}
   m_Layer: 7
   m_Name: Tile_6
   m_TagString: Untagged
@@ -21723,6 +22172,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ac5b6d6dcc3b94cb8b96d0b0bcd465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   tileIndex: 6
   placedCard: {fileID: 0}
   linkableSocket: 01010101
@@ -21831,6 +22283,23 @@ Transform:
   m_Father: {fileID: 559062564}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2057204207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2057204202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 3548612403
+  _assetId: 0
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &2057596941
 GameObject:
   m_ObjectHideFlags: 0
@@ -21869,16 +22338,6 @@ MonoBehaviour:
   id: 0
   cardName: 
   ownerOrder: -1
-  sockets:
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  isOpened: 0
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &2057596944
@@ -22001,6 +22460,7 @@ GameObject:
   - component: {fileID: 2084047573}
   - component: {fileID: 2084047575}
   - component: {fileID: 2084047574}
+  - component: {fileID: 2084047577}
   m_Layer: 7
   m_Name: Tile_9
   m_TagString: Untagged
@@ -22020,6 +22480,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ac5b6d6dcc3b94cb8b96d0b0bcd465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   tileIndex: 9
   placedCard: {fileID: 0}
   linkableSocket: 01010101
@@ -22128,6 +22591,23 @@ Transform:
   m_Father: {fileID: 559062564}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2084047577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2084047572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 848654400
+  _assetId: 0
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &2103684611
 GameObject:
   m_ObjectHideFlags: 0
@@ -22166,16 +22646,6 @@ MonoBehaviour:
   id: 0
   cardName: 
   ownerOrder: -1
-  sockets:
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  - attribute: 0
-    isLinked: 0
-  isOpened: 0
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &2103684614

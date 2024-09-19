@@ -1,6 +1,8 @@
 using UnityEngine;
+using Mirror;
 
-public class Tile : MonoBehaviour
+[RequireComponent(typeof(NetworkIdentity))]
+public class Tile : NetworkBehaviour
 {
     [SerializeField] int tileIndex;
     public int TileIndex => tileIndex;
@@ -103,5 +105,23 @@ public class Tile : MonoBehaviour
             if (linkedTile[i].placedCard != null) continue;
             sockets[i].attribute = Attribute.isEmpty;
         }
+    }
+
+    [Command(requiresAuthority = false)]
+    public void CmdSetCard(int _id)
+    {
+        RpcSetCard(_id);
+    }
+
+    [ClientRpc]
+    public void RpcSetCard(int _id)
+    {
+        Card card = GameManager.Card(_id);
+        
+        card.iCardState = new None();
+        
+        card.SetTile(this);
+        card.SetTargetPosition(transform.position);
+        card.DoMove();
     }
 }

@@ -57,30 +57,43 @@ public class Deck : NetworkBehaviour
         GameManager.Player(_playerNumber).hand.Add(_drawCardID);
     }
 
-    [Server]
-    Deck ReturnCard(int id, bool placeOnTop = false)
+    /// <summary>
+    /// _placeOnTop가 true라면 카드를 덱 맨 위에 둔다.
+    /// _placeOnTop가 false라면 덱에 카드를 넣고 섞는다.
+    /// </summary>
+    /// <param name="_id"></param>
+    /// <param name="_placeOnTop"></param>
+    [Command(requiresAuthority = false)]
+    public void CmdReturnCard(int _id, bool _placeOnTop)
     {
         //이미 덱 안에 있는 카드라면 다시 덱에 넣을 수 없다.
-        if (list.Contains(id))
+        if (list.Contains(_id))
         {
-            Debug.Log("이미 덱에 있는 카드를 추가하려고 했습니다. 잘못된 상황입니다.");
-            return this;
+            Debug.LogError("이미 덱에 있는 카드를 추가하려고 했습니다. 잘못된 상황입니다.");
+            return;
         }
-        if (id < 0 || id >= GameManager.TotalCard)
+        if (_id < 0 || _id >= GameManager.TotalCard)
         {
-            Debug.Log("잘못된 카드 ID입니다. 잘못된 상황입니다.");
-            return this;
+            Debug.LogError("잘못된 카드 ID입니다. 잘못된 상황입니다.");
+            return;
         }
+
+        list.Add(_id);
 
         //placeOnTop이 true면 덱의 맨 위에, false면 랜덤 위치에 삽입
-        list.Add(id);
+        if (!_placeOnTop) Shuffle();
 
-        if (!placeOnTop)
-            Shuffle();
-
-        return this;
+        RpcReturnCard(_id);
     }
 
+    [ClientRpc]
+    void RpcReturnCard(int _id)
+    {
+        Card card = GameManager.Card(_id);
+        card.iCardState = new None();
+        card.SetTargetPosition(transform.position);
+        card.DoMove();
+    }
 
 
     //서버에서만 실행
@@ -110,8 +123,7 @@ public class Deck : NetworkBehaviour
 
     [SerializeField, Header("인재 영입 시간에 카드를 내는 위치"), Space(10)]
     Transform[] draftZone;
-
-    List<Card> draftCard = new List<Card>();
+    readonly List<Card> draftCard = new List<Card>();
 
     [ClientRpc]
     void RpcDraftPhase(int[] opened)

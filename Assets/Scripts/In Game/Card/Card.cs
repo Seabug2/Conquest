@@ -9,38 +9,32 @@ public partial class Card : NetworkBehaviour
 
     [SyncVar]
     public int ownerOrder = -1;
-    public Player Owner
-    {
-        get
-        {
-            return GameManager.Player(ownerOrder);
-        }
-    }
+    public Player Owner => GameManager.Player(ownerOrder);
 
     //소켓에 대한 정보
     // 0   1
     //
     // 3   2
-    [Header("카드의 소켓"), Space(10)]
-    [SerializeField] Socket[] sockets = new Socket[4];
+
+    //[Header("카드의 소켓"), Space(10)]
+    //[SerializeField]
+
+    readonly Socket[] sockets = new Socket[4];
     public Socket[] Sockets => sockets;
 
     [Header("현재 카드가 놓여진 타일"), Space(10)]
     Tile currentTile = null;
     public Tile CurrentTile => currentTile;
-
-    public Card SetTile(Tile currentTile)
+    public void SetTile(Tile currentTile)
     {
         this.currentTile = currentTile;
-        return this;
     }
-
     public bool IsOnField
     {
         get { return currentTile != null; }
     }
 
-    [SerializeField]
+
     bool isOpened = false;
     public bool IsOpened
     {
@@ -63,7 +57,6 @@ public partial class Card : NetworkBehaviour
     private void Awake()
     {
         SprtRend = GetComponent<SpriteRenderer>();
-        //Front = SprtRend.sprite;
     }
 
     private void Start()

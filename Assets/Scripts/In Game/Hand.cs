@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 using UnityEngine.Events;
 
-public class Hand : MonoBehaviour
+[RequireComponent(typeof(NetworkIdentity))]
+public class Hand : NetworkBehaviour
 {
     [SerializeField] int seatNum;
     public int SeatNum => seatNum;
