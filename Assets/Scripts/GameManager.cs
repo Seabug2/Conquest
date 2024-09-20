@@ -1,14 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 using Mirror;
-using System.IO;
 
 public class GameManager : NetworkBehaviour
 {
-
-    //전역 클래스 설정
+    #region 싱글톤
     public static GameManager instance = null;
     private void Awake()
     {
@@ -29,46 +26,24 @@ public class GameManager : NetworkBehaviour
             instance = null;
         }
     }
-
-    Commander commander;
-    public static Commander Commander
-    {
-        get
-        {
-            if (instance.commander == null)
-            {
-                instance.commander = new Commander();
-            }
-            return instance.commander;
-        }
-    }
-
+    #endregion
 
     [Header("카드 뒷면 이미지"), Space(10)]
     public Sprite cardBackFace;
 
 
-    [Header("플레이어")]
+    [Header("플레이어"), Space(10)]
     [SerializeField]
     List<Player> players = new List<Player>();
     Player localPlayer = null;
-    public static Player LocalPlayer
-    {
-        get
-        {
-            if (instance.localPlayer == null)
-                instance.localPlayer = NetworkClient.localPlayer.GetComponent<Player>();
-            return instance.localPlayer;
-        }
-    }
+    public static Player LocalPlayer => instance.localPlayer;
     public static Player Player(int i)
     {
         if (i < 0 || i >= 4)
         {
-            Debug.Log("범위가 잘못됐습니다.");
+            Debug.LogError("범위가 잘못됐습니다.");
             return null;
         }
-
         return instance.players[i];
     }
 
@@ -125,15 +100,13 @@ public class GameManager : NetworkBehaviour
             }
 
             cards[i].cardName = data[2];
-            
+
             cards[i].Sockets[0] = new Socket(ParseAttribute(data[3]), data[4].Equals("1"));
             cards[i].Sockets[1] = new Socket(ParseAttribute(data[5]), data[6].Equals("1"));
             cards[i].Sockets[2] = new Socket(ParseAttribute(data[7]), data[8].Equals("1"));
             cards[i].Sockets[3] = new Socket(ParseAttribute(data[9]), data[10].Equals("1"));
         }
     }
-
-    // string 값을 int로 변환한 후 enum으로 변환하는 함수
     Attribute ParseAttribute(string value)
     {
         if (int.TryParse(value, out int result) && System.Enum.IsDefined(typeof(Attribute), result))
@@ -143,16 +116,15 @@ public class GameManager : NetworkBehaviour
         return Attribute.isEmpty;  // 변환 실패 시 기본값 반환
     }
 
-    [Header("덱")]
+    [Header("덱"), Space(10)]
     [SerializeField] Deck deck;
     public static Deck Deck => instance.deck;
 
-    [Header("필드")]
+    [Header("필드"), Space(10)]
     [SerializeField] Field[] fields;
-    public static Field Field(int i) =>
-        GameManager.instance.fields[i];
+    public static Field Field(int i) => instance.fields[i];
 
-    [Header("패")]
+    [Header("패"), Space(10)]
     [SerializeField] Hand[] hands;
     public static Hand Hand(int i) => instance.hands[i];
 
@@ -160,22 +132,20 @@ public class GameManager : NetworkBehaviour
 
 
     #region #1 플레이어의 연결과 게임 시작
-    //각 클라이언트에 존재하는 GameManager의 List에 Player 객체를 추가
-    public void AddPlayer(Player player)
+    public void AddPlayer(Player _player)
     {
-        players.Add(player);
+        players.Add(_player);
+
+        if (_player.isLocalPlayer)
+        {
+            localPlayer = _player;
+        }
 
         if (players.Count == 4)
         {
             ServerGameStart();
         }
     }
-
-    [Header("클라이언트 연결 완료 이벤트"), Space(10), Tooltip("모든 플레이어가 연결이 되면 실행되는 이벤트")]
-    public UnityEvent OnConnectionEvent;
-
-    [Header("게임 시작 이벤트"), Space(10), Tooltip("게임이 시작할 때 실행될 이벤트를 등록합니다.")]
-    public UnityEvent OnGameStartEvent;
 
     [ServerCallback]
     void ServerGameStart()
@@ -210,12 +180,15 @@ public class GameManager : NetworkBehaviour
 
         CurrentOrder = 0;
 
-        Commander
+        Commander commander = new Commander();
+
+        commander
             .Clear()
             .Add_While(() => UIMaster.Fade.In(1.5f), UIMaster.Fade.IsPlaying)
             .WaitSeconds(1f)
             .Add_While(() => UIMaster.Message.PopUp("게임 시작", 3f), UIMaster.Message.IsPlaying)
-            .Add(() => OnGameStartEvent?.Invoke())
+            .Add(Deck.ServerDraftPhase)
+            //.Add(() => OnGameStartEvent?.Invoke())
             .Play();
     }
     #endregion
@@ -247,6 +220,45 @@ public class GameManager : NetworkBehaviour
 
         return nextOrder;
     }
+
+    [Server]
+    public void NextTurn(int _order)
+    {
+        Player(_order).hasTurn = true;
+
+        if (AliveCount == 1)
+        {
+            RpcGameOver();
+            return;
+        }
+
+        if (RoundFinished)
+        {
+            deck.ServerDraftPhase();
+            return;
+        }
+
+        CurrentOrder = NextOrder(_order);
+        Player(CurrentOrder).CmdStartTurn();
+    }
+
+    [ClientRpc]
+    void RpcGameOver()
+    {
+        //게임 엔딩
+        if (localPlayer.isGameOver)
+        {
+            //패배!
+            UIMaster.Message.ForcePopUp("패배...", 1);
+        }
+        else
+        {
+            //승리!
+            UIMaster.Message.ForcePopUp("승리!", 1);
+        }
+        return;
+    }
+
 
     /// <summary>
     /// 이전 차례 순서를 반환
@@ -312,7 +324,6 @@ public class GameManager : NetworkBehaviour
             return isFinished;
         }
     }
-
 
     public static Dictionary<int, List<Card>> dict_HandLimitStack = new Dictionary<int, List<Card>> {
     { 0, new List<Card>() },

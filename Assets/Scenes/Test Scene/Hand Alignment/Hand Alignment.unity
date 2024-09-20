@@ -821,17 +821,11 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  cardBackFace: {fileID: 21300000, guid: e6aab85e5d24cdc4a9b179f0bb336349, type: 3}
+  cardBackFace: {fileID: 21300000, guid: 5915cdc174101e540b3349e21ee2cd74, type: 3}
+  players: []
   cards: []
   deck: {fileID: 0}
-  fields: []
   hands: []
-  OnConnectionEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  OnGameStartEvent:
-    m_PersistentCalls:
-      m_Calls: []
   isClockwise: 1
 --- !u!114 &1516785415
 MonoBehaviour:
@@ -848,6 +842,7 @@ MonoBehaviour:
   fade: {fileID: 0}
   message: {fileID: 0}
   infoUI: {fileID: 1411453086}
+  confirm: {fileID: 0}
 --- !u!114 &1516785416
 MonoBehaviour:
   m_ObjectHideFlags: 0

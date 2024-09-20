@@ -1,9 +1,6 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
 public class ButtonAction : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
@@ -12,10 +9,7 @@ public class ButtonAction : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
     Color onMouseColor = Color.white;
     Color offMouseColor = new Color(1, 1, 1, 0.8f);
 
-    /// <summary>
-    /// 원하는 상호작용 Action을 등록
-    /// 그리고 대화창을 비활성화 시키는 코드를 등록
-    /// </summary>
+    // '=' 연산을 사용하여 메서드를 등록하기위해 event는 사용하지 않는다.
     public Action OnClickEvent;
 
     private void Start()
@@ -28,15 +22,18 @@ public class ButtonAction : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
     {
         OnClickEvent?.Invoke();
         img.color = offMouseColor;
+        transform.localScale = Vector3.one;
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
         img.color = onMouseColor;
+        transform.localScale = Vector3.one * 1.3f;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         img.color = offMouseColor;
+        transform.localScale = Vector3.one;
     }
 }

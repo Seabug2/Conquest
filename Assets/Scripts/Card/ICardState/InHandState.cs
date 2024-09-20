@@ -14,12 +14,12 @@ using DG.Tweening;
 /// <summary>
 /// 자신의 패에 있는 카드에 마우스를 올려두면 카드가 위로 솟는다.
 /// </summary>
-public class InHand : ICardState
+public class InHandState : ICardState
 {
-    Card card;
-    Hand hand;
+    readonly Card card;
+    readonly Hand hand;
 
-    public InHand(Card card, Hand hand)
+    public InHandState(Card card, Hand hand)
     {
         this.card = card;
         this.hand = hand;
@@ -55,15 +55,20 @@ public class InHand : ICardState
 /// </summary>
 public class InHandOnTurn : ICardState
 {
-    Card card;
-    Hand hand;
-    Field field;
+    readonly Card card;
+    readonly Hand hand;
+    readonly Field field;
 
     public InHandOnTurn(Card card, Hand hand, Field field)
     {
         this.card = card;
         this.hand = hand;
         this.field = field;
+    }
+
+    public InHandOnTurn(Card card)
+    {
+        this.card = card;
     }
 
     private Vector3 offset;
@@ -105,7 +110,10 @@ public class InHandOnTurn : ICardState
         card.SprtRend.sortingLayerName = "OnMouseLayer";
 
         card.CmdPick();
-        field.ActiveTile(card, true);
+        
+        if (field != null)
+            field.ActiveTile(card, true);
+
         hand.HandAlignment();
     }
     public void OnPointerEixt(PointerEventData eventData)
@@ -113,7 +121,10 @@ public class InHandOnTurn : ICardState
         card.SprtRend.sortingLayerName = "Default";
         card.transform.localScale = Vector3.one;
         card.CmdDoMove();
-        field.ActiveTile(card, false);
+
+        if (field != null)
+            field.ActiveTile(card, false);
+        
         hand.HandAlignment();
     }
 }

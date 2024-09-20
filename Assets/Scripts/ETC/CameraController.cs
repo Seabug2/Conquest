@@ -138,7 +138,13 @@ public class CameraController : MonoBehaviour
         DOTween.To(() => p.m_AmplitudeGain, x => p.m_AmplitudeGain = x, 0f, duration);
     }
 
-    public bool moveLock = false;
+    [SerializeField]
+    bool moveLock = false;
+
+    public void MoveLock(bool _isLocked)
+    {
+        moveLock = _isLocked;
+    }
 
     private void Update()
     {
@@ -155,5 +161,7 @@ public class CameraController : MonoBehaviour
             ShiftVCam(1);
         else if (Input.GetKeyDown(KeyCode.C))
             HomeView();
+        else if (Input.GetKeyDown(KeyCode.D))
+            FocusOnDeck();
     }
 }

@@ -42,7 +42,6 @@ public class Confirm : MonoBehaviour
         cardImage.sprite = _cardImage;
         canvasGroup.alpha = 0;
         root.anchoredPosition = startPosition.anchoredPosition;
-
         bt_yes.enabled = false;
         bt_yes.OnClickEvent = () =>
         {
@@ -79,6 +78,6 @@ public class Confirm : MonoBehaviour
 
     public void Test()
     {
-        PopUp(() => print("테스트!"), "테스트!", null);
+        PopUp(() => print("테스트!"), "테스트sdfghmn!", null);
     }
 }

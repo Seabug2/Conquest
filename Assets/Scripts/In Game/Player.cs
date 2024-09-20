@@ -7,48 +7,60 @@ public class Player : NetworkBehaviour
 {
     [SyncVar]
     public int order = -1;
-
-    public bool IsLocalPlayer => IsLocalPlayer;
-    public bool IsMyTurn => GameManager.instance.CurrentOrder.Equals(order);
-
-    [SyncVar, SerializeField, Header("게임 오버 상태")]
+    [SyncVar]
     public bool isGameOver = false;
-    public bool isTurnSkipped = false;
-    public bool isCanDraw = false;
-
     [SyncVar]
     public bool hasTurn = false;
 
+    public bool isTurnSkipped = false;
+    public bool isCanDraw = false;
 
     public override void OnStartClient()
     {
         GameManager.instance.AddPlayer(this);
     }
 
-    public Hand hand;
-    public Field field;
+    public Hand hand => GameManager.Hand(order);
+    public Field field => GameManager.Field(order);
+
+
+
 
     [Command]
     public void CmdStartTurn()
     {
-        RpcStartTurn();
-    }
-
-    [ClientRpc]
-    public void RpcStartTurn()
-    {
-        //메시지 출력 "~의 턴" 종료 후 Draw() 실행
-        if (isLocalPlayer)
+        if (isTurnSkipped)
         {
 
-            return;
         }
         else
         {
-
+            //서버에서 덱의 카드 한 장을 받아옴
+            int drawnCard = GameManager.Deck.DrawCardID();
+            //드로우를 하는 것으로 차례를 시작...
+            RpcStartTurn(drawnCard);
         }
     }
 
+    [ClientRpc]
+    void RpcStartTurn(int _cardID)
+    {
+        Commander commander = new Commander();
+        commander
+            .Add_While(() => UIMaster.Message.ForcePopUp($"{order + 1}의 차례!", 2f), UIMaster.Message.IsPlaying)
+            .Add_While(() => UIMaster.Message.ForcePopUp($"{order + 1}의 드로우!", 2f), UIMaster.Message.IsPlaying)
+            .Add(() => hand.Add(_cardID), 1f)
+            .Add(() =>
+            {
+                if (isLocalPlayer)
+                {
+                    hand.HandSetting(field);
+                    Debug.Log("차례를 시작...");
+                }
+            })
+            .Play();
+
+    }
 
     [Command]
     void CmdDraw()
@@ -60,11 +72,7 @@ public class Player : NetworkBehaviour
     void RpcDraw()
     {
         //메시지 출력 "~의 드로우" 종료 후에 StartHandlingPhase() 실행
-        if (!isLocalPlayer)
-        {
-            return;
-        }
-        else
+        if (isLocalPlayer)
         {
 
         }
@@ -82,49 +90,19 @@ public class Player : NetworkBehaviour
         }
     }
 
-    Coroutine HandlingPhase;
-
-    IEnumerator HandlingPhase_co()
-    {
-        //
-
-        while (true)
-        {
-            yield return null;
-        }
-    }
 
     //로컬 플레이어의 턴 매니저에서 호출
     [Command]
     public void CmdTurnEnd()
     {
-        hasTurn = false;
-
-        RpcTurnEnd();
+        isGameOver = hand.IsLimitOver;
+        GameManager.instance.NextTurn(order);
     }
 
     //모든 클라이언트에서 호출
     [ClientRpc]
     public void RpcTurnEnd()
     {
-        //차례를 마치는 UI 팝업
 
-
-        if (GameManager.RoundFinished)
-        {
-            GameManager.Deck.ServerDraftPhase();
-            return;
-        }
-
-        //다음 차례의 플레이어
-
-        if (isLocalPlayer)
-        {
-
-        }
-        else
-        {
-
-        }
     }
 }

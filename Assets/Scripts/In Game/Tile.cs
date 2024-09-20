@@ -107,6 +107,7 @@ public class Tile : NetworkBehaviour
         }
     }
 
+    //카드에서 raycast를 사용하여 검출한 후, 카드의 id를 매개변수로 하여 이 메서드를 호출
     [Command(requiresAuthority = false)]
     public void CmdSetCard(int _id)
     {
@@ -117,11 +118,20 @@ public class Tile : NetworkBehaviour
     public void RpcSetCard(int _id)
     {
         Card card = GameManager.Card(_id);
-        
-        card.iCardState = new None();
-        
+
+        /*
+        commander.Clear()
+            .Add(() =>
+            {
+                //UIMaster.Message.ForcePopUp($"{card.name} 등장!", )
+            });
+        */
+
+        card.iCardState = new NoneState();
+
         card.SetTile(this);
         card.SetTargetPosition(transform.position);
+        card.SetTargetQuaternion(transform.rotation);
         card.DoMove();
     }
 }

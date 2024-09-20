@@ -36,33 +36,24 @@ public class Deck : NetworkBehaviour
         }
     }
 
+    [Server]
     /// <returns>덱 맨 위의 카드 ID를 반환합니다. 덱 맨 위의 카드란, 리스트의 마지막 요소입니다.</returns>
-    int DrawCardID(bool isTopCard = true)
+    public int DrawCardID(bool isTopCard = true)
     {
+        if (Count.Equals(0))
+        {
+            Debug.LogError("덱에 카드가 없습니다!");
+            return -1;
+        }
         int drawNumber = isTopCard ? list[Count - 1] : Random.Range(0, Count);
         list.Remove(drawNumber);
         return drawNumber;
-    }
-
-    [Server]
-    public void ServerDrawCard(int _playerNumber, bool _isTopCard = true)
-    {
-        int cardID = DrawCardID(_isTopCard);
-        RpcDrawCard(_playerNumber, cardID);
-    }
-
-    [ClientRpc]
-    void RpcDrawCard(int _playerNumber, int _drawCardID)
-    {
-        GameManager.Player(_playerNumber).hand.Add(_drawCardID);
     }
 
     /// <summary>
     /// _placeOnTop가 true라면 카드를 덱 맨 위에 둔다.
     /// _placeOnTop가 false라면 덱에 카드를 넣고 섞는다.
     /// </summary>
-    /// <param name="_id"></param>
-    /// <param name="_placeOnTop"></param>
     [Command(requiresAuthority = false)]
     public void CmdReturnCard(int _id, bool _placeOnTop)
     {
@@ -90,7 +81,7 @@ public class Deck : NetworkBehaviour
     void RpcReturnCard(int _id)
     {
         Card card = GameManager.Card(_id);
-        card.iCardState = new None();
+        card.iCardState = new NoneState();
         card.SetTargetPosition(transform.position);
         card.DoMove();
     }
@@ -102,7 +93,7 @@ public class Deck : NetworkBehaviour
     {
         if (Count.Equals(0))
         {
-            Debug.Log("덱에 카드가 없습니다!");
+            Debug.LogError("덱에 카드가 없습니다!");
             //게임 종료??
             return;
         }
@@ -121,7 +112,7 @@ public class Deck : NetworkBehaviour
         RpcDraftPhase(opened);
     }
 
-    [SerializeField, Header("인재 영입 시간에 카드를 내는 위치"), Space(10)]
+    [SerializeField, Header("인재 영입의 시간에 카드를 내는 위치"), Space(10)]
     Transform[] draftZone;
     readonly List<Card> draftCard = new List<Card>();
 
@@ -131,33 +122,51 @@ public class Deck : NetworkBehaviour
         //리스트를 재사용 할 땐, 재할당이 아니라 Clear()
         draftCard.Clear();
 
-        for (int i = 0; i < opened.Length; i++)
-        {
-            Card c = GameManager.Card(opened[i]);
-            draftCard.Add(c);
-            c.iCardState = new None();
-            c.IsOpened = true;
-            c.SetTargetPosition(draftZone[i].position);
-            c.SetTargetQuaternion(Quaternion.identity);
-
-            c.DoMove(i * .18f);
-        }
-
         Commander commander = new Commander();
         commander
-            .Add_While(() => UIMaster.Message.PopUp("인재 영입 시간!", 3f), UIMaster.Message.IsPlaying)
-            .WaitSeconds(0.3f)
-            .Add(() =>
+            .Add(() => UIMaster.Message.PopUp("인재 영입 시간!", 3f), 1f)
+            .Add_While(() =>
             {
-                //GameManager.Player(0).
-                //첫 번째 플레이어 먼저 카드 선택의 기회가 주어진다.
-            })
-            .Play();
+                for (int i = 0; i < opened.Length; i++)
+                {
+                    Card c = GameManager.Card(opened[i]);
+                    draftCard.Add(c);
+                    c.iCardState = new NoneState();
+                    c.IsOpened = true;
+                    c.SetTargetPosition(draftZone[i].position);
+                    c.SetTargetQuaternion(Quaternion.identity);
 
-        //"인재 영입 시간" 메시지 출력
-        //딜레이 시간 필요
-        //지속 시간 필요
-        //메시지 출력을 종료시
-        // => 로컬 플레이어의 순서가 0인 경우 카드를 고르도록...
+                    c.DoMove(i * .18f);
+                }
+            }, UIMaster.Message.IsPlaying)
+            .Add_While(() =>
+            {
+                if (GameManager.LocalPlayer.order == 0)
+                {
+                    UIMaster.Message.PopUp("패로 가져갈 카드를 한 장 고르세요", 3f);
+                    foreach (Card card in draftCard)
+                    {
+                        card.iCardState = new SelectionState(card, () => UIMaster.Confirm.PopUp(() =>
+                        {
+                            draftCard.Remove(card);
+
+                            GameManager.LocalPlayer.hand.Add(card.id);
+
+                            foreach (Card card in draftCard)
+                            {
+                                card.iCardState = new NoneState();
+                            }
+
+                        }, "이 카드를 패로 가져갑니다?", card.front));
+                    }
+                }
+                else
+                {
+                    UIMaster.Message.PopUp($"{GameManager.instance.CurrentOrder + 1}번째 플레이어가 카드를 고릅니다.", 3f);
+                }
+            }, UIMaster.Message.IsPlaying)
+            .Play();
     }
+
+
 }

@@ -60,12 +60,12 @@ public class Hand : NetworkBehaviour
     {
         if (SeatNum.Equals(GameManager.LocalPlayer.order))
         {
-            newCard.iCardState = new InHand(newCard, this);
+            newCard.iCardState = new InHandState(newCard, this);
             newCard.IsOpened = true;
         }
         else
         {
-            newCard.iCardState = new None();
+            newCard.iCardState = new NoneState();
             newCard.IsOpened = false;
         }
         newCard.ownerOrder = seatNum;
@@ -77,13 +77,13 @@ public class Hand : NetworkBehaviour
     public void TestAdd(Card newCard)
     {
         newCard.IsOpened = true;
-        newCard.iCardState = new InHand(newCard, this);
+        newCard.iCardState = new InHandState(newCard, this);
         list.Add(newCard);
         HandAlignment();
     }
     public void TestChangeState()
     {
-        foreach(Card c in list)
+        foreach (Card c in list)
         {
             c.iCardState = new InHandOnTurn(c, this, null);
         }
@@ -101,7 +101,7 @@ public class Hand : NetworkBehaviour
 
     public void Remove(Card drawnCard)
     {
-        drawnCard.iCardState = new None();
+        drawnCard.iCardState = new NoneState();
         list.Remove(drawnCard);
 
         if (list.Count > 0)
@@ -118,9 +118,9 @@ public class Hand : NetworkBehaviour
             {
                 c.iCardState = new InHandOnTurn(c, this, null);
             }
-            else if (c.iCardState.GetType().Equals(typeof(InHand)))
+            else if (c.iCardState.GetType().Equals(typeof(InHandState)))
             {
-                c.iCardState = new InHand(c, this);
+                c.iCardState = new InHandState(c, this);
             }
         }
     }
@@ -199,6 +199,24 @@ public class Hand : NetworkBehaviour
 
             list[i].DoMove(0, DG.Tweening.Ease.Unset);
             //list[i].StartTween();
+        }
+    }
+
+    public void HandSetting(Field _myField)
+    {
+        if (_myField != null)
+        {
+            foreach (Card card in list)
+            {
+                card.iCardState = new InHandOnTurn(card, this, _myField);
+            }
+        }
+        else
+        {
+            foreach (Card card in list)
+            {
+                card.iCardState = new InHandState(card, this);
+            }
         }
     }
 }
