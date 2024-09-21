@@ -7,7 +7,12 @@ using Mirror;
 /// </summary>
 public class Deck : NetworkBehaviour
 {
-    public readonly SyncList<int> list = new SyncList<int>();
+    private void Start()
+    {
+        GameManager.deck = this;
+    }
+
+    public readonly SyncList<int> list = new();
 
     /// <summary>
     /// 덱에 남은 카드의 수
@@ -114,7 +119,7 @@ public class Deck : NetworkBehaviour
 
     [SerializeField, Header("인재 영입의 시간에 카드를 내는 위치"), Space(10)]
     Transform[] draftZone;
-    readonly List<Card> draftCard = new List<Card>();
+    readonly List<Card> draftCard = new();
 
     [ClientRpc]
     void RpcDraftPhase(int[] opened)
@@ -122,7 +127,7 @@ public class Deck : NetworkBehaviour
         //리스트를 재사용 할 땐, 재할당이 아니라 Clear()
         draftCard.Clear();
 
-        Commander commander = new Commander();
+        Commander commander = new();
         commander
             .Add(() => UIMaster.Message.PopUp("인재 영입 시간!", 3f), 1f)
             .Add_While(() =>
@@ -141,29 +146,29 @@ public class Deck : NetworkBehaviour
             }, UIMaster.Message.IsPlaying)
             .Add_While(() =>
             {
-                if (GameManager.LocalPlayer.order == 0)
-                {
-                    UIMaster.Message.PopUp("패로 가져갈 카드를 한 장 고르세요", 3f);
-                    foreach (Card card in draftCard)
-                    {
-                        card.iCardState = new SelectionState(card, () => UIMaster.Confirm.PopUp(() =>
-                        {
-                            draftCard.Remove(card);
+                //if (GameManager.LocalPlayer.order == 0)
+                //{
+                //    UIMaster.Message.PopUp("패로 가져갈 카드를 한 장 고르세요", 3f);
+                //    foreach (Card card in draftCard)
+                //    {
+                //        card.iCardState = new SelectionState(card, () => UIMaster.Confirm.PopUp(() =>
+                //        {
+                //            draftCard.Remove(card);
 
-                            GameManager.LocalPlayer.hand.Add(card.id);
+                //            GameManager.LocalPlayer.hand.Add(card.id);
 
-                            foreach (Card card in draftCard)
-                            {
-                                card.iCardState = new NoneState();
-                            }
+                //            foreach (Card card in draftCard)
+                //            {
+                //                card.iCardState = new NoneState();
+                //            }
 
-                        }, "이 카드를 패로 가져갑니다?", card.front));
-                    }
-                }
-                else
-                {
-                    UIMaster.Message.PopUp($"{GameManager.instance.CurrentOrder + 1}번째 플레이어가 카드를 고릅니다.", 3f);
-                }
+                //        }, "이 카드를 패로 가져갑니다?", card.front));
+                //    }
+                //}
+                //else
+                //{
+                //    UIMaster.Message.PopUp($"{GameManager.instance.CurrentOrder + 1}번째 플레이어가 카드를 고릅니다.", 3f);
+                //}
             }, UIMaster.Message.IsPlaying)
             .Play();
     }

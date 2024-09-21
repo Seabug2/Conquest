@@ -8,7 +8,7 @@ public partial class Card : NetworkBehaviour
     public string cardName;
 
     public int ownerOrder = -1;
-    public Player Owner => GameManager.Player(ownerOrder);
+    public Player Owner => GameManager.GetPlayer(ownerOrder);
 
     //소켓에 대한 정보
     // 0   1
@@ -16,6 +16,7 @@ public partial class Card : NetworkBehaviour
     // 3   2
     readonly Socket[] sockets = new Socket[4];
     public Socket[] Sockets => sockets;
+
 
     [Header("현재 카드가 놓여진 타일"), Space(10)]
     Tile currentTile = null;
@@ -43,6 +44,8 @@ public partial class Card : NetworkBehaviour
 
     public SpriteRenderer SprtRend { get; private set; }
     public Sprite front;
+
+    public SpriteRenderer[] socketRedn = new SpriteRenderer[4];
 
     void Awake()
     {

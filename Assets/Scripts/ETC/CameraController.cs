@@ -4,6 +4,7 @@ using DG.Tweening;
 
 public class CameraController : MonoBehaviour
 {
+    #region 싱글톤
     public static CameraController instance;
 
     private void Awake()
@@ -11,6 +12,7 @@ public class CameraController : MonoBehaviour
         if (instance == null)
         {
             instance = this;
+            brainCam = GetComponent<CinemachineBrain>();
         }
         else
         {
@@ -24,6 +26,7 @@ public class CameraController : MonoBehaviour
             instance = null;
         }
     }
+    #endregion
 
     //화면을 바꾸는 조작은 Local 플레이어에서만 가능
     CinemachineBrain brainCam;
@@ -34,7 +37,8 @@ public class CameraController : MonoBehaviour
 
         for (int i = 0; i < playersVcams.Length; i++)
         {
-            perlinNoise[i] = playersVcams[i].GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+            if (playersVcams[i] != null)
+                perlinNoise[i] = playersVcams[i].GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
         }
     }
 
@@ -42,16 +46,16 @@ public class CameraController : MonoBehaviour
     // 1 : 두 번째 플레이어
     // 2 : 세 번째 플레이어
     // 3 : 네 번째 플레이어
-    [SerializeField] CinemachineVirtualCamera[] playersVcams;
+    [SerializeField] CinemachineVirtualCamera[] playersVcams = new CinemachineVirtualCamera[4];
     readonly CinemachineBasicMultiChannelPerlin[] perlinNoise = new CinemachineBasicMultiChannelPerlin[4];
 
     // 공통 덱 카메라
-    [SerializeField] CinemachineVirtualCamera decksVcams;
+    [SerializeField] CinemachineVirtualCamera tableCamera;
 
 
     //자신의 필드 번호
     int homeViewIndex;
-    int currentCamIndex;
+    int currentCamIndex = -1;
 
     public int CurrentCamIndex
     {
@@ -66,7 +70,7 @@ public class CameraController : MonoBehaviour
             if (value < 0 || value >= playersVcams.Length)
             {
                 //덱으로 카메라를 이동한다.
-                decksVcams.Priority = 1;
+                tableCamera.Priority = 1;
             }
             else
             {
@@ -118,7 +122,7 @@ public class CameraController : MonoBehaviour
         do
         {
             sidePlayerNumber = (sidePlayerNumber + dir + 4) % 4;
-        } while (GameManager.Player(sidePlayerNumber).isGameOver);
+        } while (GameManager.GetPlayer(sidePlayerNumber).isGameOver);
 
         CurrentCamIndex = sidePlayerNumber;
     }

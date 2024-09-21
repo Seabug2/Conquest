@@ -1,17 +1,20 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using Mirror;
 
+[RequireComponent(typeof(NetworkIdentity))]
 public class GameManager : NetworkBehaviour
 {
     #region 싱글톤
-    public static GameManager instance = null;
+    public static GameManager instance;
+
     private void Awake()
     {
         if (instance == null)
         {
             instance = this;
+            IsPlaying = false;
             CardSetting();
         }
         else
@@ -28,24 +31,127 @@ public class GameManager : NetworkBehaviour
     }
     #endregion
 
-    [Header("카드 뒷면 이미지"), Space(10)]
-    public Sprite cardBackFace;
+    public bool IsPlaying { get; private set; }
 
-
-    [Header("플레이어"), Space(10)]
-    [SerializeField]
-    List<Player> players = new List<Player>();
-    Player localPlayer = null;
-    public static Player LocalPlayer => instance.localPlayer;
-    public static Player Player(int i)
+    #region 플레이어
+    public const int maxPlayer = 4;
+    [SerializeField, Header("플레이어 리스트")]
+    List<Player> players = new();
+    public static Player GetPlayer(int i)
     {
-        if (i < 0 || i >= 4)
+        if (i < 0 || i >= maxPlayer)
         {
-            Debug.LogError("범위가 잘못됐습니다.");
+            Debug.LogError("잘못된 인덱싱");
             return null;
         }
         return instance.players[i];
     }
+    public Player LocalPlayer { get; private set; }
+
+    public void AddPlayer(Player _player)
+    {
+        if (_player.isLocalPlayer)
+        {
+            LocalPlayer = _player;
+        }
+
+        players.Add(_player);
+
+        if (isServer && players.Count == maxPlayer)
+        {
+            PlayerShuffle();
+        }
+    }
+
+    public void RemovePlayer(Player _player)
+    {
+        if (players.Contains(_player))
+        {
+            //게임을 아직 시작하지 않은 상태라면,
+            if (!IsPlaying)
+            {
+                //플레이어 리스트에서 제거하여 리스트의 크기를 원래대로 한다.
+                players.Remove(_player);
+                return;
+            }
+
+            int i = players.IndexOf(_player);
+            players[i] = null;
+        }
+
+        if (isServer)
+        {
+            if (AliveCount > 1)
+            {
+
+                if (_player.isMyTurn)
+                {
+                    if (RoundFinished)
+                    {
+                        DraftPhase();
+                        return;
+                    }
+
+                    StartTurn();
+                }
+            }
+            else
+            {
+                EndGame();
+            }
+        }
+    }
+
+
+    [Server]
+    void PlayerShuffle()
+    {
+        for (int i = 0; i < maxPlayer; i++)
+        {
+            int rand = Random.Range(i, maxPlayer); // i부터 랜덤 인덱스까지 선택
+            Player tmp = players[i];
+            players[i] = players[rand];
+            players[rand] = tmp;
+        }
+
+        for (int i = 0; i < maxPlayer; i++)
+        {
+            players[i].order = i;
+        }
+
+        Sort();
+    }
+
+    [ClientRpc]
+    void Sort()
+    {
+        players.Sort((a, b) => a.order.CompareTo(b.order));
+    }
+
+    public static int AliveCount
+    {
+        get
+        {
+            int alivePlayerCount = maxPlayer;
+
+            foreach (Player p in instance.players)
+            {
+                //클라이언트를 종료했거나,
+                //게임 오버된 플레이어
+                if (p == null || p.isGameOver)
+                {
+                    alivePlayerCount--;
+                }
+            }
+
+            return alivePlayerCount;
+        }
+    }
+    #endregion
+
+    #region 카드
+    [Header("카드 뒷면 이미지"), Space(10)]
+    public Sprite cardBackFace;
 
     [Header("카드"), Space(10)]
     [SerializeField] Card[] cards;
@@ -115,183 +221,120 @@ public class GameManager : NetworkBehaviour
         }
         return Attribute.isEmpty;  // 변환 실패 시 기본값 반환
     }
+    #endregion
 
-    [Header("덱"), Space(10)]
-    [SerializeField] Deck deck;
-    public static Deck Deck => instance.deck;
+    public static Deck deck;
 
-    [Header("필드"), Space(10)]
-    [SerializeField] Field[] fields;
-    public static Field Field(int i) => instance.fields[i];
+    public static Dictionary<int, Field> dict_Field = new();
 
-    [Header("패"), Space(10)]
-    [SerializeField] Hand[] hands;
-    public static Hand Hand(int i) => instance.hands[i];
+    public static Dictionary<int, Hand> dict_Hand = new();
 
+    #region 진행
+    /// <summary>
+    /// Rpc를 통해 로컬 플레이어가 차례를 시작하면 currentOrder가 갱신된다.
+    /// </summary>
+    public int currentOrder = 0;
+    /// <summary>
+    /// true : 오름차순 0 => 1
+    /// false : 내림차순 0 <= 1
+    /// </summary>
+    public bool IsClockwise { get; private set; }
 
+    [Space(20)]
+    [Header("게임 시작 이벤트")]
+    public UnityEvent OnStartEvent;
 
-
-    #region #1 플레이어의 연결과 게임 시작
-    public void AddPlayer(Player _player)
+    [ClientRpc]
+    public void RpcGameStart()
     {
-        players.Add(_player);
-
-        if (_player.isLocalPlayer)
-        {
-            localPlayer = _player;
-        }
-
-        if (players.Count == 4)
-        {
-            ServerGameStart();
-        }
-    }
-
-    [ServerCallback]
-    void ServerGameStart()
-    {
-        ShufflePlayers();
-        RpcGameStart();
+        IsPlaying = true;
     }
 
     [Server]
-    void ShufflePlayers()
+    void DraftPhase()
     {
-        for (int i = 0; i < 4; i++)
+
+    }
+
+    [Server]
+    void StartTurn()
+    {
+        GetPlayer(NextOrder(currentOrder)).isMyTurn = true;
+        GetPlayer(currentOrder).hasTurn = true;
+        GetPlayer(NextOrder(currentOrder)).RpcStartTurn();
+    }
+
+    [Server]
+    public void EndTurn()
+    {
+        GetPlayer(currentOrder).isMyTurn = false;
+
+        if (GetPlayer(currentOrder).Hand.IsLimitOver)
         {
-            int rand = UnityEngine.Random.Range(i, 4);
-            Player tmp = players[i];
-            players[i] = players[rand];
-            players[rand] = tmp;
+            GetPlayer(currentOrder).isGameOver = true;
         }
 
-        // 플레이어 객체에 순번을 할당
-        for (int i = 0; i < 4; i++)
+        if (AliveCount > 1)
         {
-            players[i].order = i;
+            if (RoundFinished)
+            {
+                //드래프트...
+                return;
+            }
+            StartTurn();
+        }
+        else
+        {
+            EndGame();
         }
     }
+
+    [Header("게임 종료 이벤트")]
+    public UnityEvent OnEndGame;
 
     [ClientRpc]
-    void RpcGameStart()
+    void EndGame()
     {
-        //각 Game Manager에서 List의 순서를 정리함
-        players.Sort((a, b) => a.order.CompareTo(b.order));
+        OnEndGame?.Invoke();
+        IsPlaying = false;
 
-        CurrentOrder = 0;
-
-        Commander commander = new Commander();
-
-        commander
-            .Clear()
-            .Add_While(() => UIMaster.Fade.In(1.5f), UIMaster.Fade.IsPlaying)
-            .WaitSeconds(1f)
-            .Add_While(() => UIMaster.Message.PopUp("게임 시작", 3f), UIMaster.Message.IsPlaying)
-            .Add(Deck.ServerDraftPhase)
-            //.Add(() => OnGameStartEvent?.Invoke())
-            .Play();
+        if (LocalPlayer.isGameOver)
+        {
+            //패배 이벤트
+        }
+        else
+        {
+            //승리 이벤트
+        }
     }
     #endregion
-
-
-
-    public int CurrentOrder { get; private set; }
-
-
-
-    /// <summary>
-    /// true : 오름차순으로 게임이 진행됩니다.
-    /// false : 내림차순으로 게임이 진행됩니다.
-    /// </summary>
-    public bool isClockwise = true;
 
     /// <summary>
     /// 다음 차례 순서를 반환
     /// </summary>
-    public static int NextOrder(int myOrder)
+    public int NextOrder(int _Order)
     {
-        int nextOrder = myOrder;
-
         do
         {
-            nextOrder = (nextOrder + (instance.isClockwise ? 1 : 3)) % 4;
+            _Order = (_Order + (IsClockwise ? 1 : 3)) % maxPlayer;
         }
-        while (Player(nextOrder).isGameOver);
+        while (players[_Order] == null || players[_Order].isGameOver);
 
-        return nextOrder;
+        return _Order;
     }
-
-    [Server]
-    public void NextTurn(int _order)
-    {
-        Player(_order).hasTurn = true;
-
-        if (AliveCount == 1)
-        {
-            RpcGameOver();
-            return;
-        }
-
-        if (RoundFinished)
-        {
-            deck.ServerDraftPhase();
-            return;
-        }
-
-        CurrentOrder = NextOrder(_order);
-        Player(CurrentOrder).CmdStartTurn();
-    }
-
-    [ClientRpc]
-    void RpcGameOver()
-    {
-        //게임 엔딩
-        if (localPlayer.isGameOver)
-        {
-            //패배!
-            UIMaster.Message.ForcePopUp("패배...", 1);
-        }
-        else
-        {
-            //승리!
-            UIMaster.Message.ForcePopUp("승리!", 1);
-        }
-        return;
-    }
-
 
     /// <summary>
     /// 이전 차례 순서를 반환
     /// </summary>
-    public static int PreviousOrder(int myOrder)
+    public static int PreviousOrder(int _Order)
     {
-        int nextOrder = myOrder;
-
         do
         {
-            nextOrder = (nextOrder + (instance.isClockwise ? 3 : 5)) % 4;
+            _Order = (_Order + (instance.IsClockwise ? 3 : 5)) % 4;
         }
-        while (Player(nextOrder).isGameOver);
+        while (GetPlayer(_Order) == null || GetPlayer(_Order).isGameOver);
 
-        return nextOrder;
-    }
-
-    /// <summary>
-    /// 현재 생존한 플레이어의 수
-    /// </summary>
-    public static int AliveCount
-    {
-        get
-        {
-            int aliveCount = 0;
-            foreach (Player np in instance.players)
-            {
-                if (np != null)
-                    if (!np.isGameOver)
-                        aliveCount++;
-            }
-            return aliveCount;
-        }
+        return _Order;
     }
 
     /// <summary>
@@ -301,30 +344,28 @@ public class GameManager : NetworkBehaviour
     {
         get
         {
-            bool isFinished = true;
             foreach (Player np in instance.players)
             {
-                if (np != null)
-                    if (!np.hasTurn)
-                    {
-                        isFinished = false;
-                        break;
-                    }
-            }
+                if (np == null) continue;
 
-            if (isFinished)
-            {
-                foreach (Player np in instance.players)
+                //차례를 가지지 못한 플레이어가 있다면...
+                if (!np.hasTurn)
                 {
-                    if (np != null)
-                        np.hasTurn = false;
+                    return false;
                 }
             }
 
-            return isFinished;
+            foreach (Player np in instance.players)
+            {
+                if (np != null)
+                    np.hasTurn = false;
+            }
+
+            return true;
         }
     }
 
+    /*
     public static Dictionary<int, List<Card>> dict_HandLimitStack = new Dictionary<int, List<Card>> {
     { 0, new List<Card>() },
     { 1, new List<Card>() },
@@ -360,4 +401,5 @@ public class GameManager : NetworkBehaviour
     { 2, new List<Card>() },
     { 3, new List<Card>() }
     };
+    */
 }

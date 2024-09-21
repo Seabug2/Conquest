@@ -8,12 +8,16 @@ using UnityEngine.Events;
 public class Hand : NetworkBehaviour
 {
     [SerializeField] int seatNum;
-    public int SeatNum => seatNum;
+
+    private void Start()
+    {
+        GameManager.dict_Hand.Add(seatNum, this);
+    }
 
     /// <summary>
     /// 패에 있는 카드들
     /// </summary>
-    [SerializeField] List<Card> list = new List<Card>();
+    [SerializeField] List<Card> list = new();
 
     /// <summary>
     /// 손에 있는 모든 카드의 ID를 반환합니다.
@@ -58,7 +62,7 @@ public class Hand : NetworkBehaviour
 
     public void Add(Card newCard)
     {
-        if (SeatNum.Equals(GameManager.LocalPlayer.order))
+        if (GameManager.GetPlayer(seatNum).isLocalPlayer)
         {
             newCard.iCardState = new InHandState(newCard, this);
             newCard.IsOpened = true;

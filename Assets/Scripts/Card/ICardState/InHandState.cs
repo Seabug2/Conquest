@@ -112,7 +112,7 @@ public class InHandOnTurn : ICardState
         card.CmdPick();
         
         if (field != null)
-            field.ActiveTile(card, true);
+            field.ShowPlaceableTiles(card, true);
 
         hand.HandAlignment();
     }
@@ -123,7 +123,7 @@ public class InHandOnTurn : ICardState
         card.CmdDoMove();
 
         if (field != null)
-            field.ActiveTile(card, false);
+            field.ShowPlaceableTiles(card, false);
         
         hand.HandAlignment();
     }
