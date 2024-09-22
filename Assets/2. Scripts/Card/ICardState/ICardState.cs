@@ -26,22 +26,13 @@ public class NoneState : ICardState
     public void OnPointerEixt(PointerEventData eventData) { }
 }
 
-public class InDeck : ICardState
+public class InDeckState : ICardState
 {
-    public void OnPointerDown(PointerEventData eventData) { }
-    public void OnDrag(PointerEventData eventData) { }
-    public void OnPointerUp(PointerEventData eventData) { }
-    public void OnPointerClick(PointerEventData eventData) { }
-    public void OnPointerEnter(PointerEventData eventData) { }
-    public void OnPointerEixt(PointerEventData eventData) { }
+    public InDeckState(Card card)
+    {
+        card.ownerOrder = -1;
+    }
 
-}
-
-/// <summary>
-/// 카드를 필드에 낸 경우
-/// </summary>
-public class OnField : ICardState
-{
     public void OnPointerDown(PointerEventData eventData) { }
     public void OnDrag(PointerEventData eventData) { }
     public void OnPointerUp(PointerEventData eventData) { }
@@ -50,9 +41,19 @@ public class OnField : ICardState
     public void OnPointerEixt(PointerEventData eventData) { }
 }
 
-//덱에서 카드를 꺼낼 때...
-public class OnDraftZone : ICardState
+public class OnFieldState : ICardState
 {
+    public Card card;
+    public Field field;
+    public Tile tile;
+
+    public OnFieldState(Card card, Field field, Tile tile)
+    {
+        this.card = card;
+        this.field = field;
+        this.tile = tile;
+    }
+
     public void OnPointerDown(PointerEventData eventData) { }
     public void OnDrag(PointerEventData eventData) { }
     public void OnPointerUp(PointerEventData eventData) { }

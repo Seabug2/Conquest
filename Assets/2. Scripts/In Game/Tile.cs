@@ -153,7 +153,7 @@ public class Tile : NetworkBehaviour
 
         card.iCardState = new NoneState();
 
-        card.SetTile(this);
+        card.currentTile = this;
         card.SetTargetPosition(transform.position);
         card.SetTargetQuaternion(transform.rotation);
         card.DoMove();

@@ -6,7 +6,7 @@ public class PlayerIcon : MonoBehaviour
     RectTransform[] buttons;
     public void ScaleUp(int selectButtonNumber)
     {
-        CameraController.instance.SetVCam(selectButtonNumber);
+        CameraController.instance.FocusOnPlayerField(selectButtonNumber);
 
         for(int i = 0; i < buttons.Length; i++)
         {

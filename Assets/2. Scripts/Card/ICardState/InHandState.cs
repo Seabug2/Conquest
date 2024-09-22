@@ -1,19 +1,7 @@
-using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using DG.Tweening;
 
-
-//카드를 어떤 플레이어의 패에 추가할 때,
-//그 플레이어의 클라이언트에서만
-//그 카드를 InHand 상태로 바꾼다.
-
-//자신의 화면에서만 패의 카드 위에 마우스를 올려두면
-//패가 정렬된다...
-
-/// <summary>
-/// 자신의 패에 있는 카드에 마우스를 올려두면 카드가 위로 솟는다.
-/// </summary>
 public class InHandState : ICardState
 {
     readonly Card card;
@@ -34,17 +22,17 @@ public class InHandState : ICardState
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        card.transform.localScale = Vector3.one * 1.3f;
         card.SprtRend.sortingLayerName = "OnMouseLayer";
-
+        card.transform.localScale = Vector3.one * 1.2f;
+        card.IsOnMouse = true;
         card.Pick();
-
         hand.HandAlignment();
     }
     public void OnPointerEixt(PointerEventData eventData)
     {
         card.SprtRend.sortingLayerName = "Default";
         card.transform.localScale = Vector3.one;
+        card.IsOnMouse = false;
         hand.HandAlignment();
     }
 }
@@ -53,29 +41,29 @@ public class InHandState : ICardState
 /// <summary>
 /// 자신의 차례에 카드를 내는 순간
 /// </summary>
-public class InHandOnTurn : ICardState
+public class HandlingState : ICardState
 {
     readonly Card card;
     readonly Hand hand;
     readonly Field field;
 
-    public InHandOnTurn(Card card, Hand hand, Field field)
+    public HandlingState(Card card, Hand hand, Field field)
     {
         this.card = card;
         this.hand = hand;
         this.field = field;
     }
 
-    public InHandOnTurn(Card card)
-    {
-        this.card = card;
-    }
-
+    bool isSelected = false;
     private Vector3 offset;
     float z;
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        Camera.main.GetComponent<Physics2DRaycaster>().eventMask = 0;
+
+        isSelected = true;
+
         card.transform.DOKill();
         z = Camera.main.WorldToScreenPoint(card.transform.position).z;
         offset = Camera.main.ScreenToWorldPoint(new Vector3(eventData.position.x, eventData.position.y, z)) - card.transform.position;
@@ -86,45 +74,72 @@ public class InHandOnTurn : ICardState
     }
     public void OnPointerUp(PointerEventData eventData)
     {
-        Vector2 screenPosition = eventData.position;
-        Vector2 worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
-        RaycastHit2D hit = Physics2D.Raycast(worldPosition, Vector2.zero, Mathf.Infinity, 1 << LayerMask.NameToLayer("Tile"));
-        if (hit.collider != null)
-        {
-            Tile tile = hit.collider.GetComponent<Tile>();
-            tile.CmdSetCard(card.id);
+        isSelected = false;
 
-            //Tile의 CMD 메서드를 실행, 매개변수로 자신의 ID를...
-            Debug.Log("Hit 2D object: " + hit.collider.gameObject.name);
+        Camera.main.GetComponent<Physics2DRaycaster>().eventMask = -1;
+
+        Vector2 screenPosition = eventData.position;
+        Ray ray = Camera.main.ScreenPointToRay(screenPosition);
+        RaycastHit2D hit = Physics2D.GetRayIntersection(ray, Mathf.Infinity, 1 << LayerMask.NameToLayer("Tile"));
+
+        if (hit.collider == null)
+        {
+            // 레이캐스트가 아무것도 감지하지 못한 경우
+            card.DoMove();
+            Debug.Log("No object hit in 2D.");
         }
         else
         {
-            card.DoMove();
-            Debug.Log("No object hit in 2D.");
+            // 레이캐스트가 오브젝트를 감지한 경우
+            if (hit.collider.TryGetComponent<Tile>(out Tile tile))
+            {
+                if (tile.IsSetable(card))
+                {
+                    Debug.Log("Hit 2D object: " + hit.collider.gameObject.name);
+                    hand.CmdRemove(card.ID);
+                    tile.CmdSetCard(card.ID);
+
+                    card.iCardState = new NoneState();
+                }
+                else
+                {
+                    Debug.LogError("그 타일에는 카드를 둘 수 없습니다.");
+                }
+
+            }
+            else
+            {
+                Debug.LogError("히트된 오브젝트에 Tile 컴포넌트가 없습니다.");
+            }
         }
     }
     public void OnPointerClick(PointerEventData eventData) { }
     public void OnPointerEnter(PointerEventData eventData)
     {
+        card.IsOnMouse = true;
+        if (isSelected) return;
+
         card.transform.localScale = Vector3.one * 1.2f;
         card.SprtRend.sortingLayerName = "OnMouseLayer";
 
-        card.CmdPick();
-        
         if (field != null)
             field.ShowPlaceableTiles(card, true);
 
+        card.CmdPick();
         hand.HandAlignment();
     }
     public void OnPointerEixt(PointerEventData eventData)
     {
+        if (isSelected) return;
+        card.IsOnMouse = false;
+
         card.SprtRend.sortingLayerName = "Default";
         card.transform.localScale = Vector3.one;
-        card.CmdDoMove();
 
         if (field != null)
             field.ShowPlaceableTiles(card, false);
-        
+
+        card.CmdDoMove();
         hand.HandAlignment();
     }
 }

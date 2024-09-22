@@ -15,7 +15,7 @@ public class GameManager : NetworkBehaviour
         {
             instance = this;
             IsPlaying = false;
-            CardSetting();
+            //CardSetting();
         }
         else
         {
@@ -154,9 +154,14 @@ public class GameManager : NetworkBehaviour
     public Sprite cardBackFace;
 
     [Header("카드"), Space(10)]
-    [SerializeField] Card[] cards;
-    public static Card Card(int id) => instance.cards[id];
-    public static int TotalCard => instance.cards.Length;
+    readonly Dictionary<int, Card> dict_Card = new();
+    public void AddCard(Card card)
+    {
+        if (!dict_Card.ContainsKey(card.ID))
+            dict_Card.Add(card.ID, card);
+    }
+    public static Card Card(int id) => instance.dict_Card[id];
+    public static int TotalCard => instance.dict_Card.Count;
 
     readonly string filePath = "Conquest_Info";
 
@@ -178,9 +183,39 @@ public class GameManager : NetworkBehaviour
             return;
         }
 
-        int size = TotalCard;
-        string line;
-        string[] data;
+        //int size = TotalCard;
+        //string line;
+        //string[] data;
+
+        foreach (Card c in dict_Card.Values)
+        {
+            string line = dataLines[c.ID + 1].Trim();
+            if (string.IsNullOrWhiteSpace(line)) continue;
+
+            string[] data = line.Split(',');
+
+            string imageName = data[1];  // 파일명 생성
+            Sprite cardFront = Resources.Load<Sprite>("Card/" + imageName);  // Resources/Card 폴더에서 이미지 로드
+
+            if (cardFront == null)
+            {
+                c.front = null;
+                Debug.LogError($"이미지를 찾을 수 없습니다: {imageName}");
+            }
+            else
+            {
+                c.front = cardFront;  // 카드의 front 스프라이트 할당
+            }
+
+            c.cardName = data[2];
+
+            c.Sockets[0] = new Socket(ParseAttribute(data[3]), data[4].Equals("1"));
+            c.Sockets[1] = new Socket(ParseAttribute(data[5]), data[6].Equals("1"));
+            c.Sockets[2] = new Socket(ParseAttribute(data[7]), data[8].Equals("1"));
+            c.Sockets[3] = new Socket(ParseAttribute(data[9]), data[10].Equals("1"));
+        }
+
+        /*
         for (int i = 0; i < size; i++)
         {
             line = dataLines[i + 1].Trim();
@@ -189,7 +224,7 @@ public class GameManager : NetworkBehaviour
             data = line.Split(',');
 
             //카드 ID 부여
-            cards[i].id = int.Parse(data[0]);
+            //cards[i].ID = int.Parse(data[0]);
 
             // 이미지를 로드하여 카드의 front에 할당
             string imageName = data[1];  // 파일명 생성
@@ -197,21 +232,22 @@ public class GameManager : NetworkBehaviour
 
             if (cardFront == null)
             {
-                cards[i].front = null;
+                Card(i).front = null;
                 Debug.LogError($"이미지를 찾을 수 없습니다: {imageName}");
             }
             else
             {
-                cards[i].front = cardFront;  // 카드의 front 스프라이트 할당
+                Card(i).front = cardFront;  // 카드의 front 스프라이트 할당
             }
 
-            cards[i].cardName = data[2];
+            Card(i).cardName = data[2];
 
-            cards[i].Sockets[0] = new Socket(ParseAttribute(data[3]), data[4].Equals("1"));
-            cards[i].Sockets[1] = new Socket(ParseAttribute(data[5]), data[6].Equals("1"));
-            cards[i].Sockets[2] = new Socket(ParseAttribute(data[7]), data[8].Equals("1"));
-            cards[i].Sockets[3] = new Socket(ParseAttribute(data[9]), data[10].Equals("1"));
+            Card(i).Sockets[0] = new Socket(ParseAttribute(data[3]), data[4].Equals("1"));
+            Card(i).Sockets[1] = new Socket(ParseAttribute(data[5]), data[6].Equals("1"));
+            Card(i).Sockets[2] = new Socket(ParseAttribute(data[7]), data[8].Equals("1"));
+            Card(i).Sockets[3] = new Socket(ParseAttribute(data[9]), data[10].Equals("1"));
         }
+        */
     }
     Attribute ParseAttribute(string value)
     {

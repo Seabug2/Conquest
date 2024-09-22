@@ -30,5 +30,7 @@ public class HandAction : NetworkBehaviour
         {
             hand.TestChangeState();
         }
+        if (Input.GetKeyDown(KeyCode.A))
+            hand.HandAlignment();
     }
 }

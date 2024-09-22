@@ -6,7 +6,7 @@ using DG.Tweening;
 public partial class Card : NetworkBehaviour,
     IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IDragHandler, IPointerUpHandler
 {
-    public ICardState iCardState;
+    public ICardState iCardState = new NoneState();
 
     //카드 드래그를 시작했을 때 호출됩니다.
     public void OnBeginDrag(PointerEventData eventData)
@@ -39,14 +39,12 @@ public partial class Card : NetworkBehaviour,
         {
             UIMaster.InfoUI.PopUp(front);
         }
-        IsOnMouse = true;
         iCardState.OnPointerEnter(eventData);
     }
 
     //마우스가 카드 밖으로 이동할 때 한 번만 호출 됩니다.
     public void OnPointerExit(PointerEventData eventData)
     {
-        IsOnMouse = false;
         iCardState.OnPointerEixt(eventData);
     }
 
@@ -66,12 +64,10 @@ public partial class Card : NetworkBehaviour,
     public void OnPointerDown(PointerEventData eventData)
     {
         iCardState.OnPointerDown(eventData);
-
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
         iCardState.OnPointerUp(eventData);
-
     }
 }

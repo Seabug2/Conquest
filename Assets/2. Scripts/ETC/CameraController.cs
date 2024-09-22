@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using Cinemachine;
 using DG.Tweening;
 
@@ -12,7 +13,6 @@ public class CameraController : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            brainCam = GetComponent<CinemachineBrain>();
         }
         else
         {
@@ -30,11 +30,18 @@ public class CameraController : MonoBehaviour
 
     //화면을 바꾸는 조작은 Local 플레이어에서만 가능
     CinemachineBrain brainCam;
+    // 0 : 첫 번째 플레이어
+    // 1 : 두 번째 플레이어
+    // 2 : 세 번째 플레이어
+    // 3 : 네 번째 플레이어
+    [SerializeField] CinemachineVirtualCamera[] playersVcams = new CinemachineVirtualCamera[4];
+    readonly CinemachineBasicMultiChannelPerlin[] perlinNoise = new CinemachineBasicMultiChannelPerlin[4];
+    private Physics2DRaycaster raycaster;
 
     void Start()
     {
         brainCam = GetComponent<CinemachineBrain>();
-
+        raycaster = GetComponent<Physics2DRaycaster>();
         for (int i = 0; i < playersVcams.Length; i++)
         {
             if (playersVcams[i] != null)
@@ -42,19 +49,12 @@ public class CameraController : MonoBehaviour
         }
     }
 
-    // 0 : 첫 번째 플레이어
-    // 1 : 두 번째 플레이어
-    // 2 : 세 번째 플레이어
-    // 3 : 네 번째 플레이어
-    [SerializeField] CinemachineVirtualCamera[] playersVcams = new CinemachineVirtualCamera[4];
-    readonly CinemachineBasicMultiChannelPerlin[] perlinNoise = new CinemachineBasicMultiChannelPerlin[4];
 
     // 공통 덱 카메라
-    [SerializeField] CinemachineVirtualCamera tableCamera;
-
+    [SerializeField] CinemachineVirtualCamera centerCamera;
 
     //자신의 필드 번호
-    int homeViewIndex;
+    int HomeViewIndex => GameManager.instance.LocalPlayer.order;
     int currentCamIndex = -1;
 
     public int CurrentCamIndex
@@ -70,7 +70,7 @@ public class CameraController : MonoBehaviour
             if (value < 0 || value >= playersVcams.Length)
             {
                 //덱으로 카메라를 이동한다.
-                tableCamera.Priority = 1;
+                centerCamera.Priority = 1;
             }
             else
             {
@@ -79,27 +79,20 @@ public class CameraController : MonoBehaviour
         }
     }
 
-    public void Init(int i)
-    {
-        homeViewIndex = i;
-        FocusOnDeck();
-    }
-
     /// <summary>
     /// 카메라를 자신의 필드로 이동시킵니다.
     /// </summary>
-    public void HomeView()
+    public void FocusOnHome()
     {
         moveLock = false;
-        CurrentCamIndex = homeViewIndex;
+        CurrentCamIndex = HomeViewIndex;
     }
 
     /// <summary>
     /// 모두 공통 덱을 주목합니다.
     /// </summary>
-    public void FocusOnDeck()
+    public void FocusOnCenter()
     {
-        moveLock = true;
         CurrentCamIndex = -1;
     }
 
@@ -107,7 +100,7 @@ public class CameraController : MonoBehaviour
     /// 지정하는 플레이어의 필드로 카메라를 이동
     /// </summary>
     /// <param name="i">이동하려는 플레이어의 번호</param>
-    public void SetVCam(int i)
+    public void FocusOnPlayerField(int i)
     {
         CurrentCamIndex = i;
     }
@@ -164,8 +157,8 @@ public class CameraController : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.RightArrow))
             ShiftVCam(1);
         else if (Input.GetKeyDown(KeyCode.C))
-            HomeView();
+            FocusOnHome();
         else if (Input.GetKeyDown(KeyCode.D))
-            FocusOnDeck();
+            FocusOnCenter();
     }
 }

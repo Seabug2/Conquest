@@ -86,8 +86,9 @@ public class Deck : NetworkBehaviour
     void RpcReturnCard(int _id)
     {
         Card card = GameManager.Card(_id);
-        card.iCardState = new NoneState();
+        card.iCardState = new InDeckState(card);
         card.SetTargetPosition(transform.position);
+        card.SetTargetQuaternion(transform.rotation);
         card.DoMove();
     }
 
