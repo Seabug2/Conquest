@@ -31,6 +31,8 @@ public class InDeckState : ICardState
     public InDeckState(Card card)
     {
         card.ownerOrder = -1;
+        card.transform.DOKill();
+        card.transform.DOMove(GameManager.deck.transform.position, 5f);
     }
 
     public void OnPointerDown(PointerEventData eventData) { }

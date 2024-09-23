@@ -150,16 +150,12 @@ public class Hand : NetworkBehaviour
     [Client]
     public void HandAlignment()
     {
-        float count = list.Count;
-        bool isOver = false; //최대 각도로 카드를 벌렸는지 확인하는 bool 값
-        float rightEndAngle = intervalAngle * count * .5f; //한 쪽의 최대각을 구한다
-        if (rightEndAngle > maxAngle)
-        {
-            rightEndAngle = maxAngle;
-            isOver = true;
-        }
-        float leftEndAngle = -rightEndAngle; //반대 쪽의 최대각을 할당
+        int count = list.Count;
 
+        float rightEndAngle = Mathf.Clamp(intervalAngle * count * .5f, 0, maxAngle); //한 쪽의 최대각을 구한다
+        bool isOver = rightEndAngle == maxAngle;
+
+        float leftEndAngle = -rightEndAngle; //반대 쪽의 최대각을 할당
         float interval = isOver ? 1f / (count - 1) : 1f / (count + 1); //lerp의 간격을 설정
 
         //현재 마우스를 올려둔 카드가 있는지 확인
@@ -181,51 +177,28 @@ public class Hand : NetworkBehaviour
 
             float angle = Mathf.Lerp(leftEndAngle, rightEndAngle, interval * (i + (isOver ? 0 : 1)));
 
-            /*
-            float angle;
-            if (selectedNum < 0 || selectedNum >= count) //마우스를 올려둔 카드가 없을 때
-            {
-                angle = Mathf.Lerp(leftEndAngle, rightEndAngle, interval * (i + (isOver ? 0 : 1)));
-            }
-            else
-            {
-                float selectedAngle = Mathf.Lerp(leftEndAngle, rightEndAngle, interval * (selectedNum + (isOver ? 0 : 1)));
-
-                if (i < selectedNum)
-                {
-                    angle = Mathf.Lerp(leftEndAngle, selectedAngle, (float)i / selectedNum);
-                }
-                else if (i > selectedNum)
-                {
-                    angle = Mathf.Lerp(selectedAngle, rightEndAngle, (float)(i - selectedNum) / (count - 1 - selectedNum));
-                }
-                else
-                {
-                    continue;
-                }
-            }
-            */
-
             float radians = Mathf.Deg2Rad * angle;
 
             Vector3 position = new Vector3(Mathf.Sin(radians), Mathf.Cos(radians)) * radius;
-            position = transform.position + new Vector3(position.x, position.y * height, position.z);
+            position = transform.position + new Vector3(position.x, position.y * height, 0);
 
             Quaternion targetRotation;
 
             //선택한 카드가 있는 경우
             if (selectedNum != -1)
             {
-                position += Vector3.right * (i > selectedNum ? 0.9f : -0.9f);
-
                 if (i < selectedNum)
                 {
                     float t = 1f / selectedNum;
+                    position.x -= 0.8f;
+                    position.y += Mathf.Lerp(0, height, t * i);
                     targetRotation = Quaternion.Euler(0, 0, -Mathf.Lerp(leftEndAngle, 0, t * i) * height);
                 }
                 else
                 {
                     float t = 1f / (count - 1 - selectedNum);
+                    position.x += 0.8f;
+                    position.y += Mathf.Lerp(height, 0, t * (i - selectedNum));
                     targetRotation = Quaternion.Euler(0, 0, -Mathf.Lerp(0, rightEndAngle, t * (i - selectedNum)) * height);
                 }
             }
@@ -234,9 +207,6 @@ public class Hand : NetworkBehaviour
             {
                 targetRotation = Quaternion.Euler(0, 0, -angle * height);
             }
-
-
-
 
             list[i].SetTargetPosition(position);
             list[i].SetTargetQuaternion(targetRotation);

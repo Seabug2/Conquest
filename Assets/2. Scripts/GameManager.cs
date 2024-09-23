@@ -35,6 +35,7 @@ public class GameManager : NetworkBehaviour
         }
     }
     #endregion
+
     string filePath;
     DeckIDList deckIdList;
     private void Start()
@@ -183,6 +184,8 @@ public class GameManager : NetworkBehaviour
 
     void CardSetting()
     {
+        if (cards.Length == 0) return;
+
         //54장의 카드 기본형을 설정하고...
         for (int i = 0; i < 54; i++)
         {
