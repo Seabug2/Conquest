@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 3175971}
   - component: {fileID: 3175975}
   m_Layer: 6
-  m_Name: "\uC610\uB85C\uC6B0 \uB808\uC778\uC800"
+  m_Name: Dummy Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -157,9 +157,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  id: 29
+  id: 0
   cardName: 
   ownerOrder: -1
+  currentTile: {fileID: 0}
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &3175972
@@ -203,7 +204,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: e8877ab6fd1b19a4cb1a1efd2464e9d8, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -211,7 +212,7 @@ SpriteRenderer:
   m_Size: {x: 6.52, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &3175973
@@ -286,7 +287,7 @@ GameObject:
   - component: {fileID: 22850076}
   - component: {fileID: 22850080}
   m_Layer: 6
-  m_Name: "\uC870\uCEE4"
+  m_Name: Dummy Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -307,9 +308,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  id: 35
+  id: 0
   cardName: 
   ownerOrder: -1
+  currentTile: {fileID: 0}
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &22850077
@@ -353,7 +355,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: dd9001ad104b04845b50ae1324c5ca90, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -361,7 +363,7 @@ SpriteRenderer:
   m_Size: {x: 6.52, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &22850078
@@ -659,7 +661,7 @@ GameObject:
   - component: {fileID: 47271416}
   - component: {fileID: 47271420}
   m_Layer: 6
-  m_Name: "\uBD88\uD55C\uB2F9 \uADF8\uB808\uC774\uBE0C\uC988"
+  m_Name: Dummy Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -680,9 +682,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  id: 22
+  id: 0
   cardName: 
   ownerOrder: -1
+  currentTile: {fileID: 0}
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &47271417
@@ -726,7 +729,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 28d476f870580d5439886c0fe49a759b, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -734,7 +737,7 @@ SpriteRenderer:
   m_Size: {x: 6.52, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &47271418
@@ -1014,7 +1017,7 @@ GameObject:
   - component: {fileID: 63639917}
   - component: {fileID: 63639921}
   m_Layer: 6
-  m_Name: "\uBE14\uB8E8 \uB808\uC778\uC800"
+  m_Name: Dummy Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1035,9 +1038,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  id: 24
+  id: 0
   cardName: 
   ownerOrder: -1
+  currentTile: {fileID: 0}
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &63639918
@@ -1081,7 +1085,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 763839fc9522eec43912859eb904016f, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1089,7 +1093,7 @@ SpriteRenderer:
   m_Size: {x: 6.52, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &63639919
@@ -1164,7 +1168,7 @@ GameObject:
   - component: {fileID: 77536542}
   - component: {fileID: 77536546}
   m_Layer: 6
-  m_Name: "\uBABD\uACE0\uBA54\uB9AC \uBC88\uC988"
+  m_Name: Dummy Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1185,9 +1189,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  id: 15
+  id: 0
   cardName: 
   ownerOrder: -1
+  currentTile: {fileID: 0}
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &77536543
@@ -1231,7 +1236,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 4483b450da7e29141a2a105a1c4224d0, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1239,7 +1244,7 @@ SpriteRenderer:
   m_Size: {x: 6.52, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &77536544
@@ -1314,7 +1319,7 @@ GameObject:
   - component: {fileID: 107812025}
   - component: {fileID: 107812029}
   m_Layer: 6
-  m_Name: "\uC2A4\uC988\uB780 \uACE0\uB4F1\uD559\uAD50"
+  m_Name: Dummy Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1335,9 +1340,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  id: 26
+  id: 0
   cardName: 
   ownerOrder: -1
+  currentTile: {fileID: 0}
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &107812026
@@ -1381,7 +1387,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 416ec0da785f3f04d936ef187a5402d2, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1389,7 +1395,7 @@ SpriteRenderer:
   m_Size: {x: 6.52, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &107812027
@@ -1464,7 +1470,7 @@ GameObject:
   - component: {fileID: 117269223}
   - component: {fileID: 117269227}
   m_Layer: 6
-  m_Name: "\uADF8\uB9B0 \uB808\uC778\uC800"
+  m_Name: Dummy Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1485,9 +1491,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  id: 5
+  id: 0
   cardName: 
   ownerOrder: -1
+  currentTile: {fileID: 0}
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &117269224
@@ -1531,7 +1538,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 335365d66c98ca54887de4caca183435, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1539,7 +1546,7 @@ SpriteRenderer:
   m_Size: {x: 6.52, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &117269225
@@ -1614,7 +1621,7 @@ GameObject:
   - component: {fileID: 126739524}
   - component: {fileID: 126739528}
   m_Layer: 6
-  m_Name: "\uD2B8\uB808\uBC84 \uD544\uB9BD\uC2A4"
+  m_Name: Dummy Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1635,9 +1642,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  id: 42
+  id: 0
   cardName: 
   ownerOrder: -1
+  currentTile: {fileID: 0}
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &126739525
@@ -1681,7 +1689,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 0f7e6172f215473499004ac3c7b182d0, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1689,7 +1697,7 @@ SpriteRenderer:
   m_Size: {x: 6.52, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &126739526
@@ -1764,7 +1772,7 @@ GameObject:
   - component: {fileID: 127504261}
   - component: {fileID: 127504265}
   m_Layer: 6
-  m_Name: "\uAD34\uB3C4 \uD0A4\uB4DC"
+  m_Name: Dummy Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1785,9 +1793,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  id: 4
+  id: 0
   cardName: 
   ownerOrder: -1
+  currentTile: {fileID: 0}
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &127504262
@@ -1831,7 +1840,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 1f6ccd8d120bc874ba27718872f7c1bb, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1839,7 +1848,7 @@ SpriteRenderer:
   m_Size: {x: 6.52, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &127504263
@@ -1935,10 +1944,10 @@ MonoBehaviour:
   syncInterval: 0
   seatNum: 0
   list: []
-  radius: 4
-  height: 0.1
-  intervalAngle: 15
-  maxAngle: 60
+  radius: 5
+  height: 0.35
+  intervalAngle: 18
+  maxAngle: 54
 --- !u!4 &134630151
 Transform:
   m_ObjectHideFlags: 0
@@ -1947,7 +1956,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 134630149}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -2.5500002, z: -3.6}
+  m_LocalPosition: {x: 0, y: -4.3, z: -3.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1955,7 +1964,7 @@ Transform:
   - {fileID: 624195594}
   - {fileID: 184323760}
   m_Father: {fileID: 1374228993}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &134630152
 MonoBehaviour:
@@ -2288,7 +2297,7 @@ GameObject:
   - component: {fileID: 207710471}
   - component: {fileID: 207710475}
   m_Layer: 6
-  m_Name: "\uD074\uB85C\uB85C \uB8E8\uC2E4\uD6C4\uB974"
+  m_Name: Dummy Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2309,9 +2318,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  id: 40
+  id: 0
   cardName: 
   ownerOrder: -1
+  currentTile: {fileID: 0}
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &207710472
@@ -2355,7 +2365,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: b558f45951480fe41930504931460bbc, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -2363,7 +2373,7 @@ SpriteRenderer:
   m_Size: {x: 6.52, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &207710473
@@ -2976,7 +2986,7 @@ GameObject:
   - component: {fileID: 312241211}
   - component: {fileID: 312241215}
   m_Layer: 6
-  m_Name: "\uC789\uD074\uB9C1 \uBCF4\uC774"
+  m_Name: Dummy Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2997,9 +3007,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  id: 33
+  id: 0
   cardName: 
   ownerOrder: -1
+  currentTile: {fileID: 0}
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &312241212
@@ -3043,7 +3054,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 89723589bd88af84c8898e6de051fdb4, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -3051,7 +3062,7 @@ SpriteRenderer:
   m_Size: {x: 6.52, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &312241213
@@ -3405,7 +3416,7 @@ GameObject:
   - component: {fileID: 330567209}
   - component: {fileID: 330567213}
   m_Layer: 6
-  m_Name: "\uBBF8\uB2C8\uC5B8\uC988"
+  m_Name: Dummy Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3426,9 +3437,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  id: 17
+  id: 0
   cardName: 
   ownerOrder: -1
+  currentTile: {fileID: 0}
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &330567210
@@ -3472,7 +3484,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: cec3aff6c737aa64e8ec4683014f9e84, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -3480,7 +3492,7 @@ SpriteRenderer:
   m_Size: {x: 6.52, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &330567211
@@ -3713,8 +3725,8 @@ MonoBehaviour:
   - {fileID: 1777077853}
   - {fileID: 1409724430}
   - {fileID: 1533569402}
-  tableCamera: {fileID: 192965871}
-  moveLock: 0
+  centerCamera: {fileID: 192965871}
+  moveLock: 1
 --- !u!114 &336101910
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3745,7 +3757,7 @@ GameObject:
   - component: {fileID: 338364299}
   - component: {fileID: 338364303}
   m_Layer: 6
-  m_Name: "\uB108\uAD74"
+  m_Name: Dummy Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3766,9 +3778,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  id: 7
+  id: 0
   cardName: 
   ownerOrder: -1
+  currentTile: {fileID: 0}
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &338364300
@@ -3812,7 +3825,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 7617a833dd6c45947b2795866f628d0d, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -3820,7 +3833,7 @@ SpriteRenderer:
   m_Size: {x: 6.52, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &338364301
@@ -4436,7 +4449,7 @@ GameObject:
   - component: {fileID: 381685196}
   - component: {fileID: 381685200}
   m_Layer: 6
-  m_Name: "\uD39C\uD0C0\uD0AC \uC694\uB9AD"
+  m_Name: Dummy Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4457,9 +4470,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  id: 46
+  id: 0
   cardName: 
   ownerOrder: -1
+  currentTile: {fileID: 0}
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &381685197
@@ -4503,7 +4517,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: c90f6d56215c3c643b0d9d97365f446b, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -4511,7 +4525,7 @@ SpriteRenderer:
   m_Size: {x: 6.52, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &381685198
@@ -4876,7 +4890,7 @@ GameObject:
   - component: {fileID: 413056731}
   - component: {fileID: 413056735}
   m_Layer: 6
-  m_Name: "\uBA54\uB974\uC5E0"
+  m_Name: Dummy Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4897,9 +4911,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  id: 13
+  id: 0
   cardName: 
   ownerOrder: -1
+  currentTile: {fileID: 0}
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &413056732
@@ -4943,7 +4958,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: c97baceeaca1c22468bc4a903bdd1cdc, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -4951,7 +4966,7 @@ SpriteRenderer:
   m_Size: {x: 6.52, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &413056733
@@ -5417,6 +5432,61 @@ MonoBehaviour:
   syncInterval: 0
   players: []
   cardBackFace: {fileID: 21300000, guid: 5915cdc174101e540b3349e21ee2cd74, type: 3}
+  cards:
+  - {fileID: 1088959665}
+  - {fileID: 1107274127}
+  - {fileID: 1425948967}
+  - {fileID: 544365740}
+  - {fileID: 127504261}
+  - {fileID: 117269223}
+  - {fileID: 830128384}
+  - {fileID: 338364299}
+  - {fileID: 1468760430}
+  - {fileID: 1763488975}
+  - {fileID: 1891683736}
+  - {fileID: 2103684613}
+  - {fileID: 740837085}
+  - {fileID: 413056731}
+  - {fileID: 1386266056}
+  - {fileID: 77536542}
+  - {fileID: 1569938082}
+  - {fileID: 330567209}
+  - {fileID: 1554215987}
+  - {fileID: 1605852362}
+  - {fileID: 730728447}
+  - {fileID: 531052192}
+  - {fileID: 47271416}
+  - {fileID: 1741587677}
+  - {fileID: 63639917}
+  - {fileID: 1809463172}
+  - {fileID: 107812025}
+  - {fileID: 1640386828}
+  - {fileID: 1546174888}
+  - {fileID: 3175971}
+  - {fileID: 1452971085}
+  - {fileID: 2057055786}
+  - {fileID: 1140821070}
+  - {fileID: 312241211}
+  - {fileID: 1434672948}
+  - {fileID: 22850076}
+  - {fileID: 1607161480}
+  - {fileID: 499335634}
+  - {fileID: 523916930}
+  - {fileID: 1783724020}
+  - {fileID: 207710471}
+  - {fileID: 1772123370}
+  - {fileID: 126739524}
+  - {fileID: 902949241}
+  - {fileID: 1012414662}
+  - {fileID: 1938614329}
+  - {fileID: 381685196}
+  - {fileID: 877112158}
+  - {fileID: 698315967}
+  - {fileID: 588438209}
+  - {fileID: 1863716927}
+  - {fileID: 1769380012}
+  - {fileID: 1071224083}
+  - {fileID: 2057596943}
   currentOrder: 0
   OnStartEvent:
     m_PersistentCalls:
@@ -5553,7 +5623,7 @@ GameObject:
   - component: {fileID: 499335634}
   - component: {fileID: 499335638}
   m_Layer: 6
-  m_Name: "\uC9C0\uB784\uACAC"
+  m_Name: Dummy Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5574,9 +5644,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  id: 37
+  id: 0
   cardName: 
   ownerOrder: -1
+  currentTile: {fileID: 0}
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &499335635
@@ -5620,7 +5691,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 21c183abd8c7a7c46a1cb63baab6bc98, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -5628,7 +5699,7 @@ SpriteRenderer:
   m_Size: {x: 6.52, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &499335636
@@ -6122,7 +6193,7 @@ GameObject:
   - component: {fileID: 523916930}
   - component: {fileID: 523916934}
   m_Layer: 6
-  m_Name: "\uC9D5\uD06C\uC2A4"
+  m_Name: Dummy Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6143,9 +6214,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  id: 38
+  id: 0
   cardName: 
   ownerOrder: -1
+  currentTile: {fileID: 0}
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &523916931
@@ -6189,7 +6261,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 2b9869114cc63874fa3aa21aba59cff4, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -6197,7 +6269,7 @@ SpriteRenderer:
   m_Size: {x: 6.52, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &523916932
@@ -6272,7 +6344,7 @@ GameObject:
   - component: {fileID: 531052192}
   - component: {fileID: 531052196}
   m_Layer: 6
-  m_Name: "\uC804\uD22C \uAE30\uACC4 \uBCA8\uCF54\uC988"
+  m_Name: Dummy Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6293,9 +6365,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  id: 21
+  id: 0
   cardName: 
   ownerOrder: -1
+  currentTile: {fileID: 0}
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &531052193
@@ -6339,7 +6412,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 1f5e23720f998cb4aa066113054106ee, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -6347,7 +6420,7 @@ SpriteRenderer:
   m_Size: {x: 6.52, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &531052194
@@ -6422,7 +6495,7 @@ GameObject:
   - component: {fileID: 544365740}
   - component: {fileID: 544365744}
   m_Layer: 6
-  m_Name: "\uACE8 D. \uB85C\uC800"
+  m_Name: Dummy Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6443,9 +6516,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  id: 3
+  id: 0
   cardName: 
   ownerOrder: -1
+  currentTile: {fileID: 0}
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &544365741
@@ -6489,7 +6563,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 3b4deb2a093a23043ba34c3386519f12, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -6497,7 +6571,7 @@ SpriteRenderer:
   m_Size: {x: 6.52, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &544365742
@@ -6729,7 +6803,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 583946749}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -2.5500002, z: -3.6}
+  m_LocalPosition: {x: 0, y: -4.3, z: -3.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6773,10 +6847,10 @@ MonoBehaviour:
   syncInterval: 0
   seatNum: 3
   list: []
-  radius: 4
-  height: 0.1
-  intervalAngle: 15
-  maxAngle: 60
+  radius: 5
+  height: 0.35
+  intervalAngle: 18
+  maxAngle: 54
 --- !u!1 &588438207
 GameObject:
   m_ObjectHideFlags: 0
@@ -6791,7 +6865,7 @@ GameObject:
   - component: {fileID: 588438209}
   - component: {fileID: 588438213}
   m_Layer: 6
-  m_Name: "\uD551\uD06C \uB808\uC778\uC800"
+  m_Name: Dummy Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6812,9 +6886,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  id: 49
+  id: 0
   cardName: 
   ownerOrder: -1
+  currentTile: {fileID: 0}
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &588438210
@@ -6858,7 +6933,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 960263430c6428a4ba1b22883c0b0471, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -6866,7 +6941,7 @@ SpriteRenderer:
   m_Size: {x: 6.52, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &588438211
@@ -7865,7 +7940,7 @@ GameObject:
   - component: {fileID: 698315967}
   - component: {fileID: 698315971}
   m_Layer: 6
-  m_Name: "\uD3A0\uB85C\uB2C8\uC6B0\uC2A4 \uADF8\uB8E8"
+  m_Name: Dummy Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7886,9 +7961,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  id: 48
+  id: 0
   cardName: 
   ownerOrder: -1
+  currentTile: {fileID: 0}
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &698315968
@@ -7932,7 +8008,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: c282a684b226aff46a22547a10a9a24c, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -7940,7 +8016,7 @@ SpriteRenderer:
   m_Size: {x: 6.52, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &698315969
@@ -8568,7 +8644,7 @@ GameObject:
   - component: {fileID: 730728447}
   - component: {fileID: 730728451}
   m_Layer: 6
-  m_Name: "\uBC30\uD2B8\uB9E8"
+  m_Name: Dummy Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8589,9 +8665,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  id: 20
+  id: 0
   cardName: 
   ownerOrder: -1
+  currentTile: {fileID: 0}
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &730728448
@@ -8635,7 +8712,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 9472e57411a105b4f9ee50bc3395f475, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -8643,7 +8720,7 @@ SpriteRenderer:
   m_Size: {x: 6.52, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &730728449
@@ -8863,7 +8940,7 @@ GameObject:
   - component: {fileID: 740837085}
   - component: {fileID: 740837089}
   m_Layer: 6
-  m_Name: "\uB9C8\uC774\uD074 & \uD504\uB7AD\uD074\uB9B0"
+  m_Name: Dummy Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8884,9 +8961,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  id: 12
+  id: 0
   cardName: 
   ownerOrder: -1
+  currentTile: {fileID: 0}
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &740837086
@@ -8930,7 +9008,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: fe8023c509a35894ea974a365270f59c, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -8938,7 +9016,7 @@ SpriteRenderer:
   m_Size: {x: 6.52, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &740837087
@@ -9445,7 +9523,7 @@ GameObject:
   - component: {fileID: 830128384}
   - component: {fileID: 830128388}
   m_Layer: 6
-  m_Name: GlaDos
+  m_Name: Dummy Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9466,9 +9544,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  id: 6
+  id: 0
   cardName: 
   ownerOrder: -1
+  currentTile: {fileID: 0}
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &830128385
@@ -9512,7 +9591,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 0b1518e0022bddc48ba75f5b9635fa4c, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -9520,7 +9599,7 @@ SpriteRenderer:
   m_Size: {x: 6.52, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &830128386
@@ -10049,7 +10128,7 @@ GameObject:
   - component: {fileID: 877112158}
   - component: {fileID: 877112162}
   m_Layer: 6
-  m_Name: "\uD39C\uD0C0\uD0AC \uCE74\uC11C\uC2A4"
+  m_Name: Dummy Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10070,9 +10149,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  id: 47
+  id: 0
   cardName: 
   ownerOrder: -1
+  currentTile: {fileID: 0}
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &877112159
@@ -10116,7 +10196,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 8fd1cb386e1e78240b39c2b14fea4b45, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -10124,7 +10204,7 @@ SpriteRenderer:
   m_Size: {x: 6.52, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &877112160
@@ -10199,7 +10279,7 @@ GameObject:
   - component: {fileID: 902949241}
   - component: {fileID: 902949245}
   m_Layer: 6
-  m_Name: "\uD2B8\uC704\uC2A4\uD2F0\uB4DC \uD398\uC774\uD2B8"
+  m_Name: Dummy Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10220,9 +10300,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  id: 43
+  id: 0
   cardName: 
   ownerOrder: -1
+  currentTile: {fileID: 0}
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &902949242
@@ -10266,7 +10347,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: bf6da337fbc41eb4bb91fb3815b2ae3f, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -10274,7 +10355,7 @@ SpriteRenderer:
   m_Size: {x: 6.52, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &902949243
@@ -10829,7 +10910,7 @@ GameObject:
   - component: {fileID: 1012414662}
   - component: {fileID: 1012414666}
   m_Layer: 6
-  m_Name: "\uD30C\uC774\uD06C"
+  m_Name: Dummy Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10850,9 +10931,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  id: 44
+  id: 0
   cardName: 
   ownerOrder: -1
+  currentTile: {fileID: 0}
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &1012414663
@@ -10896,7 +10978,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: ab2cdb99311291b4e87b9492a60d1e4d, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -10904,7 +10986,7 @@ SpriteRenderer:
   m_Size: {x: 6.52, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1012414664
@@ -11428,7 +11510,7 @@ GameObject:
   - component: {fileID: 1071224083}
   - component: {fileID: 1071224087}
   m_Layer: 6
-  m_Name: "\uD560\uB9AC \uD038"
+  m_Name: Dummy Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11449,9 +11531,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  id: 52
+  id: 0
   cardName: 
   ownerOrder: -1
+  currentTile: {fileID: 0}
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &1071224084
@@ -11495,7 +11578,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 1142beb7cd40122469e5010ae85eadec, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -11503,7 +11586,7 @@ SpriteRenderer:
   m_Size: {x: 6.52, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1071224085
@@ -11655,7 +11738,7 @@ GameObject:
   - component: {fileID: 1088959665}
   - component: {fileID: 1088959670}
   m_Layer: 6
-  m_Name: "\uAC31\uD50C\uB7AD\uD06C"
+  m_Name: Dummy Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11679,6 +11762,7 @@ MonoBehaviour:
   id: 0
   cardName: 
   ownerOrder: -1
+  currentTile: {fileID: 0}
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &1088959666
@@ -11722,7 +11806,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: b934d83c9904a08498aafae0a1f4828d, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -11730,7 +11814,7 @@ SpriteRenderer:
   m_Size: {x: 6.52, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1088959667
@@ -11876,7 +11960,7 @@ GameObject:
   - component: {fileID: 1107274127}
   - component: {fileID: 1107274131}
   m_Layer: 6
-  m_Name: "\uD39C\uD0C0\uD0AC \uBC34\uB4DC"
+  m_Name: Dummy Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11897,9 +11981,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  id: 1
+  id: 0
   cardName: 
   ownerOrder: -1
+  currentTile: {fileID: 0}
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &1107274128
@@ -11943,7 +12028,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: dc23dbf8f0d89f94eb1b47926cd18e4d, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -11951,7 +12036,7 @@ SpriteRenderer:
   m_Size: {x: 6.52, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1107274129
@@ -12156,7 +12241,7 @@ Transform:
   - {fileID: 838775494}
   - {fileID: 348191640}
   m_Father: {fileID: 1374228993}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 33.924, y: 0, z: 0}
 --- !u!114 &1124242380
 MonoBehaviour:
@@ -12330,7 +12415,7 @@ GameObject:
   - component: {fileID: 1140821070}
   - component: {fileID: 1140821074}
   m_Layer: 6
-  m_Name: "\uC789\uD074\uB9C1 \uAC78"
+  m_Name: Dummy Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12351,9 +12436,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  id: 32
+  id: 0
   cardName: 
   ownerOrder: -1
+  currentTile: {fileID: 0}
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &1140821071
@@ -12397,7 +12483,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 0d51f54f4583f7647b42aa6753d47c14, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -12405,7 +12491,7 @@ SpriteRenderer:
   m_Size: {x: 6.52, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1140821072
@@ -13167,7 +13253,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1221853712}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -2.5500002, z: -3.6}
+  m_LocalPosition: {x: 0, y: -4.3, z: -3.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -13211,10 +13297,10 @@ MonoBehaviour:
   syncInterval: 0
   seatNum: 1
   list: []
-  radius: 4
-  height: 0.1
-  intervalAngle: 15
-  maxAngle: 60
+  radius: 5
+  height: 0.35
+  intervalAngle: 18
+  maxAngle: 54
 --- !u!1 &1266226958
 GameObject:
   m_ObjectHideFlags: 0
@@ -14249,8 +14335,8 @@ Transform:
   m_Children:
   - {fileID: 1979045335}
   - {fileID: 1090211065}
-  - {fileID: 134630151}
   - {fileID: 1124242379}
+  - {fileID: 134630151}
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -14268,7 +14354,7 @@ GameObject:
   - component: {fileID: 1386266056}
   - component: {fileID: 1386266060}
   m_Layer: 6
-  m_Name: "\uBA85\uC655"
+  m_Name: Dummy Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14289,9 +14375,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  id: 14
+  id: 0
   cardName: 
   ownerOrder: -1
+  currentTile: {fileID: 0}
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &1386266057
@@ -14335,7 +14422,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 4949057ef2e351345ae96d653941f5df, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -14343,7 +14430,7 @@ SpriteRenderer:
   m_Size: {x: 6.52, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1386266058
@@ -14551,7 +14638,7 @@ GameObject:
   - component: {fileID: 1425948967}
   - component: {fileID: 1425948971}
   m_Layer: 6
-  m_Name: "\uACE0\uB4E0 \uD504\uB9AC\uB9E8"
+  m_Name: Dummy Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14572,9 +14659,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  id: 2
+  id: 0
   cardName: 
   ownerOrder: -1
+  currentTile: {fileID: 0}
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &1425948968
@@ -14618,7 +14706,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 5209d3ed0fe6f5d40920082fa692ce0a, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -14626,7 +14714,7 @@ SpriteRenderer:
   m_Size: {x: 6.52, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1425948969
@@ -14781,7 +14869,7 @@ GameObject:
   - component: {fileID: 1434672948}
   - component: {fileID: 1434672952}
   m_Layer: 6
-  m_Name: "\uC870\uC149 \uC2DC\uB4DC"
+  m_Name: Dummy Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14802,9 +14890,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  id: 34
+  id: 0
   cardName: 
   ownerOrder: -1
+  currentTile: {fileID: 0}
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &1434672949
@@ -14848,7 +14937,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 6979ff78bda086f4c84d6d85f91d6232, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -14856,7 +14945,7 @@ SpriteRenderer:
   m_Size: {x: 6.52, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1434672950
@@ -15015,7 +15104,7 @@ GameObject:
   - component: {fileID: 1452971085}
   - component: {fileID: 1452971089}
   m_Layer: 6
-  m_Name: "\uC6B8\uD2B8\uB860"
+  m_Name: Dummy Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15036,9 +15125,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  id: 30
+  id: 0
   cardName: 
   ownerOrder: -1
+  currentTile: {fileID: 0}
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &1452971086
@@ -15082,7 +15172,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: eb69229f68c01f049943679c096fd537, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -15090,7 +15180,7 @@ SpriteRenderer:
   m_Size: {x: 6.52, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1452971087
@@ -15165,7 +15255,7 @@ GameObject:
   - component: {fileID: 1468760430}
   - component: {fileID: 1468760434}
   m_Layer: 6
-  m_Name: "\uB2C8\uC54C\uB77C\uD1A0\uD15D"
+  m_Name: Dummy Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15186,9 +15276,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  id: 8
+  id: 0
   cardName: 
   ownerOrder: -1
+  currentTile: {fileID: 0}
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &1468760431
@@ -15232,7 +15323,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 231010d40d1710e42afcaa18946eb651, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -15240,7 +15331,7 @@ SpriteRenderer:
   m_Size: {x: 6.52, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1468760432
@@ -15762,7 +15853,7 @@ GameObject:
   - component: {fileID: 1546174888}
   - component: {fileID: 1546174892}
   m_Layer: 6
-  m_Name: "\uC5D0\uC774\uB4E0 \uD53C\uC5B4\uC2A4"
+  m_Name: Dummy Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15783,9 +15874,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  id: 28
+  id: 0
   cardName: 
   ownerOrder: -1
+  currentTile: {fileID: 0}
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &1546174889
@@ -15829,7 +15921,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: b0bd8dc72e617ac4383a3e0212c10870, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -15837,7 +15929,7 @@ SpriteRenderer:
   m_Size: {x: 6.52, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1546174890
@@ -15912,7 +16004,7 @@ GameObject:
   - component: {fileID: 1554215987}
   - component: {fileID: 1554215991}
   m_Layer: 6
-  m_Name: "\uCEA1\uD2F4 \uBBF8\uC2A4 \uD3EC\uCE08"
+  m_Name: Dummy Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15933,9 +16025,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  id: 18
+  id: 0
   cardName: 
   ownerOrder: -1
+  currentTile: {fileID: 0}
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &1554215988
@@ -15979,7 +16072,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: fd057537d1ff1b44092ea0a9d00c598d, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -15987,7 +16080,7 @@ SpriteRenderer:
   m_Size: {x: 6.52, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1554215989
@@ -16181,7 +16274,7 @@ GameObject:
   - component: {fileID: 1569938082}
   - component: {fileID: 1569938086}
   m_Layer: 6
-  m_Name: "\uBB38\uB3C4 \uBC15\uC0AC"
+  m_Name: Dummy Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16202,9 +16295,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  id: 16
+  id: 0
   cardName: 
   ownerOrder: -1
+  currentTile: {fileID: 0}
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &1569938083
@@ -16248,7 +16342,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 0b7ab40eed8bb304487d68745520ba78, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -16256,7 +16350,7 @@ SpriteRenderer:
   m_Size: {x: 6.52, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1569938084
@@ -16331,7 +16425,7 @@ GameObject:
   - component: {fileID: 1605852362}
   - component: {fileID: 1605852366}
   m_Layer: 6
-  m_Name: "\uBC14\uC774"
+  m_Name: Dummy Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16352,9 +16446,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  id: 19
+  id: 0
   cardName: 
   ownerOrder: -1
+  currentTile: {fileID: 0}
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &1605852363
@@ -16398,7 +16493,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 3db77aa9fc690de4ab4e64581351de43, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -16406,7 +16501,7 @@ SpriteRenderer:
   m_Size: {x: 6.52, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1605852364
@@ -16481,7 +16576,7 @@ GameObject:
   - component: {fileID: 1607161480}
   - component: {fileID: 1607161484}
   m_Layer: 6
-  m_Name: "\uC880\uBE44"
+  m_Name: Dummy Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16502,9 +16597,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  id: 36
+  id: 0
   cardName: 
   ownerOrder: -1
+  currentTile: {fileID: 0}
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &1607161481
@@ -16548,7 +16644,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 3bcf9c990c587034e893f00d6a797fa4, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -16556,7 +16652,7 @@ SpriteRenderer:
   m_Size: {x: 6.52, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1607161482
@@ -16791,7 +16887,7 @@ GameObject:
   - component: {fileID: 1640386828}
   - component: {fileID: 1640386832}
   m_Layer: 6
-  m_Name: "\uC544\uC774\uC5B8\uB9E8"
+  m_Name: Dummy Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16812,9 +16908,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  id: 27
+  id: 0
   cardName: 
   ownerOrder: -1
+  currentTile: {fileID: 0}
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &1640386829
@@ -16858,7 +16955,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 365e420baadc65e4eb628e390ec17f03, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -16866,7 +16963,7 @@ SpriteRenderer:
   m_Size: {x: 6.52, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1640386830
@@ -17475,7 +17572,7 @@ GameObject:
   - component: {fileID: 1741587677}
   - component: {fileID: 1741587681}
   m_Layer: 6
-  m_Name: "\uBE14\uB799 \uB808\uC778\uC800"
+  m_Name: Dummy Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17496,9 +17593,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  id: 23
+  id: 0
   cardName: 
   ownerOrder: -1
+  currentTile: {fileID: 0}
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &1741587678
@@ -17542,7 +17640,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 5972480893bfaa8448470a51c6244c80, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -17550,7 +17648,7 @@ SpriteRenderer:
   m_Size: {x: 6.52, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1741587679
@@ -17770,7 +17868,7 @@ GameObject:
   - component: {fileID: 1763488975}
   - component: {fileID: 1763488979}
   m_Layer: 6
-  m_Name: "\uB354\uBE14"
+  m_Name: Dummy Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17791,9 +17889,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  id: 9
+  id: 0
   cardName: 
   ownerOrder: -1
+  currentTile: {fileID: 0}
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &1763488976
@@ -17837,7 +17936,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 3f3d293ac8327ab499c01dd411c0b12d, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -17845,7 +17944,7 @@ SpriteRenderer:
   m_Size: {x: 6.52, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1763488977
@@ -17920,7 +18019,7 @@ GameObject:
   - component: {fileID: 1769380012}
   - component: {fileID: 1769380016}
   m_Layer: 6
-  m_Name: "\uD55C\uB9C8 \uC720\uC9C0\uB85C"
+  m_Name: Dummy Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17941,9 +18040,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  id: 51
+  id: 0
   cardName: 
   ownerOrder: -1
+  currentTile: {fileID: 0}
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &1769380013
@@ -17987,7 +18087,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: c478d86560ebb6745b7115ac315a1926, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -17995,7 +18095,7 @@ SpriteRenderer:
   m_Size: {x: 6.52, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1769380014
@@ -18070,7 +18170,7 @@ GameObject:
   - component: {fileID: 1772123370}
   - component: {fileID: 1772123374}
   m_Layer: 6
-  m_Name: "\uD0C0\uB178\uC2A4"
+  m_Name: Dummy Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18091,9 +18191,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  id: 41
+  id: 0
   cardName: 
   ownerOrder: -1
+  currentTile: {fileID: 0}
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &1772123371
@@ -18137,7 +18238,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 7d5467a02c34a4e4390d40f5966bd878, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -18145,7 +18246,7 @@ SpriteRenderer:
   m_Size: {x: 6.52, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1772123372
@@ -18436,7 +18537,7 @@ GameObject:
   - component: {fileID: 1783724020}
   - component: {fileID: 1783724024}
   m_Layer: 6
-  m_Name: "\uD06C\uB85C\uCEE4\uB2E4\uC77C"
+  m_Name: Dummy Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18457,9 +18558,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  id: 39
+  id: 0
   cardName: 
   ownerOrder: -1
+  currentTile: {fileID: 0}
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &1783724021
@@ -18503,7 +18605,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 9069af4a07832004587595268fd51f6d, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -18511,7 +18613,7 @@ SpriteRenderer:
   m_Size: {x: 6.52, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1783724022
@@ -19021,7 +19123,7 @@ GameObject:
   - component: {fileID: 1809463172}
   - component: {fileID: 1809463176}
   m_Layer: 6
-  m_Name: "\uC11C\uD050\uBC84\uC2A4"
+  m_Name: Dummy Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19042,9 +19144,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  id: 25
+  id: 0
   cardName: 
   ownerOrder: -1
+  currentTile: {fileID: 0}
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &1809463173
@@ -19088,7 +19191,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 04c2e83e0a08c2d499d84cf0263f7a38, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -19096,7 +19199,7 @@ SpriteRenderer:
   m_Size: {x: 6.52, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1809463174
@@ -19820,7 +19923,7 @@ GameObject:
   - component: {fileID: 1863716927}
   - component: {fileID: 1863716931}
   m_Layer: 6
-  m_Name: "\uD558\uC774\uBA38\uB529\uAC70"
+  m_Name: Dummy Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19841,9 +19944,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  id: 50
+  id: 0
   cardName: 
   ownerOrder: -1
+  currentTile: {fileID: 0}
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &1863716928
@@ -19887,7 +19991,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: f2be6608cb4c8e547b040e7152ad42db, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -19895,7 +19999,7 @@ SpriteRenderer:
   m_Size: {x: 6.52, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1863716929
@@ -20066,7 +20170,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1872939696}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -2.5500002, z: -3.6}
+  m_LocalPosition: {x: 0, y: -4.3, z: -3.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -20110,10 +20214,10 @@ MonoBehaviour:
   syncInterval: 0
   seatNum: 2
   list: []
-  radius: 4
-  height: 0.1
-  intervalAngle: 15
-  maxAngle: 60
+  radius: 5
+  height: 0.35
+  intervalAngle: 18
+  maxAngle: 54
 --- !u!1 &1888164052
 GameObject:
   m_ObjectHideFlags: 0
@@ -20208,7 +20312,7 @@ GameObject:
   - component: {fileID: 1891683736}
   - component: {fileID: 1891683740}
   m_Layer: 6
-  m_Name: "\uB808\uB4DC \uB808\uC778\uC800"
+  m_Name: Dummy Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20229,9 +20333,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  id: 10
+  id: 0
   cardName: 
   ownerOrder: -1
+  currentTile: {fileID: 0}
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &1891683737
@@ -20275,7 +20380,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 86c18087ee9c05c428bda79232001222, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -20283,7 +20388,7 @@ SpriteRenderer:
   m_Size: {x: 6.52, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1891683738
@@ -20877,7 +20982,7 @@ GameObject:
   - component: {fileID: 1938614329}
   - component: {fileID: 1938614333}
   m_Layer: 6
-  m_Name: "\uD39C\uD0C0\uD0AC \uC18C\uB098"
+  m_Name: Dummy Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20898,9 +21003,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  id: 45
+  id: 0
   cardName: 
   ownerOrder: -1
+  currentTile: {fileID: 0}
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &1938614330
@@ -20944,7 +21050,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 528c9e1389869014faef5635676e9d68, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -20952,7 +21058,7 @@ SpriteRenderer:
   m_Size: {x: 6.52, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1938614331
@@ -22033,7 +22139,7 @@ GameObject:
   - component: {fileID: 2057055786}
   - component: {fileID: 2057055790}
   m_Layer: 6
-  m_Name: "\uC774\uBE14\uB9B0"
+  m_Name: Dummy Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22054,9 +22160,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  id: 31
+  id: 0
   cardName: 
   ownerOrder: -1
+  currentTile: {fileID: 0}
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &2057055787
@@ -22100,7 +22207,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: edb97bfb0b8afd648805eba9df6f691c, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -22108,7 +22215,7 @@ SpriteRenderer:
   m_Size: {x: 6.52, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &2057055788
@@ -22183,7 +22290,7 @@ GameObject:
   - component: {fileID: 2057596943}
   - component: {fileID: 2057596947}
   m_Layer: 6
-  m_Name: "\uD5D0\uD06C \uBC84\uC2A4\uD130"
+  m_Name: Dummy Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22204,9 +22311,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  id: 53
+  id: 0
   cardName: 
   ownerOrder: -1
+  currentTile: {fileID: 0}
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &2057596944
@@ -22250,7 +22358,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 1e8cf2a26a7d7514fa1a84a85472685b, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -22258,7 +22366,7 @@ SpriteRenderer:
   m_Size: {x: 6.52, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &2057596945
@@ -22391,7 +22499,7 @@ GameObject:
   - component: {fileID: 2103684613}
   - component: {fileID: 2103684617}
   m_Layer: 6
-  m_Name: "\uB9C8\uB9AC\uC624"
+  m_Name: Dummy Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22412,9 +22520,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  id: 11
+  id: 0
   cardName: 
   ownerOrder: -1
+  currentTile: {fileID: 0}
   IsOnMouse: 0
   front: {fileID: 0}
 --- !u!212 &2103684614
@@ -22458,7 +22567,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: fc8637fcd6297f143a30b39f19691a6a, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -22466,7 +22575,7 @@ SpriteRenderer:
   m_Size: {x: 6.52, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &2103684615

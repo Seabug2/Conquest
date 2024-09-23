@@ -7,7 +7,6 @@ public partial class Card : NetworkBehaviour,
     IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IDragHandler, IPointerUpHandler
 {
     public ICardState iCardState = new NoneState();
-
     //카드 드래그를 시작했을 때 호출됩니다.
     public void OnBeginDrag(PointerEventData eventData)
     {

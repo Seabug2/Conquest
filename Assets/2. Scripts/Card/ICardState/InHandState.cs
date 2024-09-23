@@ -76,7 +76,9 @@ public class HandlingState : ICardState
     {
         isSelected = false;
 
-        Camera.main.GetComponent<Physics2DRaycaster>().eventMask = -1;
+        CameraController.instance.Raycaster.eventMask = -1;
+
+        //card.col.enabled = false;
 
         Vector2 screenPosition = eventData.position;
         Ray ray = Camera.main.ScreenPointToRay(screenPosition);
@@ -85,7 +87,7 @@ public class HandlingState : ICardState
         if (hit.collider == null)
         {
             // 레이캐스트가 아무것도 감지하지 못한 경우
-            card.DoMove();
+            //card.DoMove(()=>card.col.enabled = true);
             Debug.Log("No object hit in 2D.");
         }
         else
@@ -96,8 +98,8 @@ public class HandlingState : ICardState
                 if (tile.IsSetable(card))
                 {
                     Debug.Log("Hit 2D object: " + hit.collider.gameObject.name);
-                    hand.CmdRemove(card.ID);
-                    tile.CmdSetCard(card.ID);
+                    hand.CmdRemove(card.id);
+                    tile.CmdSetCard(card.id);
 
                     card.iCardState = new NoneState();
                 }
@@ -116,8 +118,8 @@ public class HandlingState : ICardState
     public void OnPointerClick(PointerEventData eventData) { }
     public void OnPointerEnter(PointerEventData eventData)
     {
-        card.IsOnMouse = true;
         if (isSelected) return;
+        card.IsOnMouse = true;
 
         card.transform.localScale = Vector3.one * 1.2f;
         card.SprtRend.sortingLayerName = "OnMouseLayer";

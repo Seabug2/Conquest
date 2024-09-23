@@ -186,10 +186,6 @@ public class Commander
 
 
 
-
-
-
-
     /// <summary>
     /// 0 보다 작은 수를 넣으면 무한히 반복합니다.
     /// </summary>
@@ -232,7 +228,6 @@ public class Commander
             }
         }
     }
-
 
     /// <summary>
     /// 저장한 커맨드를 모두 실행합니다.

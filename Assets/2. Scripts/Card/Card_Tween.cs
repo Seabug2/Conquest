@@ -44,6 +44,12 @@ public partial class Card : NetworkBehaviour
         transform.DOMove(TargetPosition, duration).SetEase(setEase).SetDelay(delay);
         transform.DORotateQuaternion(TargetRotation, duration).SetEase(setEase).SetDelay(delay);
     }
+    public void DoMove(System.Action _Action)
+    {
+        transform.DOKill();
+        transform.DOMove(TargetPosition, duration);
+        transform.DORotateQuaternion(TargetRotation, duration).OnComplete(()=>_Action?.Invoke());
+    }
 
 
     [Command(requiresAuthority = false)]
@@ -58,11 +64,13 @@ public partial class Card : NetworkBehaviour
         Pick();
     }
 
+    const float pickupHeight = 0.6f;
+
     [Client]
     public void Pick()
     {
         transform.DOKill();
         transform.rotation  = Quaternion.identity;
-        transform.position = TargetPosition + transform.up * 0.35f;
+        transform.position = TargetPosition + transform.up * pickupHeight;
     }
 }

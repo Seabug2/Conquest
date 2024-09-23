@@ -7,21 +7,7 @@ using Mirror;
 [RequireComponent(typeof(NetworkIdentity))]
 public class Player : NetworkBehaviour
 {
-    [SyncVar(hook = nameof(SetOrder))] public int order;
-    void SetOrder(int _, int @new)
-    {
-        if (isLocalPlayer)
-        {
-            if (@new == 0)
-            {
-
-            }
-            else
-            {
-
-            }
-        }
-    }
+    public int order;
 
     [SyncVar(hook = nameof(GameOver))]
     public bool isGameOver;

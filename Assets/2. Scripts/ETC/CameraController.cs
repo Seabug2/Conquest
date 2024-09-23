@@ -37,6 +37,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] CinemachineVirtualCamera[] playersVcams = new CinemachineVirtualCamera[4];
     readonly CinemachineBasicMultiChannelPerlin[] perlinNoise = new CinemachineBasicMultiChannelPerlin[4];
     private Physics2DRaycaster raycaster;
+    public Physics2DRaycaster Raycaster => raycaster;
 
     void Start()
     {

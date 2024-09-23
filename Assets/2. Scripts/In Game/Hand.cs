@@ -25,7 +25,7 @@ public class Hand : NetworkBehaviour
 
             for (int i = 0; i < ids.Length; i++)
             {
-                ids[i] = list[i].ID;
+                ids[i] = list[i].id;
             }
 
             return ids;
@@ -211,12 +211,34 @@ public class Hand : NetworkBehaviour
             Vector3 position = new Vector3(Mathf.Sin(radians), Mathf.Cos(radians)) * radius;
             position = transform.position + new Vector3(position.x, position.y * height, position.z);
 
+            Quaternion targetRotation;
+
+            //선택한 카드가 있는 경우
             if (selectedNum != -1)
-                position += Vector3.right * (i > selectedNum ? 1 : - 1f);
+            {
+                position += Vector3.right * (i > selectedNum ? 0.9f : -0.9f);
+
+                if (i < selectedNum)
+                {
+                    float t = 1f / selectedNum;
+                    targetRotation = Quaternion.Euler(0, 0, -Mathf.Lerp(leftEndAngle, 0, t * i) * height);
+                }
+                else
+                {
+                    float t = 1f / (count - 1 - selectedNum);
+                    targetRotation = Quaternion.Euler(0, 0, -Mathf.Lerp(0, rightEndAngle, t * (i - selectedNum)) * height);
+                }
+            }
+            //선택한 카드가 없는 경우
+            else
+            {
+                targetRotation = Quaternion.Euler(0, 0, -angle * height);
+            }
+
+
+
 
             list[i].SetTargetPosition(position);
-
-            Quaternion targetRotation = Quaternion.Euler(0, 0, -angle * height);
             list[i].SetTargetQuaternion(targetRotation);
 
             list[i].DoMove();

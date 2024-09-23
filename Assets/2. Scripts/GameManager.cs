@@ -1,7 +1,10 @@
+using System;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using Mirror;
+using System.IO;
 
 [RequireComponent(typeof(NetworkIdentity))]
 public class GameManager : NetworkBehaviour
@@ -16,6 +19,8 @@ public class GameManager : NetworkBehaviour
             instance = this;
             IsPlaying = false;
             //CardSetting();
+
+
         }
         else
         {
@@ -30,6 +35,17 @@ public class GameManager : NetworkBehaviour
         }
     }
     #endregion
+    string filePath;
+    DeckIDList deckIdList;
+    private void Start()
+    {
+        filePath = Path.Combine(Application.persistentDataPath, "DeckIdList.json");
+
+        // 파일 로드
+        deckIdList = LoadDeckIdList();
+
+        CardSetting();
+    }
 
     public bool IsPlaying { get; private set; }
 
@@ -106,25 +122,29 @@ public class GameManager : NetworkBehaviour
     [Server]
     void PlayerShuffle()
     {
+        int[] order = new int[maxPlayer];
         for (int i = 0; i < maxPlayer; i++)
         {
-            int rand = Random.Range(i, maxPlayer); // i부터 랜덤 인덱스까지 선택
-            Player tmp = players[i];
-            players[i] = players[rand];
-            players[rand] = tmp;
+            order[i] = i;
         }
-
         for (int i = 0; i < maxPlayer; i++)
         {
-            players[i].order = i;
+            int rand = UnityEngine.Random.Range(i, maxPlayer); // i부터 랜덤 인덱스까지 선택
+            int tmp = order[i];
+            order[i] = order[rand];
+            order[rand] = tmp;
         }
 
-        Sort();
+        RpcPlayerShuffle(order);
     }
 
     [ClientRpc]
-    void Sort()
+    void RpcPlayerShuffle(int[] order)
     {
+        for (int i = 0; i < maxPlayer; i++)
+        {
+            players[i].order = order[i];
+        }
         players.Sort((a, b) => a.order.CompareTo(b.order));
     }
 
@@ -154,20 +174,23 @@ public class GameManager : NetworkBehaviour
     public Sprite cardBackFace;
 
     [Header("카드"), Space(10)]
+    [SerializeField] Card[] cards;
     readonly Dictionary<int, Card> dict_Card = new();
-    public void AddCard(Card card)
-    {
-        if (!dict_Card.ContainsKey(card.ID))
-            dict_Card.Add(card.ID, card);
-    }
     public static Card Card(int id) => instance.dict_Card[id];
     public static int TotalCard => instance.dict_Card.Count;
 
-    readonly string filePath = "Conquest_Info";
+    //readonly string filePath = "Conquest_Info";
 
     void CardSetting()
     {
-        TextAsset csvFile = Resources.Load<TextAsset>(filePath);
+        //54장의 카드 기본형을 설정하고...
+        for (int i = 0; i < 54; i++)
+        {
+            cards[i].id = deckIdList[i];
+            dict_Card.Add(deckIdList[i], cards[i]);
+        }
+
+        TextAsset csvFile = Resources.Load<TextAsset>("Conquest_Info");
         string[] dataLines;
 
         if (csvFile == null)
@@ -189,9 +212,8 @@ public class GameManager : NetworkBehaviour
 
         foreach (Card c in dict_Card.Values)
         {
-            string line = dataLines[c.ID + 1].Trim();
+            string line = dataLines[c.id + 1].Trim();
             if (string.IsNullOrWhiteSpace(line)) continue;
-
             string[] data = line.Split(',');
 
             string imageName = data[1];  // 파일명 생성
@@ -207,47 +229,23 @@ public class GameManager : NetworkBehaviour
                 c.front = cardFront;  // 카드의 front 스프라이트 할당
             }
 
+            c.name = data[2];
             c.cardName = data[2];
 
             c.Sockets[0] = new Socket(ParseAttribute(data[3]), data[4].Equals("1"));
             c.Sockets[1] = new Socket(ParseAttribute(data[5]), data[6].Equals("1"));
             c.Sockets[2] = new Socket(ParseAttribute(data[7]), data[8].Equals("1"));
             c.Sockets[3] = new Socket(ParseAttribute(data[9]), data[10].Equals("1"));
+
+            /*
+            Type abilityType = Type.GetType(data[11]);
+
+            IAbility ability = (IAbility)Activator.CreateInstance(abilityType);
+            string[] extractedData = data.Skip(12).Take(4).ToArray();
+            ability.SetValue(extractedData);
+            c.ability = ability;
+            */
         }
-
-        /*
-        for (int i = 0; i < size; i++)
-        {
-            line = dataLines[i + 1].Trim();
-            if (string.IsNullOrWhiteSpace(line)) continue;
-
-            data = line.Split(',');
-
-            //카드 ID 부여
-            //cards[i].ID = int.Parse(data[0]);
-
-            // 이미지를 로드하여 카드의 front에 할당
-            string imageName = data[1];  // 파일명 생성
-            Sprite cardFront = Resources.Load<Sprite>("Card/" + imageName);  // Resources/Card 폴더에서 이미지 로드
-
-            if (cardFront == null)
-            {
-                Card(i).front = null;
-                Debug.LogError($"이미지를 찾을 수 없습니다: {imageName}");
-            }
-            else
-            {
-                Card(i).front = cardFront;  // 카드의 front 스프라이트 할당
-            }
-
-            Card(i).cardName = data[2];
-
-            Card(i).Sockets[0] = new Socket(ParseAttribute(data[3]), data[4].Equals("1"));
-            Card(i).Sockets[1] = new Socket(ParseAttribute(data[5]), data[6].Equals("1"));
-            Card(i).Sockets[2] = new Socket(ParseAttribute(data[7]), data[8].Equals("1"));
-            Card(i).Sockets[3] = new Socket(ParseAttribute(data[9]), data[10].Equals("1"));
-        }
-        */
     }
     Attribute ParseAttribute(string value)
     {
@@ -438,4 +436,67 @@ public class GameManager : NetworkBehaviour
     { 3, new List<Card>() }
     };
     */
+
+    public DeckIDList LoadDeckIdList()
+    {
+        if (File.Exists(filePath))
+        {
+            // 파일이 존재하면 파일에서 JSON을 읽고 객체로 변환
+            string json = File.ReadAllText(filePath);
+            return JsonUtility.FromJson<DeckIDList>(json);
+        }
+        else
+        {
+            // 파일이 없으면 기본 DeckIDList 객체를 생성
+            DeckIDList newDeck = new DeckIDList();
+            SaveDeckIdList(newDeck);  // 기본 DeckIDList를 파일로 저장
+            return newDeck;
+        }
+    }
+
+    // 파일 저장
+    public void SaveDeckIdList(DeckIDList deckIdList)
+    {
+        // JSON 문자열로 변환
+        string json = JsonUtility.ToJson(deckIdList, true);
+
+        // 파일로 저장
+        File.WriteAllText(filePath, json);
+
+        Debug.Log($"DeckIdList 저장됨: {filePath}");
+    }
+}
+
+[Serializable]
+public class DeckIDList
+{
+    public int[] idList;
+
+    public int this[int i]
+    {
+        get
+        {
+            if (i < 0 || i >= idList.Length)
+            {
+                Debug.LogError("범위 오류");
+                return 0;
+            }
+            return idList[i];
+        }
+    }
+
+    public DeckIDList()
+    {
+        idList = new int[54];
+
+        for (int i = 0; i < 54; i++)
+        {
+            idList[i] = i;
+        }
+    }
+
+    public DeckIDList(int[] idList)
+    {
+        this.idList = idList;
+    }
 }

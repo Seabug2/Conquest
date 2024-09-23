@@ -5,8 +5,7 @@ using Mirror;
 public partial class Card : NetworkBehaviour
 {
     #region 카드정보
-    [SerializeField] int id;
-    public int ID => id;
+    public int id;
 
     public string cardName;
     
@@ -18,6 +17,8 @@ public partial class Card : NetworkBehaviour
     
     public int ownerOrder;
     public Tile currentTile = null;
+
+    public IAbility ability = null;
 
     public bool IsOnField => currentTile != null;
 
@@ -48,7 +49,6 @@ public partial class Card : NetworkBehaviour
 
     private void Start()
     {
-        GameManager.instance.AddCard(this);
         IsOpened = false;
     }
     #endregion
