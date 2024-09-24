@@ -19,7 +19,7 @@ public class LineMessage : MonoBehaviour
 
     private void Start()
     {
-        root.SetActive(false);
+        Initialize(false);
     }
 
     // 메시지 애니메이션을 강제로 처음부터 다시 실행하는 함수
@@ -51,6 +51,15 @@ public class LineMessage : MonoBehaviour
         }
     }
 
+    // 메시지를 팝업하는 함수
+    public void FreezePopUp(string message, float duration)
+    {
+        this.message = message;
+        this.duration = duration;
+
+        CreateFreezeSequence(); // 시퀀스를 처음부터 재생
+    }
+
     // 시퀀스가 재생 중인지 확인하는 함수
     public bool IsPlaying()
     {
@@ -58,13 +67,13 @@ public class LineMessage : MonoBehaviour
     }
 
     // 초기화 함수
-    private void Initialize()
+    private void Initialize(bool _SerActive)
     {
         // 초기 상태 설정
         line.sizeDelta = new Vector2(line.sizeDelta.x, 0);
         text.fontSize = fontSize;
         text.text = message;
-        root.SetActive(true);
+        root.SetActive(_SerActive);
     }
 
     // 시퀀스 생성 함수
@@ -75,7 +84,7 @@ public class LineMessage : MonoBehaviour
             .SetAutoKill(false) // 트윈이 완료된 후에도 파괴되지 않음
             .OnStart(() =>
             {
-                Initialize();
+                Initialize(true);
             })
             .Append(line.DOSizeDelta(new Vector2(line.sizeDelta.x, height), duration * inOutTime).SetEase(ease)) // 라인 확장
             .AppendInterval(duration * 0.8f) // 잠시 대기
@@ -84,6 +93,17 @@ public class LineMessage : MonoBehaviour
             {
                 root.SetActive(false);
             });
+    }
+
+    private void CreateFreezeSequence()
+    {
+        // 시퀀스 생성 및 AutoKill 비활성화
+        sequence = DOTween.Sequence()
+            .OnStart(() =>
+            {
+                Initialize(true);
+            })
+            .Append(line.DOSizeDelta(new Vector2(line.sizeDelta.x, height), duration).SetEase(ease));
     }
 
     public void Show()

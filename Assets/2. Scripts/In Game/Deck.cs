@@ -124,7 +124,7 @@ public class Deck : NetworkBehaviour
         RpcDraftPhase(opened);
     }
 
-    public readonly List<Card> draftCard = new();
+    readonly List<Card> draftCard = new();
 
     [ClientRpc]
     void RpcDraftPhase(int[] opened)
@@ -158,12 +158,12 @@ public class Deck : NetworkBehaviour
                 }
             })
             .WaitWhile(UIManager.Message.IsPlaying)
-            .Add(SelectDraftCard)
+            .Add(StartCardSelection)
             .Play();
     }
 
     [ServerCallback]
-    void SelectDraftCard()
+    void StartCardSelection()
     {
         int firstOrder = GameManager.instance.FirstOrder();
         RpcSelectDraftCard(firstOrder);
@@ -179,19 +179,18 @@ public class Deck : NetworkBehaviour
         }
         else
         {
-            RpcSelectDraftCard(GameManager.instance.NextOrder(GameManager.instance.currentOrder));
+            RpcSelectDraftCard(GameManager.instance.NextOrder(GameManager.instance.CurrentOrder));
         }
     }
 
     [ClientRpc]
     void RpcSelectDraftCard(int _order)
     {
+        GameManager.instance.CurrentOrder = _order;
+
         if (GameManager.GetPlayer(_order).isLocalPlayer)
         {
-            GameManager.instance.currentOrder = _order;
-            GameManager.instance.LocalPlayer.hasTurn = true;
-
-            UIManager.Message.PopUp("패로 가져갈 카드를 한 장 고르세요", 5f);
+            UIManager.Message.PopUp("패로 가져갈 카드를 한 장 고르세요", 3f);
             foreach (Card card in draftCard)
             {
                 card.iCardState = new SelectionState(card
@@ -200,9 +199,9 @@ public class Deck : NetworkBehaviour
                         GameManager.instance.LocalPlayer.Hand.CmdAdd(card.id);
                         draftCard.Remove(card);
 
-                        foreach (Card card in draftCard)
+                        foreach (Card c in draftCard)
                         {
-                            card.iCardState = new NoneState();
+                            c.iCardState = new NoneState();
                         }
 
                         CmdSelectDraftCard();
@@ -212,7 +211,7 @@ public class Deck : NetworkBehaviour
         }
         else
         {
-            UIManager.Message.ForcePopUp($"{GameManager.instance.currentOrder + 1}번째 플레이어가 카드를 고릅니다.", 5f);
+            UIManager.Message.ForcePopUp($"{GameManager.instance.CurrentOrder + 1}번째 플레이어가 카드를 고르는 중입니다.", 5f);
         }
     }
     #endregion

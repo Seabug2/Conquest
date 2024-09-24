@@ -1,10 +1,11 @@
 using System;
 using System.Linq;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using Mirror;
 using System.IO;
+using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 
 [RequireComponent(typeof(NetworkIdentity))]
 public class GameManager : NetworkBehaviour
@@ -104,7 +105,6 @@ public class GameManager : NetworkBehaviour
         {
             if (AliveCount > 1)
             {
-
                 if (_player.isMyTurn)
                 {
                     if (RoundFinished)
@@ -295,20 +295,40 @@ public class GameManager : NetworkBehaviour
     /// <summary>
     /// Rpc를 통해 로컬 플레이어가 차례를 시작하면 currentOrder가 갱신된다.
     /// </summary>
-    public int currentOrder = 0;
+    int currentOrder = 0;
+    public int CurrentOrder
+    {
+        get
+        {
+            return currentOrder;
+        }
+        set
+        {
+            if (currentOrder < 0 || currentOrder >= maxPlayer)
+            {
+                Debug.LogError("범위 오류");
+                return;
+            }
+
+            GetPlayer(currentOrder).isMyTurn = false;
+            currentOrder = value;
+            GetPlayer(currentOrder).isMyTurn = true;
+            GetPlayer(currentOrder).hasTurn = true;
+        }
+    }
 
     public int firstOrder = 0;
 
     public int FirstOrder()
     {
-        currentOrder = 0;
+        int order = firstOrder;
 
-        while (players[currentOrder] == null || players[currentOrder].isGameOver)
+        while (players[order] == null || players[order].isGameOver)
         {
-            currentOrder = (currentOrder + (IsClockwise ? 1 : maxPlayer - 1)) % maxPlayer;
+            order = (order + (IsClockwise ? 1 : maxPlayer - 1)) % maxPlayer;
         }
 
-        return currentOrder;
+        return order;
     }
 
     public int NextOrder(int _Order)
@@ -347,9 +367,10 @@ public class GameManager : NetworkBehaviour
     {
         get
         {
-            foreach (bool b in isAcknowledged)
+            for (int i = 0; i < isAcknowledged.Length; i++)
             {
-                if (!b) return false;
+                if (null == GetPlayer(i) || GetPlayer(i).isGameOver) continue;
+                if (!isAcknowledged[i]) return false;
             }
 
             for (int i = 0; i < isAcknowledged.Length; i++)
@@ -443,19 +464,17 @@ public class GameManager : NetworkBehaviour
     [Server]
     void StartTurn()
     {
-        GetPlayer(NextOrder(currentOrder)).isMyTurn = true;
-        GetPlayer(currentOrder).hasTurn = true;
-        GetPlayer(NextOrder(currentOrder)).RpcStartTurn();
+        GetPlayer(NextOrder(CurrentOrder)).RpcStartTurn();
     }
 
     [Server]
     public void EndTurn()
     {
-        GetPlayer(currentOrder).isMyTurn = false;
+        GetPlayer(CurrentOrder).isMyTurn = false;
 
-        if (GetPlayer(currentOrder).Hand.IsLimitOver)
+        if (GetPlayer(CurrentOrder).Hand.IsLimitOver)
         {
-            GetPlayer(currentOrder).isGameOver = true;
+            GetPlayer(CurrentOrder).isGameOver = true;
         }
 
         if (AliveCount > 1)

@@ -35,8 +35,8 @@ public class Player : NetworkBehaviour
         }
     }
 
-    [SyncVar] public bool isMyTurn;
-    [SyncVar] public bool hasTurn;
+    public bool isMyTurn;
+    public bool hasTurn;
 
     #region 생성
     //클라이언트에 생성되었을 때
@@ -68,7 +68,7 @@ public class Player : NetworkBehaviour
     {
         if (isLocalPlayer)
         {
-            GameManager.instance.currentOrder = order;
+            GameManager.instance.CurrentOrder = order;
 
             //드로우
             //CmdDraw()
