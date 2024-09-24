@@ -2,9 +2,10 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UIMaster : MonoBehaviour
+public class UIManager : MonoBehaviour
 {
-    public static UIMaster instance;
+    #region ΩÃ±€≈Ê
+    public static UIManager instance;
 
     private void Awake()
     {
@@ -24,6 +25,7 @@ public class UIMaster : MonoBehaviour
             instance = null;
         }
     }
+    #endregion
 
     [SerializeField]
     Fade fade;

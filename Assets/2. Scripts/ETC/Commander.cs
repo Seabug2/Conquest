@@ -58,7 +58,7 @@ public class Command
     public Command(Action command, float interval)
     {
         this.interval = interval;
-        this.command = null;
+        this.command = command;
         @while = null;
         until = null;
     }

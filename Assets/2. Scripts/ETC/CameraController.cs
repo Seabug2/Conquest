@@ -115,8 +115,8 @@ public class CameraController : MonoBehaviour
         int sidePlayerNumber = currentCamIndex;
         do
         {
-            sidePlayerNumber = (sidePlayerNumber + dir + 4) % 4;
-        } while (GameManager.GetPlayer(sidePlayerNumber).isGameOver);
+            sidePlayerNumber = (sidePlayerNumber + dir + GameManager.maxPlayer) % GameManager.maxPlayer;
+        } while (GameManager.GetPlayer(sidePlayerNumber) == null ||GameManager.GetPlayer(sidePlayerNumber).isGameOver);
 
         CurrentCamIndex = sidePlayerNumber;
     }

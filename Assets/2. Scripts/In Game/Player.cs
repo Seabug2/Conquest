@@ -7,11 +7,20 @@ using Mirror;
 [RequireComponent(typeof(NetworkIdentity))]
 public class Player : NetworkBehaviour
 {
-    public int order;
+    [SyncVar(hook = nameof(Hook_SetOrder))]
+    public int order = -1;
 
-    [SyncVar(hook = nameof(GameOver))]
+    void Hook_SetOrder(int _, int @new)
+    {
+        gameObject.name = $"Player_{@new}";
+
+        if (isLocalPlayer)
+            GameManager.instance.Ackn_SortPlayerList(@new);
+    }
+
+    [SyncVar(hook = nameof(PlayerGameOver))]
     public bool isGameOver;
-    void GameOver(bool _, bool @new)
+    void PlayerGameOver(bool _, bool @new)
     {
         if (isLocalPlayer)
         {
@@ -26,8 +35,8 @@ public class Player : NetworkBehaviour
         }
     }
 
-    [SyncVar] public bool isMyTurn = false;
-    [SyncVar] public bool hasTurn = false;
+    [SyncVar] public bool isMyTurn;
+    [SyncVar] public bool hasTurn;
 
     #region 생성
     //클라이언트에 생성되었을 때
@@ -57,10 +66,10 @@ public class Player : NetworkBehaviour
     [ClientRpc]
     public void RpcStartTurn()
     {
-        GameManager.instance.currentOrder = order;
-
         if (isLocalPlayer)
         {
+            GameManager.instance.currentOrder = order;
+
             //드로우
             //CmdDraw()
         }

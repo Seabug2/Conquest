@@ -36,7 +36,7 @@ public partial class Card : NetworkBehaviour,
     {
         if (IsOpened)
         {
-            UIMaster.InfoUI.PopUp(front);
+            UIManager.InfoUI.PopUp(front);
         }
         iCardState.OnPointerEnter(eventData);
     }

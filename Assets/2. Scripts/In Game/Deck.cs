@@ -7,16 +7,14 @@ using Mirror;
 /// </summary>
 public class Deck : NetworkBehaviour
 {
+    public readonly SyncList<int> list = new();
+
+    #region 덱 초기화
     private void Start()
     {
         GameManager.deck = this;
     }
 
-    public readonly SyncList<int> list = new();
-
-    /// <summary>
-    /// 덱에 남은 카드의 수
-    /// </summary>
     public int Count => list.Count;
 
     public override void OnStartServer()
@@ -28,7 +26,10 @@ public class Deck : NetworkBehaviour
         }
         Shuffle();
     }
+    #endregion
 
+
+    #region 덱 관리
     [Server]
     void Shuffle()
     {
@@ -91,36 +92,39 @@ public class Deck : NetworkBehaviour
         card.SetTargetQuaternion(transform.rotation);
         card.DoMove();
     }
+    #endregion
 
 
-    //서버에서만 실행
+
+
+
+
+    #region 인재영입시간
     [ServerCallback]
     public void ServerDraftPhase()
     {
-        if (Count.Equals(0))
-        {
-            Debug.LogError("덱에 카드가 없습니다!");
-            //게임 종료??
-            return;
-        }
-
         //현재 플레이어 수만큼의 Int 배열을 만들고
         int playerCount = GameManager.AliveCount;
         int[] opened = new int[playerCount];
 
-        //덱에서 카드를 4장 뽑아 모두 같이 확인한다.
-        for (int i = 0; i < playerCount; i++)
+        if (Count == 0)
         {
-            int id = DrawCardID();
-            opened[i] = id;
+            Debug.LogError("덱에 카드가 없습니다!");
+        }
+        else
+        {
+            //덱에서 카드를 4장 뽑아 모두 같이 확인한다.
+            for (int i = 0; i < playerCount; i++)
+            {
+                int id = DrawCardID();
+                opened[i] = id;
+            }
         }
 
         RpcDraftPhase(opened);
     }
 
-    [SerializeField, Header("인재 영입의 시간에 카드를 내는 위치"), Space(10)]
-    Transform[] draftZone;
-    readonly List<Card> draftCard = new();
+    public readonly List<Card> draftCard = new();
 
     [ClientRpc]
     void RpcDraftPhase(int[] opened)
@@ -130,49 +134,86 @@ public class Deck : NetworkBehaviour
 
         Commander commander = new();
         commander
-            .Add(() => UIMaster.Message.PopUp("인재 영입 시간!", 3f), 1f)
-            .Add_While(() =>
+            .Add(() => UIManager.Message.PopUp("인재 영입 시간!", 3f), 1f)
+            .Add(() =>
             {
+                int count = opened.Length;
+                float intervalAngle = 360f / count;
+                float angle = Random.Range(0, 90);
+
                 for (int i = 0; i < opened.Length; i++)
                 {
                     Card c = GameManager.Card(opened[i]);
                     draftCard.Add(c);
                     c.iCardState = new NoneState();
                     c.IsOpened = true;
-                    c.SetTargetPosition(draftZone[i].position);
-                    c.SetTargetQuaternion(Quaternion.identity);
+
+                    angle += intervalAngle;
+                    float radian = Mathf.Deg2Rad * angle;
+                    Vector3 position = new Vector3(Mathf.Sin(radian), Mathf.Cos(radian), 0) * 1.5f;
+                    c.SetTargetPosition(transform.position + position);
+                    c.SetTargetQuaternion(Quaternion.Euler(0, 0, Random.Range(-8f, 8f))); //10도 이상으로 회전하면 어색하게 보임
 
                     c.DoMove(i * .18f);
                 }
-            }, UIMaster.Message.IsPlaying)
-            .Add_While(() =>
-            {
-                //if (GameManager.LocalPlayer.order == 0)
-                //{
-                //    UIMaster.Message.PopUp("패로 가져갈 카드를 한 장 고르세요", 3f);
-                //    foreach (Card card in draftCard)
-                //    {
-                //        card.iCardState = new SelectionState(card, () => UIMaster.Confirm.PopUp(() =>
-                //        {
-                //            draftCard.Remove(card);
-
-                //            GameManager.LocalPlayer.hand.Add(card.id);
-
-                //            foreach (Card card in draftCard)
-                //            {
-                //                card.iCardState = new NoneState();
-                //            }
-
-                //        }, "이 카드를 패로 가져갑니다?", card.front));
-                //    }
-                //}
-                //else
-                //{
-                //    UIMaster.Message.PopUp($"{GameManager.instance.CurrentOrder + 1}번째 플레이어가 카드를 고릅니다.", 3f);
-                //}
-            }, UIMaster.Message.IsPlaying)
+            })
+            .WaitWhile(UIManager.Message.IsPlaying)
+            .Add(SelectDraftCard)
             .Play();
     }
 
+    [ServerCallback]
+    void SelectDraftCard()
+    {
+        int firstOrder = GameManager.instance.FirstOrder();
+        RpcSelectDraftCard(firstOrder);
+    }
 
+    [Command(requiresAuthority = false)]
+    void CmdSelectDraftCard()
+    {
+        if (GameManager.RoundFinished)
+        {
+            //Todo 플레이어 개인 턴 시작
+            //GameManager.instance.
+        }
+        else
+        {
+            RpcSelectDraftCard(GameManager.instance.NextOrder(GameManager.instance.currentOrder));
+        }
+    }
+
+    [ClientRpc]
+    void RpcSelectDraftCard(int _order)
+    {
+        if (GameManager.GetPlayer(_order).isLocalPlayer)
+        {
+            GameManager.instance.currentOrder = _order;
+            GameManager.instance.LocalPlayer.hasTurn = true;
+
+            UIManager.Message.PopUp("패로 가져갈 카드를 한 장 고르세요", 5f);
+            foreach (Card card in draftCard)
+            {
+                card.iCardState = new SelectionState(card
+                    , () => UIManager.Confirm.PopUp(() =>
+                    {
+                        GameManager.instance.LocalPlayer.Hand.CmdAdd(card.id);
+                        draftCard.Remove(card);
+
+                        foreach (Card card in draftCard)
+                        {
+                            card.iCardState = new NoneState();
+                        }
+
+                        CmdSelectDraftCard();
+                    }, "이 카드를 패로 가져갑니다?"
+                    , card.front));
+            }
+        }
+        else
+        {
+            UIManager.Message.ForcePopUp($"{GameManager.instance.currentOrder + 1}번째 플레이어가 카드를 고릅니다.", 5f);
+        }
+    }
+    #endregion
 }

@@ -21,14 +21,14 @@ public class AbilityManager
 {
     readonly List<Type> abilities = new List<Type>
     {
-        typeof(NoneAbility),
-        typeof(DrawAbility),
-        typeof(DestroyAbilty)
+        typeof(NoneAbility), // = 0
+        typeof(DrawAbility), // = 1 
+        typeof(DestroyAbilty) // = 2
     };
 
     public IAbility Create(int id, string[] args)
     {
-        if (id < 0 || id >= abilities.Count) return null;
+        if (id < 0 || id >= abilities.Count) return new NoneAbility();
 
         IAbility ab = (IAbility)Activator.CreateInstance(abilities[id]);
         ab.SetValue(args);

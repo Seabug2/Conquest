@@ -28,6 +28,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -47,10 +48,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  myOrder: -1
-  hand: {fileID: 0}
-  field: {fileID: 0}
-  deck: {fileID: 0}
+  order: -1
+  isGameOver: 0
+  isMyTurn: 0
+  hasTurn: 0
 --- !u!114 &2432571706111771405
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64,7 +65,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneId: 0
-  _assetId: 3570056127
+  _assetId: 1350619168
   serverOnly: 0
   visibility: 0
   hasSpawned: 0
