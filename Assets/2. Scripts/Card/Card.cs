@@ -14,7 +14,7 @@ public partial class Card : NetworkBehaviour
     // 3   2
     public readonly Socket[] Sockets = new Socket[4];
     #endregion
-    
+
     public int ownerOrder;
     public Tile currentTile = null;
 

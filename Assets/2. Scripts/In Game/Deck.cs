@@ -28,7 +28,6 @@ public class Deck : NetworkBehaviour
     }
     #endregion
 
-
     #region 덱 관리
     [Server]
     void Shuffle()
@@ -100,12 +99,13 @@ public class Deck : NetworkBehaviour
 
 
     #region 인재영입시간
-    [ServerCallback]
+    [Server]
     public void ServerDraftPhase()
     {
-        //현재 플레이어 수만큼의 Int 배열을 만들고
+        //현재 생존한 플레이어 수 만큼 카드를 공개한다.
         int playerCount = GameManager.AliveCount;
-        int[] opened = new int[playerCount];
+        int[] drawnCard = new int[playerCount];
+        draftCard.Clear();
 
         if (Count == 0)
         {
@@ -113,39 +113,58 @@ public class Deck : NetworkBehaviour
         }
         else
         {
-            //덱에서 카드를 4장 뽑아 모두 같이 확인한다.
             for (int i = 0; i < playerCount; i++)
             {
                 int id = DrawCardID();
-                opened[i] = id;
+                draftCard.Add(id);
+                drawnCard[i] = id;
             }
         }
 
-        RpcDraftPhase(opened);
+        GameManager.instance.SetFirstPlayer();
+
+        float t = 10;
+        Commander commander = new();
+        commander
+            .WaitUntil(() => GameManager.instance.IsAllReceived)
+            .OnUpdate(() =>
+            {
+                t -= Time.deltaTime;
+                if (t > 0) return;
+                GameManager.instance.CheckDisconnectedPlayers();
+                commander.Cancel();
+            })
+            .OnCompleteAll(() =>
+            {
+                RpcDraftPhase(drawnCard, GameManager.CurrentOrder);
+                GameManager.instance.ResetAcknowledgements();
+            })
+            .Play();
     }
 
-    readonly List<Card> draftCard = new();
+    readonly SyncList<int> draftCard = new();
 
     [ClientRpc]
-    void RpcDraftPhase(int[] opened)
+    void RpcDraftPhase(int[] _draftCard, int firstPlayerOrder)
     {
-        //리스트를 재사용 할 땐, 재할당이 아니라 Clear()
-        draftCard.Clear();
+        //플레이어들의 화면을 센터로 이동시키고 카메라 이동을 불가능하게 한다
+        CameraController.instance.FocusOnCenter();
+        CameraController.instance.MoveLock(true);
 
         Commander commander = new();
         commander
             .Add(() => UIManager.Message.PopUp("인재 영입 시간!", 3f), 1f)
             .Add(() =>
             {
-                int count = opened.Length;
+                int count = _draftCard.Length;
                 float intervalAngle = 360f / count;
-                float angle = Random.Range(0, 90);
+                float angle = Random.Range(0f, 90f);
 
-                for (int i = 0; i < opened.Length; i++)
+                for (int i = 0; i < count; i++)
                 {
-                    Card c = GameManager.Card(opened[i]);
-                    draftCard.Add(c);
-                    c.iCardState = new NoneState();
+                    Card c = GameManager.Card(_draftCard[i]);
+                    //매번 생성하지 말고 싱글톤에 캐싱한 상태를 사용
+                    c.iCardState = GameManager.instance.noneState;
                     c.IsOpened = true;
 
                     angle += intervalAngle;
@@ -158,61 +177,96 @@ public class Deck : NetworkBehaviour
                 }
             })
             .WaitWhile(UIManager.Message.IsPlaying)
-            .Add(StartCardSelection)
+            .Add(() => ClientSelectDraftCard(firstPlayerOrder))
             .Play();
-    }
-
-    [ServerCallback]
-    void StartCardSelection()
-    {
-        int firstOrder = GameManager.instance.FirstOrder();
-        RpcSelectDraftCard(firstOrder);
-    }
-
-    [Command(requiresAuthority = false)]
-    void CmdSelectDraftCard()
-    {
-        if (GameManager.RoundFinished)
-        {
-            //Todo 플레이어 개인 턴 시작
-            //GameManager.instance.
-        }
-        else
-        {
-            RpcSelectDraftCard(GameManager.instance.NextOrder(GameManager.instance.CurrentOrder));
-        }
     }
 
     [ClientRpc]
     void RpcSelectDraftCard(int _order)
     {
-        GameManager.instance.CurrentOrder = _order;
+        ClientSelectDraftCard(_order);
+    }
 
+    [Client]
+    void ClientSelectDraftCard(int _order)
+    {
         if (GameManager.GetPlayer(_order).isLocalPlayer)
         {
             UIManager.Message.PopUp("패로 가져갈 카드를 한 장 고르세요", 3f);
-            foreach (Card card in draftCard)
+
+            foreach (int id in draftCard)
             {
+                Card card = GameManager.Card(id);
+
                 card.iCardState = new SelectionState(card
                     , () => UIManager.Confirm.PopUp(() =>
                     {
-                        GameManager.instance.LocalPlayer.Hand.CmdAdd(card.id);
-                        draftCard.Remove(card);
-
-                        foreach (Card c in draftCard)
+                        //선택 즉시 모든 카드를 선택 불가능한 상태로 바꾼다. 
+                        foreach (int id in draftCard)
                         {
-                            c.iCardState = new NoneState();
+                            Card c = GameManager.Card(id);
+                            c.iCardState = GameManager.instance.noneState;
                         }
-
-                        CmdSelectDraftCard();
+                        CmdSelectDraftCard(card.id);
                     }, "이 카드를 패로 가져갑니다?"
                     , card.front));
             }
         }
         else
         {
-            UIManager.Message.ForcePopUp($"{GameManager.instance.CurrentOrder + 1}번째 플레이어가 카드를 고르는 중입니다.", 5f);
+            UIManager.Message.ForcePopUp($"{_order + 1}번째 플레이어가\n카드를 고르는 중입니다.", 3f);
         }
     }
+
+    [Command(requiresAuthority = false)]
+    void CmdSelectDraftCard(int id)
+    {
+        //서버에서의 처리
+        draftCard.Remove(id);
+
+        GameManager.GetPlayer(GameManager.CurrentOrder).Hand.RpcAdd(id);
+
+        if (draftCard.Count > 1)
+        {
+            GameManager.CurrentOrder = GameManager.instance.NextOrder(GameManager.CurrentOrder);
+            RpcSelectDraftCard(GameManager.instance.NextOrder(GameManager.CurrentOrder));
+        }
+        else
+        {
+            int lastID = draftCard[0];
+            GameManager.GetPlayer(GameManager.CurrentOrder).Hand.RpcAdd(lastID);
+
+            GameManager.instance.SetFirstPlayer();
+
+            float t = 10f;
+            Commander commander = new();
+            commander
+                .WaitUntil(() => GameManager.instance.IsAllReceived)
+                .OnUpdate(() =>
+                {
+                    t -= Time.deltaTime;
+                    if (t > 0) return;
+                    GameManager.instance.CheckDisconnectedPlayers();
+                    commander.Cancel();
+                })
+                .OnComplete(() =>
+                {
+                    GameManager.instance.ResetAcknowledgements();
+                    RpcEndSelectionDraftCard();
+                })
+                .Play();
+        }
+    }
+
+    [ClientRpc]
+    void RpcEndSelectionDraftCard()
+    {
+        Commander commander = new Commander()
+            .Add(() => UIManager.Message.ForcePopUp("카드 선택을 마쳤습니다!", 3f))
+            .WaitSeconds(3.3f)
+            .Add(GameManager.GetPlayer(GameManager.CurrentOrder).ClientStartTurn);
+        commander.Play();
+    }
+
     #endregion
 }

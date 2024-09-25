@@ -1,12 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Cinemachine;
 using Mirror;
 
 [RequireComponent(typeof(NetworkIdentity))]
 public class Player : NetworkBehaviour
 {
+    [Command]
+    private void CmdAcknowledgeToManager()
+    {
+        GameManager.instance.Reply(order);
+    }
+
     [SyncVar(hook = nameof(Hook_SetOrder))]
     public int order = -1;
 
@@ -15,7 +20,7 @@ public class Player : NetworkBehaviour
         gameObject.name = $"Player_{@new}";
 
         if (isLocalPlayer)
-            GameManager.instance.Ackn_SortPlayerList(@new);
+            CmdAcknowledgeToManager();
     }
 
     [SyncVar(hook = nameof(PlayerGameOver))]
@@ -24,6 +29,7 @@ public class Player : NetworkBehaviour
     {
         if (isLocalPlayer)
         {
+            CmdAcknowledgeToManager();
             if (@new)
             {
 
@@ -35,12 +41,12 @@ public class Player : NetworkBehaviour
         }
     }
 
-    public bool isMyTurn;
-    public bool hasTurn;
+    public bool isMyTurn = false;
+    public bool hasTurn = false;
 
     #region 생성
     //클라이언트에 생성되었을 때
-    public override void OnStartClient()
+    void Start()
     {
         //게임 매니저의 플레이어 리스트에 추가
         GameManager.instance.AddPlayer(this);
@@ -66,39 +72,58 @@ public class Player : NetworkBehaviour
     [ClientRpc]
     public void RpcStartTurn()
     {
-        if (isLocalPlayer)
-        {
-            GameManager.instance.CurrentOrder = order;
+        ClientStartTurn();
+    }
 
-            //드로우
-            //CmdDraw()
-        }
-        else
-        {
+    [Client]
+    public void ClientStartTurn()
+    {
+        Commander commander = new();
+        commander
+            .Add(() =>
+            {
+                CameraController.instance.CurrentCamIndex = order;
+                CameraController.instance.MoveLock(true);
+                if (isLocalPlayer)
+                {
+                    UIManager.Message.ForcePopUp("당신의 차례입니다", 3f);
+                }
+                else
+                {
+                    UIManager.Message.ForcePopUp($"{order}번째 플레이어의 차례입니다", 3f);
+                    commander.Cancel();
+                }
+            })
+            .WaitWhile(UIManager.Message.IsPlaying)
+            .Add(CmdDraw).Play();
 
-        }
     }
 
     //드로우
     [Command]
     public void CmdDraw()
     {
-        RpcDraw();
+        int drawnCardID = GameManager.deck.DrawCardID();
+
+        RpcDraw(drawnCardID);
     }
 
     [ClientRpc]
-    public void RpcDraw()
+    public void RpcDraw(int id)
     {
-        if (isLocalPlayer)
-        {
-            //카드를 드로우 한 후,
-            //만약 자신의 패에 낼 수 있는 카드가 있다면 => CmdHandling();
-            //혹은, 자신의 패에 낼 수 있는 카드가 없다면 => CmdEndTurn();
-        }
-        else
-        {
+        Commander Commander = new Commander()
+            .Add(() => UIManager.Message.ForcePopUp("드로우!", 2f), 1f)
+            .Add(() => Hand.CmdAdd(id))
+            .WaitWhile(UIManager.Message.IsPlaying)
+            .Add(() =>
+            {
+                if (isLocalPlayer)
+                {
+                    CmdHandling();
+                }
+            });
 
-        }
+        Commander.Play();
     }
 
     [Command]
@@ -110,27 +135,61 @@ public class Player : NetworkBehaviour
     [ClientRpc]
     public void RpcHandling()
     {
-        if (isLocalPlayer)
-        {
+        Commander Commander = new();
+        Commander
+            .Add(() => UIManager.Message.ForcePopUp("나쁜 짓을 할 시간입니다!", 2f), 2f)
+            .Add(() =>
+            {
+                CameraController.instance.MoveLock(false);
 
-        }
-        else
-        {
-
-        }
+                if (isLocalPlayer)
+                {
+                    UIManager.Message.ForcePopUp("사용 가능한 카드가 없습니다!", 2f);
+                }
+                else
+                {
+                    //TODO 패 확인 만들기
+                    /*
+                     * if(...)
+                     *플레이어의 패를 확인하여 낼 수 있는 카드가 없다면 바로 차례를 종료합니다.
+                     */
+                    Commander.Cancel();
+                }
+            })
+            .WaitWhile(UIManager.Message.IsPlaying)
+            .Add(CmdEndTurn).Play();
     }
 
     [Command]
     public void CmdEndTurn()
     {
-        GameManager.instance.EndTurn();
         RpcEndTurn();
     }
 
     [ClientRpc]
     public void RpcEndTurn()
     {
+        Commander Commander = new();
+        Commander
+               .Add(() =>
+               {
+                   CameraController.instance.CurrentCamIndex = order;
+                   CameraController.instance.MoveLock(true);
+                   UIManager.Message.ForcePopUp("차례를 마칩니다!", 2f);
 
+                   if (!isLocalPlayer)
+                   {
+                       Commander.Cancel();
+                   }
+               }, 2f)
+               .Add(CmdNextTurn)
+               .Play();
+    }
+
+    [Command]
+    public void CmdNextTurn()
+    {
+        GameManager.instance.EndTurn();
     }
 
     #region 종료

@@ -42,4 +42,8 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     Confirm confirm;
     public static Confirm Confirm => instance.confirm ;
+
+    [SerializeField]
+    HeadLine headLine;
+    public static HeadLine HeadLine => instance.headLine;
 }

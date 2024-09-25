@@ -52,11 +52,11 @@ public class Hand : NetworkBehaviour
     [Command(requiresAuthority = false)]
     public void CmdAdd(int id)
     {
-        Add(id);
+        RpcAdd(id);
     }
 
     [ClientRpc]
-    public void Add(int id)
+    public void RpcAdd(int id)
     {
         Card newCard = GameManager.Card(id);
         newCard.ownerOrder = seatNum;

@@ -15,5 +15,14 @@ public class HeadLine : MonoBehaviour
         root.sizeDelta.Set(0, root.sizeDelta.y);
     }
 
+    public void On()
+    {
+        root.DOSizeDelta(new Vector2( Screen.width, root.sizeDelta.y),1f).SetEase(Ease.OutQuart);
+    }
 
+    public void Set(string _text)
+    {
+        text.text = string.Empty;
+        text.DOText(_text, 1f);
+    }
 }
