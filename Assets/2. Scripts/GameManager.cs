@@ -56,9 +56,9 @@ public class GameManager : NetworkBehaviour
     #endregion
 
     #region 연결
-    public bool[] isAcknowledged = new bool[maxPlayer];
+    [SerializeField] bool[] isAcknowledged = new bool[maxPlayer];
 
-    [Command(requiresAuthority = false)]
+    [Server]
     public void Reply(int order)
     {
         Debug.Log($"{order} 답장 함");
@@ -73,6 +73,12 @@ public class GameManager : NetworkBehaviour
         Debug.Log($"{order} : {isAcknowledged[order]}");
     }
 
+    [Command(requiresAuthority = false)]
+    public void CmdReply(int order)
+    {
+        Reply(order);
+    }
+
     public bool IsAllReceived()
     {
         for (int i = 0; i < maxPlayer; i++)
@@ -85,6 +91,7 @@ public class GameManager : NetworkBehaviour
         return true;
     }
 
+    [Server]
     public void ResetAcknowledgements()
     {
         for (int i = 0; i < maxPlayer; i++)
@@ -112,12 +119,13 @@ public class GameManager : NetworkBehaviour
         }
         else
         {
-            Debug.LogWarning("응답 완료!응답 완료!응답 완료!응답 완료!응답 완료!응답 완료!");
+            Debug.Log("응답 완료!");
         }
 
         ResetAcknowledgements();
     }
 
+    [Server]
     public void CheckDisconnectedPlayers()
     {
         for (int i = 0; i < maxPlayer; i++)
@@ -261,15 +269,9 @@ public class GameManager : NetworkBehaviour
     [Server]
     async void StartGame()
     {
-        PlayerShuffle();
+        PlayerShuffle(); //플레이어의 order를 바꾸면 hook을 통해 Reply()를 받을 수 있다.
 
         await WaitForAllAcknowledgements();
-
-        if (isServer)
-        {
-            players.Sort((a, b) => a.order.CompareTo(b.order));
-            isAcknowledged[LocalPlayer.order] = true;
-        }
 
         RpcSortPlayerList();
 
@@ -280,6 +282,7 @@ public class GameManager : NetworkBehaviour
         RpcStartGame();
 
         await WaitForAllAcknowledgements();
+
         Debug.Log("인재영입 시작");
         deck.ServerDraftPhase();
     }
@@ -287,11 +290,8 @@ public class GameManager : NetworkBehaviour
     [ClientRpc]
     void RpcSortPlayerList()
     {
-        if (!isServer) // 클라이언트인 경우에만 Reply 호출
-        {
-            players.Sort((a, b) => a.order.CompareTo(b.order));
-            Reply(LocalPlayer.order);
-        }
+        players.Sort((a, b) => a.order.CompareTo(b.order));
+        CmdReply(LocalPlayer.order);
     }
 
     public static int AliveCount
@@ -421,78 +421,45 @@ public class GameManager : NetworkBehaviour
     #endregion
 
     #region 순서
-    [SyncVar(hook = nameof(UpdateOrder))] int currentOrder;
+    int currentOrder;
 
-    /// <summary>
-    /// CurrentOrder를 변경하면 'UpdateOrder'가 실행된다.
-    /// </summary>
-    public static int CurrentOrder
+    public static int CurrentOrder => instance.currentOrder;
+
+    [Server]
+    public void SetCurrentOrder(int newOrder)
     {
-        get
-        {
-            return instance.currentOrder;
-        }
-        set
-        {
-            if (!instance.isServer)
-            {
-                Debug.LogError("현재 진행 순서는 서버에서만 바꿀 수 있습니다.");
-                return;
-            }
-
-            if (value < 0 || value >= maxPlayer)
-            {
-                Debug.LogError("순서는 3번까지 입니다.");
-            }
-            instance.currentOrder = value;
-        }
+        currentOrder = newOrder;
+        RpcSetCurrentOrder(newOrder);
     }
 
-    public void UpdateOrder(int oldValue, int newValue)
+    [ClientRpc]
+    public void RpcSetCurrentOrder(int newOrder)
     {
-        GetPlayer(oldValue).isMyTurn = false;
+        GetPlayer(currentOrder).isMyTurn = false;
 
-        GetPlayer(newValue).isMyTurn = true;
-        GetPlayer(newValue).hasTurn = true;
+        currentOrder = newOrder;
 
-        if (isServerOnly)
-        {
-            //isServerOnly는 답장할 필요가 없다.
-            return;
-        }
-        else if (isServer)
-        {
-            //Host는 스스로에게 답장을 해야한다.
-            isAcknowledged[newValue] = true;
-        }
-        else if (!isServer)
-        {
-            //서버가 아닌 곳에서는 Command를 사용하여 답장을 해야한다.
-            Reply(newValue);
-        }
+        GetPlayer(currentOrder).isMyTurn = true;
+        GetPlayer(currentOrder).hasTurn = true;
+
+        CmdReply(LocalPlayer.order);
     }
 
     [SyncVar] int firstOrder = 0;
-    public int FirstOrder => firstOrder;
+    public static int FirstOrder => instance.firstOrder;
+
+    /// <summary>
+    /// 새로운 라운드를 시작하기 위해 차례를 처음으로 되돌립니다.
+    /// </summary>
     [Server]
-    public int SetFirstOrder()
+    public void SetNewRound()
     {
-        int order = FirstOrder;
-
-        while (players[order] == null || players[order].isGameOver)
-        {
-            order = (order + (IsClockwise ? 1 : maxPlayer - 1)) % maxPlayer;
-        }
-
-        return order;
-    }
-
-    [Server]
-    public void SetFirstTurnPlayer()
-    {
+        //새로운 라운드를 시작하기 위해
+        //이번 라운드의 첫 번째 플레이어를 찾는다.
         ResetAcknowledgements();
         ResetHasTurn();
 
+        //지금의 첫 번째 플레이어가 유효한지를 확인
         if (players[firstOrder] == null || players[firstOrder].isGameOver)
         {
             do
@@ -502,7 +469,7 @@ public class GameManager : NetworkBehaviour
             while (players[firstOrder] == null || players[firstOrder].isGameOver);
         }
 
-        CurrentOrder = firstOrder;
+        SetCurrentOrder(firstOrder);
     }
 
     public int NextOrder(int _Order)
@@ -547,26 +514,25 @@ public class GameManager : NetworkBehaviour
     [SyncVar]
     public bool IsPlaying = false;
 
-    public bool RoundFinished
+    [Server]
+    public bool RoundFinished()
     {
-        get
+        foreach (Player p in instance.players)
         {
-            foreach (Player p in instance.players)
+            if (p == null) continue;
+
+            //차례를 가지지 못한 플레이어가 있다면...
+            if (!p.hasTurn)
             {
-                if (p == null) continue;
-
-                //차례를 가지지 못한 플레이어가 있다면...
-                if (!p.hasTurn)
-                {
-                    return false;
-                }
+                return false;
             }
-
-            ResetHasTurn();
-            return true;
         }
+
+        ResetHasTurn();
+        return true;
     }
 
+    [Server]
     public void ResetHasTurn()
     {
         foreach (Player p in instance.players)
@@ -595,7 +561,7 @@ public class GameManager : NetworkBehaviour
             .Add(() =>
             {
                 Debug.Log(LocalPlayer.order + "의 리플라이");
-                Reply(LocalPlayer.order);
+                CmdReply(LocalPlayer.order);
             })
             .Play();
     }
@@ -607,36 +573,18 @@ public class GameManager : NetworkBehaviour
         if (AliveCount == 1)
         {
             IsPlaying = false;
-            //
             RpcEndGame(LastPlayer);
             return;
         }
 
         //모두 한 번씩 차례를 가진 경우 => 인재 영입 시간!
-        if (RoundFinished)
+        if (RoundFinished())
         {
-            float t = 10;
-            Commander commander = new();
-            commander
-                .Add(SetFirstTurnPlayer)
-                .WaitUntil(IsAllReceived)
-                .OnUpdate(() =>
-                {
-                    t -= Time.deltaTime;
-                    if (t > 0) return;
-                    CheckDisconnectedPlayers();
-                    commander.Cancel();
-                })
-                .OnCompleteAll(() =>
-                {
-                    ResetAcknowledgements();
-                    deck.ServerDraftPhase();
-                })
-                .Play();
+            deck.ServerDraftPhase();
             return;
         }
 
-        CurrentOrder = NextOrder(currentOrder);
+        SetCurrentOrder(NextOrder(currentOrder));
         GetPlayer(currentOrder).RpcStartTurn();
     }
 

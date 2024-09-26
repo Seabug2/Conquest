@@ -7,60 +7,60 @@ using UnityEngine;
 public class Command
 {
     public Action command { get; private set; } //실행 후...
-    public float interval { get; private set; } //~초 동안 대기
-    public Func<bool> until { get; private set; } //~까지 실행 대기
-    public Func<bool> @while { get; private set; } //~동안 실행 대기
+    public float Interval { get; private set; } //~초 동안 대기
+    public Func<bool> Until { get; private set; } //~까지 실행 대기
+    public Func<bool> While { get; private set; } //~동안 실행 대기
 
     public Command(Action command)
     {
-        interval = 0;
-        until = null;
-        @while = null;
+        Interval = 0;
+        Until = null;
+        While = null;
         this.command = command;
     }
     public Command(Func<bool> until)
     {
-        interval = 0;
-        @while = null;
-        this.until = until;
+        Interval = 0;
+        While = null;
+        this.Until = until;
         command = null;
     }
     public Command(Func<bool> @while, int interval = 0)
     {
-        this.interval = interval;
-        this.@while = @while;
-        until = null;
+        this.Interval = interval;
+        this.While = @while;
+        Until = null;
         command = null;
     }
     public Command(float interval)
     {
-        this.interval = interval;
+        this.Interval = interval;
         command = null;
-        @while = null;
-        until = null;
+        While = null;
+        Until = null;
     }
 
 
     public Command(Action command, Func<bool> until)
     {
-        interval = 0;
-        this.until = until;
-        @while = null;
+        Interval = 0;
+        this.Until = until;
+        While = null;
         this.command = command;
     }
     public Command(Action command, Func<bool> @while, int interval = 0)
     {
-        until = null;
-        this.interval = interval;
-        this.@while = @while;
+        Until = null;
+        this.Interval = interval;
+        this.While = @while;
         this.command = command;
     }
     public Command(Action command, float interval)
     {
-        this.interval = interval;
+        this.Interval = interval;
         this.command = command;
-        @while = null;
-        until = null;
+        While = null;
+        Until = null;
     }
 }
 
@@ -232,20 +232,20 @@ public class Commander
     /// <summary>
     /// 저장한 커맨드를 모두 실행합니다.
     /// </summary>
-    public void Play(bool autoClear = true)
+    public Commander Play(bool autoClear = true)
     {
         this.autoClear = autoClear;
 
         if (commands.Count == 0)
         {
             Debug.Log("저장된 커맨드가 없습니다.");
-            return;
+            return this;
         }
 
         if (IsPlaying)
         {
             Debug.Log("커맨더가 실행 중입니다.");
-            return;
+            return this;
         }
 
         cancel?.Cancel();
@@ -253,6 +253,7 @@ public class Commander
 
         Task(cancel.Token).Forget();
         Update(cancel.Token).Forget();
+        return this;
     }
 
     /// <summary>
@@ -278,16 +279,16 @@ public class Commander
                 cmd.command?.Invoke();
 
                 //~초 동안 대기
-                if (cmd.interval > 0)
-                    await UniTask.Delay(TimeSpan.FromSeconds(cmd.interval), cancellationToken: token).SuppressCancellationThrow();
+                if (cmd.Interval > 0)
+                    await UniTask.Delay(TimeSpan.FromSeconds(cmd.Interval), cancellationToken: token).SuppressCancellationThrow();
 
                 //~까지 대기
-                if (cmd.until != null)
-                    await UniTask.WaitUntil(cmd.until, cancellationToken: token).SuppressCancellationThrow();
+                if (cmd.Until != null)
+                    await UniTask.WaitUntil(cmd.Until, cancellationToken: token).SuppressCancellationThrow();
 
                 //~까지 대기
-                if (cmd.@while != null)
-                    await UniTask.WaitWhile(cmd.@while, cancellationToken: token).SuppressCancellationThrow();
+                if (cmd.While != null)
+                    await UniTask.WaitWhile(cmd.While, cancellationToken: token).SuppressCancellationThrow();
 
                 // 취소되었는지 확인
                 if (token.IsCancellationRequested)
@@ -351,6 +352,7 @@ public class Commander
             if (cancelTrigger())
             {
                 cancel.Cancel();
+                onCanceled?.Invoke();
             }
 
             await UniTask.Yield(PlayerLoopTiming.Update, cancellationToken: token);
@@ -361,6 +363,13 @@ public class Commander
     public Commander CancelTrigger(Func<bool> cancelTrigger)
     {
         this.cancelTrigger = cancelTrigger;
+        return this;
+    }
+
+    Action onCanceled;
+    public Commander OnCanceled(Action onCanceled)
+    {
+        this.onCanceled = onCanceled;
         return this;
     }
 

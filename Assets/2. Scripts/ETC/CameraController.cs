@@ -123,7 +123,7 @@ public class CameraController : MonoBehaviour
 
     public void DoShake(int i, float duration, float power)
     {
-        //if (i != CurrentCamIndex) return;
+        if (i< 0 || i >= perlinNoise.Length) return;
 
         CinemachineBasicMultiChannelPerlin p = perlinNoise[i];
 

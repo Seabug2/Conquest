@@ -6,20 +6,17 @@ public class CommanderTest : MonoBehaviour
 {
     void Start()
     {
-
-        bool zz = true;
+        float t = 10;
         Commander cmd = new();
         cmd
-            .WaitWhile(()=> zz)
+            .WaitWhile(() => true)
             .OnUpdate(() =>
             {
+                t -= Time.deltaTime;
                 Debug.Log(Time.time);
-                if (Input.GetKeyDown(KeyCode.Space))
-                {
-                    cmd.Cancel();
-                }
             })
-            .OnCompleteAll(()=> Debug.Log("asd"))
+            .CancelTrigger(() => Input.GetKeyDown(KeyCode.Space) || t <= 0)
+            .OnCanceled(()=>Debug.LogError("Áß´Ü!"))
             .Play();
     }
 }

@@ -5648,6 +5648,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  isAcknowledged: 00000000
   players: []
   cardBackFace: {fileID: 21300000, guid: 5915cdc174101e540b3349e21ee2cd74, type: 3}
   cards:

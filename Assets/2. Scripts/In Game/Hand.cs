@@ -60,7 +60,6 @@ public class Hand : NetworkBehaviour
     {
         Card newCard = GameManager.Card(id);
         newCard.ownerOrder = seatNum;
-        list.Add(newCard);
 
         if (GameManager.GetPlayer(seatNum).isLocalPlayer)
         {
@@ -73,9 +72,9 @@ public class Hand : NetworkBehaviour
             newCard.IsOpened = false;
         }
 
+        list.Add(newCard);
         HandAlignment();
     }
-
 
     public void TestAdd(Card newCard)
     {
