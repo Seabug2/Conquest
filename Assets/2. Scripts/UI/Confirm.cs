@@ -30,13 +30,15 @@ public class Confirm : MonoBehaviour
     [SerializeField]
     ButtonAction bt_no;
 
+    public bool IsActive => block.gameObject.activeSelf;
+
     private void Start()
     {
         canvasGroup = GetComponent<CanvasGroup>();
         block.gameObject.SetActive(false);
     }
 
-    public void PopUp(Action _onClickEvent, string _message, Sprite _cardImage)
+    public void PopUp(Action _onClickEvent, string _message, Sprite _cardImage = null)
     {
         message.text = _message;
         cardImage.sprite = _cardImage;
@@ -53,7 +55,7 @@ public class Confirm : MonoBehaviour
         bt_no.OnClickEvent = Close;
 
         block.gameObject.SetActive(true);
-
+        
         root.DOKill();
         root.DOAnchorPos(targetPosition.anchoredPosition, 0.5f).SetEase(Ease.OutQuart);
         canvasGroup.DOKill();

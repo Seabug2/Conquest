@@ -44,45 +44,45 @@ public class GameManager : NetworkBehaviour
     #endregion
 
     #region 초기화
-    string filePath;
+    string filePath = "DeckIdList.json";
     DeckIDList deckIdList;
 
     private void Start()
     {
-        filePath = Path.Combine(Application.persistentDataPath, "DeckIdList.json");
-
-        // 파일 로드
+        filePath = Path.Combine(Application.persistentDataPath, filePath);
         deckIdList = LoadDeckIdList();
-
         CardSetting();
     }
     #endregion
 
     #region 연결
-
-    public readonly bool[] isAcknowledged = new bool[maxPlayer];
+    public bool[] isAcknowledged = new bool[maxPlayer];
 
     [Command(requiresAuthority = false)]
     public void Reply(int order)
     {
-        if (order < 0 || order >= maxPlayer) return;
+        Debug.Log($"{order} 답장 함");
+
+        if (order < 0 || order >= maxPlayer)
+        {
+            Debug.LogError($"인덱싱 오류 ({order}) : 범위 초과");
+            return;
+        }
 
         isAcknowledged[order] = true;
+        Debug.Log($"{order} : {isAcknowledged[order]}");
     }
 
-    public bool IsAllReceived
+    public bool IsAllReceived()
     {
-        get
+        for (int i = 0; i < maxPlayer; i++)
         {
-            for (int i = 0; i < maxPlayer; i++)
-            {
-                Player player = GetPlayer(i);
-                if (player == null || player.isGameOver) continue; // 유저가 없거나 게임 오버 상태면 넘어감
-                if (!isAcknowledged[i]) return false;
-            }
-
-            return true;
+            Player player = GetPlayer(i);
+            if (player == null || player.isGameOver) continue;
+            if (!isAcknowledged[i]) return false;
         }
+
+        return true;
     }
 
     public void ResetAcknowledgements()
@@ -103,12 +103,16 @@ public class GameManager : NetworkBehaviour
         cts.CancelAfter(timeoutMilliseconds);
 
         // 설정된 시간 동안 응답을 기다리기 시작한다.
-        await UniTask.WaitUntil(() => IsAllReceived, cancellationToken: cts.Token);
+        await UniTask.WaitUntil(IsAllReceived, cancellationToken: cts.Token).SuppressCancellationThrow();
 
-        if (!IsAllReceived)
+        if (!IsAllReceived())
         {
             Debug.LogWarning("응답이 오지 않은 플레이어가 있습니다. 연결 상태를 확인합니다.");
             CheckDisconnectedPlayers();
+        }
+        else
+        {
+            Debug.LogWarning("응답 완료!응답 완료!응답 완료!응답 완료!응답 완료!응답 완료!");
         }
 
         ResetAcknowledgements();
@@ -118,11 +122,23 @@ public class GameManager : NetworkBehaviour
     {
         for (int i = 0; i < maxPlayer; i++)
         {
+            //답장을 한 
+            if (isAcknowledged[i]) continue;
+
             Player player = GetPlayer(i);
-            if (player != null && !player.isGameOver)
+            if (player == null)
             {
-                Debug.LogError($"Player {i} is disconnected.");
+                Debug.LogError($"Player {i}는 게임을 종료했습니다...");
+            }
+            else if (player.isGameOver)
+            {
                 // 여기에서 해당 플레이어의 연결 상태에 대한 추가 처리
+                Debug.LogError($"Player {i}는 탈락했으므로 그냥 넘어갑니다.");
+            }
+            else
+            {
+                //TODO 응답하지 않는 플레이어에 대한 예외처리 필요
+                Debug.LogError($"Player {i}의 연결을 끊습니다...");
             }
         }
     }
@@ -145,7 +161,7 @@ public class GameManager : NetworkBehaviour
         return instance.players[i];
     }
 
-    public Player LocalPlayer { get; private set; }
+    public static Player LocalPlayer { get; private set; }
 
     public void AddPlayer(Player _player)
     {
@@ -171,11 +187,12 @@ public class GameManager : NetworkBehaviour
             {
                 //플레이어 리스트에서 제거하여 리스트의 크기를 원래대로 한다.
                 players.Remove(_player);
-                return;
             }
-
-            int i = players.IndexOf(_player);
-            players[i] = null;
+            else
+            {
+                int i = players.IndexOf(_player);
+                players[i] = null;
+            }
         }
 
         if (isServer)
@@ -196,11 +213,28 @@ public class GameManager : NetworkBehaviour
             {
                 //어떤 플레이어가 게임을 종료했을 때
                 //남은 유저가 한 명이라면 그 즉시 게임은 끝이 난다.
-                RpcEndGame(CurrentOrder);
+                RpcEndGame(LastPlayer);
                 return;
             }
         }
     }
+
+    int LastPlayer
+    {
+        get
+        {
+            foreach (Player p in players)
+            {
+                if (p == null || p.isGameOver)
+                {
+                    continue;
+                }
+                return p.order;
+            }
+            return -1;
+        }
+    }
+
 
     /// <summary>
     /// Server
@@ -231,8 +265,11 @@ public class GameManager : NetworkBehaviour
 
         await WaitForAllAcknowledgements();
 
-        if (isServerOnly)
+        if (isServer)
+        {
             players.Sort((a, b) => a.order.CompareTo(b.order));
+            isAcknowledged[LocalPlayer.order] = true;
+        }
 
         RpcSortPlayerList();
 
@@ -243,17 +280,18 @@ public class GameManager : NetworkBehaviour
         RpcStartGame();
 
         await WaitForAllAcknowledgements();
-
-        Debug.Log("시작");
-
+        Debug.Log("인재영입 시작");
         deck.ServerDraftPhase();
     }
 
     [ClientRpc]
     void RpcSortPlayerList()
     {
-        players.Sort((a, b) => a.order.CompareTo(b.order));
-        Reply(LocalPlayer.order);
+        if (!isServer) // 클라이언트인 경우에만 Reply 호출
+        {
+            players.Sort((a, b) => a.order.CompareTo(b.order));
+            Reply(LocalPlayer.order);
+        }
     }
 
     public static int AliveCount
@@ -339,7 +377,7 @@ public class GameManager : NetworkBehaviour
 
 
 
-            string imageName = data[1];  // 파일명 생성
+            string imageName = data[1];
             Sprite cardFront = Resources.Load<Sprite>("Card/" + imageName);  // Resources/Card 폴더에서 이미지 로드
 
             if (cardFront == null)
@@ -383,10 +421,11 @@ public class GameManager : NetworkBehaviour
     #endregion
 
     #region 순서
+    [SyncVar(hook = nameof(UpdateOrder))] int currentOrder;
+
     /// <summary>
-    /// Rpc를 통해 로컬 플레이어가 차례를 시작하면 currentOrder가 갱신된다.
+    /// CurrentOrder를 변경하면 'UpdateOrder'가 실행된다.
     /// </summary>
-    [SyncVar(hook = nameof(UpdateOrder))] public int currentOrder = -1;
     public static int CurrentOrder
     {
         get
@@ -411,37 +450,34 @@ public class GameManager : NetworkBehaviour
 
     public void UpdateOrder(int oldValue, int newValue)
     {
-        if (oldValue >= 0 && oldValue < maxPlayer)
-        {
-            GetPlayer(oldValue).isMyTurn = false;
-        }
+        GetPlayer(oldValue).isMyTurn = false;
 
-        if (newValue >= 0 && newValue < maxPlayer)
-        {
-            GetPlayer(newValue).isMyTurn = true;
-            GetPlayer(newValue).hasTurn = true;
-        }
+        GetPlayer(newValue).isMyTurn = true;
+        GetPlayer(newValue).hasTurn = true;
 
-        if (!isServer)
+        if (isServerOnly)
         {
-            Reply(LocalPlayer.order);
+            //isServerOnly는 답장할 필요가 없다.
+            return;
+        }
+        else if (isServer)
+        {
+            //Host는 스스로에게 답장을 해야한다.
+            isAcknowledged[newValue] = true;
+        }
+        else if (!isServer)
+        {
+            //서버가 아닌 곳에서는 Command를 사용하여 답장을 해야한다.
+            Reply(newValue);
         }
     }
 
-    [SyncVar]
-    int firstOrder = 0;
-
+    [SyncVar] int firstOrder = 0;
+    public int FirstOrder => firstOrder;
     [Server]
-    public void SetFirstOrder(int order)
+    public int SetFirstOrder()
     {
-        if (order < 0 || order >= maxPlayer) { Debug.Log("범위오류"); }
-        firstOrder = order;
-    }
-
-    [Server]
-    public int FirstOrder()
-    {
-        int order = firstOrder;
+        int order = FirstOrder;
 
         while (players[order] == null || players[order].isGameOver)
         {
@@ -452,11 +488,21 @@ public class GameManager : NetworkBehaviour
     }
 
     [Server]
-    public void SetFirstPlayer()
+    public void SetFirstTurnPlayer()
     {
         ResetAcknowledgements();
         ResetHasTurn();
-        CurrentOrder = FirstOrder();
+
+        if (players[firstOrder] == null || players[firstOrder].isGameOver)
+        {
+            do
+            {
+                firstOrder = (firstOrder + (IsClockwise ? 1 : maxPlayer - 1)) % maxPlayer;
+            }
+            while (players[firstOrder] == null || players[firstOrder].isGameOver);
+        }
+
+        CurrentOrder = firstOrder;
     }
 
     public int NextOrder(int _Order)
@@ -481,10 +527,6 @@ public class GameManager : NetworkBehaviour
         return _Order;
     }
 
-    /// <summary>
-    /// true : 오름차순 0 => 1
-    /// false : 내림차순 0 <= 1
-    /// </summary>
     [SyncVar]
     public bool IsClockwise = true;
 
@@ -496,13 +538,16 @@ public class GameManager : NetworkBehaviour
 
     public static Dictionary<int, Hand> dict_Hand = new();
 
+    /// <summary>
+    /// 미리 생성해둔 상태를 참조하여 재활용성을 높입니다.
+    /// </summary>
     public readonly ICardState noneState = new NoneState();
 
     #region 진행
     [SyncVar]
     public bool IsPlaying = false;
 
-    public static bool RoundFinished
+    public bool RoundFinished
     {
         get
         {
@@ -517,7 +562,7 @@ public class GameManager : NetworkBehaviour
                 }
             }
 
-            instance.ResetHasTurn();
+            ResetHasTurn();
             return true;
         }
     }
@@ -540,11 +585,18 @@ public class GameManager : NetworkBehaviour
     {
         Commander commander = new();
         commander
-            .Add(CameraController.instance.FocusOnCenter)
-            .Add(() => UIManager.Fade.In(3f))
+            .Add(() =>
+            {
+                CameraController.instance.FocusOnCenter();
+                UIManager.Fade.In(3f);
+            })
             .WaitSeconds(3.3f)
             .Add(() => UIManager.Message.ForcePopUp("최후의 1인이 되세요!", 5f), 5.5f)
-            .Add(() => Reply(LocalPlayer.order))
+            .Add(() =>
+            {
+                Debug.Log(LocalPlayer.order + "의 리플라이");
+                Reply(LocalPlayer.order);
+            })
             .Play();
     }
 
@@ -555,7 +607,8 @@ public class GameManager : NetworkBehaviour
         if (AliveCount == 1)
         {
             IsPlaying = false;
-            RpcEndGame(CurrentOrder);
+            //
+            RpcEndGame(LastPlayer);
             return;
         }
 
@@ -565,18 +618,18 @@ public class GameManager : NetworkBehaviour
             float t = 10;
             Commander commander = new();
             commander
-                .Add(SetFirstPlayer)
-                .WaitUntil(() => IsAllReceived)
+                .Add(SetFirstTurnPlayer)
+                .WaitUntil(IsAllReceived)
                 .OnUpdate(() =>
                 {
                     t -= Time.deltaTime;
                     if (t > 0) return;
-                    GameManager.instance.CheckDisconnectedPlayers();
+                    CheckDisconnectedPlayers();
                     commander.Cancel();
                 })
                 .OnCompleteAll(() =>
                 {
-                    GameManager.instance.ResetAcknowledgements();
+                    ResetAcknowledgements();
                     deck.ServerDraftPhase();
                 })
                 .Play();

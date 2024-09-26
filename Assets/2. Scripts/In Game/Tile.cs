@@ -151,7 +151,7 @@ public class Tile : NetworkBehaviour
          *아직 할 게 남았다면 손의 카드를 조작할 수 있게 한다.
         */
 
-        card.iCardState = new NoneState();
+        card.iCardState = GameManager.instance.noneState;
 
         card.currentTile = this;
         card.SetTargetPosition(transform.position);

@@ -101,7 +101,7 @@ public class HandlingState : ICardState
                     hand.CmdRemove(card.id);
                     tile.CmdSetCard(card.id);
 
-                    card.iCardState = new NoneState();
+                    card.iCardState = GameManager.instance.noneState;
                 }
                 else
                 {

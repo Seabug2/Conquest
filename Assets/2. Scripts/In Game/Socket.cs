@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public enum Attribute
 {
     isEmpty = 0,

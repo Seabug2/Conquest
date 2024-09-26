@@ -6,12 +6,6 @@ using Mirror;
 [RequireComponent(typeof(NetworkIdentity))]
 public class Player : NetworkBehaviour
 {
-    [Command]
-    private void CmdAcknowledgeToManager()
-    {
-        GameManager.instance.Reply(order);
-    }
-
     [SyncVar(hook = nameof(Hook_SetOrder))]
     public int order = -1;
 
@@ -20,16 +14,18 @@ public class Player : NetworkBehaviour
         gameObject.name = $"Player_{@new}";
 
         if (isLocalPlayer)
-            CmdAcknowledgeToManager();
+        {
+            GameManager.instance.Reply(@new);
+        }
     }
 
     [SyncVar(hook = nameof(PlayerGameOver))]
-    public bool isGameOver;
+    public bool isGameOver = false;
     void PlayerGameOver(bool _, bool @new)
     {
         if (isLocalPlayer)
         {
-            CmdAcknowledgeToManager();
+            //CmdAcknowledgeToManager(order);
             if (@new)
             {
 

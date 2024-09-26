@@ -55,7 +55,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] CinemachineVirtualCamera centerCamera;
 
     //자신의 필드 번호
-    int HomeViewIndex => GameManager.instance.LocalPlayer.order;
+    int HomeViewIndex => GameManager.LocalPlayer.order;
     int currentCamIndex = -1;
 
     public int CurrentCamIndex

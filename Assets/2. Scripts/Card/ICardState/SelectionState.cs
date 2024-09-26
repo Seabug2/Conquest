@@ -26,6 +26,7 @@ public class SelectionState : ICardState
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        //TODO 선택 가능한 상태의 카드가 마우스에 반응하는 효과를 추가
         card.transform.localScale = Vector3.one * 1.35f;
     }
 

@@ -12,7 +12,7 @@ public partial class Card : NetworkBehaviour
     // 0   1
     //
     // 3   2
-    public readonly Socket[] Sockets = new Socket[4];
+    public Socket[] Sockets = new Socket[4];
     #endregion
 
     public int ownerOrder;
@@ -50,6 +50,7 @@ public partial class Card : NetworkBehaviour
     private void Start()
     {
         IsOpened = false;
+        iCardState = GameManager.instance.noneState;
     }
     #endregion
 }

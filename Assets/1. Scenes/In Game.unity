@@ -159,6 +159,15 @@ MonoBehaviour:
   syncInterval: 0
   id: 0
   cardName: 
+  Sockets:
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
   ownerOrder: -1
   currentTile: {fileID: 0}
   IsOnMouse: 0
@@ -310,6 +319,15 @@ MonoBehaviour:
   syncInterval: 0
   id: 0
   cardName: 
+  Sockets:
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
   ownerOrder: -1
   currentTile: {fileID: 0}
   IsOnMouse: 0
@@ -727,6 +745,15 @@ MonoBehaviour:
   syncInterval: 0
   id: 0
   cardName: 
+  Sockets:
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
   ownerOrder: -1
   currentTile: {fileID: 0}
   IsOnMouse: 0
@@ -1083,6 +1110,15 @@ MonoBehaviour:
   syncInterval: 0
   id: 0
   cardName: 
+  Sockets:
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
   ownerOrder: -1
   currentTile: {fileID: 0}
   IsOnMouse: 0
@@ -1234,6 +1270,15 @@ MonoBehaviour:
   syncInterval: 0
   id: 0
   cardName: 
+  Sockets:
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
   ownerOrder: -1
   currentTile: {fileID: 0}
   IsOnMouse: 0
@@ -1385,6 +1430,15 @@ MonoBehaviour:
   syncInterval: 0
   id: 0
   cardName: 
+  Sockets:
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
   ownerOrder: -1
   currentTile: {fileID: 0}
   IsOnMouse: 0
@@ -1536,6 +1590,15 @@ MonoBehaviour:
   syncInterval: 0
   id: 0
   cardName: 
+  Sockets:
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
   ownerOrder: -1
   currentTile: {fileID: 0}
   IsOnMouse: 0
@@ -1687,6 +1750,15 @@ MonoBehaviour:
   syncInterval: 0
   id: 0
   cardName: 
+  Sockets:
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
   ownerOrder: -1
   currentTile: {fileID: 0}
   IsOnMouse: 0
@@ -1838,6 +1910,15 @@ MonoBehaviour:
   syncInterval: 0
   id: 0
   cardName: 
+  Sockets:
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
   ownerOrder: -1
   currentTile: {fileID: 0}
   IsOnMouse: 0
@@ -1989,8 +2070,8 @@ MonoBehaviour:
   list: []
   radius: 5
   height: 0.35
-  intervalAngle: 18
-  maxAngle: 54
+  intervalAngle: 10
+  maxAngle: 30
 --- !u!4 &134630151
 Transform:
   m_ObjectHideFlags: 0
@@ -2363,6 +2444,15 @@ MonoBehaviour:
   syncInterval: 0
   id: 0
   cardName: 
+  Sockets:
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
   ownerOrder: -1
   currentTile: {fileID: 0}
   IsOnMouse: 0
@@ -3052,6 +3142,15 @@ MonoBehaviour:
   syncInterval: 0
   id: 0
   cardName: 
+  Sockets:
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
   ownerOrder: -1
   currentTile: {fileID: 0}
   IsOnMouse: 0
@@ -3482,6 +3581,15 @@ MonoBehaviour:
   syncInterval: 0
   id: 0
   cardName: 
+  Sockets:
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
   ownerOrder: -1
   currentTile: {fileID: 0}
   IsOnMouse: 0
@@ -3823,6 +3931,15 @@ MonoBehaviour:
   syncInterval: 0
   id: 0
   cardName: 
+  Sockets:
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
   ownerOrder: -1
   currentTile: {fileID: 0}
   IsOnMouse: 0
@@ -4555,6 +4672,15 @@ MonoBehaviour:
   syncInterval: 0
   id: 0
   cardName: 
+  Sockets:
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
   ownerOrder: -1
   currentTile: {fileID: 0}
   IsOnMouse: 0
@@ -4996,6 +5122,15 @@ MonoBehaviour:
   syncInterval: 0
   id: 0
   cardName: 
+  Sockets:
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
   ownerOrder: -1
   currentTile: {fileID: 0}
   IsOnMouse: 0
@@ -5570,8 +5705,6 @@ MonoBehaviour:
   - {fileID: 1769380012}
   - {fileID: 1071224083}
   - {fileID: 2057596943}
-  currentOrder: -1
-  firstOrder: 0
   IsClockwise: 1
   IsPlaying: 0
   OnStartEvent:
@@ -5733,6 +5866,15 @@ MonoBehaviour:
   syncInterval: 0
   id: 0
   cardName: 
+  Sockets:
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
   ownerOrder: -1
   currentTile: {fileID: 0}
   IsOnMouse: 0
@@ -5890,6 +6032,86 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 291566214}
     m_Modifications:
+    - target: {fileID: 8592949807239716305, guid: 2d2b49636c2a4af4c81c1e00d1161a2d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8592949807645031608, guid: 2d2b49636c2a4af4c81c1e00d1161a2d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8592949807652926627, guid: 2d2b49636c2a4af4c81c1e00d1161a2d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8592949807652926628, guid: 2d2b49636c2a4af4c81c1e00d1161a2d, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 8592949807652926628, guid: 2d2b49636c2a4af4c81c1e00d1161a2d, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 8592949807652926630, guid: 2d2b49636c2a4af4c81c1e00d1161a2d, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 9cd6991b040b7fb40808e500b041d545, type: 3}
+    - target: {fileID: 8592949807652926630, guid: 2d2b49636c2a4af4c81c1e00d1161a2d, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8592949807652926630, guid: 2d2b49636c2a4af4c81c1e00d1161a2d, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8592949807652926630, guid: 2d2b49636c2a4af4c81c1e00d1161a2d, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8592949807721913952, guid: 2d2b49636c2a4af4c81c1e00d1161a2d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8592949807995646248, guid: 2d2b49636c2a4af4c81c1e00d1161a2d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8592949808032563069, guid: 2d2b49636c2a4af4c81c1e00d1161a2d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8592949808037083536, guid: 2d2b49636c2a4af4c81c1e00d1161a2d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8592949808037083537, guid: 2d2b49636c2a4af4c81c1e00d1161a2d, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 8592949808037083537, guid: 2d2b49636c2a4af4c81c1e00d1161a2d, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 8592949808037083539, guid: 2d2b49636c2a4af4c81c1e00d1161a2d, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: e839e6693c344ad40a5952853a891866, type: 3}
+    - target: {fileID: 8592949808037083539, guid: 2d2b49636c2a4af4c81c1e00d1161a2d, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8592949808037083539, guid: 2d2b49636c2a4af4c81c1e00d1161a2d, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8592949808037083539, guid: 2d2b49636c2a4af4c81c1e00d1161a2d, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8592949808143275721, guid: 2d2b49636c2a4af4c81c1e00d1161a2d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8592949808813267608, guid: 2d2b49636c2a4af4c81c1e00d1161a2d, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -6267,6 +6489,15 @@ MonoBehaviour:
   syncInterval: 0
   id: 0
   cardName: 
+  Sockets:
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
   ownerOrder: -1
   currentTile: {fileID: 0}
   IsOnMouse: 0
@@ -6418,6 +6649,15 @@ MonoBehaviour:
   syncInterval: 0
   id: 0
   cardName: 
+  Sockets:
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
   ownerOrder: -1
   currentTile: {fileID: 0}
   IsOnMouse: 0
@@ -6569,6 +6809,15 @@ MonoBehaviour:
   syncInterval: 0
   id: 0
   cardName: 
+  Sockets:
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
   ownerOrder: -1
   currentTile: {fileID: 0}
   IsOnMouse: 0
@@ -6900,8 +7149,8 @@ MonoBehaviour:
   list: []
   radius: 5
   height: 0.35
-  intervalAngle: 18
-  maxAngle: 54
+  intervalAngle: 10
+  maxAngle: 30
 --- !u!1 &588438207
 GameObject:
   m_ObjectHideFlags: 0
@@ -6939,6 +7188,15 @@ MonoBehaviour:
   syncInterval: 0
   id: 0
   cardName: 
+  Sockets:
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
   ownerOrder: -1
   currentTile: {fileID: 0}
   IsOnMouse: 0
@@ -8014,6 +8272,15 @@ MonoBehaviour:
   syncInterval: 0
   id: 0
   cardName: 
+  Sockets:
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
   ownerOrder: -1
   currentTile: {fileID: 0}
   IsOnMouse: 0
@@ -8718,6 +8985,15 @@ MonoBehaviour:
   syncInterval: 0
   id: 0
   cardName: 
+  Sockets:
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
   ownerOrder: -1
   currentTile: {fileID: 0}
   IsOnMouse: 0
@@ -9014,6 +9290,15 @@ MonoBehaviour:
   syncInterval: 0
   id: 0
   cardName: 
+  Sockets:
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
   ownerOrder: -1
   currentTile: {fileID: 0}
   IsOnMouse: 0
@@ -9597,6 +9882,15 @@ MonoBehaviour:
   syncInterval: 0
   id: 0
   cardName: 
+  Sockets:
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
   ownerOrder: -1
   currentTile: {fileID: 0}
   IsOnMouse: 0
@@ -10122,6 +10416,15 @@ MonoBehaviour:
   syncInterval: 0
   id: 0
   cardName: 
+  Sockets:
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
   ownerOrder: -1
   currentTile: {fileID: 0}
   IsOnMouse: 0
@@ -10273,6 +10576,15 @@ MonoBehaviour:
   syncInterval: 0
   id: 0
   cardName: 
+  Sockets:
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
   ownerOrder: -1
   currentTile: {fileID: 0}
   IsOnMouse: 0
@@ -10824,6 +11136,15 @@ MonoBehaviour:
   syncInterval: 0
   id: 0
   cardName: 
+  Sockets:
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
   ownerOrder: -1
   currentTile: {fileID: 0}
   IsOnMouse: 0
@@ -11424,6 +11745,15 @@ MonoBehaviour:
   syncInterval: 0
   id: 0
   cardName: 
+  Sockets:
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
   ownerOrder: -1
   currentTile: {fileID: 0}
   IsOnMouse: 0
@@ -11652,6 +11982,15 @@ MonoBehaviour:
   syncInterval: 0
   id: 0
   cardName: 
+  Sockets:
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
   ownerOrder: -1
   currentTile: {fileID: 0}
   IsOnMouse: 0
@@ -11970,6 +12309,15 @@ MonoBehaviour:
   syncInterval: 0
   id: 0
   cardName: 
+  Sockets:
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
   ownerOrder: -1
   currentTile: {fileID: 0}
   IsOnMouse: 0
@@ -12424,6 +12772,15 @@ MonoBehaviour:
   syncInterval: 0
   id: 0
   cardName: 
+  Sockets:
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
   ownerOrder: -1
   currentTile: {fileID: 0}
   IsOnMouse: 0
@@ -13285,8 +13642,8 @@ MonoBehaviour:
   list: []
   radius: 5
   height: 0.35
-  intervalAngle: 18
-  maxAngle: 54
+  intervalAngle: 10
+  maxAngle: 30
 --- !u!1 &1285141093
 GameObject:
   m_ObjectHideFlags: 0
@@ -14305,6 +14662,15 @@ MonoBehaviour:
   syncInterval: 0
   id: 0
   cardName: 
+  Sockets:
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
   ownerOrder: -1
   currentTile: {fileID: 0}
   IsOnMouse: 0
@@ -14589,6 +14955,15 @@ MonoBehaviour:
   syncInterval: 0
   id: 0
   cardName: 
+  Sockets:
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
   ownerOrder: -1
   currentTile: {fileID: 0}
   IsOnMouse: 0
@@ -14740,6 +15115,15 @@ MonoBehaviour:
   syncInterval: 0
   id: 0
   cardName: 
+  Sockets:
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
   ownerOrder: -1
   currentTile: {fileID: 0}
   IsOnMouse: 0
@@ -14968,6 +15352,15 @@ MonoBehaviour:
   syncInterval: 0
   id: 0
   cardName: 
+  Sockets:
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
   ownerOrder: -1
   currentTile: {fileID: 0}
   IsOnMouse: 0
@@ -15119,6 +15512,15 @@ MonoBehaviour:
   syncInterval: 0
   id: 0
   cardName: 
+  Sockets:
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
   ownerOrder: -1
   currentTile: {fileID: 0}
   IsOnMouse: 0
@@ -15633,6 +16035,15 @@ MonoBehaviour:
   syncInterval: 0
   id: 0
   cardName: 
+  Sockets:
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
   ownerOrder: -1
   currentTile: {fileID: 0}
   IsOnMouse: 0
@@ -15784,6 +16195,15 @@ MonoBehaviour:
   syncInterval: 0
   id: 0
   cardName: 
+  Sockets:
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
   ownerOrder: -1
   currentTile: {fileID: 0}
   IsOnMouse: 0
@@ -16054,6 +16474,15 @@ MonoBehaviour:
   syncInterval: 0
   id: 0
   cardName: 
+  Sockets:
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
   ownerOrder: -1
   currentTile: {fileID: 0}
   IsOnMouse: 0
@@ -16205,6 +16634,15 @@ MonoBehaviour:
   syncInterval: 0
   id: 0
   cardName: 
+  Sockets:
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
   ownerOrder: -1
   currentTile: {fileID: 0}
   IsOnMouse: 0
@@ -16356,6 +16794,15 @@ MonoBehaviour:
   syncInterval: 0
   id: 0
   cardName: 
+  Sockets:
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
   ownerOrder: -1
   currentTile: {fileID: 0}
   IsOnMouse: 0
@@ -16587,6 +17034,15 @@ MonoBehaviour:
   syncInterval: 0
   id: 0
   cardName: 
+  Sockets:
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
   ownerOrder: -1
   currentTile: {fileID: 0}
   IsOnMouse: 0
@@ -17270,6 +17726,15 @@ MonoBehaviour:
   syncInterval: 0
   id: 0
   cardName: 
+  Sockets:
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
   ownerOrder: -1
   currentTile: {fileID: 0}
   IsOnMouse: 0
@@ -17566,6 +18031,15 @@ MonoBehaviour:
   syncInterval: 0
   id: 0
   cardName: 
+  Sockets:
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
   ownerOrder: -1
   currentTile: {fileID: 0}
   IsOnMouse: 0
@@ -17717,6 +18191,15 @@ MonoBehaviour:
   syncInterval: 0
   id: 0
   cardName: 
+  Sockets:
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
   ownerOrder: -1
   currentTile: {fileID: 0}
   IsOnMouse: 0
@@ -17868,6 +18351,15 @@ MonoBehaviour:
   syncInterval: 0
   id: 0
   cardName: 
+  Sockets:
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
   ownerOrder: -1
   currentTile: {fileID: 0}
   IsOnMouse: 0
@@ -18235,6 +18727,15 @@ MonoBehaviour:
   syncInterval: 0
   id: 0
   cardName: 
+  Sockets:
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
   ownerOrder: -1
   currentTile: {fileID: 0}
   IsOnMouse: 0
@@ -18821,6 +19322,15 @@ MonoBehaviour:
   syncInterval: 0
   id: 0
   cardName: 
+  Sockets:
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
   ownerOrder: -1
   currentTile: {fileID: 0}
   IsOnMouse: 0
@@ -19258,10 +19768,10 @@ RectTransform:
   m_Father: {fileID: 357022935}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 160, y: 30}
+  m_SizeDelta: {x: -256, y: -30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1832025553
 MonoBehaviour:
@@ -19287,16 +19797,19 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: fd232b0fd5ba57248b4a739f21784517, type: 3}
     m_FontSize: 120
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 1
-    m_MaxSize: 133
+    m_MaxSize: 120
     m_Alignment: 4
-    m_AlignByGeometry: 0
+    m_AlignByGeometry: 1
     m_RichText: 1
-    m_HorizontalOverflow: 1
-    m_VerticalOverflow: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uBA54\uC138\uC9C0"
+  m_Text: "\uC5EC\uAE30\uC5D0 \uCD9C\uB825\uD560 \uBA54\uC2DC\uC9C0\uB97C\n\uC801\uC744
+    \uC218 \uC788\uC2B5\uB2C8\uB2E4.\n\uAC1C\uD589\uC744 \uC798 \uD574\uC11C \uAC00\uB3C5\uC131\uC744
+    \uD574\uCE58\uC9C0 \uC54A\uAC8C \uD558\uC138\uC694.\n\uC904\uC774 \uB108\uBB34
+    \uAE38\uBA74 \uBCF4\uAE30\uC5D0 \uC548\uC88B\uC2B5\uB2C8\uB2E4."
 --- !u!222 &1832025554
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -19621,6 +20134,15 @@ MonoBehaviour:
   syncInterval: 0
   id: 0
   cardName: 
+  Sockets:
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
   ownerOrder: -1
   currentTile: {fileID: 0}
   IsOnMouse: 0
@@ -19891,8 +20413,8 @@ MonoBehaviour:
   list: []
   radius: 5
   height: 0.35
-  intervalAngle: 18
-  maxAngle: 54
+  intervalAngle: 10
+  maxAngle: 30
 --- !u!1 &1888164052
 GameObject:
   m_ObjectHideFlags: 0
@@ -20010,6 +20532,15 @@ MonoBehaviour:
   syncInterval: 0
   id: 0
   cardName: 
+  Sockets:
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
   ownerOrder: -1
   currentTile: {fileID: 0}
   IsOnMouse: 0
@@ -20596,6 +21127,15 @@ MonoBehaviour:
   syncInterval: 0
   id: 0
   cardName: 
+  Sockets:
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
   ownerOrder: -1
   currentTile: {fileID: 0}
   IsOnMouse: 0
@@ -21675,6 +22215,15 @@ MonoBehaviour:
   syncInterval: 0
   id: 0
   cardName: 
+  Sockets:
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
   ownerOrder: -1
   currentTile: {fileID: 0}
   IsOnMouse: 0
@@ -21826,6 +22375,15 @@ MonoBehaviour:
   syncInterval: 0
   id: 0
   cardName: 
+  Sockets:
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
   ownerOrder: -1
   currentTile: {fileID: 0}
   IsOnMouse: 0
@@ -22035,6 +22593,15 @@ MonoBehaviour:
   syncInterval: 0
   id: 0
   cardName: 
+  Sockets:
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
+  - attribute: 0
+    isActive: 0
   ownerOrder: -1
   currentTile: {fileID: 0}
   IsOnMouse: 0

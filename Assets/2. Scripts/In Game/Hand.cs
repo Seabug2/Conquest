@@ -69,7 +69,7 @@ public class Hand : NetworkBehaviour
         }
         else
         {
-            newCard.iCardState = new NoneState();
+            newCard.iCardState = GameManager.instance.noneState;
             newCard.IsOpened = false;
         }
 
@@ -102,7 +102,7 @@ public class Hand : NetworkBehaviour
     public void RpcRemove(int id)
     {
         Card drawnCard = GameManager.Card(id);
-        drawnCard.iCardState = new NoneState();
+        drawnCard.iCardState = GameManager.instance.noneState;
         list.Remove(drawnCard);
 
         if (list.Count > 0)

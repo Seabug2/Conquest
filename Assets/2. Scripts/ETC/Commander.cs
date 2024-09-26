@@ -279,15 +279,15 @@ public class Commander
 
                 //~초 동안 대기
                 if (cmd.interval > 0)
-                    await UniTask.Delay(TimeSpan.FromSeconds(cmd.interval), cancellationToken: token);
+                    await UniTask.Delay(TimeSpan.FromSeconds(cmd.interval), cancellationToken: token).SuppressCancellationThrow();
 
                 //~까지 대기
                 if (cmd.until != null)
-                    await UniTask.WaitUntil(cmd.until, cancellationToken: token);
+                    await UniTask.WaitUntil(cmd.until, cancellationToken: token).SuppressCancellationThrow();
 
                 //~까지 대기
                 if (cmd.@while != null)
-                    await UniTask.WaitWhile(cmd.@while, cancellationToken: token);
+                    await UniTask.WaitWhile(cmd.@while, cancellationToken: token).SuppressCancellationThrow();
 
                 // 취소되었는지 확인
                 if (token.IsCancellationRequested)
