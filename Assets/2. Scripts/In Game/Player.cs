@@ -6,16 +6,47 @@ using Mirror;
 [RequireComponent(typeof(NetworkIdentity))]
 public class Player : NetworkBehaviour
 {
-    [SyncVar(hook = nameof(Hook_SetOrder))]
-    public int order = -1;
+    public int Order { get; private set; }
 
-    void Hook_SetOrder(int _, int @new)
+    [Server]
+    public void SetOrder(int @new)
     {
         gameObject.name = $"Player_{@new}";
+        Order = @new;
+    }
+
+    [ClientRpc]
+    public void RpcSetOrder(int @new)
+    {
+        gameObject.name = $"Player_{@new}";
+        Order = @new;
 
         if (isLocalPlayer)
         {
             GameManager.instance.CmdReply(@new);
+            UIManager.GetUI<SideMenu>().Buttons[@new].onClick.RemoveAllListeners();
+            UIManager.GetUI<SideMenu>().Buttons[@new].onClick.AddListener(OnClickMyButton);
+        }
+    }
+
+    public void OnClickMyButton()
+    {
+        if (CameraController.instance.CurrentCamIndex == Order)
+        {
+            //카메라가 자신의 필드를 바라보는 중이면서...
+            if (isMyTurn && GameManager.instance.CurrentPhase.Equals(GamePhase.PlayerPhase))
+            {
+                UIManager.GetUI<Timer>().Stop();
+            }
+            else
+            {
+                CameraController.instance.FocusOnCenter();
+            }
+        }
+        else
+        {
+            //카메라가 다른 곳을 바라보고 있으면 자신의 필드를 바라본다.
+            CameraController.instance.FocusOnHome();
         }
     }
 
@@ -25,7 +56,6 @@ public class Player : NetworkBehaviour
     {
         if (isLocalPlayer)
         {
-            //CmdAcknowledgeToManager(order);
             if (@new)
             {
 
@@ -55,8 +85,8 @@ public class Player : NetworkBehaviour
     }
     #endregion
 
-    public Hand Hand => GameManager.dict_Hand[order];
-    public Field Field => GameManager.dict_Field[order];
+    public Hand Hand => GameManager.dict_Hand[Order];
+    public Field Field => GameManager.dict_Field[Order];
 
     //자신의 차례
     [Command]
@@ -68,6 +98,7 @@ public class Player : NetworkBehaviour
     [ClientRpc]
     public void RpcStartTurn()
     {
+        UIManager.GetUI<Timer>().@Reset();
         ClientStartTurn();
     }
 
@@ -78,19 +109,19 @@ public class Player : NetworkBehaviour
         commander
             .Add(() =>
             {
-                CameraController.instance.CurrentCamIndex = order;
+                CameraController.instance.FocusOnPlayerField(Order);
                 CameraController.instance.MoveLock(true);
                 if (isLocalPlayer)
                 {
-                    UIManager.Message.ForcePopUp("당신의 차례입니다", 3f);
+                    UIManager.GetUI<LineMessage>().ForcePopUp("당신의 차례입니다", 3f);
                 }
                 else
                 {
-                    UIManager.Message.ForcePopUp($"{order + 1}번째 플레이어의 차례입니다", 3f);
+                    UIManager.GetUI<LineMessage>().ForcePopUp($"{Order + 1}번째 플레이어의 차례입니다", 3f);
                     commander.Cancel();
                 }
             })
-            .WaitWhile(UIManager.Message.IsPlaying)
+            .WaitWhile(UIManager.GetUI<LineMessage>().IsPlaying)
             .Add(CmdStartDrawPhase)
             .Play();
     }
@@ -109,7 +140,7 @@ public class Player : NetworkBehaviour
     {
         Commander commander = new();
         commander
-            .Add(() => UIManager.Message.ForcePopUp("드로우!", 2f), 1f)
+            .Add(() => UIManager.GetUI<LineMessage>().ForcePopUp("드로우!", 2f), 1f)
             .Add(() =>
             {
                 if (isLocalPlayer)
@@ -121,7 +152,7 @@ public class Player : NetworkBehaviour
                     commander.Cancel();
                 }
             })
-            .WaitWhile(UIManager.Message.IsPlaying)
+            .WaitWhile(UIManager.GetUI<LineMessage>().IsPlaying)
             .Add(CmdHandling)
             .Play();
     }
@@ -135,46 +166,53 @@ public class Player : NetworkBehaviour
     [ClientRpc]
     public void RpcHandling()
     {
-        Commander Commander = new();
-        Commander
-            .Add(() =>
-            {
-                if (isLocalPlayer)
+        if (isLocalPlayer)
+        {
+            Commander Commander = new();
+            Commander
+                .Add(() =>
                 {
-                    UIManager.Message.ForcePopUp("나쁜 짓을 할 시간입니다!", 2f);
-                }
-                else
+                    UIManager.GetUI<HeadLine>().Print("당신의 차례");
+                    UIManager.GetUI<LineMessage>().ForcePopUp("나쁜 짓을 할 시간입니다!", 2f);
+                }, 2f)
+                .Add(() =>
                 {
-                    UIManager.Message.ForcePopUp($"플레이어 {order + 1}가\n카드를 고르는 중입니다.", 2f);
-                }
-            })
-            .WaitWhile(UIManager.Message.IsPlaying)
-            .Add(() =>
-            {
-                CameraController.instance.MoveLock(false);
+                    CameraController.instance.MoveLock(false);
+                    UIManager.GetUI<Timer>().SetTimer(60f);
 
-                if (isLocalPlayer)
+                    if (Hand.Count < 1)
+                    {
+                        UIManager.GetUI<LineMessage>().ForcePopUp("사용 가능한 카드가 없습니다!", 2f);
+                        Commander.Cancel();
+                    }
+                    else
+                    {
+                        Hand.SetHandlingState(Field);
+                    }
+                })
+                .WaitWhile(() => UIManager.GetUI<Timer>().IsPlaying)
+                .OnCanceled(() =>
                 {
-                    //TODO 패 확인 만들기
-                    /*
-                     * if(...)
-                     *플레이어의 패를 확인하여 낼 수 있는 카드가 없다면 바로 차례를 종료합니다.
-                     */
-                    UIManager.Message.ForcePopUp("사용 가능한 카드가 없습니다!", 2f);
-                }
-                else
+                    CmdEndTurn(Hand.IsLimitOver);
+                })
+                .Play();
+        }
+        else
+        {
+            new Commander()
+                .Add(() =>
                 {
-                    Commander.Cancel();
-                }
-            })
-            .WaitWhile(UIManager.Message.IsPlaying)
-            .Add(() =>
-            {
-                //TODO 여기에 손에 든 카드의 수를 체크 후 탈락을 판정 추가
-
-                CmdEndTurn(false);
-            })
-            .Play();
+                    UIManager.GetUI<HeadLine>().Print($"플레이어 {Order + 1}의 차례");
+                    UIManager.GetUI<LineMessage>().ForcePopUp($"플레이어 {Order + 1}가\n카드를 고르는 중입니다.", 2f);
+                })
+                .WaitWhile(UIManager.GetUI<LineMessage>().IsPlaying)
+                .Add(() =>
+                {
+                    CameraController.instance.MoveLock(false);
+                    UIManager.GetUI<Timer>().SetTimer(60f);
+                })
+                .Play();
+        }
     }
 
     [Command]
@@ -188,28 +226,29 @@ public class Player : NetworkBehaviour
     [ClientRpc]
     public void RpcEndTurn()
     {
-        Commander Commander = new();
-        Commander
-               .Add(() =>
-               {
-                   CameraController.instance.CurrentCamIndex = order;
-                   CameraController.instance.MoveLock(true);
-                   UIManager.Message.ForcePopUp($"플레이어 {order + 1}의\n차례를 마칩니다!", 2f);
-
-                   if (!isLocalPlayer)
-                   {
-                       Commander.Cancel();
-                   }
-               })
-               .WaitWhile(UIManager.Message.IsPlaying)
-               .Add(CmdNextTurn)
-               .Play();
+        new Commander()
+            .Add(() =>
+            {
+                UIManager.GetUI<Timer>().Reset();
+                CameraController.instance.FocusOnPlayerField(Order);
+                CameraController.instance.MoveLock(true);
+                UIManager.GetUI<LineMessage>().ForcePopUp($"플레이어 {Order + 1}의\n차례를 마칩니다!", 2f);
+            })
+            .WaitWhile(UIManager.GetUI<LineMessage>().IsPlaying)
+            .Add(() =>
+            {
+                if (isLocalPlayer)
+                {
+                    CmdNextTurn(Order);
+                }
+            })
+            .Play();
     }
 
     [Command]
-    public void CmdNextTurn()
+    public void CmdNextTurn(int order)
     {
-        GameManager.instance.EndTurn();
+        GameManager.instance.EndTurn(order);
     }
 
     #region 종료

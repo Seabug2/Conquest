@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Cinemachine;
@@ -55,7 +56,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] CinemachineVirtualCamera centerCamera;
 
     //자신의 필드 번호
-    int HomeViewIndex => GameManager.LocalPlayer.order;
+    int HomeViewIndex => GameManager.LocalPlayer.Order;
     int currentCamIndex = -1;
 
     public int CurrentCamIndex
@@ -138,10 +139,11 @@ public class CameraController : MonoBehaviour
 
     [SerializeField]
     bool moveLock = false;
-
+    public event Action<bool> lockEvent;
     public void MoveLock(bool _isLocked)
     {
         moveLock = _isLocked;
+        lockEvent?.Invoke(!_isLocked);
     }
 
     private void Update()

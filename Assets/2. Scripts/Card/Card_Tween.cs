@@ -53,24 +53,24 @@ public partial class Card : NetworkBehaviour
 
 
     [Command(requiresAuthority = false)]
-    public void CmdPick()
+    public void CmdPick(float _height)
     {
-        RpcPick();
+        RpcPick(_height);
     }
 
     [ClientRpc]
-    void RpcPick()
+    void RpcPick(float _height)
     {
-        Pick();
+        Pick(_height);
     }
 
-    const float pickupHeight = 0.6f;
-
     [Client]
-    public void Pick()
+    public void Pick(float _height)
     {
         transform.DOKill();
         transform.rotation  = Quaternion.identity;
-        transform.position = TargetPosition + transform.up * pickupHeight;
+        Vector3 pos = TargetPosition;
+        pos.y = _height;
+        transform.position = pos;
     }
 }

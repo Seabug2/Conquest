@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 using UnityEngine.EventSystems;
 using Mirror;
 using DG.Tweening;
@@ -30,14 +31,14 @@ public partial class Card : NetworkBehaviour,
 
 
 
-
+    public event Action<Card> OnPointerCardEnter;
 
     //카드 위에 마우스를 올려두었을 때 한 번만 호출 됩니다.
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (IsOpened)
         {
-            UIManager.InfoUI.PopUp(front);
+            OnPointerCardEnter?.Invoke(this);
         }
         iCardState.OnPointerEnter(eventData);
     }

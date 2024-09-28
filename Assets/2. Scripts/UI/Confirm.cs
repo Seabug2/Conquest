@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using DG.Tweening;
 
 [RequireComponent(typeof(CanvasGroup))]
-public class Confirm : MonoBehaviour
+public class Confirm : MonoBehaviour, IUIController
 {
     [SerializeField]
     CanvasGroup canvasGroup;
@@ -34,6 +34,10 @@ public class Confirm : MonoBehaviour
 
     private void Start()
     {
+        if(UIManager.instance != null)
+        {
+            UIManager.RegisterController(this.GetType(), this);
+        }
         canvasGroup = GetComponent<CanvasGroup>();
         block.gameObject.SetActive(false);
     }

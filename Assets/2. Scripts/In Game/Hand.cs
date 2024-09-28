@@ -5,15 +5,15 @@ using Mirror;
 [RequireComponent(typeof(NetworkIdentity))]
 public class Hand : NetworkBehaviour
 {
-    [SerializeField] int seatNum;
+    [SerializeField, Header("번호")] int seatNum;
     public int SeatNum => seatNum;
 
     private void Start()
     {
         GameManager.dict_Hand.Add(seatNum, this);
     }
-
-    [SerializeField] List<Card> list = new();
+    [Space(10)]
+    [SerializeField, Header("리스트")] List<Card> list = new();
 
     public int Count => list.Count;
 
@@ -109,11 +109,11 @@ public class Hand : NetworkBehaviour
     }
     #endregion
 
-    public void HandOpen()
+    public void HandOpen(bool isOpen)
     {
         foreach (Card c in list)
         {
-            c.IsOpened = !c.IsOpened;
+            c.IsOpened = isOpen;
             if (c.iCardState.GetType().Equals(typeof(HandlingState)))
             {
                 c.iCardState = new HandlingState(c, this, null);
@@ -125,15 +125,17 @@ public class Hand : NetworkBehaviour
         }
     }
 
-    [Range(1f, 10f)]
+    [Range(1f, 10f),Header("너비")]
     public float radius;
-    [Range(0f, 1f)]
+    [Range(0f, 1f), Header("호 높이")]
     public float height;
-    [Range(0f, 90)]
+    [Range(0f, 90), Header("카드 간격 각도")]
     //카드 간격
     public float intervalAngle;
     //최대 카드 각
     public float maxAngle;
+    [Header("선택된 카드의 높이 참조점")]
+    public Transform selectedCardHeight;
 
     [Command(requiresAuthority = false)]
     public void CmdHandAlignment()
@@ -215,7 +217,19 @@ public class Hand : NetworkBehaviour
         }
     }
 
-    public void HandSetting(Field _myField = null)
+    public bool HasValidCards(Field _field)
+    {
+        if (list.Count < 1) return false;
+
+        foreach(Card c in list)
+        {
+            //_field. (c);....
+        }
+
+        return true;
+    }
+
+    public void SetHandlingState(Field _myField = null)
     {
         if (_myField == null)
         {

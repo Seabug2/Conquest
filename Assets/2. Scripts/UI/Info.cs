@@ -3,8 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
-[RequireComponent(typeof(Canvas))]
-public class Info : MonoBehaviour
+public class Info : MonoBehaviour, IUIController
 {
     readonly Queue<Image> infos = new Queue<Image>();
 
@@ -17,7 +16,7 @@ public class Info : MonoBehaviour
     [SerializeField, Header("ÅðÀå À§Ä¡")]
     RectTransform exitPosition;
 
-    Color startColor = new Color(1, 1, 1, 0);
+    Color startColor = new(1, 1, 1, 0);
 
     public float popupDuration = 0.5f;
     public float exitDuration = 0.5f;
@@ -25,11 +24,38 @@ public class Info : MonoBehaviour
 
     Image currentInfo = null;
 
-    public void PopUp(Sprite sprt)
+    private void Start()
+    {
+        infos.Enqueue(prefab);
+
+        if (UIManager.instance != null)
+        {
+            UIManager.RegisterController(this.GetType(), this);
+        }
+
+        if (GameManager.instance == null)
+        {
+            Card[] all = FindObjectsOfType<Card>();
+            foreach(Card c in all)
+            {
+                c.OnPointerCardEnter += PopUp;
+            }
+        }
+        else
+        {
+            int length = GameManager.TotalCard;
+            for (int i = 0; i < length; i ++)
+            {
+                GameManager.instance.cards[i].OnPointerCardEnter += PopUp;
+            }
+        }
+    }
+
+    public void PopUp(Card _Card)
     {
         if (currentInfo != null)
         {
-            if (currentInfo.sprite.Equals(sprt)) return;
+            if (currentInfo.sprite.Equals(_Card.front)) return;
             Enqueue(currentInfo);
         }
 
@@ -43,7 +69,7 @@ public class Info : MonoBehaviour
             currentInfo = infos.Dequeue();
         }
 
-        currentInfo.sprite = sprt;
+        currentInfo.sprite = _Card.front;
         currentInfo.color = startColor;
         currentInfo.rectTransform.anchoredPosition = startPosition.anchoredPosition;
         currentInfo.gameObject.SetActive(true);
@@ -62,7 +88,7 @@ public class Info : MonoBehaviour
 
         if (infos.Count.Equals(0))
         {
-            currentInfo = Instantiate(prefab, this.transform);
+            currentInfo = Instantiate(prefab, prefab.transform.parent);
         }
         else
         {

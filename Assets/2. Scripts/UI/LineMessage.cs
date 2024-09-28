@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
-public class LineMessage : MonoBehaviour
+public class LineMessage : MonoBehaviour, IUIController
 {
     [SerializeField] GameObject root;             // 메시지 출력 루트 오브젝트
     [SerializeField] RectTransform line;          // 라인(애니메이션할 RectTransform)
@@ -20,6 +20,10 @@ public class LineMessage : MonoBehaviour
     private void Start()
     {
         Initialize(false);
+        if (UIManager.instance != null)
+        {
+            UIManager.RegisterController(this.GetType(), this);
+        }
     }
 
     // 메시지 애니메이션을 강제로 처음부터 다시 실행하는 함수

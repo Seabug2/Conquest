@@ -25,7 +25,7 @@ public class InHandState : ICardState
         card.SprtRend.sortingLayerName = "OnMouseLayer";
         card.transform.localScale = Vector3.one * 1.2f;
         card.IsOnMouse = true;
-        card.Pick();
+        card.CmdPick(hand.selectedCardHeight.position.y);
         hand.HandAlignment();
     }
     public void OnPointerEixt(PointerEventData eventData)
@@ -60,7 +60,8 @@ public class HandlingState : ICardState
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        Camera.main.GetComponent<Physics2DRaycaster>().eventMask = 0;
+        CameraController.instance.Raycaster.eventMask = 0;
+        CameraController.instance.MoveLock(true);
 
         isSelected = true;
 
@@ -74,11 +75,10 @@ public class HandlingState : ICardState
     }
     public void OnPointerUp(PointerEventData eventData)
     {
-        isSelected = false;
-
         CameraController.instance.Raycaster.eventMask = -1;
+        CameraController.instance.MoveLock(false);
 
-        //card.col.enabled = false;
+        isSelected = false;
 
         Vector2 screenPosition = eventData.position;
         Ray ray = Camera.main.ScreenPointToRay(screenPosition);
@@ -127,7 +127,7 @@ public class HandlingState : ICardState
         if (field != null)
             field.ShowPlaceableTiles(card, true);
 
-        card.CmdPick();
+        card.CmdPick(hand.selectedCardHeight.position.y);
         hand.HandAlignment();
     }
     public void OnPointerEixt(PointerEventData eventData)

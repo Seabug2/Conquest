@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using DG.Tweening;
 
 [RequireComponent(typeof(Image))]
-public class Fade : MonoBehaviour
+public class Fade : MonoBehaviour, IUIController
 {
     [SerializeField, Header("기본 색상")]
     Color defualtColor = Color.black;
@@ -12,6 +12,10 @@ public class Fade : MonoBehaviour
 
     private void Start()
     {
+        if (UIManager.instance != null)
+        {
+            UIManager.RegisterController(this.GetType(), this);
+        }
         image = GetComponent<Image>();
         image.color = defualtColor;
         image.enabled = true;
