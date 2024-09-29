@@ -189,7 +189,7 @@ public class GameManager : NetworkBehaviour
         if (players.Contains(_player))
         {
             //게임을 아직 시작하지 않은 상태라면,
-            if (!IsPlaying)
+            if (CurrentPhase.Equals(GamePhase.Begin))
             {
                 //플레이어 리스트에서 제거하여 리스트의 크기를 원래대로 한다.
                 players.Remove(_player);
@@ -283,8 +283,6 @@ public class GameManager : NetworkBehaviour
         }
 
         await WaitForAllAcknowledgements();
-
-        IsPlaying = true;
 
         RpcStartGame();
 
@@ -519,10 +517,6 @@ public class GameManager : NetworkBehaviour
     /// </summary>
     public readonly ICardState noneState = new NoneState();
 
-    #region 진행
-    [SyncVar]
-    public bool IsPlaying = false;
-
     [Server]
     public bool RoundFinished()
     {
@@ -561,6 +555,7 @@ public class GameManager : NetworkBehaviour
         new Commander()
             .Add(() =>
             {
+                OnStartEvent.Invoke();
                 CameraController.instance.FocusOnCenter();
                 UIManager.GetUI<Fade>().In(3f);
             })
@@ -592,7 +587,6 @@ public class GameManager : NetworkBehaviour
         //게임이 끝난 경우
         if (AliveCount == 1)
         {
-            IsPlaying = false;
             RpcEndGame(LastPlayer());
             return;
         }
@@ -600,6 +594,7 @@ public class GameManager : NetworkBehaviour
         //모두 한 번씩 차례를 가진 경우 => 인재 영입 시간!
         if (RoundFinished())
         {
+            firstOrder = NextOrder(firstOrder);
             deck.ServerDraftPhase();
             return;
         }
@@ -618,6 +613,7 @@ public class GameManager : NetworkBehaviour
         CameraController.instance.CurrentCamIndex = lastPlayerOrder;
         CameraController.instance.MoveLock(true);
         OnEndGame?.Invoke();
+        CurrentPhase = GamePhase.End;
 
         if (LocalPlayer.isGameOver)
         {
@@ -628,7 +624,6 @@ public class GameManager : NetworkBehaviour
             UIManager.GetUI<LineMessage>().ForcePopUp("당신의 승리입니다!", 5);
         }
     }
-    #endregion
 
 
     /*

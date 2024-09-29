@@ -32,34 +32,34 @@ public class Info : MonoBehaviour, IUIController
         {
             UIManager.RegisterController(this.GetType(), this);
         }
-        Register();
     }
 
     public void Register()
     {
-        if (GameManager.instance == null)
+        //if (GameManager.instance == null)
+        //{
+        //    Card[] all = FindObjectsOfType<Card>();
+        //    foreach (Card c in all)
+        //    {
+        //        c.OnPointerCardEnter = PopUp;
+        //    }
+        //}
+        //else
+        //{
+        int length = GameManager.instance.cards.Length;
+        for (int i = 0; i < length; i++)
         {
-            Card[] all = FindObjectsOfType<Card>();
-            foreach (Card c in all)
-            {
-                c.OnPointerCardEnter = PopUp;
-            }
+            Card c = GameManager.instance.cards[i];
+            c.OnPointerCardEnter = (c) => PopUp(c);
         }
-        else
-        {
-            int length = GameManager.TotalCard;
-            for (int i = 0; i < length; i++)
-            {
-                GameManager.instance.cards[i].OnPointerCardEnter = PopUp;
-            }
-        }
+        //}
     }
 
-    public void PopUp(Card _Card)
+    public void PopUp(Card c)
     {
         if (currentInfo != null)
         {
-            if (currentInfo.sprite.Equals(_Card.front)) return;
+            if (currentInfo.sprite.Equals(c.front)) return;
             Enqueue(currentInfo);
         }
 
@@ -72,7 +72,7 @@ public class Info : MonoBehaviour, IUIController
             currentInfo = infos.Dequeue();
         }
 
-        currentInfo.sprite = _Card.front;
+        currentInfo.sprite = c.front;
         currentInfo.color = startColor;
         currentInfo.rectTransform.anchoredPosition = startPosition.anchoredPosition;
         currentInfo.gameObject.SetActive(true);

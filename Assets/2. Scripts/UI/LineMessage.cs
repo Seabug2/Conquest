@@ -71,13 +71,13 @@ public class LineMessage : MonoBehaviour, IUIController
     }
 
     // 초기화 함수
-    private void Initialize(bool _SerActive)
+    private void Initialize(bool setActive)
     {
         // 초기 상태 설정
         line.sizeDelta = new Vector2(line.sizeDelta.x, 0);
         text.fontSize = fontSize;
         text.text = message;
-        root.SetActive(_SerActive);
+        root.SetActive(setActive);
     }
 
     // 시퀀스 생성 함수
@@ -85,7 +85,6 @@ public class LineMessage : MonoBehaviour, IUIController
     {
         // 시퀀스 생성 및 AutoKill 비활성화
         sequence = DOTween.Sequence()
-            .SetAutoKill(false) // 트윈이 완료된 후에도 파괴되지 않음
             .OnStart(() =>
             {
                 Initialize(true);

@@ -113,9 +113,8 @@ public class Deck : NetworkBehaviour
 
         Commander commander = new Commander()
             .Add(GameManager.instance.SetNewRound)
-            .WaitWhile(() => true)
-            .CancelTrigger(() => GameManager.instance.IsAllReceived() || t <= 0)
-            .OnCanceled(() =>
+            .WaitUntil(() => GameManager.instance.IsAllReceived() || t <= 0)
+            .Add(() =>
             {
                 if (!GameManager.instance.IsAllReceived())
                     GameManager.instance.CheckDisconnectedPlayers();
@@ -304,9 +303,8 @@ public class Deck : NetworkBehaviour
         Commander commander = new();
         commander
             .Add(GameManager.instance.SetNewRound)
-            .WaitWhile(() => true)
-            .CancelTrigger(() => GameManager.instance.IsAllReceived() || t <= 0)
-            .OnCanceled(() =>
+            .WaitUntil(() => GameManager.instance.IsAllReceived() || t <= 0)
+            .Add(() =>
             {
                 if (!GameManager.instance.IsAllReceived())
                     GameManager.instance.CheckDisconnectedPlayers();

@@ -1,5 +1,6 @@
 using System;
 using UnityEngine.EventSystems;
+using UnityEngine;
 using Mirror;
 
 public partial class Card : NetworkBehaviour,
@@ -36,6 +37,7 @@ public partial class Card : NetworkBehaviour,
     {
         if (IsOpened)
         {
+            //UIManager.instance.info.PopUp(front);
             OnPointerCardEnter?.Invoke(this);
         }
         iCardState.OnPointerEnter(eventData);
