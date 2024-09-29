@@ -41,6 +41,7 @@ public partial class Card : NetworkBehaviour
     public SpriteRenderer SprtRend { get; private set; }
     public Sprite front;
 
+
     #region √ ±‚»≠
     void Awake()
     {

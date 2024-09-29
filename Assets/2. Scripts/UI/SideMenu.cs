@@ -18,33 +18,28 @@ public class SideMenu : MonoBehaviour, IUIController
 
         for (int i = 0; i < length; i++)
         {
-            buttons[i].onClick.AddListener(() => CameraController.instance.FocusOnPlayerField(i));
+            int num = i;
+
+            buttons[i].interactable = false;
+            buttons[i].onClick.AddListener(() => CameraController.instance.Toggle(num));
 
             rects[i] = buttons[i].GetComponent<RectTransform>();
-            rects[i].sizeDelta.Set(100f, 100f);
+            rects[i].sizeDelta = new Vector2(100f, 100f);
         }
 
         if (UIManager.instance != null)
         {
-            UIManager.RegisterController(this.GetType(),this);
+            UIManager.RegisterController(this.GetType(), this);
         }
         if (CameraController.instance != null)
         {
-            CameraController.instance.lockEvent += Toggle;
+            CameraController.instance.LockEvent += Toggle;
         }
     }
 
     public void ScaleUp(int selectButtonNumber)
     {
-        CameraController.instance.FocusOnPlayerField(selectButtonNumber);
-
-        for (int i = 0; i < buttons.Length; i++)
-        {
-            if (i == selectButtonNumber)
-                buttons[i].transform.localScale = Vector3.one * 1.2f;
-            else
-                buttons[i].transform.localScale = Vector3.one * 0.9f;
-        }
+        buttons[selectButtonNumber].transform.localScale = Vector3.one * 1.2f;
     }
 
     public AnimationCurve curve;
@@ -59,12 +54,12 @@ public class SideMenu : MonoBehaviour, IUIController
             if (isActive)
             {
                 rects[i].DOKill();
-                rects[i].DOSizeDelta(new Vector2(200, 100), .8f).SetEase(curve);
+                rects[i].DOSizeDelta(new Vector2(200, 100), .8f).SetEase(Ease.OutQuad);
             }
             else
             {
                 rects[i].DOKill();
-                rects[i].DOSizeDelta(new Vector2(100, 100), .8f).SetEase(curve);
+                rects[i].DOSizeDelta(new Vector2(100, 100), .8f).SetEase(Ease.OutQuad);
             }
         }
     }

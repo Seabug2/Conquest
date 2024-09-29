@@ -1,8 +1,6 @@
-using UnityEngine;
 using System;
 using UnityEngine.EventSystems;
 using Mirror;
-using DG.Tweening;
 
 public partial class Card : NetworkBehaviour,
     IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IDragHandler, IPointerUpHandler
@@ -31,8 +29,8 @@ public partial class Card : NetworkBehaviour,
 
 
 
-    public event Action<Card> OnPointerCardEnter;
 
+    public Action<Card> OnPointerCardEnter;
     //카드 위에 마우스를 올려두었을 때 한 번만 호출 됩니다.
     public void OnPointerEnter(PointerEventData eventData)
     {

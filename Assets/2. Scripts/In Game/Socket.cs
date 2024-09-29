@@ -1,11 +1,11 @@
 public enum Attribute
 {
-    isEmpty = 0,
-    power = 1,
-    tech = 2,
-    wealth = 3,
-    charisma = 4,
-    unlinked = 5 //연결할 수 없음
+    IsEmpty = 0,
+    Power = 1,
+    Tech = 2,
+    Wealth = 3,
+    Charisma = 4,
+    Unlinked = 5 //연결할 수 없음
 }
 
 [System.Serializable]
@@ -23,7 +23,7 @@ public class Socket
 
     public Socket()
     {
-        attribute = Attribute.isEmpty;
+        attribute = Attribute.IsEmpty;
         isActive = false;
     }
 

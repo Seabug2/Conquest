@@ -97,21 +97,15 @@ public class HandlingState : ICardState
             {
                 if (tile.IsSetable(card))
                 {
+                    card.iCardState = GameManager.instance.noneState;
                     Debug.Log("Hit 2D object: " + hit.collider.gameObject.name);
                     hand.CmdRemove(card.id);
                     tile.CmdSetCard(card.id);
-
-                    card.iCardState = GameManager.instance.noneState;
                 }
                 else
                 {
                     Debug.LogError("그 타일에는 카드를 둘 수 없습니다.");
                 }
-
-            }
-            else
-            {
-                Debug.LogError("히트된 오브젝트에 Tile 컴포넌트가 없습니다.");
             }
         }
     }

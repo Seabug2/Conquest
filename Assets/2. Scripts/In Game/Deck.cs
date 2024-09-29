@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
@@ -34,7 +35,7 @@ public class Deck : NetworkBehaviour
     {
         for (int i = 0; i < Count - 1; i++)
         {
-            int rand = Random.Range(i, Count); // i부터 Count-1까지의 인덱스를 랜덤으로 선택
+            int rand = UnityEngine.Random.Range(i, Count); // i부터 Count-1까지의 인덱스를 랜덤으로 선택
             int tmp = list[i];
             list[i] = list[rand];
             list[rand] = tmp;
@@ -50,7 +51,7 @@ public class Deck : NetworkBehaviour
             Debug.LogError("덱에 카드가 없습니다!");
             return -1;
         }
-        int drawNumber = isTopCard ? list[Count - 1] : Random.Range(0, Count);
+        int drawNumber = isTopCard ? list[Count - 1] : UnityEngine.Random.Range(0, Count);
         list.Remove(drawNumber);
         return drawNumber;
     }
@@ -104,6 +105,9 @@ public class Deck : NetworkBehaviour
     [Server]
     public void ServerDraftPhase()
     {
+        if (isServerOnly)
+            GameManager.instance.CurrentPhase = GamePhase.DraftPhase;
+
         //10초 대기...
         float t = 10;
 
@@ -147,20 +151,23 @@ public class Deck : NetworkBehaviour
     [ClientRpc]
     void RpcDraftPhase(int[] _draftCard)
     {
+        GameManager.instance.CurrentPhase = GamePhase.DraftPhase;
+
+        Func<bool> isPlaying = UIManager.GetUI<LineMessage>().IsPlaying;
+
         new Commander()
             .Add(() =>
             {
                 //플레이어들의 화면을 센터로 이동시키고 카메라 이동을 불가능하게 한다
                 CameraController.instance.FocusOnCenter();
                 CameraController.instance.MoveLock(true);
-                UIManager.GetUI<HeadLine>().Print("인재 영입 시간");
                 UIManager.GetUI<LineMessage>().PopUp("인재 영입 시간!", 3f);
             }, 1f)
             .Add(() =>
             {
                 int count = _draftCard.Length;
                 float intervalAngle = 360f / count;
-                float angle = Random.Range(0f, 90f);
+                float angle = UnityEngine.Random.Range(0f, 90f);
 
                 for (int i = 0; i < count; i++)
                 {
@@ -172,12 +179,12 @@ public class Deck : NetworkBehaviour
                     float radian = Mathf.Deg2Rad * angle;
                     Vector3 position = new Vector3(Mathf.Sin(radian), Mathf.Cos(radian), 0) * 1.5f;
                     c.SetTargetPosition(transform.position + position);
-                    c.SetTargetQuaternion(Quaternion.Euler(0, 0, Random.Range(-6f, 6f))); //10도 이상으로 회전하면 어색하게 보임
+                    c.SetTargetQuaternion(Quaternion.Euler(0, 0, UnityEngine.Random.Range(-6f, 6f))); //10도 이상으로 회전하면 어색하게 보임
 
                     c.DoMove(i * .18f);
                 }
             })
-            .WaitWhile(UIManager.GetUI<LineMessage>().IsPlaying)
+            .WaitWhile(isPlaying)
             .Add(() => ClientSelectDraftCard(GameManager.FirstOrder))
             .Play();
     }
@@ -186,6 +193,23 @@ public class Deck : NetworkBehaviour
     void RpcSelectDraftCard(int _order)
     {
         ClientSelectDraftCard(_order);
+    }
+
+    void EndSelection(int _order)
+    {
+        if (UIManager.GetUI<Confirm>().IsActive)
+        {
+            UIManager.GetUI<Confirm>().Close();
+        }
+
+        foreach (int id in draftCard)
+        {
+            Card c = GameManager.Card(id);
+            c.iCardState = GameManager.instance.noneState;
+        }
+
+        int rand = UnityEngine.Random.Range(0, draftCard.Count);
+        CmdSelectDraftCard(_order, draftCard[rand]);
     }
 
     [Client]
@@ -218,39 +242,23 @@ public class Deck : NetworkBehaviour
                         card.iCardState = new SelectionState(card
                             , () => UIManager.GetUI<Confirm>().PopUp(() =>
                             {
+                                UIManager.GetUI<Timer>().Stop();
+
                                 //확인 버튼을 누르면...
                                 //선택 즉시 모든 카드를 선택 불가능한 상태로 바꾼다. 
                                 foreach (int id in draftCard)
                                 {
                                     Card c = GameManager.Card(id);
                                     c.iCardState = GameManager.instance.noneState;
-
-                                    UIManager.GetUI<HeadLine>().Print("인재 영입 시간");
-                                    commander.Cancel();
                                 }
+
                                 CmdSelectDraftCard(GameManager.LocalPlayer.Order, card.id);
                             }, "이 카드를 패로 가져갑니다?"
                             , card.front));
                     }
 
-                    UIManager.GetUI<Timer>().SetTimer(30f);
-                    commander.CancelTrigger(() => !UIManager.GetUI<Timer>().IsPlaying);
-                })
-                .WaitWhile(() => true)
-                .OnCanceled(() =>
-                {
-                    if (UIManager.GetUI<Confirm>().IsActive)
-                    {
-                        UIManager.GetUI<Confirm>().Close();
-                    }
-                    foreach (int id in draftCard)
-                    {
-                        Card c = GameManager.Card(id);
-                        c.iCardState = GameManager.instance.noneState;
-                    }
-
-                    int rand = Random.Range(0, draftCard.Count);
-                    CmdSelectDraftCard(_order, draftCard[rand]);
+                    //30초
+                    UIManager.GetUI<Timer>().Play(30f, () => EndSelection(_order));
                 })
                 .Play();
         }
@@ -265,10 +273,8 @@ public class Deck : NetworkBehaviour
                 .Add(() =>
                 {
                     CameraController.instance.MoveLock(false);
-                    UIManager.GetUI<Timer>().SetTimer(30f);
-                    commander.CancelTrigger(() => !UIManager.GetUI<Timer>().IsPlaying);
+                    UIManager.GetUI<Timer>().Play(30f);
                 })
-                .WaitWhile(() => true)
                 .Play();
         }
     }
@@ -304,7 +310,11 @@ public class Deck : NetworkBehaviour
             {
                 if (!GameManager.instance.IsAllReceived())
                     GameManager.instance.CheckDisconnectedPlayers();
+
                 GameManager.instance.ResetAcknowledgements();
+
+                if (isServerOnly)
+                    GameManager.instance.CurrentPhase = GamePhase.PlayerPhase;
 
                 RpcEndSelectionDraftCard(GameManager.FirstOrder);
             })
@@ -315,14 +325,11 @@ public class Deck : NetworkBehaviour
     [ClientRpc]
     void RpcEndSelectionDraftCard(int _firstOrder)
     {
-        Commander commander = new();
-        commander
-            .Add(() =>
-            {
-                UIManager.GetUI<Timer>().@Reset();
-                UIManager.GetUI<LineMessage>().ForcePopUp("카드 선택을 마쳤습니다!", 3f);
-            })
-            .WaitWhile(UIManager.GetUI<LineMessage>().IsPlaying)
+        GameManager.instance.CurrentPhase = GamePhase.PlayerPhase;
+        UIManager.GetUI<Timer>().Stop();
+
+        new Commander()
+            .Add(() => UIManager.GetUI<LineMessage>().ForcePopUp("카드 선택을 마쳤습니다!", 3f), 3f)
             .Add(GameManager.GetPlayer(_firstOrder).ClientStartTurn)
             .Play();
     }

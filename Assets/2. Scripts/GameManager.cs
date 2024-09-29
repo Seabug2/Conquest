@@ -228,17 +228,17 @@ public class GameManager : NetworkBehaviour
     [Server]
     int LastPlayer()
     {
-            int last = -1;
+        int last = -1;
 
-            foreach (Player p in players)
+        foreach (Player p in players)
+        {
+            if (p != null && !p.isGameOver)
             {
-                if (p != null && !p.isGameOver)
-                {
-                    last = p.Order;
-                }
+                last = p.Order;
             }
+        }
 
-            return last;
+        return last;
     }
 
     [Server]
@@ -290,7 +290,6 @@ public class GameManager : NetworkBehaviour
 
         await WaitForAllAcknowledgements();
 
-        Debug.Log("인재영입 시작");
         deck.ServerDraftPhase();
     }
 
@@ -424,7 +423,7 @@ public class GameManager : NetworkBehaviour
         {
             return (Attribute)result;
         }
-        return Attribute.isEmpty;  // 변환 실패 시 기본값 반환
+        return Attribute.IsEmpty;  // 변환 실패 시 기본값 반환
     }
     #endregion
 
@@ -507,7 +506,7 @@ public class GameManager : NetworkBehaviour
 
     #endregion
 
-    public GamePhase CurrentPhase { get; private set; }
+    public GamePhase CurrentPhase = GamePhase.Begin;
 
     public static Deck deck;
 
@@ -559,7 +558,7 @@ public class GameManager : NetworkBehaviour
     [ClientRpc]
     public void RpcStartGame()
     {
-        Commander commander = new Commander()
+        new Commander()
             .Add(() =>
             {
                 CameraController.instance.FocusOnCenter();
@@ -568,7 +567,7 @@ public class GameManager : NetworkBehaviour
             .WaitSeconds(3.3f)
             .Add(() =>
             {
-                UIManager.GetUI<Timer>().On(1.8f);
+                UIManager.GetUI<Timer>().Active(1.8f);
                 UIManager.GetUI<HeadLine>().On(1.8f);
             })
             .WaitSeconds(1.8f)
@@ -585,6 +584,11 @@ public class GameManager : NetworkBehaviour
     [Server]
     public void EndTurn(int order)
     {
+        if (isServerOnly)
+        {
+            CurrentPhase = GamePhase.End;
+        }
+
         //게임이 끝난 경우
         if (AliveCount == 1)
         {
@@ -600,6 +604,7 @@ public class GameManager : NetworkBehaviour
             return;
         }
 
+        //아직 차례가 남은 경우
         SetCurrentOrder(NextOrder(order));
         GetPlayer(currentOrder).RpcStartTurn();
     }

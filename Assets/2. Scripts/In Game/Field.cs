@@ -15,10 +15,13 @@ public class Field : MonoBehaviour
         {
             if (!dict_Tile.ContainsKey(key))
             {
+                return dict_Tile[key];
+            }
+            else
+            {
                 Debug.LogWarning($"Invalid index {key}. Returning null.");
                 return null;
             }
-            return dict_Tile[key];
         }
     }
 
@@ -36,7 +39,9 @@ public class Field : MonoBehaviour
             dict_Tile.Add(t.TileIndex, t);
         }
 
-        for (int i = 0; i < dict_Tile.Count; i++)
+        int count = dict_Tile.Count;
+
+        for (int i = 0; i < count; i++)
         {
             int n = i % 5;
 
@@ -57,11 +62,6 @@ public class Field : MonoBehaviour
                 if (i + 3 < dict_Tile.Count)
                     dict_Tile[i].linkedTile[2] = dict_Tile[i + 3];
             }
-        }
-
-        foreach (Tile t in tiles)
-        {
-            t.SetSocket();
         }
     }
 

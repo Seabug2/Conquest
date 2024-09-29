@@ -32,21 +32,25 @@ public class Info : MonoBehaviour, IUIController
         {
             UIManager.RegisterController(this.GetType(), this);
         }
+        Register();
+    }
 
+    public void Register()
+    {
         if (GameManager.instance == null)
         {
             Card[] all = FindObjectsOfType<Card>();
-            foreach(Card c in all)
+            foreach (Card c in all)
             {
-                c.OnPointerCardEnter += PopUp;
+                c.OnPointerCardEnter = PopUp;
             }
         }
         else
         {
             int length = GameManager.TotalCard;
-            for (int i = 0; i < length; i ++)
+            for (int i = 0; i < length; i++)
             {
-                GameManager.instance.cards[i].OnPointerCardEnter += PopUp;
+                GameManager.instance.cards[i].OnPointerCardEnter = PopUp;
             }
         }
     }
@@ -59,8 +63,7 @@ public class Info : MonoBehaviour, IUIController
             Enqueue(currentInfo);
         }
 
-
-        if (infos.Count.Equals(0))
+        if (infos.Count == 0)
         {
             currentInfo = Instantiate(prefab, this.transform);
         }
@@ -84,7 +87,6 @@ public class Info : MonoBehaviour, IUIController
         {
             Enqueue(currentInfo);
         }
-
 
         if (infos.Count.Equals(0))
         {

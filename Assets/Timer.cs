@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
@@ -8,9 +9,10 @@ public class Timer : MonoBehaviour, IUIController
     [SerializeField] RectTransform gage;
     [SerializeField] Text counter;
 
-    //bool isCounting = false;
-    //public bool IsCounting => isCountingage.localScale.x > 0;
-    public bool IsPlaying { get; private set; }
+    bool isPlaying = false;
+    public bool IsPlaying() => isPlaying;
+
+    Action OnTimeOutEvent;
 
     private void Start()
     {
@@ -18,18 +20,23 @@ public class Timer : MonoBehaviour, IUIController
         {
             UIManager.RegisterController(this.GetType(), this);
         }
-        root.gameObject.SetActive(false);
+
+        root.SetActive(false);
         gage.localScale = new Vector3(0, 1, 1);
 
-        counter.text = "5";
+        counter.text = string.Empty;
         counter.gameObject.SetActive(false);
 
-        IsPlaying = false;
+        OnTimeOutEvent = null;
+        isPlaying = false;
     }
 
-    public void On(float duration = 1f)
+    /// <summary>
+    /// Timer È°¼ºÈ­
+    /// </summary>
+    public void Active(float duration = 1f)
     {
-        if (root.gameObject.activeSelf) return;
+        if (root.activeSelf) return;
 
         root.gameObject.SetActive(true);
         gage.DOScaleX(1, duration).SetEase(Ease.OutQuad);
@@ -37,18 +44,20 @@ public class Timer : MonoBehaviour, IUIController
 
     public void Stop()
     {
-        IsPlaying = false;
+        isPlaying = false;
+        gage.DOKill();
+
         if (counter.gameObject.activeSelf)
         {
             counter.DOKill();
             counter.gameObject.SetActive(false);
         }
-        gage.DOKill();
     }
 
     public void @Reset()
     {
-        IsPlaying = false;
+        isPlaying = false;
+        OnTimeOutEvent = null;
         if (counter.gameObject.activeSelf)
         {
             counter.DOKill();
@@ -58,16 +67,19 @@ public class Timer : MonoBehaviour, IUIController
         gage.DOScaleX(1, 1f).SetEase(Ease.InQuad);
     }
 
-    public void SetTimer(float maxValue)
+    public void Play(float maxValue, Action OnTimeOutEvent = null)
     {
-        IsPlaying = true;
+        this.OnTimeOutEvent = OnTimeOutEvent;
+
+        isPlaying = true;
         this.maxValue = maxValue;
         t = maxValue;
     }
 
-    public void Off(float duration = 1f)
+    public void Inactive(float duration = 1f)
     {
-        IsPlaying = false;
+        isPlaying = false;
+        OnTimeOutEvent = null;
         gage.DOKill();
         gage
             .DOScaleX(0, duration)
@@ -82,7 +94,7 @@ public class Timer : MonoBehaviour, IUIController
 
     private void Update()
     {
-        if (!IsPlaying) return;
+        if (!isPlaying) return;
 
         t -= Time.deltaTime;
 
@@ -104,8 +116,10 @@ public class Timer : MonoBehaviour, IUIController
 
         if (t <= 0)
         {
-            IsPlaying = false;
+            isPlaying = false;
 
+            OnTimeOutEvent?.Invoke();
+            
             if (counter.gameObject.activeSelf)
             {
                 counter.rectTransform.DOKill();

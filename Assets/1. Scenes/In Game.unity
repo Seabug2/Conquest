@@ -3708,19 +3708,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 329726915}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 47761029}
-        m_TargetAssemblyTypeName: PlayerIcon, Assembly-CSharp
-        m_MethodName: ScaleUp
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 2
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &329726915
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5505,19 +5493,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 476532052}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 47761029}
-        m_TargetAssemblyTypeName: PlayerIcon, Assembly-CSharp
-        m_MethodName: ScaleUp
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &476532052
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5639,19 +5615,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 484004706}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 47761029}
-        m_TargetAssemblyTypeName: PlayerIcon, Assembly-CSharp
-        m_MethodName: ScaleUp
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 3
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &484004706
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5799,6 +5763,7 @@ MonoBehaviour:
   - {fileID: 1071224083}
   - {fileID: 2057596943}
   IsClockwise: 1
+  CurrentPhase: 0
   IsPlaying: 0
   OnStartEvent:
     m_PersistentCalls:
@@ -10726,7 +10691,7 @@ MonoBehaviour:
   offlineScene: 
   onlineScene: 
   transport: {fileID: 919336318}
-  networkAddress: 192.168.219.200
+  networkAddress: localhost
   maxConnections: 4
   disconnectInactiveConnections: 0
   disconnectInactiveTimeout: 60
@@ -19397,19 +19362,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1832788267}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 47761029}
-        m_TargetAssemblyTypeName: PlayerIcon, Assembly-CSharp
-        m_MethodName: ScaleUp
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1832788267
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22513,6 +22466,38 @@ PrefabInstance:
     - target: {fileID: 2771152410286459136, guid: aaef71f814636b242a297795d6cf8abb, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2771152410924407676, guid: aaef71f814636b242a297795d6cf8abb, type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2771152410924407676, guid: aaef71f814636b242a297795d6cf8abb, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2771152410924407676, guid: aaef71f814636b242a297795d6cf8abb, type: 3}
+      propertyPath: m_FillAmount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2771152410924407676, guid: aaef71f814636b242a297795d6cf8abb, type: 3}
+      propertyPath: m_FillMethod
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2771152410924407679, guid: aaef71f814636b242a297795d6cf8abb, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2771152410924407679, guid: aaef71f814636b242a297795d6cf8abb, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2771152410924407679, guid: aaef71f814636b242a297795d6cf8abb, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2771152410924407679, guid: aaef71f814636b242a297795d6cf8abb, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aaef71f814636b242a297795d6cf8abb, type: 3}

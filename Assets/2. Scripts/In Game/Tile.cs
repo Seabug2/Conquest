@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using Mirror;
 
 [RequireComponent(typeof(NetworkIdentity))]
@@ -14,69 +15,51 @@ public class Tile : NetworkBehaviour
     public int TileIndex => tileIndex;
 
     public Card PlacedCard { get; private set; }
-    public bool IsFilled => PlacedCard != null;
+    public bool IsEmpty => PlacedCard == null;
 
     public readonly Tile[] linkedTile = new Tile[4];
-    public bool LinkableSocket(int i) => linkedTile[i] != null;
 
-    readonly Socket[] linkedSocket = new Socket[4];
+    Socket EmptySocket = new Socket(Attribute.IsEmpty, false);
 
-    public Socket this[int index]
+    SpriteRenderer sprtRend;
+
+    private void Start()
     {
-        get
-        {
-            if (index < 0 || index >= linkedSocket.Length)
-            {
-                Debug.Log("인덱스 오류");
-                return null;
-            }
-            return linkedSocket[index];
-        }
+        sprtRend = GetComponent<SpriteRenderer>();
+    }
+
+    public Socket LinkedSocket(int i)
+    {
+        if (linkedTile[i] == null) return EmptySocket;
+
+        int j = (i + 2) % 4;
+        return linkedTile[i].PlacedCard.Sockets[j];
     }
 
     public bool IsSetable(Card _card)
     {
-        if (IsFilled) return false; //카드가 이미 놓여 있으면 X
+        //카드가 이미 놓여져있는 타일이면 카드를 내려 둘 수 없다.
+        if (PlacedCard != null) return false; //카드가 이미 놓여 있으면 X
 
-        for (int i = 0; i < 4; i++)
+        //타일에 놓여져 있는 카드가 없는 경우,
+        else
         {
-            //놓으려는 카드와 타일의 소켓을 비교한다
-            if (LinkableSocket(i)) continue; //연결된 소켓이 없는 모서리는 검사 생략
+            for (int i = 0; i < 4; i++)
+            {
+                if (linkedTile[i] == null || linkedTile[i].IsEmpty)
+                {
+                    //비활성화 되어있는 소켓 방향에 연결된 타일이 없다면 둘 수 없다...
+                    if (!_card.Sockets[i].isActive) return false;
 
-            //타일 소켓이 비어있으면서
-            if (linkedSocket[i].attribute == Attribute.isEmpty)
-            {
-                // 카드의 소켓이 활성화된 상태가 아니라면 X
-                if (!_card.Sockets[i].isActive)
-                    return false;
-            }
-            //타일 소켓이 연결된 상태면서
-            else
-            {
-                if (linkedSocket[i].attribute != _card.Sockets[i].attribute)
-                    return false;
+                    //연결되지 않은 모서리는 검사 생략
+                    continue;
+                }
+
+                if (!LinkedSocket(i).attribute.Equals(_card.Sockets[i].attribute)) return false;
             }
         }
 
         return true;
-    }
-
-    public void SetSocket()
-    {
-        for(int i = 0; i < linkedSocket.Length;  i++)
-        {
-            if (linkedTile[i] == null) continue;
-
-            int link = (i + 2) % 4;
-            if (linkedTile[i][link] == null)
-            {
-                linkedSocket[i] = new();
-            }
-            else
-            {
-                linkedSocket[i] = linkedTile[i][link];
-            }
-        }
     }
 
     public void ShowPlaceableTiles(Card _card, bool _isActive)
@@ -85,40 +68,19 @@ public class Tile : NetworkBehaviour
         {
             if (IsSetable(_card))
             {
-                //카드를 놓을 수 있는 타일임을 표시함
                 transform.localScale = Vector3.one * 1.2f;
-                //카드를 드래그하여 타일로 이동시키면 카드를 타일에 둘 수 있게 됨
+                sprtRend.color = Color.yellow;
                 return;
             }
         }
+
         transform.localScale = Vector3.one;
+        sprtRend.color = Color.white;
     }
 
-    public void SetCard(Card _card)
-    {
-        PlacedCard = _card;
-
-        for (int i = 0; i < 4; i++)
-        {
-            if (linkedSocket[i].attribute == Attribute.unlinked) continue;
-
-            linkedSocket[i].attribute = _card.Sockets[i].attribute;
-        }
-    }
-
-    public void ClearCard()
+    public void Clear()
     {
         PlacedCard = null;
-
-        for (int i = 0; i < linkedSocket.Length; i++)
-        {
-            if (linkedSocket[i].attribute == Attribute.unlinked) continue;
-
-            if (linkedTile[i] == null || linkedTile[i].PlacedCard == null)
-            {
-                linkedSocket[i].attribute = Attribute.isEmpty;
-            }
-        }
     }
 
     #region 카드 놓기
@@ -136,8 +98,8 @@ public class Tile : NetworkBehaviour
     public void RpcSetCard(int _id)
     {
         Card card = GameManager.Card(_id);
-
-        SetCard(card);
+        card.IsOpened = true;
+        PlacedCard = card;
 
         /*
          * 카드를 내는 순간, 손의 카드를 조작할 수 없게 막는다.
@@ -151,6 +113,8 @@ public class Tile : NetworkBehaviour
          *아직 할 게 남았다면 손의 카드를 조작할 수 있게 한다.
         */
 
+        UIManager.GetUI<LineMessage>().PopUp($"{card.cardName} 등장!",1.5f);
+
         card.iCardState = GameManager.instance.noneState;
 
         card.currentTile = this;
@@ -163,40 +127,38 @@ public class Tile : NetworkBehaviour
     // 에디터에서만 기즈모 그리기
 #if UNITY_EDITOR
     private const float maxLineLength = 1f;  // 기즈모 선의 최대 길이
+                                             // 각 인덱스에 대한 색상 배열
+    Color[] colors = { Color.red, Color.blue, Color.yellow, Color.green };
+
     private void OnDrawGizmosSelected()
     {
-        if (linkedTile.Length != 4)
-            return;
-
-        // 각 인덱스에 대한 색상 배열
-        Color[] colors = { Color.red, Color.blue, Color.yellow, Color.green };
-
         // 자신의 위치
         Vector3 startPosition = transform.position;
 
         // for문으로 배열을 순회하면서 기즈모 그리기
         for (int i = 0; i < linkedTile.Length; i++)
         {
-            if (linkedTile[i] != null)  // null이 아닌 경우에만 그리기
+            if (linkedTile[i] == null) return;// null이 아닌 경우에만 그리기
+
+            Gizmos.color = colors[i];  // 인덱스에 맞는 색상 선택
+
+            // 타일의 위치
+            Vector3 targetPosition = linkedTile[i].transform.position;
+
+            /*
+            // 방향 벡터 계산 후 정규화 (Normalize) 및 최대 길이로 제한
+            Vector3 direction = (targetPosition - startPosition).normalized;
+            float distance = Vector3.Distance(startPosition, targetPosition);
+
+            // 최대 길이로 제한된 타겟 위치 계산
+            if (distance > maxLineLength)
             {
-                Gizmos.color = colors[i];  // 인덱스에 맞는 색상 선택
-
-                // 타일의 위치
-                Vector3 targetPosition = linkedTile[i].transform.position;
-
-                // 방향 벡터 계산 후 정규화 (Normalize) 및 최대 길이로 제한
-                Vector3 direction = (targetPosition - startPosition).normalized;
-                float distance = Vector3.Distance(startPosition, targetPosition);
-
-                // 최대 길이로 제한된 타겟 위치 계산
-                if (distance > maxLineLength)
-                {
-                    targetPosition = startPosition + direction * maxLineLength;
-                }
-
-                // 선 그리기
-                Gizmos.DrawLine(startPosition, targetPosition);
+                targetPosition = startPosition + direction * maxLineLength;
             }
+            */
+
+            // 선 그리기
+            Gizmos.DrawLine(startPosition, targetPosition);
         }
     }
 #endif

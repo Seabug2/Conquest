@@ -81,6 +81,19 @@ public class CameraController : MonoBehaviour
         }
     }
 
+    public void Toggle(int i)
+    {
+        if(i == currentCamIndex)
+        {
+            if (GameManager.instance.CurrentPhase.Equals(GamePhase.DraftPhase))
+                FocusOnCenter();
+        }
+        else
+        {
+            FocusOnPlayerField(i);
+        }
+    }
+
     /// <summary>
     /// 카메라를 자신의 필드로 이동시킵니다.
     /// </summary>
@@ -139,11 +152,11 @@ public class CameraController : MonoBehaviour
 
     [SerializeField]
     bool moveLock = false;
-    public event Action<bool> lockEvent;
+    public event Action<bool> LockEvent;
     public void MoveLock(bool _isLocked)
     {
         moveLock = _isLocked;
-        lockEvent?.Invoke(!_isLocked);
+        LockEvent?.Invoke(!_isLocked);
     }
 
     private void Update()
