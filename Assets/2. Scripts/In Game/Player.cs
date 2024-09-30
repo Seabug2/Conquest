@@ -5,10 +5,9 @@ using Mirror;
 [RequireComponent(typeof(NetworkIdentity))]
 public class Player : NetworkBehaviour
 {
-    //Commander commander = new Commander();
-
-    public int Order { get; private set; }
+    readonly Commander cmd = new();
     #region 초기화
+    public int Order { get; private set; }
     [Server]
     public void SetOrder(int @new)
     {
@@ -25,17 +24,17 @@ public class Player : NetworkBehaviour
         if (isLocalPlayer)
         {
             GameManager.instance.CmdReply(@new);
-            
+
             SideMenu menu = UIManager.GetUI<SideMenu>();
             menu.Buttons[@new].onClick.RemoveAllListeners();
             menu.Buttons[@new].onClick.AddListener(OnClickMyButton);
-            
-            menu.ScaleUp(@new);
+
+            menu.SetLocalButton(@new);
         }
     }
     #endregion
 
-    public void OnClickMyButton()
+    void OnClickMyButton()
     {
         if (GameManager.instance.CurrentPhase.Equals(GamePhase.DraftPhase))
         {
@@ -117,8 +116,7 @@ public class Player : NetworkBehaviour
     [Client]
     public void ClientStartTurn()
     {
-        Commander commander = new();
-        commander
+        cmd.Reset()
             .Add(() =>
             {
                 CameraController.instance.FocusOnPlayerField(Order);
@@ -132,7 +130,7 @@ public class Player : NetworkBehaviour
                 {
                     UIManager.GetUI<HeadLine>().Print($"플레이어 {Order + 1}의 차례");
                     UIManager.GetUI<LineMessage>().ForcePopUp($"{Order + 1}번째 플레이어의 차례입니다", 3f);
-                    commander.Cancel();
+                    cmd.Cancel();
                 }
             }, 3f)
             .Add(CmdStartDrawPhase)
@@ -155,7 +153,7 @@ public class Player : NetworkBehaviour
 
         if (!isLocalPlayer) return;
 
-        new Commander()
+        cmd.Reset()
             .WaitSeconds(1f)
             .Add(() => Hand.CmdAdd(id), 1f)
             .Add(CmdHandling)
@@ -173,7 +171,7 @@ public class Player : NetworkBehaviour
     {
         if (isLocalPlayer)
         {
-            new Commander()
+            cmd.Reset()
                 .Add(() => UIManager.GetUI<LineMessage>().ForcePopUp("나쁜 짓을 할 시간입니다!", 2f)
                 , 2f)
                 .Add(() =>
@@ -204,7 +202,7 @@ public class Player : NetworkBehaviour
         }
         else
         {
-            new Commander()
+            cmd.Reset()
                 .Add(() => UIManager.GetUI<LineMessage>().ForcePopUp($"플레이어 {Order + 1}가\n카드를 고르는 중입니다.", 2f)
                 , 2f)
                 .Add(() =>
@@ -220,20 +218,36 @@ public class Player : NetworkBehaviour
     public void CmdEndTurn(bool isGameOver)
     {
         this.isGameOver = isGameOver;
-        RpcEndTurn();
+
+        if (isGameOver)
+        {
+            GameManager.deck.CmdReturnCard(Hand.AllIDs, true);
+            Hand.CmdRemoveAll();
+        }
+
+        RpcEndTurn(isGameOver);
     }
 
     [ClientRpc]
-    public void RpcEndTurn()
+    public void RpcEndTurn(bool isGameOver)
     {
         UIManager.GetUI<Timer>().Reset();
         CameraController.instance.FocusOnPlayerField(Order);
         CameraController.instance.MoveLock(true);
-        UIManager.GetUI<LineMessage>().ForcePopUp($"플레이어 {Order + 1}의\n차례를 마칩니다!", 2f);
+
+        if (isGameOver)
+        {
+            UIManager.GetUI<LineMessage>().ForcePopUp($"플레이어 {Order + 1}가 탈락했습니다!", 2f);
+            UIManager.GetUI<HeadLine>().ForcePrint("패배");
+        }
+        else
+        {
+            UIManager.GetUI<LineMessage>().ForcePopUp($"플레이어 {Order + 1}의\n차례를 마칩니다!", 2f);
+        }
 
         if (!isLocalPlayer) return;
 
-        new Commander()
+        cmd.Reset()
             .WaitSeconds(2f)
             .Add(() => CmdNextTurn(Order))
             .Play();

@@ -44,12 +44,7 @@ public partial class Card : NetworkBehaviour
         transform.DOMove(TargetPosition, duration).SetEase(setEase).SetDelay(delay);
         transform.DORotateQuaternion(TargetRotation, duration).SetEase(setEase).SetDelay(delay);
     }
-    public void DoMove(System.Action _Action)
-    {
-        transform.DOKill();
-        transform.DOMove(TargetPosition, duration);
-        transform.DORotateQuaternion(TargetRotation, duration).OnComplete(()=>_Action?.Invoke());
-    }
+
 
 
     [Command(requiresAuthority = false)]
@@ -72,5 +67,33 @@ public partial class Card : NetworkBehaviour
         Vector3 pos = TargetPosition;
         pos.y = _height;
         transform.position = pos;
+    }
+
+    
+
+    [Command(requiresAuthority = false)]
+    public void CmdReturnToDeck(float delay)
+    {
+        RpcReturnToDeck(delay);
+    }
+
+    [ClientRpc]
+    public void RpcReturnToDeck(float delay)
+    {
+        ReturnToDeck(delay);
+    }
+
+    [Client]
+    public void ReturnToDeck(float delay = 0)
+    {
+        ownerOrder = -1;
+        iCardState = GameManager.instance.noneState;
+        isOpened = false;
+        transform.DOKill();
+        TargetPosition = GameManager.deck.transform.position;
+        transform.DOMove(TargetPosition, duration).SetDelay(delay);
+        TargetRotation = GameManager.deck.transform.rotation;
+        transform.DORotateQuaternion(TargetRotation, duration).SetDelay(delay)
+            .OnComplete(() => enabled = false);
     }
 }

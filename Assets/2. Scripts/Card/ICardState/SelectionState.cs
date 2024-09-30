@@ -2,7 +2,6 @@ using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-//µ¦¿¡¼­ Ä«µå¸¦ ²¨³¾ ¶§...
 public class SelectionState : ICardState
 {
     readonly Card card;

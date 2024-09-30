@@ -8,7 +8,7 @@ public partial class Card : NetworkBehaviour
     public int id;
 
     public string cardName;
-    
+
     // 0   1
     //
     // 3   2
@@ -51,7 +51,14 @@ public partial class Card : NetworkBehaviour
     private void Start()
     {
         IsOpened = false;
-        iCardState = GameManager.instance.noneState;
+        if (GameManager.instance == null)
+        {
+            iCardState = new NoneState();
+        }
+        else
+        {
+            iCardState = GameManager.instance.noneState;
+        }
     }
     #endregion
 }

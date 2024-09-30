@@ -104,6 +104,7 @@ public class HandlingState : ICardState
                 }
                 else
                 {
+                    UIManager.GetUI<LineMessage>().PopUp("그 타일에는 둘 수 없습니다.", 1.6f);
                     Debug.LogError("그 타일에는 카드를 둘 수 없습니다.");
                 }
             }

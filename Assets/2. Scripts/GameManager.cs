@@ -327,7 +327,15 @@ public class GameManager : NetworkBehaviour
     public Card[] cards;
 
     readonly Dictionary<int, Card> dict_Card = new();
-    public static Card Card(int id) => instance.dict_Card[id];
+    public static Card Card(int id)
+    {
+        if (!instance.dict_Card.ContainsKey(id))
+        {
+            Debug.LogError("존재하지 않는 카드입니다");
+            return null;
+        }
+        return instance.dict_Card[id];
+    }
     public static int TotalCard => instance.cards.Length;
 
     void CardSetting()
@@ -548,11 +556,12 @@ public class GameManager : NetworkBehaviour
     [Space(20)]
     [Header("게임 시작 이벤트")]
     public UnityEvent OnStartEvent;
+    readonly Commander cmd = new();
 
     [ClientRpc]
     public void RpcStartGame()
     {
-        new Commander()
+        cmd.Reset()
             .Add(() =>
             {
                 OnStartEvent.Invoke();

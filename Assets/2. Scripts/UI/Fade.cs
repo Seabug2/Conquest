@@ -10,15 +10,19 @@ public class Fade : MonoBehaviour, IUIController
 
     Image image;
 
+    private void Awake()
+    {
+        image = GetComponent<Image>();
+        image.color = defualtColor;
+        image.enabled = true;
+    }
+
     private void Start()
     {
         if (UIManager.instance != null)
         {
             UIManager.RegisterController(this.GetType(), this);
         }
-        image = GetComponent<Image>();
-        image.color = defualtColor;
-        image.enabled = true;
     }
 
     public void In(float duration = 1)

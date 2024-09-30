@@ -5,7 +5,7 @@ using DG.Tweening;
 
 public class Info : MonoBehaviour, IUIController
 {
-    readonly Queue<Image> infos = new Queue<Image>();
+    readonly Queue<Image> infos = new();
 
     public Image prefab;
 
@@ -24,10 +24,13 @@ public class Info : MonoBehaviour, IUIController
 
     Image currentInfo = null;
 
-    private void Start()
+    private void Awake()
     {
         infos.Enqueue(prefab);
+    }
 
+    private void Start()
+    {
         if (UIManager.instance != null)
         {
             UIManager.RegisterController(this.GetType(), this);

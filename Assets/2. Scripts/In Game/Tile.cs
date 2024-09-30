@@ -42,21 +42,18 @@ public class Tile : NetworkBehaviour
         if (PlacedCard != null) return false; //카드가 이미 놓여 있으면 X
 
         //타일에 놓여져 있는 카드가 없는 경우,
-        else
+        for (int i = 0; i < 4; i++)
         {
-            for (int i = 0; i < 4; i++)
+            if (linkedTile[i] == null || linkedTile[i].IsEmpty)
             {
-                if (linkedTile[i] == null || linkedTile[i].IsEmpty)
-                {
-                    //비활성화 되어있는 소켓 방향에 연결된 타일이 없다면 둘 수 없다...
-                    if (!_card.Sockets[i].isActive) return false;
+                //비활성화 되어있는 소켓 방향에 연결된 타일이 없다면 둘 수 없다...
+                if (!_card.Sockets[i].isActive) return false;
 
-                    //연결되지 않은 모서리는 검사 생략
-                    continue;
-                }
-
-                if (!LinkedSocket(i).attribute.Equals(_card.Sockets[i].attribute)) return false;
+                //연결되지 않은 모서리는 검사 생략
+                continue;
             }
+
+            if (!LinkedSocket(i).attribute.Equals(_card.Sockets[i].attribute)) return false;
         }
 
         return true;
@@ -70,6 +67,7 @@ public class Tile : NetworkBehaviour
             {
                 transform.localScale = Vector3.one * 1.2f;
                 sprtRend.color = Color.yellow;
+                Debug.Log("카드를 둘 수 있음");
                 return;
             }
         }
@@ -113,7 +111,7 @@ public class Tile : NetworkBehaviour
          *아직 할 게 남았다면 손의 카드를 조작할 수 있게 한다.
         */
 
-        UIManager.GetUI<LineMessage>().PopUp($"{card.cardName} 등장!",1.5f);
+        UIManager.GetUI<LineMessage>().PopUp($"{card.cardName} 등장!", 1.5f);
 
         card.iCardState = GameManager.instance.noneState;
 

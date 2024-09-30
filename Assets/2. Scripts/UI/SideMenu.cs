@@ -29,7 +29,7 @@ public class SideMenu : MonoBehaviour, IUIController
 
         if (UIManager.instance != null)
         {
-            UIManager.RegisterController(this.GetType(), this);
+            UIManager.RegisterController(GetType(), this);
         }
         if (CameraController.instance != null)
         {
@@ -37,12 +37,11 @@ public class SideMenu : MonoBehaviour, IUIController
         }
     }
 
-    public void ScaleUp(int selectButtonNumber)
+    public void SetLocalButton(int selectButtonNumber)
     {
         buttons[selectButtonNumber].transform.localScale = Vector3.one * 1.2f;
+        buttons[selectButtonNumber].transform.GetComponentInChildren<Text>().text = $"{selectButtonNumber + 1}p : You";
     }
-
-    public AnimationCurve curve;
 
     public void Toggle(bool isActive)
     {

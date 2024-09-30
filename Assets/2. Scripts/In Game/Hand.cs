@@ -83,6 +83,7 @@ public class Hand : NetworkBehaviour
         list.Add(newCard);
         HandAlignment();
     }
+
     public void TestChangeState()
     {
         foreach (Card c in list)
@@ -107,6 +108,20 @@ public class Hand : NetworkBehaviour
         if (list.Count > 0)
             HandAlignment();
     }
+
+    [Command(requiresAuthority = false)]
+    public void CmdRemoveAll()
+    {
+        RpcRemoveAll();
+    }
+
+    [ClientRpc]
+    public void RpcRemoveAll()
+    {
+        list.Clear();
+    }
+
+
     #endregion
 
     public void HandOpen(bool isOpen)

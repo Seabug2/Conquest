@@ -25,12 +25,7 @@ public class Field : MonoBehaviour
         }
     }
 
-    private void Awake()
-    {
-        TileSet();
-    }
-
-    void TileSet()
+    public void TileSet()
     {
         Tile[] tiles = GetComponentsInChildren<Tile>();
 

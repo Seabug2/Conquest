@@ -4,6 +4,7 @@ using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using UnityEngine;
 
+#region 커맨드
 public class Command
 {
     public Action command { get; private set; } //실행 후...
@@ -63,12 +64,8 @@ public class Command
         Until = null;
     }
 }
+#endregion
 
-/// <summary>
-/// Action과 익명 메서드를 리스트에 저장합니다.
-/// <para>Add()를 통해 명령과 명령 실행 후 대기할 시간을 설정할 수 있습니다.</para>
-/// <para>Play()하여 실행할 수 있습니다.</para>
-/// </summary>
 public class Commander
 {
     private List<Command> commands = new List<Command>();
@@ -211,6 +208,20 @@ public class Commander
         return this;
     }
 
+    public Commander Reset()
+    {
+        cancel?.Cancel();
+        cancel?.Dispose();
+        commands.Clear();
+        onComplete = null;
+        onCompleteAll = null;
+        onUpdate = null;
+        onCanceled = null;
+        cancelTrigger = () => { return false; };
+        return this;
+    }
+
+
     public int CommandCount => commands.Count;
     int taskCount = 0;
 
@@ -249,6 +260,7 @@ public class Commander
         }
 
         cancel?.Cancel();
+        cancel?.Dispose();
         cancel = new CancellationTokenSource();
 
         Task(cancel.Token).Forget();
@@ -271,9 +283,10 @@ public class Commander
     private async UniTask Task(CancellationToken token)
     {
         int l = loopCount;
-        taskCount = 0;
         while (l != 0 && !token.IsCancellationRequested)
         {
+            taskCount = 0;
+
             foreach (Command cmd in commands)
             {
                 cmd.command?.Invoke();
@@ -292,7 +305,7 @@ public class Commander
 
                 // 취소되었는지 확인
                 if (token.IsCancellationRequested)
-                    break;
+                    return;
 
                 onComplete?.Invoke();
                 taskCount = Mathf.Clamp(taskCount + 1, 0, CommandCount);
@@ -309,11 +322,13 @@ public class Commander
             onCompleteAll = null;
             onUpdate = null;
             ClearCancelTrigger();
+            commands.Clear();
         }
 
         if (!token.IsCancellationRequested)
         {
             cancel.Cancel();
+            return;
         }
     }
 

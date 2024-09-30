@@ -29,6 +29,19 @@ public class HeadLine : MonoBehaviour, IUIController
 
     public void Print(string _text)
     {
+        if (isStatic) return;
+
+        text.DOKill();
+        text.text = string.Empty;
+        text.DOText(_text, duration);
+    }
+
+    bool isStatic = false;
+
+    public void ForcePrint(string _text)
+    {
+        isStatic = true;
+
         text.DOKill();
         text.text = string.Empty;
         text.DOText(_text, duration);
@@ -36,6 +49,7 @@ public class HeadLine : MonoBehaviour, IUIController
 
     public void Off(float duration = 1f)
     {
+        isStatic = false;
         text.DOKill();
         text.text = string.Empty;
         root.DOScaleX(0, duration)
