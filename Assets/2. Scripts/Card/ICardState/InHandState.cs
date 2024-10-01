@@ -60,8 +60,7 @@ public class HandlingState : ICardState
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        CameraController.instance.Raycaster.eventMask = 0;
-        CameraController.instance.MoveLock(true);
+        card.OnPointerCardDown?.Invoke(card);
 
         isSelected = true;
 
@@ -75,8 +74,7 @@ public class HandlingState : ICardState
     }
     public void OnPointerUp(PointerEventData eventData)
     {
-        CameraController.instance.Raycaster.eventMask = -1;
-        CameraController.instance.MoveLock(false);
+        card.OnPointerCardUp?.Invoke(card);
 
         isSelected = false;
 
@@ -105,8 +103,11 @@ public class HandlingState : ICardState
                 else
                 {
                     UIManager.GetUI<LineMessage>().PopUp("그 타일에는 둘 수 없습니다.", 1.6f);
-                    Debug.LogError("그 타일에는 카드를 둘 수 없습니다.");
+
+                    card.IsOnMouse = false;
+                    hand.HandAlignment();
                 }
+                field.ShowPlaceableTiles(null, false);
             }
         }
     }
@@ -119,8 +120,7 @@ public class HandlingState : ICardState
         card.transform.localScale = Vector3.one * 1.2f;
         card.SprtRend.sortingLayerName = "OnMouseLayer";
 
-        if (field != null)
-            field.ShowPlaceableTiles(card, true);
+        field?.ShowPlaceableTiles(card, true);
 
         card.CmdPick(hand.selectedCardHeight.position.y);
         hand.HandAlignment();
@@ -133,8 +133,7 @@ public class HandlingState : ICardState
         card.SprtRend.sortingLayerName = "Default";
         card.transform.localScale = Vector3.one;
 
-        if (field != null)
-            field.ShowPlaceableTiles(card, false);
+        field?.ShowPlaceableTiles(card, false);
 
         card.CmdDoMove();
         hand.HandAlignment();

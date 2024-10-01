@@ -4,199 +4,124 @@ using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using UnityEngine;
 
-#region 커맨드
+#region Command
 public class Command
 {
-    public Action command { get; private set; } //실행 후...
-    public float Interval { get; private set; } //~초 동안 대기
-    public Func<bool> Until { get; private set; } //~까지 실행 대기
-    public Func<bool> While { get; private set; } //~동안 실행 대기
+    public Action Execute { get; }
+    public float Delay { get; }
+    public Func<bool> WaitUntilCondition { get; }
+    public Func<bool> WaitWhileCondition { get; }
 
-    public Command(Action command)
+    public Command(Action execute, float delay = 0, Func<bool> waitUntil = null, Func<bool> waitWhile = null)
     {
-        Interval = 0;
-        Until = null;
-        While = null;
-        this.command = command;
-    }
-    public Command(Func<bool> until)
-    {
-        Interval = 0;
-        While = null;
-        this.Until = until;
-        command = null;
-    }
-    public Command(Func<bool> @while, int interval = 0)
-    {
-        this.Interval = interval;
-        this.While = @while;
-        Until = null;
-        command = null;
-    }
-    public Command(float interval)
-    {
-        this.Interval = interval;
-        command = null;
-        While = null;
-        Until = null;
-    }
-
-
-    public Command(Action command, Func<bool> until)
-    {
-        Interval = 0;
-        this.Until = until;
-        While = null;
-        this.command = command;
-    }
-    public Command(Action command, Func<bool> @while, int interval = 0)
-    {
-        Until = null;
-        this.Interval = interval;
-        this.While = @while;
-        this.command = command;
-    }
-    public Command(Action command, float interval)
-    {
-        this.Interval = interval;
-        this.command = command;
-        While = null;
-        Until = null;
+        Execute = execute;
+        Delay = delay;
+        WaitUntilCondition = waitUntil;
+        WaitWhileCondition = waitWhile;
     }
 }
 #endregion
 
 public class Commander
 {
-    private List<Command> commands = new List<Command>();
+    private readonly List<Command> commands = new List<Command>();
+    private bool autoClear = true;
     private int loopCount = 1;
-    bool autoClear = true;
-    public bool IsPlaying => cancel != null && !cancel.IsCancellationRequested;
+    private CancellationTokenSource cancellationTokenSource;
 
-    public Commander()
-    {
-        loopCount = 1;
-        autoClear = true;
-    }
+    private Action onComplete;
+    private Action onCompleteAll;
+    private Action onUpdate;
+    private Action onCanceled;
+    private Func<bool> cancelTrigger = () => false;
 
-    public Commander(bool autoClear)
+    private bool isCanceled = false;
+
+    public bool IsPlaying => cancellationTokenSource != null && !cancellationTokenSource.IsCancellationRequested;
+    public int CommandCount => commands.Count;
+    public float TaskProgress => CommandCount == 0 ? 0 : Mathf.Clamp((float)currentTaskIndex / CommandCount, 0, 1);
+
+    private int currentTaskIndex = 0;
+
+    public Commander(bool autoClear = true, int loopCount = 1)
     {
         this.autoClear = autoClear;
-    }
-    public Commander(int loopCount)
-    {
-        SetLoop(loopCount);
-    }
-    public Commander(bool autoClear, int loopCount)
-    {
-        this.autoClear = autoClear;
         SetLoop(loopCount);
     }
 
-
-
-    #region Add
-    public Commander Add(Action action)
+    #region Event Handlers
+    public Commander OnComplete(Action callback)
     {
-        if (IsPlaying)
-        {
-            Debug.Log("커맨드 실행 중");
-            return this;
-        }
-
-        commands.Add(new Command(action));
+        onComplete = callback;
         return this;
     }
 
-    public Commander WaitSeconds(float interval)
+    public Commander OnCompleteAll(Action callback)
     {
-        if (IsPlaying)
-        {
-            Debug.Log("커맨드 실행 중");
-            return this;
-        }
-
-        commands.Add(new Command(interval));
+        onCompleteAll = callback;
         return this;
     }
 
-    public Commander WaitUntil(Func<bool> until)
+    public Commander OnUpdate(Action callback)
     {
-        if (IsPlaying)
-        {
-            Debug.Log("커맨드 실행 중");
-            return this;
-        }
-
-        commands.Add(new Command(until));
+        onUpdate = callback;
         return this;
     }
 
-    public Commander WaitWhile(Func<bool> @while)
+    public Commander OnCanceled(Action callback)
     {
-        if (IsPlaying)
-        {
-            Debug.Log("커맨드 실행 중");
-            return this;
-        }
-
-        commands.Add(new Command(@while, 0));
+        onCanceled = callback;
         return this;
     }
 
-
-
-    public Commander Add(Action action, float interval)
+    public Commander CancelTrigger(Func<bool> trigger)
     {
-        if (IsPlaying)
-        {
-            Debug.Log("커맨드 실행 중");
-            return this;
-        }
-
-        commands.Add(new Command(action, interval));
+        cancelTrigger = trigger;
         return this;
     }
-    public Commander Add_Until(Action action, Func<bool> until)
-    {
-        if (IsPlaying)
-        {
-            Debug.Log("커맨드 실행 중");
-            return this;
-        }
 
-        commands.Add(new Command(action, until));
-        return this;
-    }
-    public Commander Add_While(Action action, Func<bool> @while)
+    public Commander ClearCancelTrigger()
     {
-        if (IsPlaying)
-        {
-            Debug.Log("커맨드 실행 중");
-            return this;
-        }
-
-        commands.Add(new Command(action, @while, 0));
+        cancelTrigger = () => false;
         return this;
     }
     #endregion
 
-
-
-    /// <summary>
-    /// 0 보다 작은 수를 넣으면 무한히 반복합니다.
-    /// </summary>
-    public Commander SetLoop(int loopCount = -1)
+    #region Command Management
+    public Commander Add(Action action, float delay = 0, Func<bool> waitUntil = null, Func<bool> waitWhile = null)
     {
-        if (loopCount == 0) loopCount = 1;
-        this.loopCount = loopCount;
+        if (IsPlaying)
+        {
+            Debug.Log("Commander is already running.");
+            return this;
+        }
+
+        commands.Add(new Command(action, delay, waitUntil, waitWhile));
         return this;
     }
 
-    /// <summary>
-    /// 작업을 마치면 입력받은 커맨드를 전부 삭제합니다.
-    /// </summary>
-    public Commander SetAutoClear(bool autoClear = true)
+    public Commander WaitSeconds(float delay)
+    {
+        return Add(null, delay);
+    }
+
+    public Commander WaitUntil(Func<bool> condition)
+    {
+        return Add(null, waitUntil: condition);
+    }
+
+    public Commander WaitWhile(Func<bool> condition)
+    {
+        return Add(null, waitWhile: condition);
+    }
+
+    public Commander SetLoop(int count = -1)
+    {
+        loopCount = count == 0 ? 1 : count;
+        return this;
+    }
+
+    public Commander SetAutoClear(bool autoClear)
     {
         this.autoClear = autoClear;
         return this;
@@ -207,190 +132,155 @@ public class Commander
         commands.Clear();
         return this;
     }
+    #endregion
 
-    public Commander Reset()
+    #region Execution Control
+    public Commander Play()
     {
-        cancel?.Cancel();
-        cancel?.Dispose();
-        commands.Clear();
-        onComplete = null;
-        onCompleteAll = null;
-        onUpdate = null;
-        onCanceled = null;
-        cancelTrigger = () => { return false; };
-        return this;
-    }
-
-
-    public int CommandCount => commands.Count;
-    int taskCount = 0;
-
-    public float TaskProgress
-    {
-        get
-        {
-            if (CommandCount == 0)
-            {
-                return 0;
-            }
-            else
-            {
-                return Mathf.Clamp((float)taskCount / CommandCount, 0, 1);
-            }
-        }
-    }
-
-    /// <summary>
-    /// 저장한 커맨드를 모두 실행합니다.
-    /// </summary>
-    public Commander Play(bool autoClear = true)
-    {
-        this.autoClear = autoClear;
-
         if (commands.Count == 0)
         {
-            Debug.Log("저장된 커맨드가 없습니다.");
+            Debug.Log("No commands to execute.");
             return this;
         }
 
         if (IsPlaying)
         {
-            Debug.Log("커맨더가 실행 중입니다.");
+            Debug.Log("Commander is already running.");
             return this;
         }
 
-        cancel?.Cancel();
-        cancel?.Dispose();
-        cancel = new CancellationTokenSource();
+        isCanceled = false;
+        cancellationTokenSource = new CancellationTokenSource();
 
-        Task(cancel.Token).Forget();
-        Update(cancel.Token).Forget();
+        ExecuteCommands(cancellationTokenSource.Token).Forget();
+        if (cancellationTokenSource != null && !cancellationTokenSource.IsCancellationRequested)
+            MonitorUpdate(cancellationTokenSource.Token).Forget();
+
         return this;
     }
 
-    /// <summary>
-    /// 실행을 중단 합니다.
-    /// </summary>
     public void Cancel()
     {
-        if (IsPlaying && cancel != null)
+        if (IsPlaying)
         {
-            cancel.Cancel();  // 작업 취소
+            isCanceled = true;
+            cancellationTokenSource.Cancel();
+            cancellationTokenSource.Dispose();
+            cancellationTokenSource = null;
+            onCanceled?.Invoke();
         }
     }
 
-
-    private async UniTask Task(CancellationToken token)
+    public Commander Refresh(bool cleanUp = true)
     {
-        int l = loopCount;
-        while (l != 0 && !token.IsCancellationRequested)
+        if (IsPlaying)
         {
-            taskCount = 0;
+            Cancel();
+        }
+        if (cleanUp)
+        {
+            Cleanup();
+        }
+        return this;
+    }
 
-            foreach (Command cmd in commands)
+    public Commander Cleanup()
+    {
+        if (IsPlaying)
+        {
+            Debug.Log("Cannot clean up while running.");
+            return this;
+        }
+        commands.Clear();
+        onComplete = null;
+        onCompleteAll = null;
+        onUpdate = null;
+        onCanceled = null;
+        cancelTrigger = () => false;
+        return this;
+    }
+    #endregion
+
+    #region Execution Methods
+    private async UniTask ExecuteCommands(CancellationToken token)
+    {
+        try
+        {
+            bool infiniteLoop = loopCount < 0;
+            int remainingLoops = loopCount;
+
+            while ((infiniteLoop || remainingLoops > 0) && !token.IsCancellationRequested)
             {
-                cmd.command?.Invoke();
+                currentTaskIndex = 0;
 
-                //~초 동안 대기
-                if (cmd.Interval > 0)
-                    await UniTask.Delay(TimeSpan.FromSeconds(cmd.Interval), cancellationToken: token).SuppressCancellationThrow();
+                foreach (var command in commands)
+                {
+                    command.Execute?.Invoke();
 
-                //~까지 대기
-                if (cmd.Until != null)
-                    await UniTask.WaitUntil(cmd.Until, cancellationToken: token).SuppressCancellationThrow();
+                    if (command.Delay > 0)
+                        await UniTask.Delay(TimeSpan.FromSeconds(command.Delay), cancellationToken: token);
 
-                //~까지 대기
-                if (cmd.While != null)
-                    await UniTask.WaitWhile(cmd.While, cancellationToken: token).SuppressCancellationThrow();
+                    if (command.WaitUntilCondition != null)
+                        await UniTask.WaitUntil(command.WaitUntilCondition, cancellationToken: token);
 
-                // 취소되었는지 확인
-                if (token.IsCancellationRequested)
-                    return;
+                    if (command.WaitWhileCondition != null)
+                        await UniTask.WaitWhile(command.WaitWhileCondition, cancellationToken: token);
 
-                onComplete?.Invoke();
-                taskCount = Mathf.Clamp(taskCount + 1, 0, CommandCount);
+                    if (token.IsCancellationRequested)
+                        return;
+
+                    currentTaskIndex++;
+                    onComplete?.Invoke();
+                }
+
+                if (!infiniteLoop)
+                    remainingLoops--;
             }
 
-            onCompleteAll?.Invoke();
-
-            l--;
-        }
-
-        if (autoClear)
-        {
-            onComplete = null;
-            onCompleteAll = null;
-            onUpdate = null;
-            ClearCancelTrigger();
-            commands.Clear();
-        }
-
-        if (!token.IsCancellationRequested)
-        {
-            cancel.Cancel();
-            return;
-        }
-    }
-
-    private CancellationTokenSource cancel;
-
-
-    Action onComplete;
-    public Commander OnComplete(Action onComplete)
-    {
-        this.onComplete = onComplete;
-        return this;
-    }
-
-
-    Action onCompleteAll;
-    public Commander OnCompleteAll(Action onCompleteAll)
-    {
-        this.onCompleteAll = onCompleteAll;
-        return this;
-    }
-
-
-    Action onUpdate;
-    public Commander OnUpdate(Action onUpdate)
-    {
-        this.onUpdate = onUpdate;
-        return this;
-    }
-
-    async UniTask Update(CancellationToken token)
-    {
-        while (!token.IsCancellationRequested)
-        {
-            onUpdate?.Invoke();
-
-            if (cancelTrigger())
+            if (autoClear)
             {
-                cancel.Cancel();
-                onCanceled?.Invoke();
+                Cleanup();
             }
-
-            await UniTask.Yield(PlayerLoopTiming.Update, cancellationToken: token);
+        }
+        finally
+        {
+            if (!token.IsCancellationRequested && !isCanceled)
+            {
+                isCanceled = true;
+                cancellationTokenSource.Cancel();
+                cancellationTokenSource.Dispose();
+                cancellationTokenSource = null;
+                onCompleteAll?.Invoke();
+            }
         }
     }
 
-    Func<bool> cancelTrigger = () => { return false; };
-    public Commander CancelTrigger(Func<bool> cancelTrigger)
+    private async UniTask MonitorUpdate(CancellationToken token)
     {
-        this.cancelTrigger = cancelTrigger;
-        return this;
-    }
+        try
+        {
+            while (!token.IsCancellationRequested)
+            {
+                onUpdate?.Invoke();
 
-    Action onCanceled;
-    public Commander OnCanceled(Action onCanceled)
-    {
-        this.onCanceled = onCanceled;
-        return this;
-    }
+                if (cancelTrigger())
+                {
+                    Cancel();
+                }
 
-    public Commander ClearCancelTrigger()
-    {
-        cancelTrigger = () => { return false; };
-        return this;
+                await UniTask.Yield(PlayerLoopTiming.Update, cancellationToken: token);
+            }
+        }
+        finally
+        {
+            if (!token.IsCancellationRequested && !isCanceled)
+            {
+                isCanceled = true;
+                cancellationTokenSource.Cancel();
+                cancellationTokenSource.Dispose();
+                cancellationTokenSource = null;
+            }
+        }
     }
+    #endregion
 }

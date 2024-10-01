@@ -45,7 +45,6 @@ public class Timer : MonoBehaviour, IUIController
     public void Stop()
     {
         isPlaying = false;
-        gage.DOKill();
 
         if (counter.gameObject.activeSelf)
         {
@@ -74,6 +73,8 @@ public class Timer : MonoBehaviour, IUIController
         isPlaying = true;
         this.maxValue = maxValue;
         t = maxValue;
+
+        gage.DOKill();
     }
 
     public void Inactive(float duration = 1f)

@@ -1,31 +1,16 @@
 using System;
 using UnityEngine.EventSystems;
-using UnityEngine;
-using Mirror;
 
-public partial class Card : NetworkBehaviour,
+public partial class Card : 
     IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IDragHandler, IPointerUpHandler
 {
     public ICardState iCardState;
-
-    //카드 드래그를 시작했을 때 호출됩니다.
-    public void OnBeginDrag(PointerEventData eventData)
-    {
-        iCardState.OnPointerDown(eventData);
-    }
 
     //카드를 드래그하는 중에 지속적으로 호출됩니다.
     public void OnDrag(PointerEventData eventData)
     {
         iCardState.OnDrag(eventData);
     }
-
-    //카드 드래그를 마쳤을 때 호출됩니다.
-    public void OnEndDrag(PointerEventData eventData)
-    {
-        iCardState.OnPointerUp(eventData);
-    }
-
 
 
 
@@ -43,6 +28,7 @@ public partial class Card : NetworkBehaviour,
         iCardState.OnPointerEnter(eventData);
     }
 
+    public Action<Card> OnPointerCardExit;
     //마우스가 카드 밖으로 이동할 때 한 번만 호출 됩니다.
     public void OnPointerExit(PointerEventData eventData)
     {
@@ -61,12 +47,13 @@ public partial class Card : NetworkBehaviour,
         iCardState.OnPointerClick(eventData);
     }
 
-
+    public Action<Card> OnPointerCardDown;
     public void OnPointerDown(PointerEventData eventData)
     {
         iCardState.OnPointerDown(eventData);
     }
 
+    public Action<Card> OnPointerCardUp;
     public void OnPointerUp(PointerEventData eventData)
     {
         iCardState.OnPointerUp(eventData);

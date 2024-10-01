@@ -21,7 +21,7 @@ public class Fade : MonoBehaviour, IUIController
     {
         if (UIManager.instance != null)
         {
-            UIManager.RegisterController(this.GetType(), this);
+            UIManager.RegisterController(GetType(), this);
         }
     }
 

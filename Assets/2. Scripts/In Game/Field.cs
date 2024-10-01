@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,24 +8,25 @@ public class Field : MonoBehaviour
 
     readonly Dictionary<int, Tile> dict_Tile = new();
 
-    public Tile this[int key]
+    public int[] AllIDs
     {
         get
         {
-            if (!dict_Tile.ContainsKey(key))
+            List<int> list_IDs = new();
+            foreach (Tile t in dict_Tile.Values)
             {
-                return dict_Tile[key];
+                if (t.PlacedCard)
+                    list_IDs.Add(t.PlacedCard.id);
             }
-            else
-            {
-                Debug.LogWarning($"Invalid index {key}. Returning null.");
-                return null;
-            }
+
+            int[] array_IDs = list_IDs.ToArray();
+            return array_IDs;
         }
     }
 
     public void TileSet()
     {
+        /// <see cref="GameManager.OnStartEvent"/>에 등록하여 사용
         Tile[] tiles = GetComponentsInChildren<Tile>();
 
         foreach (Tile t in tiles)

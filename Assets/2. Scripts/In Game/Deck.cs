@@ -8,7 +8,7 @@ using Mirror;
 /// </summary>
 public class Deck : NetworkBehaviour
 {
-    readonly Commander cmd = new();
+    readonly Commander commander = new();
     public readonly SyncList<int> list = new();
 
     #region 덱 초기화
@@ -76,7 +76,7 @@ public class Deck : NetworkBehaviour
         }
 
         list.Add(_id);
-        GameManager.Card(_id).RpcReturnToDeck();
+        GameManager.Card(_id).RpcReturnToDeck(0);
 
         //placeOnTop이 true면 덱의 맨 위에, false면 랜덤 위치에 삽입
         if (!_placeOnTop) Shuffle();
@@ -87,6 +87,9 @@ public class Deck : NetworkBehaviour
     public void CmdReturnCard(int[] _ids, bool _shuffle)
     {
         int length = _ids.Length;
+
+        if (length == 0) return;
+
         for (int i = 0; i < length; i++)
         {
             //이미 덱 안에 있는 카드라면 다시 덱에 넣을 수 없다.
@@ -95,10 +98,11 @@ public class Deck : NetworkBehaviour
                 Debug.LogError("이미 덱에 있는 카드를 추가하려고 했습니다. 잘못된 상황입니다.");
                 continue;
             }
+
             if (null != GameManager.Card(_ids[i]))
             {
                 list.Add(_ids[i]);
-                GameManager.Card(_ids[i]).RpcReturnToDeck();
+                GameManager.Card(_ids[i]).RpcReturnToDeck(0.123f * (i + 1));
             }
             else
             {
@@ -129,40 +133,39 @@ public class Deck : NetworkBehaviour
         //10초 대기...
         float t = 10;
 
-        cmd.Reset()
+        commander
+            .Refresh()
             .Add(GameManager.instance.SetNewRound)
-            .WaitUntil(() => GameManager.instance.IsAllReceived() || t <= 0)
-            .Add(() =>
-            {
-                if (!GameManager.instance.IsAllReceived())
-                    GameManager.instance.CheckDisconnectedPlayers();
+           .WaitUntil(() => GameManager.instance.IsAllReceived() || t <= 0)
+           .Add(() =>
+           {
+               if (!GameManager.instance.IsAllReceived())
+                   GameManager.instance.CheckDisconnectedPlayers();
 
-                GameManager.instance.ResetAcknowledgements();
+               GameManager.instance.ResetAcknowledgements();
 
-                if (Count == 0)
-                {
-                    Debug.LogError("덱에 카드가 없습니다!");
-                    //TODO
-                    return;
-                }
+               if (Count == 0)
+               {
+                   Debug.LogError("덱에 카드가 없습니다!");
+                   //TODO 덱에 카드가 없는 상황?
+                   return;
+               }
 
-                //현재 생존한 플레이어 수 만큼 카드를 공개한다.
-                int playerCount = Mathf.Min(GameManager.AliveCount, Count);
+               draftCard.Clear();
 
-                int[] drawnCard = new int[playerCount];
-
-                draftCard.Clear();
-
-                for (int i = 0; i < playerCount; i++)
-                {
-                    int id = DrawCardID();
-                    draftCard.Add(id);
-                    drawnCard[i] = id;
-                }
-                RpcDraftPhase(drawnCard);
-            })
-            .OnUpdate(() => t -= Time.deltaTime)
-            .Play();
+               //현재 생존한 플레이어 수 만큼 카드를 공개한다.
+               int playerCount = Mathf.Min(GameManager.AliveCount, Count);
+               int[] drawnCard = new int[playerCount];
+               for (int i = 0; i < playerCount; i++)
+               {
+                   int id = DrawCardID();
+                   draftCard.Add(id);
+                   drawnCard[i] = id;
+               }
+               RpcDraftPhase(drawnCard);
+           })
+           .OnUpdate(() => t -= Time.deltaTime)
+           .Play();
     }
 
     [ClientRpc]
@@ -172,7 +175,8 @@ public class Deck : NetworkBehaviour
 
         Func<bool> isPlaying = UIManager.GetUI<LineMessage>().IsPlaying;
 
-        cmd.Reset()
+        commander
+            .Refresh()
             .Add(() =>
             {
                 //플레이어들의 화면을 센터로 이동시키고 카메라 이동을 불가능하게 한다
@@ -238,7 +242,8 @@ public class Deck : NetworkBehaviour
 
         if (GameManager.GetPlayer(_order).isLocalPlayer)
         {
-            cmd.Reset()
+            commander
+                .Refresh()
                 .Add(() =>
                 {
                     UIManager.GetUI<HeadLine>().Print("카드 선택");
@@ -279,7 +284,8 @@ public class Deck : NetworkBehaviour
         }
         else
         {
-            cmd.Reset()
+            commander
+                .Refresh()
                 .Add(() =>
                 {
                     UIManager.GetUI<HeadLine>().Print("인재 영입 시간");
@@ -302,6 +308,8 @@ public class Deck : NetworkBehaviour
 
         order = GameManager.instance.NextOrder(order);
 
+        //TODO 남은 카드를 기준으로 드래프트 페이즈를 마치면 안됨
+
         if (draftCard.Count > 1)
         {
             GameManager.instance.SetCurrentOrder(order);
@@ -316,7 +324,8 @@ public class Deck : NetworkBehaviour
         GameManager.GetPlayer(order).Hand.RpcAdd(lastID);
 
         float t = 10f;
-        cmd.Reset()
+        commander
+            .Refresh()
             .Add(GameManager.instance.SetNewRound)
             .WaitUntil(() => GameManager.instance.IsAllReceived() || t <= 0)
             .Add(() =>
@@ -339,11 +348,13 @@ public class Deck : NetworkBehaviour
     void RpcEndSelectionDraftCard(int _firstOrder)
     {
         GameManager.instance.CurrentPhase = GamePhase.PlayerPhase;
-        UIManager.GetUI<Timer>().Stop();
+        UIManager.GetUI<Timer>().Reset();
 
-        cmd.Reset()
-            .Add(() => UIManager.GetUI<LineMessage>().ForcePopUp("카드 선택을 마쳤습니다!", 3f), 3f)
-            .Add(GameManager.GetPlayer(_firstOrder).ClientStartTurn)
+        commander
+            .Refresh()
+            .Add(() => UIManager.GetUI<LineMessage>().ForcePopUp("카드 선택을 마쳤습니다!", 3f)
+            , 3f)
+            .Add(GameManager.GetPlayer(_firstOrder).ClientStartTurn) //RPC => 로컬 플레이어는 자신의 턴을 진행한다.
             .Play();
     }
 

@@ -29,7 +29,6 @@ public class CameraController : MonoBehaviour
     }
     #endregion
 
-    //화면을 바꾸는 조작은 Local 플레이어에서만 가능
     CinemachineBrain brainCam;
     // 0 : 첫 번째 플레이어
     // 1 : 두 번째 플레이어
@@ -78,12 +77,14 @@ public class CameraController : MonoBehaviour
             {
                 playersVcams[value].Priority = 1;
             }
+
+            MoveEvent?.Invoke(value);
         }
     }
 
     public void Toggle(int i)
     {
-        if(i == currentCamIndex)
+        if (i == currentCamIndex)
         {
             if (GameManager.instance.CurrentPhase.Equals(GamePhase.DraftPhase))
                 FocusOnCenter();
@@ -124,20 +125,20 @@ public class CameraController : MonoBehaviour
     /// 로컬 플레이어가 카메라를 앞, 또는 다음 플레이어의 필드로 이동합니다.
     /// </summary>
     /// <param name="i">-1 or +1</param>
-    public void ShiftVCam(int dir)
+    void ShiftVCam(int dir)
     {
         int sidePlayerNumber = currentCamIndex;
         do
         {
             sidePlayerNumber = (sidePlayerNumber + dir + GameManager.maxPlayer) % GameManager.maxPlayer;
-        } while (GameManager.GetPlayer(sidePlayerNumber) == null ||GameManager.GetPlayer(sidePlayerNumber).isGameOver);
+        } while (GameManager.GetPlayer(sidePlayerNumber) == null || GameManager.GetPlayer(sidePlayerNumber).isGameOver);
 
         CurrentCamIndex = sidePlayerNumber;
     }
 
     public void DoShake(int i, float duration, float power)
     {
-        if (i< 0 || i >= perlinNoise.Length) return;
+        if (i < 0 || i >= perlinNoise.Length) return;
 
         CinemachineBasicMultiChannelPerlin p = perlinNoise[i];
 
@@ -150,8 +151,8 @@ public class CameraController : MonoBehaviour
         DOTween.To(() => p.m_AmplitudeGain, x => p.m_AmplitudeGain = x, 0f, duration);
     }
 
-    [SerializeField]
     bool moveLock = false;
+    public event Action<int> MoveEvent;
     public event Action<bool> LockEvent;
     public void MoveLock(bool _isLocked)
     {
@@ -161,10 +162,10 @@ public class CameraController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            DoShake(currentCamIndex, 0.5f, 10);
-        }
+        //if (Input.GetKeyDown(KeyCode.S))
+        //{
+        //    DoShake(currentCamIndex, 0.5f, 10);
+        //}
 
         if (moveLock) return;
 
@@ -175,6 +176,9 @@ public class CameraController : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.C))
             FocusOnHome();
         else if (Input.GetKeyDown(KeyCode.D))
-            FocusOnCenter();
+        {
+            if (GameManager.instance.CurrentPhase.Equals(GamePhase.DraftPhase))
+                FocusOnCenter();
+        }
     }
 }

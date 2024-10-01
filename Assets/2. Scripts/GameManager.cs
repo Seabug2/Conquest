@@ -10,10 +10,10 @@ using System.Threading;
 
 public enum GamePhase
 {
-    Begin,
+    Standby,
     DraftPhase,
     PlayerPhase,
-    End
+    EndPhase
 }
 
 
@@ -54,7 +54,7 @@ public class GameManager : NetworkBehaviour
         deckIdList = LoadDeckIdList();
         CardSetting();
 
-        CurrentPhase = GamePhase.Begin;
+        CurrentPhase = GamePhase.Standby;
     }
     #endregion
 
@@ -170,6 +170,8 @@ public class GameManager : NetworkBehaviour
 
     public void AddPlayer(Player _player)
     {
+        if (!CurrentPhase.Equals(GamePhase.Standby)) return;
+
         if (_player.isLocalPlayer)
         {
             LocalPlayer = _player;
@@ -186,10 +188,11 @@ public class GameManager : NetworkBehaviour
     [Server]
     public void RemovePlayer(Player _player)
     {
+        //플레이어 리스트에 추가된 플레이어인 경우
         if (players.Contains(_player))
         {
             //게임을 아직 시작하지 않은 상태라면,
-            if (CurrentPhase.Equals(GamePhase.Begin))
+            if (CurrentPhase.Equals(GamePhase.Standby))
             {
                 //플레이어 리스트에서 제거하여 리스트의 크기를 원래대로 한다.
                 players.Remove(_player);
@@ -199,10 +202,7 @@ public class GameManager : NetworkBehaviour
                 int i = players.IndexOf(_player);
                 players[i] = null;
             }
-        }
 
-        if (isServer)
-        {
             if (AliveCount > 1)
             {
                 if (_player.isMyTurn)
@@ -223,12 +223,14 @@ public class GameManager : NetworkBehaviour
                 return;
             }
         }
+
+        //플레이어 리스트에 추가된 플레이어 객체가 아니었을 경우 처리 없음
     }
 
     [Server]
     int LastPlayer()
     {
-        int last = -1;
+        int last = 0;
 
         foreach (Player p in players)
         {
@@ -254,23 +256,22 @@ public class GameManager : NetworkBehaviour
             players[rand] = tmp;
         }
 
-
         for (int i = 0; i < maxPlayer; i++)
         {
-            players[i].RpcSetOrder(i);
-
             //호스트가 아닌 서버에서도 순서를 동기화 할 수 있도록...
             if (isServerOnly)
             {
                 players[i].SetOrder(i);
             }
+
+            players[i].RpcSetOrder(i);
         }
     }
 
     [Server]
     async void StartGame()
     {
-        PlayerShuffle(); //플레이어의 order를 바꾸면 hook을 통해 Reply()를 받을 수 있다.
+        PlayerShuffle();
 
         await WaitForAllAcknowledgements();
 
@@ -360,12 +361,30 @@ public class GameManager : NetworkBehaviour
         //카드에 효과를 할당하기 위한 매니저
         AbilityManager abilityManager = new AbilityManager();
 
-        for (int i = 0; i < 54; i++)
+        int length = cards.Length;
+        for (int i = 0; i < length; i++)
         {
-            cards[i].id = deckIdList[i];
+            Card card = cards[i];
+
+            card.id = deckIdList[i];
+
+            if (CameraController.instance != null)
+            {
+                card.OnPointerCardDown = (card) =>
+                {
+                    CameraController.instance.Raycaster.eventMask = 0;
+                    CameraController.instance.MoveLock(true);
+                };
+                card.OnPointerCardUp = (card) =>
+                {
+                    CameraController.instance.Raycaster.eventMask = -1;
+                    CameraController.instance.MoveLock(false);
+                };
+            }
+
             dict_Card.Add(deckIdList[i], cards[i]);
 
-            int lineIndex = cards[i].id + 1;
+            int lineIndex = card.id + 1;
             if (lineIndex >= dataLines.Length)
             {
                 Debug.LogError($"데이터 라인 인덱스가 범위를 벗어났습니다: {lineIndex}");
@@ -395,21 +414,21 @@ public class GameManager : NetworkBehaviour
 
             if (cardFront == null)
             {
-                cards[i].front = null;
+                card.front = null;
                 Debug.LogError($"이미지를 찾을 수 없습니다: {imageName}");
             }
             else
             {
-                cards[i].front = cardFront;  // 카드의 front 스프라이트 할당
+                card.front = cardFront;  // 카드의 front 스프라이트 할당
             }
 
-            cards[i].name = data[2];
-            cards[i].cardName = data[2];
+            card.name = data[2];
+            card.cardName = data[2];
 
-            cards[i].Sockets[0] = new Socket(ParseAttribute(data[3]), data[4].Equals("1"));
-            cards[i].Sockets[1] = new Socket(ParseAttribute(data[5]), data[6].Equals("1"));
-            cards[i].Sockets[2] = new Socket(ParseAttribute(data[7]), data[8].Equals("1"));
-            cards[i].Sockets[3] = new Socket(ParseAttribute(data[9]), data[10].Equals("1"));
+            card.Sockets[0] = new Socket(ParseAttribute(data[3]), data[4].Equals("1"));
+            card.Sockets[1] = new Socket(ParseAttribute(data[5]), data[6].Equals("1"));
+            card.Sockets[2] = new Socket(ParseAttribute(data[7]), data[8].Equals("1"));
+            card.Sockets[3] = new Socket(ParseAttribute(data[9]), data[10].Equals("1"));
 
 
             // TODO 카드 효과 구현을 완료하면 삭제
@@ -418,7 +437,7 @@ public class GameManager : NetworkBehaviour
             if (int.TryParse(data[11], out int abilityId))
             {
                 string[] extractedData = data.Skip(12).Take(4).ToArray();
-                cards[i].ability = abilityManager.Create(abilityId, extractedData);
+                card.ability = abilityManager.Create(abilityId, extractedData);
             }
         }
     }
@@ -445,6 +464,8 @@ public class GameManager : NetworkBehaviour
         RpcSetCurrentOrder(newOrder);
     }
 
+    public event Action<int> TurnChangeEvent;
+
     [ClientRpc]
     public void RpcSetCurrentOrder(int newOrder)
     {
@@ -454,6 +475,8 @@ public class GameManager : NetworkBehaviour
 
         GetPlayer(currentOrder).isMyTurn = true;
         GetPlayer(currentOrder).hasTurn = true;
+
+        TurnChangeEvent?.Invoke(newOrder);
 
         CmdReply(LocalPlayer.Order);
     }
@@ -512,7 +535,7 @@ public class GameManager : NetworkBehaviour
 
     #endregion
 
-    public GamePhase CurrentPhase = GamePhase.Begin;
+    public GamePhase CurrentPhase = GamePhase.Standby;
 
     public static Deck deck;
 
@@ -556,12 +579,12 @@ public class GameManager : NetworkBehaviour
     [Space(20)]
     [Header("게임 시작 이벤트")]
     public UnityEvent OnStartEvent;
-    readonly Commander cmd = new();
 
     [ClientRpc]
     public void RpcStartGame()
     {
-        cmd.Reset()
+        new Commander()
+            .Refresh()
             .Add(() =>
             {
                 OnStartEvent.Invoke();
@@ -577,11 +600,8 @@ public class GameManager : NetworkBehaviour
             .WaitSeconds(1.8f)
             .Add(() => UIManager.GetUI<LineMessage>().ForcePopUp("최후의 1인이 되세요!", 3f)
             , 3.3f)
-            .Add(() =>
-            {
-                Debug.Log(LocalPlayer.Order + "의 리플라이");
-                CmdReply(LocalPlayer.Order);
-            })
+            //).WaitUntil(() => !UIManager.GetUI<LineMessage>().IsPlaying() || Input.anyKeyDown) //메시지가 끝나거나 키입력이 있을 때까지...
+            .Add(() => CmdReply(LocalPlayer.Order))
             .Play();
     }
 
@@ -590,7 +610,7 @@ public class GameManager : NetworkBehaviour
     {
         if (isServerOnly)
         {
-            CurrentPhase = GamePhase.End;
+            CurrentPhase = GamePhase.EndPhase;
         }
 
         //게임이 끝난 경우
@@ -619,10 +639,11 @@ public class GameManager : NetworkBehaviour
     [ClientRpc]
     void RpcEndGame(int lastPlayerOrder)
     {
+        CurrentPhase = GamePhase.EndPhase;
+
         CameraController.instance.CurrentCamIndex = lastPlayerOrder;
         CameraController.instance.MoveLock(true);
         OnEndGame?.Invoke();
-        CurrentPhase = GamePhase.End;
 
         if (LocalPlayer.isGameOver)
         {

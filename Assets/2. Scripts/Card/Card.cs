@@ -50,7 +50,6 @@ public partial class Card : NetworkBehaviour
 
     private void Start()
     {
-        IsOpened = false;
         if (GameManager.instance == null)
         {
             iCardState = new NoneState();

@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 using UnityEngine.EventSystems;
 using Mirror;
 using DG.Tweening;
@@ -45,6 +46,16 @@ public partial class Card : NetworkBehaviour
         transform.DORotateQuaternion(TargetRotation, duration).SetEase(setEase).SetDelay(delay);
     }
 
+    [Client]
+    public void DoMove(Action onCompleteEvent, float delay = 0, Ease setEase = Ease.Unset)
+    {
+        transform.DOKill();
+        transform.DORotateQuaternion(TargetRotation, duration).SetEase(setEase).SetDelay(delay);
+        transform.DOMove(TargetPosition, duration)
+            .SetEase(setEase).SetDelay(delay)
+            .OnComplete(() => onCompleteEvent?.Invoke());
+    }
+
 
 
     [Command(requiresAuthority = false)]
@@ -63,13 +74,13 @@ public partial class Card : NetworkBehaviour
     public void Pick(float _height)
     {
         transform.DOKill();
-        transform.rotation  = Quaternion.identity;
+        transform.rotation = Quaternion.identity;
         Vector3 pos = TargetPosition;
         pos.y = _height;
         transform.position = pos;
     }
 
-    
+
 
     [Command(requiresAuthority = false)]
     public void CmdReturnToDeck(float delay)
@@ -88,12 +99,13 @@ public partial class Card : NetworkBehaviour
     {
         ownerOrder = -1;
         iCardState = GameManager.instance.noneState;
-        isOpened = false;
-        transform.DOKill();
+        IsOpened = false;
+        
         TargetPosition = GameManager.deck.transform.position;
-        transform.DOMove(TargetPosition, duration).SetDelay(delay);
         TargetRotation = GameManager.deck.transform.rotation;
-        transform.DORotateQuaternion(TargetRotation, duration).SetDelay(delay)
-            .OnComplete(() => enabled = false);
+
+        transform.DOKill();
+        transform.DORotateQuaternion(TargetRotation, duration).SetDelay(delay);
+        transform.DOMove(TargetPosition, duration).SetDelay(delay);
     }
 }

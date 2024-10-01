@@ -12,10 +12,11 @@ public class Hand : NetworkBehaviour
     {
         GameManager.dict_Hand.Add(seatNum, this);
     }
-    [Space(10)]
-    [SerializeField, Header("리스트")] List<Card> list = new();
 
-    public int Count => list.Count;
+    //[SerializeField, Header("리스트")] 
+    readonly List<Card> cards = new();
+
+    public int Count => cards.Count;
 
     public int[] AllIDs
     {
@@ -25,7 +26,7 @@ public class Hand : NetworkBehaviour
 
             for (int i = 0; i < ids.Length; i++)
             {
-                ids[i] = list[i].id;
+                ids[i] = cards[i].id;
             }
 
             return ids;
@@ -45,7 +46,7 @@ public class Hand : NetworkBehaviour
 
     public int HandsLimit => handsLimit + LimitStack;
 
-    public bool IsLimitOver => list.Count > HandsLimit;
+    public bool IsLimitOver => cards.Count > HandsLimit;
     #endregion
 
     #region 추가, 제거
@@ -72,24 +73,8 @@ public class Hand : NetworkBehaviour
             newCard.IsOpened = false;
         }
 
-        list.Add(newCard);
+        cards.Add(newCard);
         HandAlignment();
-    }
-
-    public void TestAdd(Card newCard)
-    {
-        newCard.IsOpened = true;
-        newCard.iCardState = new InHandState(newCard, this);
-        list.Add(newCard);
-        HandAlignment();
-    }
-
-    public void TestChangeState()
-    {
-        foreach (Card c in list)
-        {
-            c.iCardState = new HandlingState(c, this, null);
-        }
     }
 
     [Command(requiresAuthority = false)]
@@ -102,10 +87,9 @@ public class Hand : NetworkBehaviour
     public void RpcRemove(int id)
     {
         Card drawnCard = GameManager.Card(id);
-        drawnCard.iCardState = GameManager.instance.noneState;
-        list.Remove(drawnCard);
+        cards.Remove(drawnCard);
 
-        if (list.Count > 0)
+        if (cards.Count > 0)
             HandAlignment();
     }
 
@@ -118,7 +102,7 @@ public class Hand : NetworkBehaviour
     [ClientRpc]
     public void RpcRemoveAll()
     {
-        list.Clear();
+        cards.Clear();
     }
 
 
@@ -126,7 +110,7 @@ public class Hand : NetworkBehaviour
 
     public void HandOpen(bool isOpen)
     {
-        foreach (Card c in list)
+        foreach (Card c in cards)
         {
             c.IsOpened = isOpen;
             if (c.iCardState.GetType().Equals(typeof(HandlingState)))
@@ -140,7 +124,8 @@ public class Hand : NetworkBehaviour
         }
     }
 
-    [Range(1f, 10f),Header("너비")]
+    [Space(10)]
+    [Range(1f, 10f), Header("너비")]
     public float radius;
     [Range(0f, 1f), Header("호 높이")]
     public float height;
@@ -167,98 +152,85 @@ public class Hand : NetworkBehaviour
     [Client]
     public void HandAlignment()
     {
-        int count = list.Count;
+        int cardCount = cards.Count;
+        if (cardCount == 0) return;
 
-        float rightEndAngle = Mathf.Clamp(intervalAngle * count * .5f, 0, maxAngle); //한 쪽의 최대각을 구한다
-        bool isOver = rightEndAngle == maxAngle;
+        float halfAngleRange = Mathf.Clamp(intervalAngle * cardCount * .5f, 0, maxAngle); //한 쪽의 최대각을 구한다
+        bool isAngleClamped = halfAngleRange == maxAngle;
 
-        float leftEndAngle = -rightEndAngle; //반대 쪽의 최대각을 할당
-        float interval = isOver ? 1f / (count - 1) : 1f / (count + 1); //lerp의 간격을 설정
+        float leftEndAngle = -halfAngleRange;
+        float rightEndAngle = halfAngleRange;
+        float interval = isAngleClamped ? 1f / (cardCount - 1) : 1f / (cardCount + 1); //lerp의 간격을 설정
 
         //현재 마우스를 올려둔 카드가 있는지 확인
-        int selectedNum = -1;
-        for (int i = 0; i < count; i++)
+        int selectedCardIndex = cards.FindIndex(card => card.IsOnMouse);
+
+        for (int i = 0; i < cardCount; i++)
         {
-            if (list[i].IsOnMouse)
-            {
-                selectedNum = i;
-                break;
-            }
-        }
+            Card card = cards[i];
+            card.SprtRend.sortingOrder = i + 1;
 
-        for (int i = 0; i < count; i++)
-        {
-            list[i].SprtRend.sortingOrder = 1 + i; //카드의 Sorting Order를 i순으로 할당
+            if (card.IsOnMouse) continue;
 
-            if (list[i].IsOnMouse) continue;
+            float t = interval * (i + (isAngleClamped ? 0 : 1));
+            float angle = Mathf.Lerp(leftEndAngle, rightEndAngle, t);
 
-            float angle = Mathf.Lerp(leftEndAngle, rightEndAngle, interval * (i + (isOver ? 0 : 1)));
 
-            float radians = Mathf.Deg2Rad * angle;
-
-            Vector3 position = new Vector3(Mathf.Sin(radians), Mathf.Cos(radians)) * radius;
-            position = transform.position + new Vector3(position.x, position.y * height, 0);
-
-            Quaternion targetRotation;
+            Vector3 position = CalculateCardPosition(angle);
+            Quaternion rotation = Quaternion.Euler(0, 0, -angle * height);
 
             //선택한 카드가 있는 경우
-            if (selectedNum != -1)
+            if (selectedCardIndex >= 0)
             {
-                if (i < selectedNum)
-                {
-                    float t = 1f / selectedNum;
-                    position.x -= 0.8f;
-                    position.y += Mathf.Lerp(0, height, t * i);
-                    targetRotation = Quaternion.Euler(0, 0, -Mathf.Lerp(leftEndAngle, 0, t * i) * height);
-                }
-                else
-                {
-                    float t = 1f / (count - 1 - selectedNum);
-                    position.x += 0.8f;
-                    position.y += Mathf.Lerp(height, 0, t * (i - selectedNum));
-                    targetRotation = Quaternion.Euler(0, 0, -Mathf.Lerp(0, rightEndAngle, t * (i - selectedNum)) * height);
-                }
-            }
-            //선택한 카드가 없는 경우
-            else
-            {
-                targetRotation = Quaternion.Euler(0, 0, -angle * height);
+                AdjustForSelectedCard(ref position, ref rotation, i, selectedCardIndex, cardCount);
             }
 
-            list[i].SetTargetPosition(position);
-            list[i].SetTargetQuaternion(targetRotation);
-
-            list[i].DoMove();
+            card.SetTargetPosition(position);
+            card.SetTargetQuaternion(rotation);
+            card.DoMove();
         }
     }
 
-    public bool HasValidCards(Field _field)
+    private Vector3 CalculateCardPosition(float angle)
     {
-        if (list.Count < 1) return false;
+        float radians = Mathf.Deg2Rad * angle;
+        Vector3 offset = new Vector3(Mathf.Sin(radians), Mathf.Cos(radians)) * radius;
+        return transform.position + new Vector3(offset.x, offset.y * height, 0);
+    }
 
-        foreach(Card c in list)
+    private void AdjustForSelectedCard(ref Vector3 position, ref Quaternion rotation, int index, int selectedIndex, int totalCards)
+    {
+        if (index < selectedIndex)
         {
-            //_field. (c);....
+            float t = 1f / selectedIndex;
+            position.x -= 0.8f;
+            position.y += Mathf.Lerp(0, height, t * index);
+            float adjustedAngle = Mathf.Lerp(-maxAngle, 0, t * index) * height;
+            rotation = Quaternion.Euler(0, 0, -adjustedAngle);
         }
-
-        return true;
+        else if (index > selectedIndex)
+        {
+            float t = 1f / (totalCards - selectedIndex - 1);
+            position.x += 0.8f;
+            position.y += Mathf.Lerp(height, 0, t * (index - selectedIndex));
+            float adjustedAngle = Mathf.Lerp(0, maxAngle, t * (index - selectedIndex)) * height;
+            rotation = Quaternion.Euler(0, 0, -adjustedAngle);
+        }
     }
 
     public void SetHandlingState(Field _myField = null)
     {
-        if (_myField == null)
+        if (Count == 0) return;
+
+        foreach (Card card in cards)
         {
-            foreach (Card card in list)
-            {
-                card.iCardState = new InHandState(card, this);
-            }
+            card.iCardState = _myField == null
+                ? new InHandState(card, this)
+                : new HandlingState(card, this, _myField);
+            card.IsOnMouse = false;
+            card.SprtRend.sortingLayerName = "Default";
+            card.transform.localScale = Vector3.one;
         }
-        else
-        {
-            foreach (Card card in list)
-            {
-                card.iCardState = new HandlingState(card, this, _myField);
-            }
-        }
+        HandAlignment();
     }
 }

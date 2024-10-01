@@ -19,7 +19,7 @@ public class Tile : NetworkBehaviour
 
     public readonly Tile[] linkedTile = new Tile[4];
 
-    Socket EmptySocket = new Socket(Attribute.IsEmpty, false);
+    Socket EmptySocket = new(Attribute.IsEmpty, false);
 
     SpriteRenderer sprtRend;
 
@@ -36,6 +36,7 @@ public class Tile : NetworkBehaviour
         return linkedTile[i].PlacedCard.Sockets[j];
     }
 
+    //게임 로직의 핵심...
     public bool IsSetable(Card _card)
     {
         //카드가 이미 놓여져있는 타일이면 카드를 내려 둘 수 없다.
@@ -44,14 +45,17 @@ public class Tile : NetworkBehaviour
         //타일에 놓여져 있는 카드가 없는 경우,
         for (int i = 0; i < 4; i++)
         {
+            //연결된 타일이 없거나, 연결된 타일이 비어있을 때
             if (linkedTile[i] == null || linkedTile[i].IsEmpty)
             {
-                //비활성화 되어있는 소켓 방향에 연결된 타일이 없다면 둘 수 없다...
-                if (!_card.Sockets[i].isActive) return false;
-
-                //연결되지 않은 모서리는 검사 생략
+                if (!_card.Sockets[i].isActive)
+                {
+                    return false;
+                }
                 continue;
             }
+
+            if (!linkedTile[i].PlacedCard.IsOpened) return false;
 
             if (!LinkedSocket(i).attribute.Equals(_card.Sockets[i].attribute)) return false;
         }
@@ -61,15 +65,11 @@ public class Tile : NetworkBehaviour
 
     public void ShowPlaceableTiles(Card _card, bool _isActive)
     {
-        if (_isActive)
+        if (_isActive && IsSetable(_card))
         {
-            if (IsSetable(_card))
-            {
-                transform.localScale = Vector3.one * 1.2f;
-                sprtRend.color = Color.yellow;
-                Debug.Log("카드를 둘 수 있음");
-                return;
-            }
+            transform.localScale = Vector3.one * 1.2f;
+            sprtRend.color = Color.yellow;
+            return;
         }
 
         transform.localScale = Vector3.one;
@@ -78,6 +78,7 @@ public class Tile : NetworkBehaviour
 
     public void Clear()
     {
+        PlacedCard.currentTile = null;
         PlacedCard = null;
     }
 
@@ -96,29 +97,31 @@ public class Tile : NetworkBehaviour
     public void RpcSetCard(int _id)
     {
         Card card = GameManager.Card(_id);
-        card.IsOpened = true;
-        PlacedCard = card;
-
-        /*
-         * 카드를 내는 순간, 손의 카드를 조작할 수 없게 막는다.
-        commander.Clear()
-            .Add(() =>
-            {
-                //UIMaster.Message.ForcePopUp($"{card.name} 등장!", )
-            });
-        //손의 카드에서 낼 수 있는 카드가 남아있는지 확인
-        //더 이상 낼 수 있는 카드가 없다면 바로 차례를 마친다.
-         *아직 할 게 남았다면 손의 카드를 조작할 수 있게 한다.
-        */
-
         UIManager.GetUI<LineMessage>().PopUp($"{card.cardName} 등장!", 1.5f);
 
         card.iCardState = GameManager.instance.noneState;
+        card.IsOpened = true;
 
+        PlacedCard = card;
         card.currentTile = this;
+
+        card.SprtRend.sortingLayerName = "Default";
+        card.transform.localScale = Vector3.one;
+
         card.SetTargetPosition(transform.position);
         card.SetTargetQuaternion(transform.rotation);
-        card.DoMove();
+        card.DoMove(() =>
+        {
+            int order = card.ownerOrder;
+            CameraController.instance.DoShake(order, 0.2f, 1.5f);
+
+            Player player = GameManager.GetPlayer(order);
+            if (player != null && player.Hand.Count == 0)
+            {
+                player.Hand.SetHandlingState();
+                player.CmdEndTurn(player.Hand.IsLimitOver);
+            }
+        }, 0.34f);
     }
     #endregion
 

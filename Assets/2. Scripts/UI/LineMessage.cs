@@ -32,7 +32,7 @@ public class LineMessage : MonoBehaviour, IUIController
         this.message = message;
         this.duration = duration;
 
-        if (sequence != null && sequence.IsPlaying())
+        if (sequence != null && sequence.IsActive() && sequence.IsPlaying())
         {
             sequence.Restart(); // 트윈을 처음부터 다시 시작
         }
@@ -49,7 +49,7 @@ public class LineMessage : MonoBehaviour, IUIController
         this.message = message;
         this.duration = duration;
 
-        if (sequence == null || !sequence.IsPlaying())
+        if (sequence == null || !sequence.IsActive() || !sequence.IsPlaying())
         {
             CreateSequence(); // 시퀀스를 처음부터 재생
         }

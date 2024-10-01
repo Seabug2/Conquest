@@ -1,11 +1,10 @@
-using System;
 using UnityEngine;
 using Mirror;
 
 [RequireComponent(typeof(NetworkIdentity))]
 public class Player : NetworkBehaviour
 {
-    readonly Commander cmd = new();
+    readonly Commander commander = new();
     #region 초기화
     public int Order { get; private set; }
     [Server]
@@ -24,57 +23,24 @@ public class Player : NetworkBehaviour
         if (isLocalPlayer)
         {
             GameManager.instance.CmdReply(@new);
-
-            SideMenu menu = UIManager.GetUI<SideMenu>();
-            menu.Buttons[@new].onClick.RemoveAllListeners();
-            menu.Buttons[@new].onClick.AddListener(OnClickMyButton);
-
-            menu.SetLocalButton(@new);
         }
     }
     #endregion
 
-    void OnClickMyButton()
-    {
-        if (GameManager.instance.CurrentPhase.Equals(GamePhase.DraftPhase))
-        {
-            if (CameraController.instance.CurrentCamIndex == Order)
-                CameraController.instance.FocusOnCenter();
-            else
-                CameraController.instance.FocusOnHome();
-        }
-        else if (GameManager.instance.CurrentPhase.Equals(GamePhase.PlayerPhase))
-        {
-            if (CameraController.instance.CurrentCamIndex == Order)
-            {
-                if (isMyTurn)
-                {
-                    UIManager.GetUI<Timer>().Stop();
-                    Hand.SetHandlingState(null);
-                    CmdEndTurn(Hand.IsLimitOver);
-                }
-            }
-            else
-            {
-                CameraController.instance.FocusOnHome();
-            }
-        }
-    }
 
     [SyncVar(hook = nameof(PlayerGameOver))]
     public bool isGameOver = false;
     void PlayerGameOver(bool _, bool @new)
     {
+        if (!@new) return;
+
         if (isLocalPlayer)
         {
-            if (@new)
-            {
 
-            }
-            else
-            {
+        }
+        else
+        {
 
-            }
         }
     }
 
@@ -85,8 +51,16 @@ public class Player : NetworkBehaviour
     //클라이언트에 생성되었을 때
     void Start()
     {
-        //게임 매니저의 플레이어 리스트에 추가
-        GameManager.instance.AddPlayer(this);
+        //게임이 아직 시작
+        if (GameManager.instance != null && GameManager.instance.CurrentPhase.Equals(GamePhase.Standby))
+        {
+            GameManager.instance.AddPlayer(this);
+        }
+        else
+        {
+            Destroy(gameObject);
+            Debug.Log("이미 게임이 시작 되었습니다. 연결 종료");
+        }
     }
 
     //로컬 플레이어 객체로서 클라이언트에 생성되었을 때
@@ -116,7 +90,9 @@ public class Player : NetworkBehaviour
     [Client]
     public void ClientStartTurn()
     {
-        cmd.Reset()
+        /// <see cref="Deck.RpcEndSelectionDraftCard"/>에 등록하여 사용
+        commander
+            .Refresh()
             .Add(() =>
             {
                 CameraController.instance.FocusOnPlayerField(Order);
@@ -130,7 +106,7 @@ public class Player : NetworkBehaviour
                 {
                     UIManager.GetUI<HeadLine>().Print($"플레이어 {Order + 1}의 차례");
                     UIManager.GetUI<LineMessage>().ForcePopUp($"{Order + 1}번째 플레이어의 차례입니다", 3f);
-                    cmd.Cancel();
+                    commander.Cancel();
                 }
             }, 3f)
             .Add(CmdStartDrawPhase)
@@ -153,7 +129,8 @@ public class Player : NetworkBehaviour
 
         if (!isLocalPlayer) return;
 
-        cmd.Reset()
+        commander
+            .Refresh()
             .WaitSeconds(1f)
             .Add(() => Hand.CmdAdd(id), 1f)
             .Add(CmdHandling)
@@ -171,39 +148,31 @@ public class Player : NetworkBehaviour
     {
         if (isLocalPlayer)
         {
-            cmd.Reset()
-                .Add(() => UIManager.GetUI<LineMessage>().ForcePopUp("나쁜 짓을 할 시간입니다!", 2f)
-                , 2f)
+            commander
+                .Refresh()
+                .Add(() => UIManager.GetUI<LineMessage>().ForcePopUp("나쁜 짓을 할 시간입니다!", 2f), 2f)
                 .Add(() =>
                 {
-                    //버튼에 이벤트를 새로 등록?
-
                     CameraController.instance.MoveLock(false);
 
-                    if (Hand.Count < 1)
+                    if (Hand.Count == 0)
                     {
                         UIManager.GetUI<LineMessage>().ForcePopUp("사용 가능한 카드가 없습니다!", 2f);
-
-                        Hand.SetHandlingState(null);
                         CmdEndTurn(Hand.IsLimitOver);
                     }
                     else
                     {
                         Hand.SetHandlingState(Field);
+                        UIManager.GetUI<Timer>().Play(30f, () => ClientEndTurn());
                     }
-
-                    UIManager.GetUI<Timer>().Play(30f, () =>
-                    {
-                        Hand.SetHandlingState(null);
-                        CmdEndTurn(Hand.IsLimitOver);
-                    });
                 })
                 .Play();
         }
         else
         {
-            cmd.Reset()
-                .Add(() => UIManager.GetUI<LineMessage>().ForcePopUp($"플레이어 {Order + 1}가\n카드를 고르는 중입니다.", 2f)
+            commander
+                .Refresh()
+                .Add(() => UIManager.GetUI<LineMessage>().ForcePopUp($"플레이어 {Order + 1}가\n나쁜 짓을 생각 중입니다.", 2f)
                 , 2f)
                 .Add(() =>
                 {
@@ -214,14 +183,32 @@ public class Player : NetworkBehaviour
         }
     }
 
+    [Client]
+    public void ClientEndTurn()
+    {
+        if (UIManager.GetUI<Timer>().IsPlaying())
+            UIManager.GetUI<Timer>().Stop();
+
+        CameraController.instance.Raycaster.eventMask = -1;
+
+        Field.ShowPlaceableTiles(null, false);
+        Hand.SetHandlingState();
+
+        CmdEndTurn(Hand.IsLimitOver);
+    }
+
     [Command]
     public void CmdEndTurn(bool isGameOver)
     {
+        if (!isMyTurn) return;
+
         this.isGameOver = isGameOver;
 
         if (isGameOver)
         {
             GameManager.deck.CmdReturnCard(Hand.AllIDs, true);
+            GameManager.deck.CmdReturnCard(Field.AllIDs, true);
+
             Hand.CmdRemoveAll();
         }
 
@@ -247,7 +234,8 @@ public class Player : NetworkBehaviour
 
         if (!isLocalPlayer) return;
 
-        cmd.Reset()
+        commander
+            .Refresh()
             .WaitSeconds(2f)
             .Add(() => CmdNextTurn(Order))
             .Play();
