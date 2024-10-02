@@ -197,6 +197,7 @@ public class Commander
         onUpdate = null;
         onCanceled = null;
         cancelTrigger = () => false;
+        Debug.Log("Clean up");
         return this;
     }
     #endregion
@@ -237,10 +238,6 @@ public class Commander
                     remainingLoops--;
             }
 
-            if (autoClear)
-            {
-                Cleanup();
-            }
         }
         finally
         {
@@ -251,6 +248,11 @@ public class Commander
                 cancellationTokenSource.Dispose();
                 cancellationTokenSource = null;
                 onCompleteAll?.Invoke();
+            }
+
+            if (autoClear)
+            {
+                Cleanup();
             }
         }
     }

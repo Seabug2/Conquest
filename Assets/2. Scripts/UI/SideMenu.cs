@@ -1,30 +1,54 @@
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using System;
 using System.Collections.Generic;
 
-[System.Serializable]
+[Serializable]
 public class ButtonInfo
 {
     public Button button;
     public RectTransform rectTransform;
     public Text text;
-    public Image image; // 필요하다면 추가
+    public Image image;
     public int num;
 
-    public void OnClickEvent()
+    public void Initialize(int index, Action<int> onClickAction)
     {
-        if (CameraController.instance.CurrentCamIndex == num)
-        {
-            if (GameManager.instance.CurrentPhase.Equals(GamePhase.DraftPhase))
-            {
-                CameraController.instance.FocusOnCenter();
-            }
-        }
-        else
-        {
-            CameraController.instance.FocusOnPlayerField(num);
-        }
+        num = index;
+        text.text = $"{index + 1}p";
+        button.interactable = false;
+        rectTransform.sizeDelta = new Vector2(100, 100f);
+        rectTransform.localScale = Vector3.one;
+        image.color = Color.white;
+        button.onClick.RemoveAllListeners();
+        button.onClick.AddListener(() => onClickAction(num));
+    }
+
+    public void SetInteractable(bool isActive)
+    {
+        button.interactable = isActive;
+    }
+
+    public void SetSize(Vector2 size, float duration)
+    {
+        rectTransform.DOKill();
+        rectTransform.DOSizeDelta(size, duration).SetEase(Ease.OutQuad);
+    }
+
+    public void SetScale(Vector3 scale)
+    {
+        rectTransform.localScale = scale;
+    }
+
+    public void SetColor(Color color)
+    {
+        image.color = color;
+    }
+
+    public void SetText(string newText)
+    {
+        text.text = newText;
     }
 }
 
@@ -36,76 +60,118 @@ public class SideMenu : MonoBehaviour, IUIController
     [SerializeField]
     private ButtonInfo[] buttonInfos;
 
-    [SerializeField] RectTransform yourMark;
+    [SerializeField]
+    private RectTransform yourMark;
 
-    int localOrder = 0;
+    [SerializeField]
+    private Vector3 selectedScale = new Vector3(1.3f, 1.3f, 1.3f);
+
+    [SerializeField]
+    private Color selectedColor = Color.yellow;
+
+    private int localOrder = 0;
+    private CameraController cameraController;
+    private GameManager gameManager;
+
+    private void Awake()
+    {
+        cameraController = CameraController.instance;
+        gameManager = GameManager.instance;
+    }
 
     private void Start()
     {
-        if (UIManager.instance != null)
+        if (GameManager.instance != null)
         {
-            UIManager.RegisterController(GetType(), this);
+            gameManager = GameManager.instance;
         }
 
-        Initialize();
+        //if (UIManager.instance != null)
+        //{
+        //    UIManager.RegisterController(GetType(), this);
+        //}
+
+        cameraController = CameraController.instance;
     }
 
     public void Initialize()
     {
-        yourMark.gameObject.SetActive(false);
+        gameManager = GameManager.instance;
+
+        if (yourMark != null)
+        {
+            yourMark.gameObject.SetActive(false);
+        }
 
         for (int i = 0; i < buttonInfos.Length; i++)
         {
-            buttonInfos[i].button.interactable = false;
-            buttonInfos[i].rectTransform.sizeDelta = new Vector2(100, 100f);
-            buttonInfos[i].rectTransform.localScale = Vector3.one;
-            buttonInfos[i].image.color = Color.white;
-            buttonInfos[i].button.onClick.AddListener(buttonInfos[i].OnClickEvent);
-            buttonInfos[i].num = i;
-            buttonInfos[i].text.text = $"{i + 1}p";
+            int index = i; // 클로저 문제 방지
+            buttonInfos[i].Initialize(index, OnButtonClicked);
         }
 
-        if (CameraController.instance != null)
+        if (cameraController != null)
         {
-            CameraController.instance.MoveEvent += Selected;
-            CameraController.instance.LockEvent += Toggle;
+            cameraController.MoveEvent += OnCameraMoved;
+            cameraController.LockEvent += ToggleButtons;
         }
-        if(GameManager.instance != null)
+
+        if (gameManager != null)
         {
-            GameManager.instance.TurnChangeEvent += CurrentTurn;
+            gameManager.TurnChangeEvent += OnTurnChanged;
         }
+
+        SetLocalButton();
     }
 
-    /// <see cref="GameManager.OnStartEvent"/>에 등록하여 사용
-    public void SetLocalButton()
+    private void SetLocalButton()
     {
+        if (gameManager == null || yourMark == null) return;
+
         localOrder = GameManager.LocalPlayer.Order;
-
         ButtonInfo localButton = buttonInfos[localOrder];
-        localButton.button.onClick.RemoveAllListeners();
-        localButton.button.onClick.AddListener(OnClickMyButton);
 
-        Vector3 localPosition = yourMark.localPosition;
-        yourMark.transform.SetParent(localButton.rectTransform.transform);
-        yourMark.localPosition = localPosition;
+        localButton.button.onClick.RemoveAllListeners();
+        localButton.button.onClick.AddListener(OnLocalButtonClicked);
+
+        Vector3 offset = yourMark.anchoredPosition;
+        yourMark.SetParent(localButton.rectTransform);
+        yourMark.anchoredPosition = offset;
         yourMark.gameObject.SetActive(true);
     }
 
-
-
-    private void OnClickMyButton()
+    private void OnButtonClicked(int buttonIndex)
     {
-        CameraController cameraController = CameraController.instance;
-        GameManager gameManager = GameManager.instance;
+        if (cameraController == null || gameManager == null) return;
 
-        if (gameManager.CurrentPhase.Equals(GamePhase.DraftPhase))
+        if (cameraController.CurrentCamIndex == buttonIndex)
+        {
+            if (gameManager.CurrentPhase == GamePhase.DraftPhase)
+            {
+                cameraController.FocusOnCenter();
+            }
+        }
+        else
+        {
+            cameraController.FocusOnPlayerField(buttonIndex);
+        }
+    }
+
+    private void OnLocalButtonClicked()
+    {
+        if (cameraController == null || gameManager == null) return;
+
+        if (gameManager.CurrentPhase == GamePhase.DraftPhase)
         {
             if (cameraController.CurrentCamIndex == localOrder)
+            {
                 cameraController.FocusOnCenter();
+            }
             else
+            {
                 cameraController.FocusOnHome();
+            }
         }
-        else if (gameManager.CurrentPhase.Equals(GamePhase.PlayerPhase))
+        else if (gameManager.CurrentPhase == GamePhase.PlayerPhase)
         {
             if (GameManager.LocalPlayer.isMyTurn && cameraController.CurrentCamIndex == localOrder)
             {
@@ -118,49 +184,58 @@ public class SideMenu : MonoBehaviour, IUIController
         }
     }
 
-    //카메라가 잠기면 모든 버튼이 작아짐
-    void Toggle(bool isActive)
+    private void ToggleButtons(bool isActive)
     {
-        for (int i = 0; i < buttonInfos.Length; i++)
+        foreach (var buttonInfo in buttonInfos)
         {
-            buttonInfos[i].button.interactable = isActive;
-            
-            buttonInfos[i].rectTransform.DOKill();
+            buttonInfo.SetInteractable(isActive);
             Vector2 targetSize = isActive ? new Vector2(220, 100) : new Vector2(100, 100);
-            buttonInfos[i].rectTransform.DOSizeDelta(targetSize, 0.8f).SetEase(Ease.OutQuad);
+            buttonInfo.SetSize(targetSize, 0.8f);
         }
     }
 
-    //카메라가 이동하면 현재 보고 있는 화면의 버튼은 노란색으로 변함
-    void Selected(int selectedNum)
+    private void OnCameraMoved(int selectedNum)
     {
         for (int i = 0; i < buttonInfos.Length; i++)
         {
-            buttonInfos[i].rectTransform.localScale = i == selectedNum ? selectedScale : Vector3.one;
-            //buttonInfos[i].image.color = i == selectedNum ? selectedColor : Color.white;
+            Vector3 scale = (i == selectedNum) ? selectedScale : Vector3.one;
+            buttonInfos[i].SetScale(scale);
         }
 
-        if(selectedNum == localOrder)
+        if (selectedNum == localOrder)
         {
-            if(GameManager.instance.CurrentPhase.Equals(GamePhase.PlayerPhase) && GameManager.LocalPlayer.isMyTurn)
-            buttonInfos[localOrder].text.text = "END";
+            if (gameManager.CurrentPhase == GamePhase.PlayerPhase && GameManager.LocalPlayer.isMyTurn)
+            {
+                buttonInfos[localOrder].SetText("END");
+            }
         }
         else
         {
-            buttonInfos[localOrder].text.text = $"{localOrder + 1}p";
+            buttonInfos[localOrder].SetText($"{localOrder + 1}p");
         }
     }
 
-    void CurrentTurn(int num)
+    private void OnTurnChanged(int currentPlayerOrder)
     {
         for (int i = 0; i < buttonInfos.Length; i++)
         {
-            buttonInfos[i].image.color = i == num ? selectedColor : Color.white;
+            Color color = (i == currentPlayerOrder) ? selectedColor : Color.white;
+            buttonInfos[i].SetColor(color);
         }
     }
 
-    //현재 보고 있는 화면인 경우...
-    public Vector3 selectedScale = new(1.3f, 1.3f, 1.3f);
-    //현재 차례인 경우
-    public Color selectedColor = Color.yellow;
+    private void OnDestroy()
+    {
+        // 이벤트 구독 해제
+        if (cameraController != null)
+        {
+            cameraController.MoveEvent -= OnCameraMoved;
+            cameraController.LockEvent -= ToggleButtons;
+        }
+
+        if (gameManager != null)
+        {
+            gameManager.TurnChangeEvent -= OnTurnChanged;
+        }
+    }
 }

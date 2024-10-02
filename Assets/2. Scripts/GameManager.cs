@@ -156,6 +156,11 @@ public class GameManager : NetworkBehaviour
     [SerializeField, Header("플레이어 리스트")]
     List<Player> players = new();
 
+    public int ConnectedPlayerCount()
+    {
+        return players.Count();
+    }
+
     public static Player GetPlayer(int i)
     {
         if (i < 0 || i >= maxPlayer)
@@ -168,6 +173,10 @@ public class GameManager : NetworkBehaviour
 
     public static Player LocalPlayer { get; private set; }
 
+    [Header("플레이어 연결 이벤트")]
+    public UnityEvent ConnectionEvent;
+    [Header("연결 완료 이벤트")]
+    public UnityEvent CompleteConnect;
     public void AddPlayer(Player _player)
     {
         if (!CurrentPhase.Equals(GamePhase.Standby)) return;
@@ -178,9 +187,11 @@ public class GameManager : NetworkBehaviour
         }
 
         players.Add(_player);
+        ConnectionEvent.Invoke();
 
-        if (isServer && players.Count == maxPlayer)
+        if (players.Count == maxPlayer)
         {
+            CompleteConnect.Invoke();
             StartGame();
         }
     }
@@ -196,6 +207,7 @@ public class GameManager : NetworkBehaviour
             {
                 //플레이어 리스트에서 제거하여 리스트의 크기를 원래대로 한다.
                 players.Remove(_player);
+                ConnectionEvent.Invoke();
             }
             else
             {
@@ -268,7 +280,7 @@ public class GameManager : NetworkBehaviour
         }
     }
 
-    [Server]
+    [ServerCallback]
     async void StartGame()
     {
         PlayerShuffle();

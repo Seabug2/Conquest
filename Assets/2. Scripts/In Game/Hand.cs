@@ -8,7 +8,7 @@ public class Hand : NetworkBehaviour
     [SerializeField, Header("¹øÈ£")] int seatNum;
     public int SeatNum => seatNum;
 
-    private void Start()
+    public void RegisterHand()
     {
         GameManager.dict_Hand.Add(seatNum, this);
     }

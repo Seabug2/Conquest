@@ -151,7 +151,7 @@ public class CameraController : MonoBehaviour
         DOTween.To(() => p.m_AmplitudeGain, x => p.m_AmplitudeGain = x, 0f, duration);
     }
 
-    bool moveLock = false;
+    bool moveLock = true;
     public event Action<int> MoveEvent;
     public event Action<bool> LockEvent;
     public void MoveLock(bool _isLocked)

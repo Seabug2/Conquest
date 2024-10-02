@@ -24,9 +24,11 @@ public class Field : MonoBehaviour
         }
     }
 
+    /// <see cref="GameManager.OnStartEvent"/>에 등록하여 사용
     public void TileSet()
     {
-        /// <see cref="GameManager.OnStartEvent"/>에 등록하여 사용
+        GameManager.dict_Field.Add(seatNum, this);
+
         Tile[] tiles = GetComponentsInChildren<Tile>();
 
         foreach (Tile t in tiles)
@@ -58,11 +60,6 @@ public class Field : MonoBehaviour
                     dict_Tile[i].linkedTile[2] = dict_Tile[i + 3];
             }
         }
-    }
-
-    private void Start()
-    {
-        GameManager.dict_Field.Add(seatNum, this);
     }
 
     public void ShowPlaceableTiles(Card _card, bool _isActive)
