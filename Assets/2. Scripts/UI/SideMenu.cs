@@ -166,8 +166,8 @@ public class SideMenu : MonoBehaviour, IUIController
                 //자신의 차례라면 턴 종료
                 if (GameManager.LocalPlayer.isMyTurn)
                 {
-                    GameManager.LocalPlayer.ClientEndTurn();
                     GameManager.LocalPlayer.isMyTurn = false;
+                    GameManager.LocalPlayer.ClientEndTurn();
                 }
                 return;
         }

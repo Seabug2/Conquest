@@ -22,7 +22,7 @@ public class LineMessage : MonoBehaviour, IUIController
         Initialize(false);
         if (UIManager.instance != null)
         {
-            UIManager.RegisterController(this.GetType(), this);
+            UIManager.RegisterController(GetType(), this);
         }
     }
 
@@ -32,15 +32,12 @@ public class LineMessage : MonoBehaviour, IUIController
         this.message = message;
         this.duration = duration;
 
-        if (sequence != null && sequence.IsActive() && sequence.IsPlaying())
+        if (sequence != null)
         {
-            sequence.Restart(); // 트윈을 처음부터 다시 시작
+            sequence.Kill();
         }
-        else
-        {
-            CreateSequence(); // 새 시퀀스 생성
-            sequence.Restart(); // 처음부터 실행
-        }
+
+        CreateSequence();
     }
 
     // 메시지를 팝업하는 함수
@@ -53,15 +50,6 @@ public class LineMessage : MonoBehaviour, IUIController
         {
             CreateSequence(); // 시퀀스를 처음부터 재생
         }
-    }
-
-    // 메시지를 팝업하는 함수
-    public void FreezePopUp(string message, float duration)
-    {
-        this.message = message;
-        this.duration = duration;
-
-        CreateFreezeSequence(); // 시퀀스를 처음부터 재생
     }
 
     // 시퀀스가 재생 중인지 확인하는 함수
@@ -96,17 +84,6 @@ public class LineMessage : MonoBehaviour, IUIController
             {
                 root.SetActive(false);
             });
-    }
-
-    private void CreateFreezeSequence()
-    {
-        // 시퀀스 생성 및 AutoKill 비활성화
-        sequence = DOTween.Sequence()
-            .OnStart(() =>
-            {
-                Initialize(true);
-            })
-            .Append(line.DOSizeDelta(new Vector2(line.sizeDelta.x, height), duration).SetEase(ease));
     }
 
     public void Show()

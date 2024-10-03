@@ -42,6 +42,19 @@ public class Timer : MonoBehaviour, IUIController
         gage.DOScaleX(1, duration).SetEase(Ease.OutQuad);
     }
 
+    public void Pause()
+    {
+        isPlaying = false;
+    }
+
+    
+    public void Resume()
+    {
+        isPlaying = true;
+    }
+
+
+
     public void Stop()
     {
         isPlaying = false;

@@ -124,7 +124,7 @@ public class Deck : NetworkBehaviour
     readonly SyncList<int> draftCard = new();
 
     [Server]
-    public void ServerDraftPhase()
+    public void ServerStartDraftPhase()
     {
         if (isServerOnly)
             GameManager.instance.CurrentPhase = GamePhase.DraftPhase;
@@ -167,6 +167,8 @@ public class Deck : NetworkBehaviour
             .Play();
     }
 
+    public Vector3 draftPositionOffset = new Vector3(0, -5, 0);
+
     [ClientRpc]
     void RpcDraftPhase(int[] _draftCard)
     {
@@ -199,7 +201,7 @@ public class Deck : NetworkBehaviour
                     angle += intervalAngle;
                     float radian = Mathf.Deg2Rad * angle;
                     Vector3 position = new Vector3(Mathf.Sin(radian), Mathf.Cos(radian), 0) * 1.5f;
-                    c.SetTargetPosition(transform.position + position);
+                    c.SetTargetPosition(transform.position + position + draftPositionOffset);
                     c.SetTargetQuaternion(Quaternion.Euler(0, 0, UnityEngine.Random.Range(-6f, 6f))); //10도 이상으로 회전하면 어색하게 보임
 
                     c.DoMove(i * .18f);
@@ -270,12 +272,12 @@ public class Deck : NetworkBehaviour
                 }
 
                 //30초
-                UIManager.GetUI<Timer>().Play(30f, () => EndSelection(_order));
+                UIManager.GetUI<Timer>().Play(30f, () => RandomSelection(_order));
             })
             .Play();
     }
 
-    void EndSelection(int _order)
+    void RandomSelection(int _order)
     {
         if (UIManager.GetUI<Confirm>().IsActive)
         {
@@ -311,6 +313,7 @@ public class Deck : NetworkBehaviour
     void CmdSelectDraftCard(int order, int id)
     {
         draftCard.Remove(id);
+        GameManager.GetPlayer(order).hasTurn = true;
         GameManager.GetPlayer(order).Hand.RpcAdd(id);
 
         order = GameManager.instance.NextOrder(order);
@@ -328,15 +331,21 @@ public class Deck : NetworkBehaviour
         if (draftCard.Count > 1)
         {
             RpcSelectDraftCard(order);
-            return;
         }
-
         //3. 남은 카드가 한 장일 경우
-        //남은 한 장을 다음 플레이어의 패에 추가
-        int lastID = draftCard[0];
-        draftCard.Clear();
-        GameManager.GetPlayer(order).Hand.RpcAdd(lastID);
+        else
+        {
+            //남은 한 장을 다음 플레이어의 패에 추가
+            int lastID = draftCard[0];
+            draftCard.Clear();
+            GameManager.GetPlayer(order).Hand.RpcAdd(lastID);
+            ServerEndDraftPhase();
+        }
+    }
 
+    [Server]
+    void ServerEndDraftPhase()
+    {
         float t = 10f;
         commander
             .Refresh()
@@ -357,6 +366,7 @@ public class Deck : NetworkBehaviour
             .OnUpdate(() => t -= Time.deltaTime)
             .Play();
     }
+
 
     [ClientRpc]
     void RpcEndSelectionDraftCard(int _firstOrder)

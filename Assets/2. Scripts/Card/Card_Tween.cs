@@ -98,8 +98,9 @@ public partial class Card : NetworkBehaviour
     {
         ownerOrder = -1;
         iCardState = GameManager.instance.noneState;
+        currentTile = null;
         IsOpened = false;
-
+        SprtRend.sortingLayerName = "Field";
         TargetPosition = GameManager.Deck.transform.position;
         TargetRotation = GameManager.Deck.transform.rotation;
 

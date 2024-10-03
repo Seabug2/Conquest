@@ -87,6 +87,7 @@ public class HandlingState : ICardState
             // 레이캐스트가 아무것도 감지하지 못한 경우
             //card.DoMove(()=>card.col.enabled = true);
             Debug.Log("No object hit in 2D.");
+            card.DoMove();
         }
         else
         {
@@ -103,13 +104,14 @@ public class HandlingState : ICardState
                 else
                 {
                     UIManager.GetUI<LineMessage>().PopUp("그 타일에는 둘 수 없습니다.", 1.6f);
+                    hand.HandAlignment();
                 }
             }
         }
 
         field.ShowPlaceableTiles(null, false);
-        card.DoMove();
     }
+
     public void OnPointerClick(PointerEventData eventData) { }
     public void OnPointerEnter(PointerEventData eventData)
     {

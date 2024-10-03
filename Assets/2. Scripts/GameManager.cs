@@ -63,7 +63,7 @@ public class GameManager : NetworkBehaviour
 
     [Space(20)]
     [Header("플레이어 연결 이벤트")]
-    public UnityEvent ConnectionEvent = new ();
+    public UnityEvent ConnectionEvent = new();
 
     //[Space(20)]
     //[Header("연결 완료 이벤트")]
@@ -71,10 +71,10 @@ public class GameManager : NetworkBehaviour
 
     [Space(20)]
     [Header("게임 시작 이벤트")]
-    public UnityEvent OnStartEvent = new ();
+    public UnityEvent OnStartEvent = new();
 
     [Header("게임 종료 이벤트")]
-    public UnityEvent OnEndGame = new ();
+    public UnityEvent OnEndGame = new();
 
 
     #region 초기화
@@ -161,7 +161,7 @@ public class GameManager : NetworkBehaviour
 
         await WaitForAllAcknowledgements();
 
-        deck.ServerDraftPhase();
+        deck.ServerStartDraftPhase();
     }
 
     [Server]
@@ -227,7 +227,8 @@ public class GameManager : NetworkBehaviour
         //서버에서 카드를 생성
         foreach (int i in deckIds)
         {
-            GameObject card = Instantiate(manager.spawnPrefabs[0], deck.transform.position, Quaternion.identity);
+            GameObject card = Instantiate(manager.spawnPrefabs[0]
+                , deck.transform.position, Quaternion.identity);
             card.GetComponent<Card>().id = deckIds[i];
             NetworkServer.Spawn(card);
         }
@@ -466,7 +467,7 @@ public class GameManager : NetworkBehaviour
     #region 카드
     [Header("카드 뒷면 이미지"), Space(10)]
     public Sprite cardBackFace;
-    
+
     [Header("카드"), Space(10)]
     [SerializeField] Card prefab;
 
@@ -586,14 +587,13 @@ public class GameManager : NetworkBehaviour
     [Server]
     public void SetCurrentOrder(int newOrder)
     {
-        if (isServerOnly)
+        if (isServer)
         {
             GetPlayer(currentOrder).isMyTurn = false;
 
             currentOrder = newOrder;
 
             GetPlayer(currentOrder).isMyTurn = true;
-            GetPlayer(currentOrder).hasTurn = true;
         }
 
         RpcSetCurrentOrder(newOrder);
@@ -609,7 +609,6 @@ public class GameManager : NetworkBehaviour
         currentOrder = newOrder;
 
         GetPlayer(currentOrder).isMyTurn = true;
-        GetPlayer(currentOrder).hasTurn = true;
 
         TurnChangeEvent?.Invoke(newOrder);
 
@@ -705,11 +704,7 @@ public class GameManager : NetworkBehaviour
         //게임이 끝난 경우
         if (AliveCount == 1)
         {
-            if (isServerOnly)
-            {
-                CurrentPhase = GamePhase.EndPhase;
-            }
-
+            CurrentPhase = GamePhase.EndPhase;
             RpcEndGame(LastPlayer());
             return;
         }
@@ -718,13 +713,14 @@ public class GameManager : NetworkBehaviour
         if (RoundFinished())
         {
             firstOrder = NextOrder(firstOrder);
-            deck.ServerDraftPhase();
-            return;
+            deck.ServerStartDraftPhase();
         }
-
-        //아직 차례가 남은 경우
-        SetCurrentOrder(NextOrder(order));
-        GetPlayer(currentOrder).RpcStartTurn();
+        else
+        {
+            //아직 차례가 남은 경우
+            SetCurrentOrder(NextOrder(order));
+            GetPlayer(currentOrder).RpcStartTurn();
+        }
     }
 
     [ClientRpc]
@@ -732,7 +728,7 @@ public class GameManager : NetworkBehaviour
     {
         CurrentPhase = GamePhase.EndPhase;
 
-        CameraController.instance.CurrentCamIndex = lastPlayerOrder;
+        CameraController.instance.FocusOnPlayerField(lastPlayerOrder);
         CameraController.instance.MoveLock(true);
         OnEndGame.Invoke();
 

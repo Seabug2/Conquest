@@ -1,7 +1,4 @@
-using System;
-using UnityEngine;
 using UnityEngine.EventSystems;
-using DG.Tweening;
 
 public interface ICardState
 {

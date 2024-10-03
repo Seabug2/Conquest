@@ -38,27 +38,12 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: BackGound
+  - name: Field
     uniqueID: 1319986957
-    locked: 0
-  - name: BackGround UI
-    uniqueID: 2113484411
-    locked: 0
-  - name: Under UI
-    uniqueID: 2022920467
     locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
   - name: OnMouseLayer
     uniqueID: 3742543103
-    locked: 0
-  - name: UI
-    uniqueID: 3265048665
-    locked: 0
-  - name: Particles
-    uniqueID: 111896907
-    locked: 0
-  - name: Top Layer
-    uniqueID: 2682593553
     locked: 0

@@ -105,7 +105,7 @@ public class Tile : NetworkBehaviour
         PlacedCard = card;
         card.currentTile = this;
 
-        card.SprtRend.sortingLayerName = "Default";
+        card.SprtRend.sortingLayerName = "Field";
         card.transform.localScale = Vector3.one;
 
         card.SetTargetPosition(transform.position);
@@ -116,14 +116,77 @@ public class Tile : NetworkBehaviour
             CameraController.instance.DoShake(order, 0.2f, 1.5f);
 
             Player player = GameManager.GetPlayer(order);
+
+            if (AroundCheck(out Tile completedTile))
+            {
+                UIManager.GetUI<Timer>().Pause();
+                if (player.isLocalPlayer)
+                    completedTile.OnCompleteLink();
+            }
+
             if (player != null && player.Hand.Count == 0)
             {
-                player.Hand.SetHandlingState();
-                player.CmdEndTurn(player.Hand.IsLimitOver);
+                UIManager.GetUI<LineMessage>().ForcePopUp("사용 가능한 카드가 없습니다!", 2f);
+                player.ClientEndTurn();
             }
         }, 0.34f);
     }
     #endregion
+
+    bool AroundCheck(out Tile completedTile)
+    {
+        if (CompleteLink())
+        {
+            completedTile = this;
+            return true;
+        }
+        foreach (Tile t in linkedTile)
+        {
+            if (t != null && t.CompleteLink())
+            {
+                completedTile = t;
+                return true;
+            }
+        }
+        completedTile = null;
+        return false;
+    }
+
+    bool CompleteLink()
+    {
+        if (IsEmpty) return false;
+        foreach (Tile t in linkedTile)
+        {
+            if (t == null || t.IsEmpty) return false;
+        }
+        return true;
+    }
+
+    readonly Commander commander = new ();
+    private void OnDestroy()
+    {
+        commander.Cancel();
+    }
+
+    //[Command(requiresAuthority =false)]
+    void OnCompleteLink()
+    {
+        int[] linkedIds = new int[5];
+        for (int i = 0; i < 4; i++)
+        {
+            linkedIds[i] = linkedTile[i].PlacedCard.id;
+            linkedTile[i].PlacedCard = null;
+        }
+        linkedIds[4] = PlacedCard.id;
+        PlacedCard = null;
+        commander
+            .Refresh()
+            .Add(() => UIManager.GetUI<LineMessage>().ForcePopUp("링크 완성!", 2f)
+            , 2.2f)
+            .Add(() => GameManager.Deck.CmdReturnCard(linkedIds, true))
+            .Add(UIManager.GetUI<Timer>().Resume)
+            .Play();
+    }
 
     // 에디터에서만 기즈모 그리기
 #if UNITY_EDITOR

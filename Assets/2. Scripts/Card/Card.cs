@@ -16,7 +16,6 @@ public partial class Card
         }
     }
 
-
     public string cardName;
 
     // 0   1

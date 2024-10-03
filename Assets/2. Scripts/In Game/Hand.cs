@@ -62,7 +62,7 @@ public class Hand : NetworkBehaviour
     {
         Card newCard = GameManager.Card(id);
         newCard.ownerOrder = seatNum;
-
+        newCard.SprtRend.sortingLayerName = "Default";
         newCard.iCardState
             = GameManager.GetPlayer(seatNum).isLocalPlayer
             ? new InHandState(newCard, this)

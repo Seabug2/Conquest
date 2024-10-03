@@ -112,8 +112,6 @@ public class Player : NetworkBehaviour
     [ClientRpc]
     public void RpcStartDrawPhase(int id)
     {
-        Func<bool> isPlaying = UIManager.GetUI<LineMessage>().IsPlaying;
-
         commander
             .Refresh()
             .Add(() => UIManager.GetUI<LineMessage>().ForcePopUp("드로우!", 2f))
@@ -121,6 +119,7 @@ public class Player : NetworkBehaviour
             .Add(() =>
             {
                 Card drawnCard = GameManager.Card(id);
+                drawnCard.SprtRend.sortingLayerName = "Default";
                 drawnCard.iCardState = isLocalPlayer ? new InHandState(drawnCard, Hand) : GameManager.instance.noneState;
                 drawnCard.IsOpened = isLocalPlayer;
                 Hand.Add(drawnCard);
@@ -151,6 +150,7 @@ public class Player : NetworkBehaviour
         if (Hand.Count == 0)
         {
             commander
+                .WaitWhile(UIManager.GetUI<LineMessage>().IsPlaying)
                 .Add(() => UIManager.GetUI<LineMessage>().ForcePopUp("사용 가능한 카드가 없습니다!", 2f), 2f)
                 .Add(() => CmdEndTurn(false))
                 .Play();
@@ -158,6 +158,7 @@ public class Player : NetworkBehaviour
         else
         {
             commander
+                .WaitWhile(UIManager.GetUI<LineMessage>().IsPlaying)
                 .Add(() => UIManager.GetUI<LineMessage>().ForcePopUp("나쁜 짓을 할 시간입니다!", 2f), 2f)
                 .Add(() =>
                 {
@@ -194,7 +195,9 @@ public class Player : NetworkBehaviour
 
         Field.ShowPlaceableTiles(null, false);
         Hand.SetHandlingState();
-        CmdEndTurn(Hand.IsLimitOver);
+        
+        if (isLocalPlayer)
+            CmdEndTurn(Hand.IsLimitOver);
     }
 
     [Command]
@@ -217,21 +220,31 @@ public class Player : NetworkBehaviour
         UIManager.GetUI<Timer>().Reset();
         CameraController.instance.FocusOnPlayerField(Order);
         CameraController.instance.MoveLock(true);
-
         Hand.HandAlignment();
 
         string message = isGameOver ? $"플레이어 {Order + 1}가 탈락했습니다!" : $"플레이어 {Order + 1}의\n차례를 마칩니다!";
-        UIManager.GetUI<LineMessage>().ForcePopUp(message, 2f);
+        Func<bool> isPlaying = UIManager.GetUI<LineMessage>().IsPlaying;
 
-        if (isLocalPlayer)
-        {
-            CmdNextTurn(Order);
-        }
+        commander
+            .Refresh()
+            .WaitWhile(isPlaying)
+            .Add(() => UIManager.GetUI<LineMessage>().ForcePopUp(message, 2f)
+            , 2.2f)
+            .Add(() =>
+            {
+                if (isLocalPlayer)
+                {
+                    CmdNextTurn(Order);
+                }
+            })
+            .Play();
     }
 
     [Command]
     public void CmdNextTurn(int order)
     {
+        hasTurn = true;
+        isMyTurn = false;
         GameManager.instance.EndTurn(order);
     }
 
