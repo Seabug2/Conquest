@@ -8,11 +8,6 @@ public class Hand : NetworkBehaviour
     [SerializeField, Header("번호")] int seatNum;
     public int SeatNum => seatNum;
 
-    public void RegisterHand()
-    {
-        GameManager.dict_Hand.Add(seatNum, this);
-    }
-
     //[SerializeField, Header("리스트")] 
     readonly List<Card> cards = new();
 
@@ -59,23 +54,37 @@ public class Hand : NetworkBehaviour
     [ClientRpc]
     public void RpcAdd(int id)
     {
+        Add(id);
+    }
+
+    [Client]
+    public void Add(int id)
+    {
         Card newCard = GameManager.Card(id);
         newCard.ownerOrder = seatNum;
 
-        if (GameManager.GetPlayer(seatNum).isLocalPlayer)
-        {
-            newCard.iCardState = new InHandState(newCard, this);
-            newCard.IsOpened = true;
-        }
-        else
-        {
-            newCard.iCardState = GameManager.instance.noneState;
-            newCard.IsOpened = false;
-        }
+        newCard.iCardState
+            = GameManager.GetPlayer(seatNum).isLocalPlayer
+            ? new InHandState(newCard, this)
+            : GameManager.instance.noneState;
+
+        newCard.IsOpened = GameManager.GetPlayer(seatNum).isLocalPlayer;
 
         cards.Add(newCard);
         HandAlignment();
     }
+
+    [Client]
+    public void Add(Card newCard)
+    {
+        newCard.transform.position = transform.position + Vector3.right * 6f;
+        newCard.ownerOrder = seatNum;
+        cards.Add(newCard);
+        HandAlignment();
+    }
+
+
+
 
     [Command(requiresAuthority = false)]
     public void CmdRemove(int id)
@@ -86,12 +95,28 @@ public class Hand : NetworkBehaviour
     [ClientRpc]
     public void RpcRemove(int id)
     {
-        Card drawnCard = GameManager.Card(id);
-        cards.Remove(drawnCard);
+        Remove(id);
+    }
+
+    [Client]
+    public void Remove(int id)
+    {
+        Card discard = GameManager.Card(id);
+        cards.Remove(discard);
 
         if (cards.Count > 0)
             HandAlignment();
     }
+
+    [Client]
+    public void Remove(Card discard)
+    {
+        cards.Remove(discard);
+
+        if (cards.Count > 0)
+            HandAlignment();
+    }
+
 
     [Command(requiresAuthority = false)]
     public void CmdRemoveAll()
@@ -102,11 +127,33 @@ public class Hand : NetworkBehaviour
     [ClientRpc]
     public void RpcRemoveAll()
     {
+        RemoveAll();
+    }
+
+    [Client]
+    public void RemoveAll()
+    {
         cards.Clear();
     }
 
 
+    [Client]
+    public void RandomDiscard()
+    {
+        if (cards.Count < 1) return;
+
+        int rand = Random.Range(0, cards.Count);
+        Card discard = cards[rand];
+        cards.Remove(discard);
+        discard.SetTargetPosition(new Vector3(0, 0, 0));
+        discard.DoMove(() => Destroy(discard.gameObject), 0.1f);
+        if (cards.Count > 0)
+        {
+            HandAlignment();
+        }
+    }
     #endregion
+
 
     public void HandOpen(bool isOpen)
     {
@@ -191,6 +238,9 @@ public class Hand : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// 주어진 각도를 라디안으로 바꾸고 삼각함수를 사용하여 원점으로부터의 위치를 계산
+    /// </summary>
     private Vector3 CalculateCardPosition(float angle)
     {
         float radians = Mathf.Deg2Rad * angle;
@@ -198,6 +248,7 @@ public class Hand : NetworkBehaviour
         return transform.position + new Vector3(offset.x, offset.y * height, 0);
     }
 
+    //
     private void AdjustForSelectedCard(ref Vector3 position, ref Quaternion rotation, int index, int selectedIndex, int totalCards)
     {
         if (index < selectedIndex)
@@ -227,6 +278,26 @@ public class Hand : NetworkBehaviour
             card.iCardState = _myField == null
                 ? new InHandState(card, this)
                 : new HandlingState(card, this, _myField);
+            card.IsOnMouse = false;
+            card.SprtRend.sortingLayerName = "Default";
+            card.transform.localScale = Vector3.one;
+        }
+        HandAlignment();
+    }
+
+    public void StateToggle()
+    {
+        if (Count == 0) return;
+
+        bool isHandlingState = (cards[0].iCardState.GetType().Equals(typeof(HandlingState)));
+        Debug.Log("Change to " + (isHandlingState ? "InHandState" : "HandlingState"));
+
+        foreach (Card card in cards)
+        {
+            card.iCardState = isHandlingState
+                ? new InHandState(card, this)
+                : new HandlingState(card, this, null);
+
             card.IsOnMouse = false;
             card.SprtRend.sortingLayerName = "Default";
             card.transform.localScale = Vector3.one;

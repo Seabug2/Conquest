@@ -24,45 +24,20 @@ public class Info : MonoBehaviour, IUIController
 
     Image currentInfo = null;
 
-    private void Awake()
-    {
-        infos.Enqueue(prefab);
-    }
-
     private void Start()
     {
+        infos.Enqueue(prefab);
         if (UIManager.instance != null)
         {
-            UIManager.RegisterController(this.GetType(), this);
+            UIManager.RegisterController(GetType(), this);
         }
-    }
-
-    public void Register()
-    {
-        //if (GameManager.instance == null)
-        //{
-        //    Card[] all = FindObjectsOfType<Card>();
-        //    foreach (Card c in all)
-        //    {
-        //        c.OnPointerCardEnter = PopUp;
-        //    }
-        //}
-        //else
-        //{
-        int length = GameManager.instance.cards.Length;
-        for (int i = 0; i < length; i++)
-        {
-            Card c = GameManager.instance.cards[i];
-            c.OnPointerCardEnter = (c) => PopUp(c);
-        }
-        //}
     }
 
     public void PopUp(Card c)
     {
         if (currentInfo != null)
         {
-            if (currentInfo.sprite.Equals(c.front)) return;
+            if (currentInfo.sprite.Equals(c.Front)) return;
             Enqueue(currentInfo);
         }
 
@@ -75,7 +50,7 @@ public class Info : MonoBehaviour, IUIController
             currentInfo = infos.Dequeue();
         }
 
-        currentInfo.sprite = c.front;
+        currentInfo.sprite = c.Front;
         currentInfo.color = startColor;
         currentInfo.rectTransform.anchoredPosition = startPosition.anchoredPosition;
         currentInfo.gameObject.SetActive(true);

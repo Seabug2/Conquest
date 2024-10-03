@@ -151,6 +151,12 @@ public class CameraController : MonoBehaviour
         DOTween.To(() => p.m_AmplitudeGain, x => p.m_AmplitudeGain = x, 0f, duration);
     }
 
+    public void Freeze(bool isFrozen)
+    {
+        CameraController.instance.Raycaster.eventMask = isFrozen ? 0 : -1;
+        CameraController.instance.MoveLock(isFrozen);
+    }
+
     bool moveLock = true;
     public event Action<int> MoveEvent;
     public event Action<bool> LockEvent;

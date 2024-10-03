@@ -103,13 +103,12 @@ public class HandlingState : ICardState
                 else
                 {
                     UIManager.GetUI<LineMessage>().PopUp("그 타일에는 둘 수 없습니다.", 1.6f);
-
-                    card.IsOnMouse = false;
-                    hand.HandAlignment();
                 }
-                field.ShowPlaceableTiles(null, false);
             }
         }
+
+        field.ShowPlaceableTiles(null, false);
+        card.DoMove();
     }
     public void OnPointerClick(PointerEventData eventData) { }
     public void OnPointerEnter(PointerEventData eventData)

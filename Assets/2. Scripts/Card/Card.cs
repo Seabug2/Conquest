@@ -2,10 +2,20 @@ using UnityEngine;
 using Mirror;
 
 [RequireComponent(typeof(NetworkIdentity))]
-public partial class Card : NetworkBehaviour
+public partial class Card
 {
     #region 카드정보
-    public int id;
+    [SyncVar(hook = nameof(Register))]
+    public int id = -1;
+
+    void Register(int _, int @new)
+    {
+        if(GameManager.instance != null)
+        {
+            GameManager.instance.RegisterCard(@new, this);
+        }
+    }
+
 
     public string cardName;
 
@@ -32,32 +42,32 @@ public partial class Card : NetworkBehaviour
         set
         {
             isOpened = value;
-            SprtRend.sprite = isOpened ? front : GameManager.instance.cardBackFace;
+            SprtRend.sprite = isOpened ? front : back;
         }
     }
 
     public bool IsOnMouse = false;
 
-    public SpriteRenderer SprtRend { get; private set; }
-    public Sprite front;
-
-
-    #region 초기화
-    void Awake()
+    SpriteRenderer sprtRend;
+    public SpriteRenderer SprtRend
     {
-        SprtRend = GetComponent<SpriteRenderer>();
-    }
-
-    private void Start()
-    {
-        if (GameManager.instance == null)
+        get
         {
-            iCardState = new NoneState();
-        }
-        else
-        {
-            iCardState = GameManager.instance.noneState;
+            if (sprtRend == null)
+            {
+                sprtRend = GetComponent<SpriteRenderer>();
+            }
+            return sprtRend;
         }
     }
-    #endregion
+
+    Sprite front;
+    public Sprite Front => front;
+    Sprite back;
+
+    public void SetSprite(Sprite front, Sprite back)
+    {
+        this.front = front;
+        this.back = back;
+    }
 }

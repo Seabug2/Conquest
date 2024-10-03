@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Field : MonoBehaviour
 {
-    [SerializeField] int seatNum;
+    [SerializeField, Header("번호")] int seatNum;
+    public int SeatNum => seatNum;
 
     readonly Dictionary<int, Tile> dict_Tile = new();
 
@@ -24,12 +25,9 @@ public class Field : MonoBehaviour
         }
     }
 
-    /// <see cref="GameManager.OnStartEvent"/>에 등록하여 사용
     public void TileSet()
     {
-        GameManager.dict_Field.Add(seatNum, this);
-
-        Tile[] tiles = GetComponentsInChildren<Tile>();
+        Tile[] tiles = GetComponentsInChildren<Tile>(true);
 
         foreach (Tile t in tiles)
         {

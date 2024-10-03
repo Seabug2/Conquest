@@ -37,6 +37,8 @@ public class GameManager : NetworkBehaviour
 
     private void OnDestroy()
     {
+        commander.Cancel();
+
         if (instance == this)
         {
             instance = null;
@@ -44,22 +46,254 @@ public class GameManager : NetworkBehaviour
     }
     #endregion
 
+    [Header("덱, 필드, 손 관리")]
+    [SerializeField] Deck deck;
+    public static Deck Deck => instance.deck;
+    [SerializeField] private Field[] fields;
+    public static readonly Dictionary<int, Field> dict_Field = new();
+    [SerializeField] private Hand[] hands;
+    public static readonly Dictionary<int, Hand> dict_Hand = new();
+
+    [HideInInspector]
+    public GamePhase CurrentPhase = GamePhase.Standby;
+
+    public int[] deckIds;
+
+    readonly Commander commander = new();
+
+    [Space(20)]
+    [Header("플레이어 연결 이벤트")]
+    public UnityEvent ConnectionEvent = new ();
+
+    //[Space(20)]
+    //[Header("연결 완료 이벤트")]
+    //public UnityEvent CompleteConnect = new ();
+
+    [Space(20)]
+    [Header("게임 시작 이벤트")]
+    public UnityEvent OnStartEvent = new ();
+
+    [Header("게임 종료 이벤트")]
+    public UnityEvent OnEndGame = new ();
+
+
     #region 초기화
-    string filePath = "DeckIdList.json";
-    DeckIDList deckIdList;
-
-    private void Start()
+    void Start()
     {
-        filePath = Path.Combine(Application.persistentDataPath, filePath);
-        deckIdList = LoadDeckIdList();
-        CardSetting();
+        InitializeFieldAndHandDictionaries();
+    }
 
-        CurrentPhase = GamePhase.Standby;
+    private void InitializeFieldAndHandDictionaries()
+    {
+        foreach (Field f in fields)
+        {
+            dict_Field.Add(f.SeatNum, f);
+            f.TileSet();
+        }
+
+        foreach (Hand h in hands)
+        {
+            dict_Hand.Add(h.SeatNum, h);
+        }
+    }
+
+    public override void OnStartServer()
+    {
+        SetUpDeck();
+    }
+
+    [Server]
+    void SetUpDeck()
+    {
+        deckIds = LoadDeckIdList().idList;
+        deck.SetUpDeck(deckIds);
+    }
+
+    #endregion
+
+    #region 초기 진행
+    //플레이어 4명의 연결을 대기
+    public void AddPlayer(Player _player)
+    {
+        if (!CurrentPhase.Equals(GamePhase.Standby)) return;
+
+        if (_player.isLocalPlayer)
+        {
+            LocalPlayer = _player;
+        }
+
+        players.Add(_player);
+        ConnectionEvent.Invoke();
+
+        if (players.Count == maxPlayer)
+        {
+            StartGame();
+        }
+    }
+
+    [ServerCallback]
+    async void StartGame()
+    {
+        PlayerShuffle();
+
+        await WaitForAllAcknowledgements();
+
+        //호스트가 아닌 서버인 경우에도 동기화 할 수 있도록...
+        if (isServerOnly)
+        {
+            players.Sort((a, b) => a.Order.CompareTo(b.Order));
+        }
+
+        RpcSortPlayerList();
+
+        await WaitForAllAcknowledgements();
+
+        SyncDeckIdList(deckIds);
+
+        await WaitForAllAcknowledgements();
+
+        //TODO 덱 ID 리스트를 전달
+        ServerSpawnCard();
+
+        await WaitForAllAcknowledgements();
+
+        RpcStartGame();
+
+        await WaitForAllAcknowledgements();
+
+        deck.ServerDraftPhase();
+    }
+
+    [Server]
+    public void PlayerShuffle()
+    {
+        int rand;
+        Player tmp;
+        for (int i = 0; i < maxPlayer; i++)
+        {
+            rand = UnityEngine.Random.Range(i, maxPlayer); // i부터 랜덤 인덱스까지 선택
+            tmp = players[i];
+            players[i] = players[rand];
+            players[rand] = tmp;
+        }
+
+        for (int i = 0; i < maxPlayer; i++)
+        {
+            //호스트가 아닌 서버에서도 순서를 동기화 할 수 있도록...
+            if (isServerOnly)
+            {
+                players[i].SetOrder(i);
+            }
+
+            players[i].RpcSetOrder(i);
+        }
+    }
+
+    [ClientRpc]
+    void RpcSortPlayerList()
+    {
+        players.Sort((a, b) => a.Order.CompareTo(b.Order));
+        UISetting();
+        CmdReply(LocalPlayer.Order);
+    }
+
+    void UISetting()
+    {
+        UIManager.GetUI<YourNumber>().Init(LocalPlayer.Order);
+        UIManager.GetUI<SideMenu>().Initialize();
+        HeadLine hl = UIManager.GetUI<HeadLine>();
+        hl.localPlayerOrder = LocalPlayer.Order;
+        TurnChangeEvent += hl.IsMyTurn;
+    }
+
+    [ClientRpc]
+    void SyncDeckIdList(int[] deckIds)
+    {
+        this.deckIds = deckIds;
+        CmdReply(LocalPlayer.Order);
+    }
+
+    [Server]
+    void ServerSpawnCard()
+    {
+        if (deckIds.Length == 0)
+        {
+            Debug.LogError("오류 : 덱 ID 리스트를 불러오는데 실패한 것 같습니다.");
+            return;
+        }
+
+        NetworkManager manager = NetworkManager.singleton;
+
+        //서버에서 카드를 생성
+        foreach (int i in deckIds)
+        {
+            GameObject card = Instantiate(manager.spawnPrefabs[0], deck.transform.position, Quaternion.identity);
+            card.GetComponent<Card>().id = deckIds[i];
+            NetworkServer.Spawn(card);
+        }
+    }
+
+    /// <summary>
+    /// <see cref="Card.Register"/>
+    /// </summary>
+    public void RegisterCard(int id, Card card)
+    {
+        if (id >= 0 && !dict_Card.ContainsKey(id))
+        {
+            dict_Card.Add(id, card);
+
+            if (dict_Card.Count == deckIds.Length)
+            {
+                Debug.Log(dict_Card.Count);
+
+                //id를 참조하여 카드를 세팅...
+                CardSetting();
+            }
+        }
+    }
+
+    void CardSetting()
+    {
+        int length = dict_Card.Count;
+        if (length == 0) return;
+
+        string[] dataLines = LoadCSVData();
+        AbilityManager abilityManager = new();
+
+        for (int i = 0; i < length; i++)
+        {
+            Card card = dict_Card[deckIds[i]];
+            SetCardData(card, dataLines, abilityManager);
+        }
+
+        CmdReply(LocalPlayer.Order);
+    }
+
+    [ClientRpc]
+    public void RpcStartGame()
+    {
+        commander
+            .Refresh()
+            .Add(() =>
+            {
+                CameraController.instance.FocusOnCenter();
+                UIManager.GetUI<Fade>().In(3f);
+            }
+            , 3.3f)
+            .Add(() =>
+            {
+                UIManager.GetUI<Timer>().Active(1.8f);
+                UIManager.GetUI<HeadLine>().On(1.8f);
+            }
+            , 2f)
+            .Add(() => UIManager.GetUI<LineMessage>().ForcePopUp("최후의 1인이 되세요!", 3f))
+            .Add(() => CmdReply(LocalPlayer.Order))
+            .Play();
     }
     #endregion
 
     #region 연결
-    [SerializeField] bool[] isAcknowledged = new bool[maxPlayer];
+    readonly bool[] isAcknowledged = new bool[maxPlayer];
 
     [Command(requiresAuthority = false)]
     public void CmdReply(int order)
@@ -91,32 +325,24 @@ public class GameManager : NetworkBehaviour
     [Server]
     public void ResetAcknowledgements()
     {
-        for (int i = 0; i < maxPlayer; i++)
-        {
-            isAcknowledged[i] = false;
-        }
+        Array.Clear(isAcknowledged, 0, isAcknowledged.Length);
     }
 
     [Server]
     public async UniTask WaitForAllAcknowledgements(int timeoutMilliseconds = 20000)
     {
-        // CancellationTokenSource 생성
-        var cts = new CancellationTokenSource();
-
-        // 설정된 시간 후에 CancellationToken을 취소함
+        CancellationTokenSource cts = new CancellationTokenSource();
         cts.CancelAfter(timeoutMilliseconds);
 
-        // 설정된 시간 동안 응답을 기다리기 시작한다.
-        await UniTask.WaitUntil(IsAllReceived, cancellationToken: cts.Token).SuppressCancellationThrow();
-
-        if (!IsAllReceived())
+        try
+        {
+            await UniTask.WaitUntil(IsAllReceived, cancellationToken: cts.Token);
+            Debug.Log("응답 완료!");
+        }
+        catch (OperationCanceledException)
         {
             Debug.LogWarning("응답이 오지 않은 플레이어가 있습니다. 연결 상태를 확인합니다.");
             CheckDisconnectedPlayers();
-        }
-        else
-        {
-            Debug.Log("응답 완료!");
         }
 
         ResetAcknowledgements();
@@ -127,7 +353,6 @@ public class GameManager : NetworkBehaviour
     {
         for (int i = 0; i < maxPlayer; i++)
         {
-            //답장을 한 
             if (isAcknowledged[i]) continue;
 
             Player player = GetPlayer(i);
@@ -137,29 +362,23 @@ public class GameManager : NetworkBehaviour
             }
             else if (player.isGameOver)
             {
-                // 여기에서 해당 플레이어의 연결 상태에 대한 추가 처리
                 Debug.LogError($"Player {i}는 탈락했으므로 그냥 넘어갑니다.");
             }
             else
             {
-                //TODO 응답하지 않는 플레이어에 대한 예외처리 필요
                 Debug.LogError($"Player {i}의 연결을 끊습니다...");
+                // TODO: 응답하지 않는 플레이어에 대한 예외 처리 필요
             }
         }
     }
-
     #endregion
 
     #region 플레이어
     public const int maxPlayer = 4;
 
-    [SerializeField, Header("플레이어 리스트")]
-    List<Player> players = new();
-
-    public int ConnectedPlayerCount()
-    {
-        return players.Count();
-    }
+    //[SerializeField, Header("플레이어 리스트")]
+    readonly
+        List<Player> players = new();
 
     public static Player GetPlayer(int i)
     {
@@ -173,29 +392,6 @@ public class GameManager : NetworkBehaviour
 
     public static Player LocalPlayer { get; private set; }
 
-    [Header("플레이어 연결 이벤트")]
-    public UnityEvent ConnectionEvent;
-    [Header("연결 완료 이벤트")]
-    public UnityEvent CompleteConnect;
-    public void AddPlayer(Player _player)
-    {
-        if (!CurrentPhase.Equals(GamePhase.Standby)) return;
-
-        if (_player.isLocalPlayer)
-        {
-            LocalPlayer = _player;
-        }
-
-        players.Add(_player);
-        ConnectionEvent.Invoke();
-
-        if (players.Count == maxPlayer)
-        {
-            CompleteConnect.Invoke();
-            StartGame();
-        }
-    }
-
     [Server]
     public void RemovePlayer(Player _player)
     {
@@ -207,7 +403,6 @@ public class GameManager : NetworkBehaviour
             {
                 //플레이어 리스트에서 제거하여 리스트의 크기를 원래대로 한다.
                 players.Remove(_player);
-                ConnectionEvent.Invoke();
             }
             else
             {
@@ -242,73 +437,9 @@ public class GameManager : NetworkBehaviour
     [Server]
     int LastPlayer()
     {
-        int last = 0;
-
-        foreach (Player p in players)
-        {
-            if (p != null && !p.isGameOver)
-            {
-                last = p.Order;
-            }
-        }
-
-        return last;
-    }
-
-    [Server]
-    public void PlayerShuffle()
-    {
-        int rand;
-        Player tmp;
-        for (int i = 0; i < maxPlayer; i++)
-        {
-            rand = UnityEngine.Random.Range(i, maxPlayer); // i부터 랜덤 인덱스까지 선택
-            tmp = players[i];
-            players[i] = players[rand];
-            players[rand] = tmp;
-        }
-
-        for (int i = 0; i < maxPlayer; i++)
-        {
-            //호스트가 아닌 서버에서도 순서를 동기화 할 수 있도록...
-            if (isServerOnly)
-            {
-                players[i].SetOrder(i);
-            }
-
-            players[i].RpcSetOrder(i);
-        }
-    }
-
-    [ServerCallback]
-    async void StartGame()
-    {
-        PlayerShuffle();
-
-        await WaitForAllAcknowledgements();
-
-        RpcSortPlayerList();
-
-        //호스트가 아닌 서버인 경우에도 동기화 할 수 있도록...
-        if (isServerOnly)
-        {
-            players.Sort((a, b) => a.Order.CompareTo(b.Order));
-        }
-
-        await WaitForAllAcknowledgements();
-
-        RpcStartGame();
-
-        await WaitForAllAcknowledgements();
-
-        deck.ServerDraftPhase();
-    }
-
-    [ClientRpc]
-    void RpcSortPlayerList()
-    {
-        players.Sort((a, b) => a.Order.CompareTo(b.Order));
-        CmdReply(LocalPlayer.Order);
+        return players.Where(p => p != null && !p.isGameOver)
+                      .Select(p => p.Order)
+                      .LastOrDefault();
     }
 
     public static int AliveCount
@@ -335,11 +466,17 @@ public class GameManager : NetworkBehaviour
     #region 카드
     [Header("카드 뒷면 이미지"), Space(10)]
     public Sprite cardBackFace;
-
+    
     [Header("카드"), Space(10)]
-    public Card[] cards;
+    [SerializeField] Card prefab;
+
+    /// <summary>
+    /// 미리 생성해둔 상태를 참조하여 재활용성을 높입니다.
+    /// </summary>
+    public readonly ICardState noneState = new NoneState();
 
     readonly Dictionary<int, Card> dict_Card = new();
+
     public static Card Card(int id)
     {
         if (!instance.dict_Card.ContainsKey(id))
@@ -349,108 +486,85 @@ public class GameManager : NetworkBehaviour
         }
         return instance.dict_Card[id];
     }
-    public static int TotalCard => instance.cards.Length;
+    public static int TotalCard => instance.dict_Card.Count;
 
-    void CardSetting()
+    private string[] LoadCSVData()
     {
-        if (cards.Length == 0) return;
-
         TextAsset csvFile = Resources.Load<TextAsset>("Conquest_Info");
 
         if (csvFile == null)
         {
             Debug.LogError("CSV 파일을 찾을 수 없습니다.");
-            return;
+            return Array.Empty<string>();
         }
 
         string[] dataLines = csvFile.text.Split(new char[] { '\n' });
         if (dataLines.Length <= 1)
         {
             Debug.LogError("CSV 파일에 데이터가 부족합니다.");
+            return Array.Empty<string>();
+        }
+
+        return dataLines;
+    }
+    private void SetCardData(Card card, string[] dataLines, AbilityManager abilityManager)
+    {
+        card.iCardState = noneState;
+        SetCardEventHandlers(card);
+        ParseCardData(card, dataLines, abilityManager);
+    }
+
+    private void SetCardEventHandlers(Card card)
+    {
+        if (CameraController.instance != null)
+        {
+            card.OnPointerCardDown = (c) => CameraController.instance.Freeze(true);
+            card.OnPointerCardUp = (c) => CameraController.instance.Freeze(false);
+        }
+
+        card.OnPointerCardEnter = (card) => UIManager.GetUI<Info>()?.PopUp(card);
+    }
+
+    private void ParseCardData(Card card, string[] dataLines, AbilityManager abilityManager)
+    {
+        int lineIndex = card.id + 1;
+        if (lineIndex >= dataLines.Length)
+        {
+            Debug.LogError($"데이터 라인 인덱스가 범위를 벗어났습니다: {lineIndex}");
             return;
         }
 
-        //카드에 효과를 할당하기 위한 매니저
-        AbilityManager abilityManager = new AbilityManager();
+        string line = dataLines[lineIndex].Trim();
+        if (string.IsNullOrWhiteSpace(line)) return;
 
-        int length = cards.Length;
-        for (int i = 0; i < length; i++)
+        string[] data = line.Split(',');
+
+        LoadCardImage(card, data[1]);
+        card.name = data[2];
+        card.cardName = data[2];
+        SetCardAttributes(card, data);
+    }
+
+    private void LoadCardImage(Card card, string imageName)
+    {
+        Sprite cardFront = Resources.Load<Sprite>("Card/" + imageName);
+
+        if (cardFront == null)
         {
-            Card card = cards[i];
+            Debug.LogError($"이미지를 찾을 수 없습니다: {imageName}");
+        }
+        else
+        {
+            card.SetSprite(cardFront, cardBackFace);
+        }
+    }
 
-            card.id = deckIdList[i];
-
-            if (CameraController.instance != null)
-            {
-                card.OnPointerCardDown = (card) =>
-                {
-                    CameraController.instance.Raycaster.eventMask = 0;
-                    CameraController.instance.MoveLock(true);
-                };
-                card.OnPointerCardUp = (card) =>
-                {
-                    CameraController.instance.Raycaster.eventMask = -1;
-                    CameraController.instance.MoveLock(false);
-                };
-            }
-
-            dict_Card.Add(deckIdList[i], cards[i]);
-
-            int lineIndex = card.id + 1;
-            if (lineIndex >= dataLines.Length)
-            {
-                Debug.LogError($"데이터 라인 인덱스가 범위를 벗어났습니다: {lineIndex}");
-                continue;
-            }
-
-            string line = dataLines[lineIndex].Trim();
-            if (string.IsNullOrWhiteSpace(line))
-            {
-                Debug.LogWarning($"빈 줄이 발견되었습니다: {lineIndex}");
-                continue;
-            }
-
-
-
-            string[] data = line.Split(',');
-            //if (data.Length < 최소한의_데이터_길이)
-            //{
-            //    Debug.LogError($"데이터가 부족합니다: {lineIndex}");
-            //    continue;
-            //}
-
-
-
-            string imageName = data[1];
-            Sprite cardFront = Resources.Load<Sprite>("Card/" + imageName);  // Resources/Card 폴더에서 이미지 로드
-
-            if (cardFront == null)
-            {
-                card.front = null;
-                Debug.LogError($"이미지를 찾을 수 없습니다: {imageName}");
-            }
-            else
-            {
-                card.front = cardFront;  // 카드의 front 스프라이트 할당
-            }
-
-            card.name = data[2];
-            card.cardName = data[2];
-
-            card.Sockets[0] = new Socket(ParseAttribute(data[3]), data[4].Equals("1"));
-            card.Sockets[1] = new Socket(ParseAttribute(data[5]), data[6].Equals("1"));
-            card.Sockets[2] = new Socket(ParseAttribute(data[7]), data[8].Equals("1"));
-            card.Sockets[3] = new Socket(ParseAttribute(data[9]), data[10].Equals("1"));
-
-
-            // TODO 카드 효과 구현을 완료하면 삭제
-            continue;
-
-            if (int.TryParse(data[11], out int abilityId))
-            {
-                string[] extractedData = data.Skip(12).Take(4).ToArray();
-                card.ability = abilityManager.Create(abilityId, extractedData);
-            }
+    private void SetCardAttributes(Card card, string[] data)
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            int attributeIndex = 3 + i * 2;
+            card.Sockets[i] = new Socket(ParseAttribute(data[attributeIndex]), data[attributeIndex + 1].Equals("1"));
         }
     }
 
@@ -472,7 +586,16 @@ public class GameManager : NetworkBehaviour
     [Server]
     public void SetCurrentOrder(int newOrder)
     {
-        currentOrder = newOrder;
+        if (isServerOnly)
+        {
+            GetPlayer(currentOrder).isMyTurn = false;
+
+            currentOrder = newOrder;
+
+            GetPlayer(currentOrder).isMyTurn = true;
+            GetPlayer(currentOrder).hasTurn = true;
+        }
+
         RpcSetCurrentOrder(newOrder);
     }
 
@@ -547,25 +670,13 @@ public class GameManager : NetworkBehaviour
 
     #endregion
 
-    public GamePhase CurrentPhase = GamePhase.Standby;
-
-    public static Deck deck;
-
-    public static Dictionary<int, Field> dict_Field = new();
-
-    public static Dictionary<int, Hand> dict_Hand = new();
-
-    /// <summary>
-    /// 미리 생성해둔 상태를 참조하여 재활용성을 높입니다.
-    /// </summary>
-    public readonly ICardState noneState = new NoneState();
 
     [Server]
     public bool RoundFinished()
     {
         foreach (Player p in instance.players)
         {
-            if (p == null) continue;
+            if (p == null || p.isGameOver) continue;
 
             //차례를 가지지 못한 플레이어가 있다면...
             if (!p.hasTurn)
@@ -588,46 +699,17 @@ public class GameManager : NetworkBehaviour
         }
     }
 
-    [Space(20)]
-    [Header("게임 시작 이벤트")]
-    public UnityEvent OnStartEvent;
-
-    [ClientRpc]
-    public void RpcStartGame()
-    {
-        new Commander()
-            .Refresh()
-            .Add(() =>
-            {
-                OnStartEvent.Invoke();
-                CameraController.instance.FocusOnCenter();
-                UIManager.GetUI<Fade>().In(3f);
-            })
-            .WaitSeconds(3.3f)
-            .Add(() =>
-            {
-                UIManager.GetUI<Timer>().Active(1.8f);
-                UIManager.GetUI<HeadLine>().On(1.8f);
-            })
-            .WaitSeconds(1.8f)
-            .Add(() => UIManager.GetUI<LineMessage>().ForcePopUp("최후의 1인이 되세요!", 3f)
-            , 3.3f)
-            //).WaitUntil(() => !UIManager.GetUI<LineMessage>().IsPlaying() || Input.anyKeyDown) //메시지가 끝나거나 키입력이 있을 때까지...
-            .Add(() => CmdReply(LocalPlayer.Order))
-            .Play();
-    }
-
     [Server]
     public void EndTurn(int order)
     {
-        if (isServerOnly)
-        {
-            CurrentPhase = GamePhase.EndPhase;
-        }
-
         //게임이 끝난 경우
         if (AliveCount == 1)
         {
+            if (isServerOnly)
+            {
+                CurrentPhase = GamePhase.EndPhase;
+            }
+
             RpcEndGame(LastPlayer());
             return;
         }
@@ -645,9 +727,6 @@ public class GameManager : NetworkBehaviour
         GetPlayer(currentOrder).RpcStartTurn();
     }
 
-    [Header("게임 종료 이벤트")]
-    public UnityEvent OnEndGame;
-
     [ClientRpc]
     void RpcEndGame(int lastPlayerOrder)
     {
@@ -655,7 +734,7 @@ public class GameManager : NetworkBehaviour
 
         CameraController.instance.CurrentCamIndex = lastPlayerOrder;
         CameraController.instance.MoveLock(true);
-        OnEndGame?.Invoke();
+        OnEndGame.Invoke();
 
         if (LocalPlayer.isGameOver)
         {
@@ -666,7 +745,6 @@ public class GameManager : NetworkBehaviour
             UIManager.GetUI<LineMessage>().ForcePopUp("당신의 승리입니다!", 5);
         }
     }
-
 
     /*
     public static Dictionary<int, List<Card>> dict_HandLimitStack = new Dictionary<int, List<Card>> {
@@ -706,10 +784,13 @@ public class GameManager : NetworkBehaviour
     };
     */
 
-
     #region Json : 덱 리스트
+    string filePath = "DeckIdList.json";
+
     public DeckIDList LoadDeckIdList()
     {
+        filePath = Path.Combine(Application.persistentDataPath, filePath);
+
         if (File.Exists(filePath))
         {
             // 파일이 존재하면 파일에서 JSON을 읽고 객체로 변환
@@ -719,7 +800,7 @@ public class GameManager : NetworkBehaviour
         else
         {
             // 파일이 없으면 기본 DeckIDList 객체를 생성
-            DeckIDList newDeck = new DeckIDList();
+            DeckIDList newDeck = new();
             SaveDeckIdList(newDeck);  // 기본 DeckIDList를 파일로 저장
             return newDeck;
         }

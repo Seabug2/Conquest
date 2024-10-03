@@ -1,4 +1,5 @@
 using UnityEngine;
+using Mirror;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
@@ -7,79 +8,51 @@ public class TitleManager : MonoBehaviour
 {
     public Fade fade;
     public Animator title;
-    public GameObject messageRoot;
-    public Text message;
-    public string nextSceneName = string.Empty;
+    public GameObject obj;
+
+    private void OnDestroy()
+    {
+        commander.Cancel();
+    }
+
+    private void Awake()
+    {
+        title.gameObject.SetActive(false);
+        obj.SetActive(false);
+    }
+
+    Commander commander = new Commander();
 
     private void Start()
     {
-        string origin = message.text;
-        message.text = string.Empty;
-        new Commander()
-            .Add(() =>
-            {
-                title.gameObject.SetActive(false);
-                messageRoot.SetActive(false);
-                fade.In(3f);
-            }
-            , 3.3f)
+        commander
+            .Add(() => fade.In(3f), 3.3f)
             .Add(() => title.gameObject.SetActive(true))
-            .WaitWhile(() => title.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f)
-            .Add(() =>
-            {
-                messageRoot.SetActive(true);
-                message.DOText(origin, 2f);
-            })
-            .WaitUntil(() => Input.anyKeyDown || Input.GetMouseButtonDown(0))
-            .Add(() => {
-
-                message.DOKill();
-                message.text = origin;
-                fade.Out(3f);
-            }
-            , 3.3f)
-            .Add(() =>
-            {
-                if (IsSceneValid(nextSceneName))
-                {
-                    SceneManager.LoadScene(nextSceneName);
-                }
-                else
-                {
-                    // 현재 씬의 빌드 인덱스 + 1로 로드 시도
-                    int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-                    int nextSceneIndex = currentSceneIndex + 1;
-
-                    // 다음 씬 인덱스가 빌드 설정에 있는지 확인
-                    if (nextSceneIndex < SceneManager.sceneCountInBuildSettings)
-                    {
-                        SceneManager.LoadScene(nextSceneIndex);
-                    }
-                    else
-                    {
-                        Debug.LogError("다음 씬을 로드할 수 없습니다. 빌드 설정에 씬이 존재하지 않습니다.");
-                    }
-                }
-            })
+            .WaitWhile(() => title.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.5f)
+            .WaitUntil(() => !(title.GetCurrentAnimatorStateInfo(0).normalizedTime < 1)
+            || Input.anyKeyDown || Input.GetMouseButtonDown(0))
+            .Add(() => obj.SetActive(true))
             .Play();
     }
 
-    private bool IsSceneValid(string sceneName)
+
+    NetworkManager manager;
+    public Button startHostButton;
+    public void StartHost()
     {
-        if (string.IsNullOrEmpty(sceneName)) return false;
-
-        // 씬이 빌드에 포함되었는지 확인
-        for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
+        if (manager == null)
         {
-            string scenePath = SceneUtility.GetScenePathByBuildIndex(i);
-            string sceneFileName = System.IO.Path.GetFileNameWithoutExtension(scenePath);
-
-            if (sceneFileName.Equals(sceneName, System.StringComparison.OrdinalIgnoreCase))
-            {
-                return true;
-            }
+            manager = NetworkManager.singleton;
         }
 
-        return false;
+        try
+        {
+            manager.StartHost();
+        }
+        catch
+        {
+            print("서버 생성 실패");
+            startHostButton.GetComponent<RectTransform>().DOPunchPosition(Vector3.one * 10, .5f, 30);
+        }
     }
 }

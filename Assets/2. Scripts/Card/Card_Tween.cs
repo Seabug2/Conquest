@@ -1,6 +1,5 @@
 using UnityEngine;
 using System;
-using UnityEngine.EventSystems;
 using Mirror;
 using DG.Tweening;
 
@@ -9,7 +8,7 @@ public partial class Card : NetworkBehaviour
     public Vector3 TargetPosition { get; private set; }
 
     public void SetTargetPosition(float x, float y, float z)
-        => TargetPosition.Set(x, y, z);
+        => TargetPosition = new Vector3(x, y, z);
 
     public void SetTargetPosition(Vector3 targetPosition)
         => TargetPosition = targetPosition;
@@ -42,8 +41,8 @@ public partial class Card : NetworkBehaviour
     public void DoMove(float delay = 0, Ease setEase = Ease.Unset)
     {
         transform.DOKill();
-        transform.DOMove(TargetPosition, duration).SetEase(setEase).SetDelay(delay);
         transform.DORotateQuaternion(TargetRotation, duration).SetEase(setEase).SetDelay(delay);
+        transform.DOMove(TargetPosition, duration).SetEase(setEase).SetDelay(delay);
     }
 
     [Client]
@@ -100,9 +99,9 @@ public partial class Card : NetworkBehaviour
         ownerOrder = -1;
         iCardState = GameManager.instance.noneState;
         IsOpened = false;
-        
-        TargetPosition = GameManager.deck.transform.position;
-        TargetRotation = GameManager.deck.transform.rotation;
+
+        TargetPosition = GameManager.Deck.transform.position;
+        TargetRotation = GameManager.Deck.transform.rotation;
 
         transform.DOKill();
         transform.DORotateQuaternion(TargetRotation, duration).SetDelay(delay);

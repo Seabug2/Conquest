@@ -3,12 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class YourNumber : MonoBehaviour
+public class YourNumber : MonoBehaviour, IUIController
 {
     Text text;
 
+    private void Start()
+    {
+        UIManager.RegisterController(GetType(), this);
+    }
+
     //게임 매니저의 이벤트에 등록하여 사용
-    public void Init()
+    public void Init(int localOrder)
     {
         if (text == null)
         {
@@ -17,8 +22,7 @@ public class YourNumber : MonoBehaviour
         }
 
         string str = "";
-        int order = GameManager.LocalPlayer.Order;
-        switch (order)
+        switch (localOrder)
         {
             case 0:
                 str = "1st";

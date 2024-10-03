@@ -56,4 +56,11 @@ public class HeadLine : MonoBehaviour, IUIController
             .SetEase(Ease.InQuart)
             .OnComplete(() => root.gameObject.SetActive(false));
     }
+    public int localPlayerOrder;
+    public void IsMyTurn(int currentPlayerOrder)
+    {
+        bool isMyTurn = localPlayerOrder == currentPlayerOrder;
+        string message = isMyTurn ? "당신의 차례": $"플레이어 {currentPlayerOrder + 1}의 차례";
+        Print(message);
+    }
 }

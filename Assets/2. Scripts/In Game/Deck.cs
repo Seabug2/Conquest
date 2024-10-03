@@ -9,30 +9,29 @@ using Mirror;
 public class Deck : NetworkBehaviour
 {
     readonly Commander commander = new();
-    public readonly SyncList<int> list = new();
-
-    #region 덱 초기화
-    private void Start()
+    private void OnDestroy()
     {
-        GameManager.deck = this;
+        commander.Cancel();
+    }
+
+
+    public SyncList<int> list = new();
+
+    public void SetUpDeck(int[] ids)
+    {
+        int length = ids.Length;
+        for (int i = 0; i < length; i++)
+        {
+            list.Add(ids[i]);
+        }
+        Shuffle();
     }
 
     public int Count => list.Count;
 
-    public override void OnStartServer()
-    {
-        int length = GameManager.TotalCard;
-        for (int i = 0; i < length; i++)
-        {
-            list.Add(i);
-        }
-        Shuffle();
-    }
-    #endregion
-
     #region 덱 관리
     [Server]
-    void Shuffle()
+    public void Shuffle()
     {
         int rand;
         int tmp;
@@ -136,36 +135,36 @@ public class Deck : NetworkBehaviour
         commander
             .Refresh()
             .Add(GameManager.instance.SetNewRound)
-           .WaitUntil(() => GameManager.instance.IsAllReceived() || t <= 0)
-           .Add(() =>
-           {
-               if (!GameManager.instance.IsAllReceived())
-                   GameManager.instance.CheckDisconnectedPlayers();
+            .WaitUntil(() => GameManager.instance.IsAllReceived() || t <= 0)
+            .Add(() =>
+            {
+                if (!GameManager.instance.IsAllReceived())
+                    GameManager.instance.CheckDisconnectedPlayers();
 
-               GameManager.instance.ResetAcknowledgements();
+                GameManager.instance.ResetAcknowledgements();
 
-               if (Count == 0)
-               {
-                   Debug.LogError("덱에 카드가 없습니다!");
-                   //TODO 덱에 카드가 없는 상황?
-                   return;
-               }
+                if (Count == 0)
+                {
+                    Debug.LogError("덱에 카드가 없습니다!");
+                    //TODO 덱에 카드가 없는 상황?
+                    return;
+                }
 
-               draftCard.Clear();
+                draftCard.Clear();
 
-               //현재 생존한 플레이어 수 만큼 카드를 공개한다.
-               int playerCount = Mathf.Min(GameManager.AliveCount, Count);
-               int[] drawnCard = new int[playerCount];
-               for (int i = 0; i < playerCount; i++)
-               {
-                   int id = DrawCardID();
-                   draftCard.Add(id);
-                   drawnCard[i] = id;
-               }
-               RpcDraftPhase(drawnCard);
-           })
-           .OnUpdate(() => t -= Time.deltaTime)
-           .Play();
+                //현재 생존한 플레이어 수 만큼 카드를 공개한다.
+                int playerCount = Mathf.Min(GameManager.AliveCount, Count);
+                int[] drawnCard = new int[playerCount];
+                for (int i = 0; i < playerCount; i++)
+                {
+                    int id = DrawCardID();
+                    draftCard.Add(id);
+                    drawnCard[i] = id;
+                }
+                RpcDraftPhase(drawnCard);
+            })
+            .OnUpdate(() => t -= Time.deltaTime)
+            .Play();
     }
 
     [ClientRpc]
@@ -177,6 +176,7 @@ public class Deck : NetworkBehaviour
 
         commander
             .Refresh()
+            .WaitWhile(isPlaying)
             .Add(() =>
             {
                 //플레이어들의 화면을 센터로 이동시키고 카메라 이동을 불가능하게 한다
@@ -216,6 +216,65 @@ public class Deck : NetworkBehaviour
         ClientSelectDraftCard(_order);
     }
 
+    [Client]
+    void ClientSelectDraftCard(int _order)
+    {
+        CameraController.instance.FocusOnCenter();
+        CameraController.instance.MoveLock(true);
+
+        if (UIManager.GetUI<Timer>().IsPlaying())
+            UIManager.GetUI<Timer>().@Reset();
+
+        if (GameManager.GetPlayer(_order).isLocalPlayer)
+        {
+            Selecting(_order);
+        }
+        else
+        {
+            Waiting(_order);
+        }
+    }
+
+    void Selecting(int _order)
+    {
+        commander
+            .Refresh()
+            .Add(() =>
+            UIManager.GetUI<LineMessage>().PopUp("패로 가져갈 카드를 한 장 고르세요", 3f)
+            , 3f)
+            .Add(() =>
+            {
+                CameraController.instance.MoveLock(false);
+
+                //현재 공개된 카드의 상태를 바꿈
+                foreach (int id in draftCard)
+                {
+                    Card card = GameManager.Card(id);
+
+                    card.iCardState = new SelectionState(card
+                        , () => UIManager.GetUI<Confirm>().PopUp(() =>
+                        {
+                            UIManager.GetUI<Timer>().Stop();
+
+                            //확인 버튼을 누르면...
+                            //선택 즉시 모든 카드를 선택 불가능한 상태로 바꾼다. 
+                            foreach (int id in draftCard)
+                            {
+                                Card c = GameManager.Card(id);
+                                c.iCardState = GameManager.instance.noneState;
+                            }
+
+                            CmdSelectDraftCard(_order, card.id);
+                        }, "이 카드를 패로 가져갑니다?"
+                        , card.Front));
+                }
+
+                //30초
+                UIManager.GetUI<Timer>().Play(30f, () => EndSelection(_order));
+            })
+            .Play();
+    }
+
     void EndSelection(int _order)
     {
         if (UIManager.GetUI<Confirm>().IsActive)
@@ -233,72 +292,20 @@ public class Deck : NetworkBehaviour
         CmdSelectDraftCard(_order, draftCard[rand]);
     }
 
-    [Client]
-    void ClientSelectDraftCard(int _order)
+    void Waiting(int _order)
     {
-        CameraController.instance.FocusOnCenter();
-        CameraController.instance.MoveLock(true);
-        UIManager.GetUI<Timer>().@Reset();
-
-        if (GameManager.GetPlayer(_order).isLocalPlayer)
-        {
-            commander
-                .Refresh()
-                .Add(() =>
-                {
-                    UIManager.GetUI<HeadLine>().Print("카드 선택");
-                    UIManager.GetUI<LineMessage>().PopUp("패로 가져갈 카드를 한 장 고르세요", 3f);
-                }
-                , 3f)
-                .Add(() =>
-                {
-                    CameraController.instance.MoveLock(false);
-
-                    //현재 공개된 카드의 상태를 바꿈
-                    foreach (int id in draftCard)
-                    {
-                        Card card = GameManager.Card(id);
-
-                        card.iCardState = new SelectionState(card
-                            , () => UIManager.GetUI<Confirm>().PopUp(() =>
-                            {
-                                UIManager.GetUI<Timer>().Stop();
-
-                                //확인 버튼을 누르면...
-                                //선택 즉시 모든 카드를 선택 불가능한 상태로 바꾼다. 
-                                foreach (int id in draftCard)
-                                {
-                                    Card c = GameManager.Card(id);
-                                    c.iCardState = GameManager.instance.noneState;
-                                }
-
-                                CmdSelectDraftCard(GameManager.LocalPlayer.Order, card.id);
-                            }, "이 카드를 패로 가져갑니다?"
-                            , card.front));
-                    }
-
-                    //30초
-                    UIManager.GetUI<Timer>().Play(30f, () => EndSelection(_order));
-                })
-                .Play();
-        }
-        else
-        {
-            commander
-                .Refresh()
-                .Add(() =>
-                {
-                    UIManager.GetUI<HeadLine>().Print("인재 영입 시간");
-                    UIManager.GetUI<LineMessage>().ForcePopUp($"{_order + 1}번째 플레이어가\n카드를 고르는 중입니다.", 3f);
-                }, 3f)
-                .Add(() =>
-                {
-                    CameraController.instance.MoveLock(false);
-                    UIManager.GetUI<Timer>().Play(30f);
-                })
-                .Play();
-        }
+        commander
+            .Refresh()
+            .Add(() => UIManager.GetUI<LineMessage>().ForcePopUp($"{_order + 1}번째 플레이어가\n카드를 고르는 중입니다.", 3f)
+            , 3f)
+            .Add(() =>
+            {
+                CameraController.instance.MoveLock(false);
+                UIManager.GetUI<Timer>().Play(30f);
+            })
+            .Play();
     }
+
 
     [Command(requiresAuthority = false)]
     void CmdSelectDraftCard(int order, int id)
@@ -307,17 +314,24 @@ public class Deck : NetworkBehaviour
         GameManager.GetPlayer(order).Hand.RpcAdd(id);
 
         order = GameManager.instance.NextOrder(order);
+        GameManager.instance.SetCurrentOrder(order);
 
         //TODO 남은 카드를 기준으로 드래프트 페이즈를 마치면 안됨
 
+        //1. 남은 카드가 더 있지만 현재 차례를 진행할 수 있는 플레이어가 없는 경우...
+        //if (GameManager.instance.RoundFinished())
+        //{
+
+        //}
+
+        //2. 
         if (draftCard.Count > 1)
         {
-            GameManager.instance.SetCurrentOrder(order);
             RpcSelectDraftCard(order);
             return;
         }
 
-        //남은 카드가 한 장일 경우
+        //3. 남은 카드가 한 장일 경우
         //남은 한 장을 다음 플레이어의 패에 추가
         int lastID = draftCard[0];
         draftCard.Clear();
@@ -349,13 +363,8 @@ public class Deck : NetworkBehaviour
     {
         GameManager.instance.CurrentPhase = GamePhase.PlayerPhase;
         UIManager.GetUI<Timer>().Reset();
-
-        commander
-            .Refresh()
-            .Add(() => UIManager.GetUI<LineMessage>().ForcePopUp("카드 선택을 마쳤습니다!", 3f)
-            , 3f)
-            .Add(GameManager.GetPlayer(_firstOrder).ClientStartTurn) //RPC => 로컬 플레이어는 자신의 턴을 진행한다.
-            .Play();
+        UIManager.GetUI<LineMessage>().ForcePopUp("카드 선택을 마쳤습니다!", 3f);
+        GameManager.GetPlayer(_firstOrder).ClientStartTurn();
     }
 
     #endregion

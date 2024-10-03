@@ -57,7 +57,7 @@ public class CompleteLink : MonoBehaviour, IUIController
 
         for (int i = 0; i < length; i++)
         {
-            imgs[i].sprite = GameManager.Card(ids[i]).front;
+            imgs[i].sprite = GameManager.Card(ids[i]).Front;
             imgs[i].rectTransform.anchoredPosition = positions[center];
             imgs[i].gameObject.SetActive(true);
             imgs[i].rectTransform.DOAnchorPos(positions[i], .123f * (i + 1)).SetEase(Ease.OutQuad);

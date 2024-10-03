@@ -73,25 +73,13 @@ public class SideMenu : MonoBehaviour, IUIController
     private CameraController cameraController;
     private GameManager gameManager;
 
-    private void Awake()
-    {
-        cameraController = CameraController.instance;
-        gameManager = GameManager.instance;
-    }
-
     private void Start()
     {
-        if (GameManager.instance != null)
-        {
-            gameManager = GameManager.instance;
-        }
+        if (CameraController.instance != null)
+            cameraController = CameraController.instance;
 
-        //if (UIManager.instance != null)
-        //{
-        //    UIManager.RegisterController(GetType(), this);
-        //}
-
-        cameraController = CameraController.instance;
+        if (UIManager.instance != null)
+            UIManager.RegisterController(GetType(), this);
     }
 
     public void Initialize()
@@ -160,27 +148,28 @@ public class SideMenu : MonoBehaviour, IUIController
     {
         if (cameraController == null || gameManager == null) return;
 
-        if (gameManager.CurrentPhase == GamePhase.DraftPhase)
+        //다른 곳을 보고 있는 경우 자신의 화면으로 이동할 수 있다.
+        if (cameraController.CurrentCamIndex != localOrder)
         {
-            if (cameraController.CurrentCamIndex == localOrder)
-            {
-                cameraController.FocusOnCenter();
-            }
-            else
-            {
-                cameraController.FocusOnHome();
-            }
+            cameraController.FocusOnHome();
+            return;
         }
-        else if (gameManager.CurrentPhase == GamePhase.PlayerPhase)
+
+        //자신의 화면을 보고 있는 경우...
+        switch (gameManager.CurrentPhase)
         {
-            if (GameManager.LocalPlayer.isMyTurn && cameraController.CurrentCamIndex == localOrder)
-            {
-                GameManager.LocalPlayer.ClientEndTurn();
-            }
-            else if (cameraController.CurrentCamIndex != localOrder)
-            {
-                cameraController.FocusOnHome();
-            }
+            case GamePhase.DraftPhase:
+                //카드 선택 시간에는 중앙으로 이동
+                cameraController.FocusOnCenter();
+                return;
+            case GamePhase.PlayerPhase:
+                //자신의 차례라면 턴 종료
+                if (GameManager.LocalPlayer.isMyTurn)
+                {
+                    GameManager.LocalPlayer.ClientEndTurn();
+                    GameManager.LocalPlayer.isMyTurn = false;
+                }
+                return;
         }
     }
 
