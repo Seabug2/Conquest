@@ -116,18 +116,21 @@ public class Tile : NetworkBehaviour
             CameraController.instance.DoShake(order, 0.2f, 1.5f);
 
             Player player = GameManager.GetPlayer(order);
-
-            if (AroundCheck(out Tile completedTile))
+            if (player.isLocalPlayer)
             {
-                UIManager.GetUI<Timer>().Pause();
-                if (player.isLocalPlayer)
+                if (AroundCheck(out Tile completedTile))
+                {
+                    CameraController.instance.Freeze(true);
+                    UIManager.GetUI<Timer>().Pause();
                     completedTile.OnCompleteLink();
-            }
+                    return;
+                }
 
-            if (player != null && player.Hand.Count == 0)
-            {
-                UIManager.GetUI<LineMessage>().ForcePopUp("사용 가능한 카드가 없습니다!", 2f);
-                player.ClientEndTurn();
+                if (player != null && player.Hand.Count == 0)
+                {
+                    UIManager.GetUI<LineMessage>().ForcePopUp("사용 가능한 카드가 없습니다!", 2f);
+                    player.ClientEndTurn();
+                }
             }
         }, 0.34f);
     }
@@ -162,7 +165,7 @@ public class Tile : NetworkBehaviour
         return true;
     }
 
-    readonly Commander commander = new ();
+    readonly Commander commander = new();
     private void OnDestroy()
     {
         commander.Cancel();
@@ -175,18 +178,50 @@ public class Tile : NetworkBehaviour
         for (int i = 0; i < 4; i++)
         {
             linkedIds[i] = linkedTile[i].PlacedCard.id;
-            linkedTile[i].PlacedCard = null;
         }
         linkedIds[4] = PlacedCard.id;
-        PlacedCard = null;
+        CmdOnCompleteLink(linkedIds);
+    }
+
+    [Command(requiresAuthority = false)]
+    void CmdOnCompleteLink(int[] ids)
+    {
+        RpcOnCompleteLink(ids);
+    }
+
+    [ClientRpc]
+    void RpcOnCompleteLink(int[] ids)
+    {
+        int order = PlacedCard.ownerOrder;
         commander
             .Refresh()
-            .Add(() => UIManager.GetUI<LineMessage>().ForcePopUp("링크 완성!", 2f)
+            .Add(() =>
+            {
+                CameraController.instance.FocusOnPlayerField(PlacedCard.ownerOrder);
+                CameraController.instance.Freeze(true);
+                foreach (int i in ids)
+                {
+                    Card card = GameManager.Card(i);
+                    card.currentTile.PlacedCard = null;
+                    card.currentTile = null;
+                }
+                UIManager.GetUI<LineMessage>().ForcePopUp("링크 완성!", 2f);
+            }
             , 2.2f)
-            .Add(() => GameManager.Deck.CmdReturnCard(linkedIds, true))
-            .Add(UIManager.GetUI<Timer>().Resume)
+            .Add(() =>
+            {
+                if (GameManager.GetPlayer(order).isLocalPlayer)
+                    GameManager.Deck.CmdReturnCard(ids, true);
+            })
+            .WaitSeconds(1f)
+            .Add(() =>
+            {
+                UIManager.GetUI<Timer>().Resume();
+                CameraController.instance.Freeze(false);
+            })
             .Play();
     }
+
 
     // 에디터에서만 기즈모 그리기
 #if UNITY_EDITOR

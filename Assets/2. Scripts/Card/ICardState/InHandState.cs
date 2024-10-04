@@ -25,7 +25,7 @@ public class InHandState : ICardState
         card.SprtRend.sortingLayerName = "OnMouseLayer";
         card.transform.localScale = Vector3.one * 1.2f;
         card.IsOnMouse = true;
-        card.CmdPick(hand.selectedCardHeight.position.y);
+        card.Pick(hand.selectedCardHeight.position.y);
         hand.HandAlignment();
     }
     public void OnPointerEixt(PointerEventData eventData)
@@ -54,12 +54,21 @@ public class HandlingState : ICardState
         this.field = field;
     }
 
+    /*
+     * 드래그를 할 때
+     * 카드가 마우스의 움직임을 따라가지 못하면서
+     * 순간적으로 Exit 이벤트가 발생,
+     * 드래그를 마칠 때까지 Enter&Eixt 이벤트의 발생을 막기 위해
+     * bool값 트리거를 사용
+     */
     bool isSelected = false;
     private Vector3 offset;
     float z;
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        //카메라컨트롤러에서 이벤트 레이어를 비활성화하고
+        //화면이동을 막는다.
         card.OnPointerCardDown?.Invoke(card);
 
         isSelected = true;
@@ -104,6 +113,7 @@ public class HandlingState : ICardState
                 else
                 {
                     UIManager.GetUI<LineMessage>().PopUp("그 타일에는 둘 수 없습니다.", 1.6f);
+                    card.IsOnMouse = false;
                     hand.HandAlignment();
                 }
             }

@@ -88,8 +88,10 @@ public class Player : NetworkBehaviour
             .WaitWhile(isPlaying)
             .Add(() =>
             {
+                //차례를 시작한 플레이어의 화면으로 이동하고
+                //다른 화면으로 이동하지 못하게 막는다.
                 CameraController.instance.FocusOnPlayerField(Order);
-                CameraController.instance.MoveLock(true);
+                CameraController.instance.Freeze(true);
                 string message = isLocalPlayer ? "당신의 차례입니다" : $"{Order + 1}번째 플레이어의 차례입니다";
                 UIManager.GetUI<LineMessage>().ForcePopUp(message, 3f);
             }, 3f)
@@ -163,7 +165,7 @@ public class Player : NetworkBehaviour
                 .Add(() =>
                 {
                     Hand.SetHandlingState(Field);
-                    CameraController.instance.MoveLock(false);
+                    CameraController.instance.Freeze(false);
                     UIManager.GetUI<Timer>().Play(30f, () => ClientEndTurn());
                 })
                 .Play();
@@ -179,7 +181,7 @@ public class Player : NetworkBehaviour
             , 2f)
             .Add(() =>
             {
-                CameraController.instance.MoveLock(false);
+                CameraController.instance.Freeze(false);
                 UIManager.GetUI<Timer>().Play(30f);
             })
             .Play();
@@ -191,9 +193,9 @@ public class Player : NetworkBehaviour
         if (UIManager.GetUI<Timer>().IsPlaying())
             UIManager.GetUI<Timer>().Stop();
 
-        CameraController.instance.Raycaster.eventMask = -1;
-
         Field.ShowPlaceableTiles(null, false);
+
+        CameraController.instance.Freeze(true);
         Hand.SetHandlingState();
         
         if (isLocalPlayer)
@@ -219,12 +221,12 @@ public class Player : NetworkBehaviour
     {
         UIManager.GetUI<Timer>().Reset();
         CameraController.instance.FocusOnPlayerField(Order);
-        CameraController.instance.MoveLock(true);
+        CameraController.instance.Freeze(true);
         Hand.HandAlignment();
 
-        string message = isGameOver ? $"플레이어 {Order + 1}가 탈락했습니다!" : $"플레이어 {Order + 1}의\n차례를 마칩니다!";
-        Func<bool> isPlaying = UIManager.GetUI<LineMessage>().IsPlaying;
 
+        Func<bool> isPlaying = UIManager.GetUI<LineMessage>().IsPlaying;
+        string message = isGameOver ? $"플레이어 {Order + 1}가 탈락했습니다!" : $"플레이어 {Order + 1}의\n차례를 마칩니다!";
         commander
             .Refresh()
             .WaitWhile(isPlaying)

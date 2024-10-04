@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using System;
-using System.Collections.Generic;
 
 [Serializable]
 public class ButtonInfo
@@ -64,7 +63,7 @@ public class SideMenu : MonoBehaviour, IUIController
     private RectTransform yourMark;
 
     [SerializeField]
-    private Vector3 selectedScale = new Vector3(1.3f, 1.3f, 1.3f);
+    private Vector3 selectedScale = new (1.3f, 1.3f, 1.3f);
 
     [SerializeField]
     private Color selectedColor = Color.yellow;

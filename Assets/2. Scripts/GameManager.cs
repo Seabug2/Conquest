@@ -738,6 +738,7 @@ public class GameManager : NetworkBehaviour
         }
         else
         {
+            UIManager.GetUI<HeadLine>().ForcePrint("승리!");
             UIManager.GetUI<LineMessage>().ForcePopUp("당신의 승리입니다!", 5);
         }
     }

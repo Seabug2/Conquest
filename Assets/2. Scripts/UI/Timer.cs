@@ -13,12 +13,24 @@ public class Timer : MonoBehaviour, IUIController
     public bool IsPlaying() => isPlaying;
 
     Action OnTimeOutEvent;
+    LineMessage message;
+    LineMessage Message
+    {
+        get
+        {
+            if(message == null)
+            {
+                message = UIManager.GetUI<LineMessage>();
+            }
+            return message;
+        }
+    }
 
     private void Start()
     {
         if (UIManager.instance != null)
         {
-            UIManager.RegisterController(this.GetType(), this);
+            UIManager.RegisterController(GetType(), this);
         }
 
         root.SetActive(false);
@@ -108,7 +120,7 @@ public class Timer : MonoBehaviour, IUIController
 
     private void Update()
     {
-        if (!isPlaying) return;
+        if (!isPlaying || Message.IsPlaying()) return;
 
         t -= Time.deltaTime;
 

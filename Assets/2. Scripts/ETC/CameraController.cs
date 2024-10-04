@@ -153,8 +153,10 @@ public class CameraController : MonoBehaviour
 
     public void Freeze(bool isFrozen)
     {
-        CameraController.instance.Raycaster.eventMask = isFrozen ? 0 : -1;
-        CameraController.instance.MoveLock(isFrozen);
+        //  0 : Nothing
+        // -1 : Everything
+        Raycaster.eventMask = isFrozen ? 0 : -1;
+        MoveLock(isFrozen);
     }
 
     bool moveLock = true;

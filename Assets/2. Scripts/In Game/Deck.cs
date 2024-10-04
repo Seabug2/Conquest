@@ -15,7 +15,7 @@ public class Deck : NetworkBehaviour
     }
 
 
-    public SyncList<int> list = new();
+    readonly SyncList<int> list = new();
 
     public void SetUpDeck(int[] ids)
     {
@@ -110,7 +110,6 @@ public class Deck : NetworkBehaviour
             }
         }
 
-        //placeOnTop이 true면 덱의 맨 위에, false면 랜덤 위치에 삽입
         if (_shuffle) Shuffle();
     }
     #endregion
@@ -167,7 +166,7 @@ public class Deck : NetworkBehaviour
             .Play();
     }
 
-    public Vector3 draftPositionOffset = new Vector3(0, -5, 0);
+    public Vector3 draftPositionOffset = new (0, -5, 0);
 
     [ClientRpc]
     void RpcDraftPhase(int[] _draftCard)
@@ -183,7 +182,7 @@ public class Deck : NetworkBehaviour
             {
                 //플레이어들의 화면을 센터로 이동시키고 카메라 이동을 불가능하게 한다
                 CameraController.instance.FocusOnCenter();
-                CameraController.instance.MoveLock(true);
+                CameraController.instance.Freeze(true);
                 UIManager.GetUI<LineMessage>().PopUp("인재 영입 시간!", 3f);
             }, 1f)
             .Add(() =>
@@ -222,7 +221,7 @@ public class Deck : NetworkBehaviour
     void ClientSelectDraftCard(int _order)
     {
         CameraController.instance.FocusOnCenter();
-        CameraController.instance.MoveLock(true);
+        CameraController.instance.Freeze(true);
 
         if (UIManager.GetUI<Timer>().IsPlaying())
             UIManager.GetUI<Timer>().@Reset();
@@ -246,7 +245,7 @@ public class Deck : NetworkBehaviour
             , 3f)
             .Add(() =>
             {
-                CameraController.instance.MoveLock(false);
+                CameraController.instance.Freeze(false);
 
                 //현재 공개된 카드의 상태를 바꿈
                 foreach (int id in draftCard)
@@ -302,7 +301,7 @@ public class Deck : NetworkBehaviour
             , 3f)
             .Add(() =>
             {
-                CameraController.instance.MoveLock(false);
+                CameraController.instance.Freeze(false);
                 UIManager.GetUI<Timer>().Play(30f);
             })
             .Play();
